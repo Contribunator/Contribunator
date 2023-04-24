@@ -38,6 +38,11 @@ const Commit = (props: Props) => {
       <button onClick={() => doTheThing()} className="btn btn-primary">
         Do the thing
       </button>
+      {data.url && (
+        <a href={data.url} target="_blank">
+          View PR on GitHub
+        </a>
+      )}
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

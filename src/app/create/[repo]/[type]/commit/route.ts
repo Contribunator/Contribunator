@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 
   // CREATE PR
   const {
-    data: { url },
+    data: { html_url: url },
   } = await client.pulls.create({
     ...repoConf,
     head,
