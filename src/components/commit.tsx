@@ -9,11 +9,12 @@ type Props = {
 
 const Commit = (props: Props) => {
   const [data, setData] = useState<any>({});
-
+  // get the path
   async function doTheThing() {
     setData({ loading: true });
     try {
-      const res = await fetch("/api/contribute", {
+      // call 'create' API method realtively
+      const res = await fetch(`/create/${props.repo}/${props.type}/commit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +29,7 @@ const Commit = (props: Props) => {
       setData(json);
     } catch (e) {
       console.error(e);
-      setData({ error: e });
+      setData({ error: e.message });
     }
   }
 

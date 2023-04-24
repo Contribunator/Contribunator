@@ -1,4 +1,4 @@
-import { githubConfig } from "@/app/api/config";
+import { githubConfig } from "@/app/config";
 import { CustomSession } from "@/types";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
