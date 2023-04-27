@@ -1,4 +1,3 @@
-import { githubConfig } from "@/app/config";
 import { CustomSession } from "@/types";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
@@ -10,9 +9,9 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     GithubProvider({
-      clientId: githubConfig.clientId,
-      clientSecret: githubConfig.clientSecret,
-      authorization: { params: { scope: "read:user repo" } },
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      authorization: { params: { scope: "read:user" } }, // TODO, do not need `repo`
     }),
   ],
   callbacks: {

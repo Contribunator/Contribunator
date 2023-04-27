@@ -3,10 +3,4 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "terminal.integrated.shellIntegration.history": 1000,
-  "terminal.integrated.scrollback": 100000,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-  }
 }

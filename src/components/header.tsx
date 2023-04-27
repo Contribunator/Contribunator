@@ -7,7 +7,7 @@ const Header = () => {
       <nav className="flex items-center space-x-2">
         {[
           { name: "Home", href: "/" },
-          { name: "Create", href: "/create/Sample/tweet" },
+          { name: "Contribute", href: "/contribute" },
         ].map((link) => (
           <Link key={link.href} href={link.href} className="hover:underline">
             {link.name}
