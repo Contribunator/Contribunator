@@ -21,6 +21,7 @@ export type C11RContribution = {
 export type C11RRepo = {
   name: string;
   repo: string;
+  base: string;
   contributions: C11RContribution[];
 };
 

@@ -7,9 +7,10 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss"
-      ]
+		"dbaeumer.vscode-eslint",
+		"bradlc.vscode-tailwindcss",
+		"esbenp.prettier-vscode"
+	]
     }
   },
   "portsAttributes": {

@@ -6,6 +6,7 @@ const config: C11RConfig = {
   repos: [
     {
       name: "Sample Repo",
+      base: "main",
       repo: "Sample",
       contributions: [
         {

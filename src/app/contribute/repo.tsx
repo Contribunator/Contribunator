@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HiExclamationCircle, HiStar } from "react-icons/hi";
-import { octokit } from "@/octokit";
-import Contribution from "./contribution";
+import { getRepo, octokit } from "@/octokit";
+import ContributionLink from "./contributionLink";
 import { C11RRepo } from "@/types";
 
 type Props = {
@@ -22,10 +22,10 @@ async function getData(opts: { owner: string; repo: string }) {
 const Repo = async (props: Props) => {
   const {
     owner,
-    repo: { contributions, ...repo },
+    repo: { contributions, repo, name },
   } = props;
   // fetch repo information from github api
-  const data = await getData({ owner, repo: repo.repo });
+  const data = await getRepo(repo);
 
   // return an error if we can't find the repo
   if (!data) {
@@ -36,7 +36,7 @@ const Repo = async (props: Props) => {
           <span>
             Failed to fetch{" "}
             <b>
-              {owner}/{repo.repo}
+              {owner}/{repo}
             </b>
           </span>
         </div>
@@ -49,7 +49,7 @@ const Repo = async (props: Props) => {
       <div className="card-body">
         <div className="flex items-start">
           <div className="flex-auto">
-            <h2 className="card-title">{repo.name}</h2>
+            <h2 className="card-title">{name}</h2>
             <Link className="text-sm" href={data.html_url} target="_blank">
               {data.full_name}
             </Link>
@@ -65,9 +65,10 @@ const Repo = async (props: Props) => {
         </div>
         <div className="card grid grid-cols-3 bg-base-100">
           {contributions.map((contribution) => (
-            <Contribution
+            <ContributionLink
               key={contribution.name}
-              {...{ owner, repo, contribution }}
+              repo={repo}
+              contribution={contribution}
             />
           ))}
         </div>

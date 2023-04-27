@@ -1,3 +1,5 @@
+import { octokit } from "@/octokit";
+
 type Props = {
   children: React.ReactNode;
   params: {

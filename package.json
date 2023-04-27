@@ -21,6 +21,7 @@
     "encoding": "^0.1.13",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "eslint-config-prettier": "^8.8.0",
     "formik": "^2.2.9",
     "next": "13.3.0",
     "next-auth": "^4.22.1",
