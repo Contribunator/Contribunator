@@ -1,10 +1,10 @@
 import { HiCode } from "react-icons/hi";
 import Link from "next/link";
-import { C11RContribution } from "@/types";
+import { C11RRepo, C11RContribution } from "@/config";
 
 type Props = {
   contribution: C11RContribution;
-  repo: string;
+  repo: C11RRepo;
 };
 
 const ContributionLink = ({
@@ -14,8 +14,9 @@ const ContributionLink = ({
   const Icon = icon || HiCode;
   return (
     <Link
+      className="p-2"
       href={{
-        pathname: `/contribute/${repo}/${type}`,
+        pathname: `/contribute/${repo.name}/${type}`,
         query: options,
       }}
     >

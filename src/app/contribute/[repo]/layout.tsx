@@ -1,27 +1,17 @@
-import { octokit } from "@/octokit";
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;
-  params: {
-    repo: string;
-    type: string;
-  };
-  searchParams: {
-    [key: string]: string;
-  };
 };
 
-export default function Contribution(props: Props) {
-  const {
-    params: { repo, type },
-    searchParams: query,
-    children,
-  } = props;
-
+export default async function Contribution({ children }: Props) {
+  // TODO return empty page if the type isn't supported for this repo
   return (
-    <div>
-      <div>CONTRIBUUTION LAYOUT (TODO, GET REPO INFO, SELECT TYPE)</div>
+    <>
+      <Link className="btn" href="/contribute">
+        Go Back
+      </Link>
       {children}
-    </div>
+    </>
   );
 }

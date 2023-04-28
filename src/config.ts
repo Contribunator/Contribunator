@@ -1,13 +1,32 @@
 import { HiVideoCamera } from "react-icons/hi";
-import { C11RConfig } from "./types";
+import { IconType } from "react-icons";
+
+export type C11RContribution = {
+  name: string;
+  type: string;
+  description?: string;
+  options?: { [key: string]: any };
+  icon?: IconType;
+};
+
+export type C11RRepo = {
+  title: string;
+  name: string;
+  contributions: C11RContribution[];
+};
+
+export type C11RConfig = {
+  owner: string;
+  repos: C11RRepo[];
+};
 
 const config: C11RConfig = {
   owner: "Contribunator",
   repos: [
     {
-      name: "Sample Repo",
-      base: "main",
-      repo: "Sample",
+      title: "Sample Repo",
+      name: "Sample",
+      // TODO add optional `bases` field to allow choice of which branch to merge to
       contributions: [
         {
           type: "video",
@@ -25,6 +44,15 @@ const config: C11RConfig = {
     },
   ],
 };
+
+export function getRepoConfig(repo: string) {
+  const { repos, ...rest } = config;
+  const repoConfig = repos.find((r) => r.name === repo);
+  if (!repoConfig) {
+    throw new Error(`Config not defined for repo: ${repo}`);
+  }
+  return { ...rest, ...repoConfig };
+}
 
 /*
 const config: C11RConfig = {
