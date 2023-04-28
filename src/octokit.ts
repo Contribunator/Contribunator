@@ -14,12 +14,12 @@ const octokitOptions = {
     privateKey: process.env.GITHUB_APP_PK as string,
   },
   // auth: token.accessToken // TODO if we want to impersonate user?
-}
+};
 
 export async function getRepoData(repo: string) {
   const octokit = new Octokit(octokitOptions);
   const { data } = await octokit.repos.get({ repo, owner: config.owner });
-  return data
+  return data;
 }
 
 export async function createPullRequest({
@@ -41,7 +41,7 @@ export async function createPullRequest({
 
   const OctokitPlugin = Octokit.plugin(commitPlugin);
   const octokit = new OctokitPlugin(octokitOptions);
-  
+
   // create a nem
   const branch = `c11r/${type}/${new Date().getTime()}`;
   const message = `Create ${type}: ${description}`;

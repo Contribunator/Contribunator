@@ -21,6 +21,6 @@ export async function POST(
   //   },
   // });
   // console.log(res);
-  const pullRequestURL = "https://url.com"
+  const pullRequestURL = "https://url.com";
   return NextResponse.json({ pullRequestURL });
 }

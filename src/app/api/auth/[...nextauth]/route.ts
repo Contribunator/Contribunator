@@ -2,6 +2,8 @@ import { CustomSession } from "@/types";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
 
+// TODO move env imports to a single file
+
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   jwt: {

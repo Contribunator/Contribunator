@@ -38,7 +38,11 @@ const Repo = async (props: Props) => {
         <div className="flex items-start">
           <div className="flex-auto">
             <h2 className="card-title">{name}</h2>
-            <Link className="text-sm" href={data.html_url as Route} target="_blank">
+            <Link
+              className="text-sm"
+              href={data.html_url as Route}
+              target="_blank"
+            >
               {data.full_name}
             </Link>
           </div>
