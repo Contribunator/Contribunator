@@ -4,7 +4,7 @@ import { Route } from "next";
 
 const Header = () => {
   return (
-    <header className="flex justify-between bg-secondary bg-opacity-20 p-2 text-lg">
+    <header className="flex justify-between navbar bg-base-300 rounded-box mb-4">
       <nav className="flex items-center space-x-2">
         {[
           { name: "Home", href: "/" },
