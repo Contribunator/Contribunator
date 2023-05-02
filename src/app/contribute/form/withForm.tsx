@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import { usePathname } from "next/navigation";
 
 type Config = {
   validation: any;
@@ -22,12 +23,20 @@ export default function withForm<P>(
 
   const ComponentWithForm = (props: P & { className?: string }) => {
     // At this point, the props being passed in are the original props the component expects.
+    const path = usePathname();
+
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={validation}
-        onSubmit={(data: any) => {
-          console.log(data);
+        onSubmit={async (data: any) => {
+          console.log(data, path);
+          // post to `submit` route
+          const res = await fetch(`${path}/submit`, {
+            method: "POST",
+            body: JSON.stringify(data),
+          });
+          console.log(await res.json());
         }}
       >
         {(data: any) => (

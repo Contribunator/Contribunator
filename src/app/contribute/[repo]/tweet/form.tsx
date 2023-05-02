@@ -8,6 +8,7 @@ import {
   EmbedTweet,
   withForm,
   FormProps,
+  ImageInput,
 } from "@/app/contribute/form";
 
 type Props = {
@@ -42,7 +43,6 @@ const initialValues = {
 
 function TweetForm({ repo, options, data }: Props & FormProps) {
   // const config = getRepoConfig(repo);
-  // const path = usePathname();
   const { quoteType } = data.values;
   const quoteText = quoteTypes[quoteType].text;
   const quoteUrl = data.getFieldMeta("quoteUrl");
@@ -70,6 +70,8 @@ function TweetForm({ repo, options, data }: Props & FormProps) {
           <EmbedTweet url={validQuote} />
         </>
       )}
+      {/* TODO allow up to 4 images */}
+      <ImageInput name="media[0]" />
     </>
   );
 }
