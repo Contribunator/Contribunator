@@ -6,12 +6,14 @@ type Props = {
 
 export default async function Contribution({ children }: Props) {
   // TODO return empty page if the type isn't supported for this repo
+  // Trigger notFound() if the type isn't supported for this repo
+
   return (
     <>
       <Link className="btn" href="/contribute">
         Go Back
       </Link>
-      {children}
+      <div className="max-w-xl mx-auto bg-slate-200 p-8">{children}</div>
     </>
   );
 }
