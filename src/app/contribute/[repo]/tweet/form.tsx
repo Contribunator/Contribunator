@@ -9,7 +9,7 @@ import {
   withForm,
   FormProps,
   ImageInput,
-} from "@/app/contribute/form";
+} from "@/components/form";
 
 type Props = {
   repo: string;

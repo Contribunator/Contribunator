@@ -1,5 +1,6 @@
 import { Form, Formik } from "formik";
 import { usePathname } from "next/navigation";
+import GenericOptions from "./genericOptions";
 
 type Config = {
   validation: any;
@@ -44,6 +45,7 @@ export default function withForm<P>(
             {/* TODO rename data and only pass relevent props */}
             <WrappedComponent {...props} data={data} />
             {/* TODO add generic commit options */}
+            <GenericOptions />
             <div className="form-control">
               <button type="submit" className="btn">
                 Create Pull Request

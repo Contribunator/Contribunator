@@ -9,7 +9,7 @@ type Props = {
   name: string;
 };
 
-const Repo = async (props: Props) => {
+const RepositoryDetails = async (props: Props) => {
   const { name } = props;
   // fetch repo information from github api
   const repo = await getRepoConfig(name);
@@ -68,4 +68,4 @@ const Repo = async (props: Props) => {
     </div>
   );
 };
-export default Repo;
+export default RepositoryDetails;

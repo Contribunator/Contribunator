@@ -1,5 +1,5 @@
 import config from "@/config";
-import Repo from "./repo";
+import RepositoryDetails from "@/components/contribute/repositoryDetails";
 
 const ContributePage = () => {
   return (
@@ -8,7 +8,7 @@ const ContributePage = () => {
       <div className="flex flex-col space-y-8">
         {config.repos.map(({ name }) => {
           // @ts-expect-error Async Server Component
-          return <Repo key={name} name={name} />;
+          return <RepositoryDetails key={name} name={name} />;
         })}
       </div>
     </>
