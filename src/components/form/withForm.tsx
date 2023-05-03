@@ -51,7 +51,7 @@ export default function withForm<P>(
                 Create Pull Request
               </button>
             </div>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
           </form>
         )}
       </Formik>

@@ -8,15 +8,15 @@ export default function TextInput({
   info,
   placeholder,
 }: {
-  title: string;
+  title?: string;
   id: string;
   type?: string;
   as?: null | "input" | "textarea";
   info?: string;
   placeholder?: string;
 }) {
-  const [field, meta] = useField(id);
-  const hasError = meta.error && meta.touched;
+  const [, meta] = useField(id);
+  const hasError = meta.error;
   const styles = [
     hasError && "input-error",
     as === "input" && "input input-bordered",
@@ -27,7 +27,7 @@ export default function TextInput({
   return (
     <div className="form-control">
       <label className="label" htmlFor={id}>
-        <span className="label-text">{title}</span>
+        {title && <span className="label-text">{title}</span>}
         {!!hasError && (
           <span className="label-text-alt text-error">{meta.error}</span>
         )}

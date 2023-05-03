@@ -1,6 +1,7 @@
 import { createPullRequest } from "@/octokit";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
+import tweetValidation from "../validation";
 
 // TODO do some auth middlewhere somewhere
 
@@ -11,7 +12,13 @@ export async function POST(
   // let's call octokit
   const body = await req.json();
   console.log(body, repo);
-  // TODO use validation schema here
+
+  // validate the request
+  const validBody = await tweetValidation.validate(body);
+  console.log({ validBody });
+
+  return NextResponse.json({ ok: true });
+
   // TODO build the tweet as per twitter-together...
   const files: { [key: string]: string } = {
     "tweet.md": `I am a new tweet ${body.text} ${new Date().getTime()}`,

@@ -1,5 +1,6 @@
 "use client";
 
+import transformTweet from "./transform";
 import validation from "./validation";
 
 import {
@@ -9,6 +10,7 @@ import {
   withForm,
   FormProps,
   ImageInput,
+  ImagesInput,
 } from "@/components/form";
 
 type Props = {
@@ -30,24 +32,17 @@ types:
 */
 
 const quoteTypes: { [key: string]: { text: string } } = {
-  "": { text: "No Quote" },
   retweet: { text: "Retweet" },
   reply: { text: "Reply" },
-};
-
-const initialValues = {
-  text: "",
-  quoteType: "",
-  quoteUrl: "",
 };
 
 function TweetForm({ repo, options, data }: Props & FormProps) {
   // const config = getRepoConfig(repo);
   const { quoteType } = data.values;
-  const quoteText = quoteTypes[quoteType].text;
   const quoteUrl = data.getFieldMeta("quoteUrl");
   const validQuote =
     quoteUrl.touched && !quoteUrl.error && (quoteUrl.value as string);
+  const { tweet: preview } = transformTweet(data.values);
   return (
     <>
       {/* <pre>{JSON.stringify({ repo, options }, null, 2)}</pre> */}
@@ -58,11 +53,11 @@ function TweetForm({ repo, options, data }: Props & FormProps) {
         placeholder="e.g. I like turtles 🐢 #turtlepower"
         info="Can be left blank if retweeting"
       />
-      <ChoiceInput name="quoteType" options={quoteTypes} />
+      <ChoiceInput name="quoteType" options={quoteTypes} unset="No Quote" />
       {!!data.values.quoteType && (
         <>
           <TextInput
-            title={`${quoteText} URL`}
+            title={`${quoteTypes[quoteType].text} URL`}
             id="quoteUrl"
             placeholder="e.g. https://twitter.com/[user]/status/[id]"
             info="Enter the URL of the tweet you want to quote"
@@ -71,9 +66,13 @@ function TweetForm({ repo, options, data }: Props & FormProps) {
         </>
       )}
       {/* TODO allow up to 4 images */}
-      <ImageInput name="media[0]" />
+      <ImagesInput name="media" limit={4} />
+      {/* <ImageInput name="media[0]" /> */}
+      {/* tweet preview */}
+
+      <pre className="bg-red-300 p-4">{preview}</pre>
     </>
   );
 }
 
-export default withForm(TweetForm, { validation, initialValues });
+export default withForm(TweetForm, { validation });

@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
-// TODO ...spread global options
-// TODO validate payload size is less than 4.5mb for serverless functions
+// TODO ...spread global options higher up
 
 const tweetValidation = Yup.object({
   text: Yup.string()
@@ -13,7 +12,8 @@ const tweetValidation = Yup.object({
       is: (quoteType: string) => quoteType != "retweet",
       then: (schema) => schema.required("Required unless retweeting"),
     }),
-  media: Yup.array(), // TODO validate
+  media: Yup.array(), // TODO validate ?
+  alt_text_media: Yup.array(), // TODO validate
   quoteType: Yup.string().oneOf(["reply", "retweet"]),
   // type if quote is set
   quoteUrl: Yup.string()
@@ -38,7 +38,7 @@ const tweetValidation = Yup.object({
               return true;
             },
           }),
-    }), // TODO valdiate the URL is a tweet, grab the tweet
+    }),
 });
 
 export default tweetValidation;
