@@ -36,9 +36,9 @@ const config: C11RConfig = {
         },
         {
           type: "tweet",
-          name: "Poll",
-          description: "A poll tweet",
-          options: { type: "poll" },
+          name: "Tweet",
+          description: "Submit a Tweet",
+          // options: { type: "poll" },
         },
       ],
     },

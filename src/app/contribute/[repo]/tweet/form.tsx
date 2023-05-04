@@ -1,34 +1,20 @@
 "use client";
 
-import transformTweet from "./transform";
-import validation from "./validation";
-
 import {
   TextInput,
   ChoiceInput,
   EmbedTweet,
   withForm,
   FormProps,
-  ImageInput,
   ImagesInput,
 } from "@/components/form";
 
-type Props = {
-  repo: string;
-  options: any;
-};
+import validation from "./validation";
+
+type Props = {};
 
 /*
-types:
-
-- simple
-- retweet
-- reply
-- media (available unless poll)
-- poll (available with reply)
-
-- vnext poll
-- vnext thread
+TODO: polls & thread
 */
 
 const quoteTypes: { [key: string]: { text: string } } = {
@@ -36,16 +22,14 @@ const quoteTypes: { [key: string]: { text: string } } = {
   reply: { text: "Reply" },
 };
 
-function TweetForm({ repo, options, data }: Props & FormProps) {
+function TweetForm({ formik }: Props & FormProps) {
   // const config = getRepoConfig(repo);
-  const { quoteType } = data.values;
-  const quoteUrl = data.getFieldMeta("quoteUrl");
+  const { quoteType } = formik.values;
+  const quoteUrl = formik.getFieldMeta("quoteUrl");
   const validQuote =
     quoteUrl.touched && !quoteUrl.error && (quoteUrl.value as string);
-  const { tweet: preview } = transformTweet(data.values);
   return (
     <>
-      {/* <pre>{JSON.stringify({ repo, options }, null, 2)}</pre> */}
       <TextInput
         title="Tweet Text"
         id="text"
@@ -54,7 +38,7 @@ function TweetForm({ repo, options, data }: Props & FormProps) {
         info="Can be left blank if retweeting"
       />
       <ChoiceInput name="quoteType" options={quoteTypes} unset="No Quote" />
-      {!!data.values.quoteType && (
+      {!!formik.values.quoteType && (
         <>
           <TextInput
             title={`${quoteTypes[quoteType].text} URL`}
@@ -65,12 +49,9 @@ function TweetForm({ repo, options, data }: Props & FormProps) {
           <EmbedTweet url={validQuote} />
         </>
       )}
-      {/* TODO allow up to 4 images */}
       <ImagesInput name="media" limit={4} />
-      {/* <ImageInput name="media[0]" /> */}
       {/* tweet preview */}
-
-      <pre className="bg-red-300 p-4">{preview}</pre>
+      {/* <pre className="bg-red-300 p-4">{transformTweet(data.values)}</pre> */}
     </>
   );
 }

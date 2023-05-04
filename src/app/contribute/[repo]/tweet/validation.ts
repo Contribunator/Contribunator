@@ -2,6 +2,8 @@ import * as Yup from "yup";
 
 // TODO ...spread global options higher up
 
+// TODO allow blank tweet media is set
+
 const tweetValidation = Yup.object({
   text: Yup.string()
     // TODO use https://github.com/twitter/twitter-text

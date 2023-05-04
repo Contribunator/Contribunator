@@ -13,7 +13,7 @@ export default async function Contribution({ children }: Props) {
       <Link className="btn" href="/contribute">
         Go Back
       </Link>
-      <div className="max-w-xl mx-auto bg-slate-200 p-8">{children}</div>
+      {children}
     </>
   );
 }

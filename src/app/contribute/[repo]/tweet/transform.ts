@@ -15,7 +15,8 @@ const generateName = (obj: any) => {
   return name.trim() || "tweet";
 };
 
-const transformTweet = (obj: any, timestamp: string = "[timestamp]") => {
+// returns the tweet formatted for twitter-together and github PR
+function transformTweet(obj: any, prefix: string = "[timestamp]") {
   const name = generateName(obj);
   const media: { [key: string]: string } = {};
   let transformed = "";
@@ -27,36 +28,46 @@ const transformTweet = (obj: any, timestamp: string = "[timestamp]") => {
     }
     if (obj.media) {
       transformed += `media:
-  ${obj.media
-    .map((m: string, i: number) => {
-      if (!m) {
-        return "";
-      } else {
-        const altText = obj.alt_text_media?.[i] || "";
-        const fileName =
-          `${timestamp}-` +
-          slugify(`${name} ${altText} ${i || ""}`.trim(), {
-            lower: true,
-            strict: true,
-          });
-        const filePath = `media/${fileName}.jpg`;
-        let mediaString = `- file: ${filePath}\n`;
-        if (altText) {
-          mediaString += `    alt: ${altText}\n`;
-        }
-        media[filePath] = m;
-        return mediaString;
+${obj.media
+  .map((m: string, i: number) => {
+    if (!m) {
+      return "";
+    } else {
+      const altText = obj.alt_text_media?.[i] || "";
+      const fileName =
+        `${prefix}-` +
+        slugify(`${name} ${altText} ${i || ""}`.trim(), {
+          lower: true,
+          strict: true,
+        });
+      // TODO inherit the correct file type
+      const filePath = `${fileName}.jpg`;
+      const fileDest = `media/${filePath}`;
+      let mediaString = `  - file: ${filePath}\n`;
+      if (altText) {
+        mediaString += `    alt: ${altText}\n`;
       }
-    })
-    .filter((m: string) => m)
-    .join("  ")}`;
+      media[fileDest] = m;
+      return mediaString;
+    }
+  })
+  .filter((m: string) => m)
+  .join("")}`;
     }
     transformed += `---\n\n`;
   }
   if (obj.text) {
     transformed += obj.text;
   }
-  return { tweet: transformed.trim(), name, media };
-};
+  const tweet = transformed.trim();
+  const branch = `${prefix}-${slugify(name)}`;
+  return {
+    tweet,
+    name,
+    media,
+    branch,
+    files: { ...media, [`tweets/${branch}.tweet`]: tweet },
+  };
+}
 
 export default transformTweet;

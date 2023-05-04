@@ -1,10 +1,11 @@
 import { Field, useField } from "formik";
 
+// TODO fix the controlled field error
+
 export default function TextInput({
   title,
   id,
   as = "input",
-  type = "text",
   info,
   placeholder,
 }: {
@@ -34,7 +35,6 @@ export default function TextInput({
       </label>
       <Field
         name={id}
-        type={type}
         as={as}
         className={`w-full ${styles}`}
         placeholder={placeholder}

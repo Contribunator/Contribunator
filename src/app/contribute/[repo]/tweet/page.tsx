@@ -19,17 +19,14 @@ export default async function TweetPage({
   // const data = await getRepoData(repo);
 
   // TODO might need to get some specific information about this type of update to pass to client form
+  // specifically for upates
   // initialize with empty state
 
   return (
     <div>
       <h2>Submit a new Tweet to {config.title}</h2>
       {/* {<pre>{JSON.stringify({ config, data, options }, null, 2)}</pre>} */}
-      <TweetForm
-        repo={repo}
-        options={options}
-        className="space-y-5 border border-red-600"
-      />
+      <TweetForm className="space-y-5 max-w-xl mx-auto bg-slate-200 p-8 rounded-lg" />
     </div>
   );
 }

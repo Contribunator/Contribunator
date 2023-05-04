@@ -6,6 +6,7 @@ import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
 import TextInput from "./textInput";
+import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 
 type Props = {};
 
@@ -20,7 +21,7 @@ function EditImage({
 }) {
   const cropperRef = useRef<ReactCropperElement>(null);
   return (
-    <div>
+    <div className="relative">
       <Cropper
         src={url}
         style={{ height: 400, width: "100%" }}
@@ -29,7 +30,7 @@ function EditImage({
         ref={cropperRef}
       />
       <div
-        className="btn"
+        className="btn absolute bottom-2 left-2 btn-success"
         onClick={() => {
           if (!cropperRef.current) return;
           const cropper = cropperRef.current.cropper;
@@ -38,6 +39,7 @@ function EditImage({
           handleData(imageData);
         }}
       >
+        <HiCheckCircle className="mr-2" />
         Confirm Crop
       </div>
     </div>
@@ -83,16 +85,13 @@ export function ImagesInput({ name, limit }: { name: string; limit: number }) {
     };
   });
   return (
-    <div>
-      Upload up to {limit} image(s)
-      <div>
-        {imageFields
-          .filter(({ show }) => show)
-          .map((field) => (
-            <ImageInput key={field.name} {...field} />
-          ))}
-      </div>
-    </div>
+    <>
+      {imageFields
+        .filter(({ show }) => show)
+        .map((field) => (
+          <ImageInput key={field.name} {...field} />
+        ))}
+    </>
   );
 }
 
@@ -109,18 +108,18 @@ export default function ImageInput({
   const [imageUrl, setImageUrl] = useState<null | string>(null);
 
   return (
-    <div className="form-control my-2 py-2 bg-slate-400">
+    <div className="form-control relative bg-slate-300 rounded-md p-2">
       {!imageUrl && <ImageSelect handleSet={setImageUrl} />}
       {(imageUrl || field.value) && (
         <div
-          className="btn"
+          className="btn btn-sm btn-error absolute top-4 right-4 z-10"
           onClick={() => {
             setImageUrl(null);
             altHelpers.setValue(null);
             helpers.setValue(null);
           }}
         >
-          Change Image
+          <HiXCircle className="mr-2" /> Remove
         </div>
       )}
       {imageUrl && !field.value && (
@@ -134,14 +133,19 @@ export default function ImageInput({
       )}
       {/* TODO option to enter media name */}
       {field.value && (
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={field.value} alt="Image Preview" />
-          <TextInput
-            id={altTextName}
-            placeholder="Optional Image Description"
-          />
-        </div>
+        <>
+          <div className="flex justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={field.value}
+              alt="Image Preview"
+              className="m-0 rounded-md"
+            />
+          </div>
+          <div className="-mt-2">
+            <TextInput id={altTextName} placeholder="Optional Description" />
+          </div>
+        </>
       )}
     </div>
   );
