@@ -10,12 +10,21 @@ const tweetValidation = Yup.object({
     // TODO ensure it doesn't include `---` or other twitter-together specific things
     // .max(3, "Must be 3 characters or less")
     .max(280, "Must be 280 characters or less")
-    .when("quoteType", {
-      is: (quoteType: string) => quoteType != "retweet",
-      then: (schema) => schema.required("Required unless retweeting"),
+    .when(["media", "quoteType"], {
+      is: (media: string[], quoteType: string) => {
+        return (
+          quoteType !== "retweet" && (media || []).filter((m) => m).length === 0
+        );
+      },
+      then: (schema) =>
+        schema.required("Required unless retweeting or uploading images"),
     }),
-  media: Yup.array(), // TODO validate ?
-  alt_text_media: Yup.array(), // TODO validate
+  media: Yup.array().of(Yup.string().nullable()), // TODO validate ?
+  alt_text_media: Yup.array().of(Yup.string().nullable()), // TODO validate
+  // TODO
+  // file_type_media: Yup.array().of(
+  //   Yup.string().oneOf(["jpg", "png"]).nullable()
+  // ), // TODO validate
   quoteType: Yup.string().oneOf(["reply", "retweet"]),
   // type if quote is set
   quoteUrl: Yup.string()
