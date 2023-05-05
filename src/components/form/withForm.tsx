@@ -35,22 +35,32 @@ export default function withForm<P>(
   const ComponentWithForm = (props: P & { className?: string }) => {
     // At this point, the props being passed in are the original props the component expects.
     const path = usePathname();
-    const [prUrl, setPrUrl] = useState<string | null>(
-      "https://github.com/Contribunator/Sample/pull/21"
-    );
+    const [prUrl, setPrUrl] = useState<string | null>(null);
 
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={validation}
         onSubmit={async (data: any) => {
-          // TODO handle errors
-          const res = await fetch(`${path}/submit`, {
-            method: "POST",
-            body: JSON.stringify(data),
-          });
-          const { pullRequestURL } = await res.json();
-          setPrUrl(pullRequestURL);
+          if (confirm("Are you sure you want to submit the form?")) {
+            try {
+              const res = await fetch(`${path}/submit`, {
+                method: "POST",
+                body: JSON.stringify(data),
+              });
+              if (!res.ok) {
+                console.log(res);
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              const { pullRequestURL } = await res.json();
+              setPrUrl(pullRequestURL);
+            } catch (error) {
+              let message = "Unknown Error";
+              if (error instanceof Error) message = `Error: ${error.message}`;
+              // TODO show in UI
+              alert(message);
+            }
+          }
         }}
       >
         {(formik) => (
@@ -64,8 +74,9 @@ export default function withForm<P>(
                   <HiOutlineEmojiHappy className="text-6xl" />
                 </div>
                 <div>
-                  Congrats, your Pull Request was created.
-                  <br />
+                  <h3 className="title">
+                    Congrats, your Pull Request was created!
+                  </h3>
                   <Link
                     href={prUrl as Route}
                     target="_blank"
@@ -96,11 +107,12 @@ export default function withForm<P>(
                   <button
                     type="submit"
                     className={`btn btn-lg btn-success ${
+                      !formik.isValid ||
                       formik.isSubmitting ||
                       !Object.values(formik.touched).length
                         ? "btn-disabled"
                         : ""
-                    } ${!formik.isValid ? "btn-warning" : ""}`}
+                    }`}
                   >
                     {!formik.isValid && (
                       <>
@@ -124,21 +136,20 @@ export default function withForm<P>(
                 </div>
               </>
             )}
-            <div
+            {/* <div
               className="btn btn-error"
               onClick={() => {
                 if (
                   prUrl ||
                   confirm("Are you sure you want to reset the form?")
                 ) {
-                  setPrUrl(null);
-                  formik.resetForm();
+                  window.location.reload();
                 }
               }}
             >
               <HiRefresh className="mr-2" />
               Reset Form
-            </div>
+            </div> */}
             {/* <pre>
               {JSON.stringify(formik, null, 2)}
             </pre> */}

@@ -30,30 +30,43 @@ function TweetForm({ formik }: Props & FormProps) {
     quoteUrl.touched && !quoteUrl.error && (quoteUrl.value as string);
   return (
     <>
-      <TextInput
-        title="Tweet Text"
-        id="text"
-        as="textarea"
-        placeholder="e.g. I like turtles 🐢 #turtlepower"
-        info="Can be left blank if retweeting"
+      <ChoiceInput
+        title="Tweet Type"
+        type="buttons"
+        name="quoteType"
+        options={quoteTypes}
+        unset="No Quote"
       />
-      <ChoiceInput name="quoteType" options={quoteTypes} unset="No Quote" />
       {!!formik.values.quoteType && (
-        <>
+        <div>
           <TextInput
             title={`${quoteTypes[quoteType].text} URL`}
-            id="quoteUrl"
+            name="quoteUrl"
             placeholder="e.g. https://twitter.com/[user]/status/[id]"
-            info="Enter the URL of the tweet you want to quote"
           />
           <EmbedTweet url={validQuote} />
-        </>
+        </div>
       )}
+      <TextInput
+        title="Tweet Text"
+        name="text"
+        as="textarea"
+        placeholder="e.g. I like turtles 🐢 #turtlepower"
+        info="Can be blank when retweeting or uploading images"
+      />
       <ImagesInput name="media" limit={4} />
       {/* tweet preview */}
       {/* <pre className="bg-red-300 p-4">{transformTweet(data.values)}</pre> */}
+      {/* {<pre>{JSON.stringify(formik.errors, null, 2)}</pre>} */}
     </>
   );
 }
 
-export default withForm(TweetForm, { validation });
+export default withForm(TweetForm, {
+  validation,
+  initialValues: {
+    quoteType: undefined,
+    quoteUrl: "",
+    text: "",
+  },
+});

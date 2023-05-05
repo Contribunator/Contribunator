@@ -14,9 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="container mx-auto p-2">
-          <Header />
-          {children}
+        <div className="flex min-h-screen justify-center items-center text-center">
+          {/* <Header /> */}
+          <div className="max-w-xl w-full px-2">{children}</div>
         </div>
       </body>
     </html>

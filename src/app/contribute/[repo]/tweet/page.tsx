@@ -1,6 +1,8 @@
-import { getRepoConfig } from "@/config";
+import { default as config, getRepoConfig } from "@/config";
 // import { getRepoData } from "@/octokit";
 import TweetForm from "./form";
+import Link from "next/link";
+import { Route } from "next";
 
 type Props = {
   params: {
@@ -11,22 +13,26 @@ type Props = {
   };
 };
 
-export default async function TweetPage({
-  params: { repo },
-  searchParams: options,
-}: Props) {
-  const config = await getRepoConfig(repo);
-  // const data = await getRepoData(repo);
-
-  // TODO might need to get some specific information about this type of update to pass to client form
-  // specifically for upates
-  // initialize with empty state
-
+export default async function TweetPage({ params: { repo } }: Props) {
+  const repoConfig = await getRepoConfig(repo);
+  // const url = `https://github.com/${config.owner}/${repoConfig.name}`;
   return (
-    <div>
-      <h2>Submit a new Tweet to {config.title}</h2>
+    <>
+      <div>
+        <h2 className="title">Submit a Tweet to {repoConfig.title}</h2>
+        <p className="text-sm">
+          Please ensure your tweet follows the rules outlined in the{" "}
+          <Link
+            className="link"
+            target="_blank"
+            href={repoConfig.githubUrl as Route}
+          >
+            Github Repo
+          </Link>
+        </p>
+      </div>
+      <TweetForm className="cell space-y-6" />
       {/* {<pre>{JSON.stringify({ config, data, options }, null, 2)}</pre>} */}
-      <TweetForm className="space-y-5 max-w-xl mx-auto bg-slate-200 p-8 rounded-lg" />
-    </div>
+    </>
   );
 }

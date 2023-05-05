@@ -20,7 +20,7 @@ const tweetValidation = Yup.object({
         schema.required("Required unless retweeting or uploading images"),
     }),
   media: Yup.array().of(Yup.string().nullable()), // TODO validate ?
-  alt_text_media: Yup.array().of(Yup.string().nullable()), // TODO validate
+  alt_text_media: Yup.array().of(Yup.string().nullable()), // TODO validate (e.g. max length)
   // TODO
   // file_type_media: Yup.array().of(
   //   Yup.string().oneOf(["jpg", "png"]).nullable()

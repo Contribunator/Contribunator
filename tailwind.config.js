@@ -26,4 +26,13 @@ module.exports = {
     // prefix: "",
     // darkTheme: "dark",
   },
+  // TODO generate this
+  safelist: [
+    "bg-blue-800",
+    "hover:bg-blue-100",
+    "bg-slate-800",
+    "hover:bg-slate-100",
+    "bg-red-800",
+    "hover:bg-red-100",
+  ],
 };

@@ -7,6 +7,7 @@ import "cropperjs/dist/cropper.css";
 
 import TextInput from "./textInput";
 import { HiCheckCircle, HiXCircle } from "react-icons/hi";
+import FieldHeader from "./fieldHeader";
 
 type Props = {};
 
@@ -49,10 +50,7 @@ function EditImage({
 function ImageSelect({ handleSet }: { handleSet: (imageUrl: string) => void }) {
   return (
     <>
-      <label className="label">
-        <span className="label-text">Upload an Image</span>
-        <span className="label-text-alt">JPEG and PNG supported</span>
-      </label>
+      <FieldHeader title="Upload an Image" info="JPEG and PNG supported" />
       <input
         type="file"
         accept="image/jpeg, image/png, image/jpg"
@@ -108,11 +106,11 @@ export default function ImageInput({
   const [imageUrl, setImageUrl] = useState<null | string>(null);
 
   return (
-    <div className="form-control relative bg-slate-300 rounded-md p-2">
+    <div className="form-control relative">
       {!imageUrl && <ImageSelect handleSet={setImageUrl} />}
       {(imageUrl || field.value) && (
         <div
-          className="btn btn-sm btn-error absolute top-4 right-4 z-10"
+          className="btn btn-sm btn-error absolute top-2 right-2 z-10"
           onClick={() => {
             setImageUrl(null);
             altHelpers.setValue(null);
@@ -143,7 +141,7 @@ export default function ImageInput({
             />
           </div>
           <div className="-mt-2">
-            <TextInput id={altTextName} placeholder="Optional Description" />
+            <TextInput name={altTextName} placeholder="Optional Description" />
           </div>
         </>
       )}

@@ -9,11 +9,11 @@ export default async function Contribution({ children }: Props) {
   // Trigger notFound() if the type isn't supported for this repo
 
   return (
-    <>
+    <div className="min-h-screen py-6 space-y-6">
+      {children}
       <Link className="btn" href="/contribute">
         Go Back
       </Link>
-      {children}
-    </>
+    </div>
   );
 }
