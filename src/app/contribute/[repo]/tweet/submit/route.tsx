@@ -27,12 +27,12 @@ export async function POST(
   await Promise.all(
     Object.keys(media).map(async (fileName) => {
       console.log("converting", fileName);
+      const fileType = fileName.split(".").pop() as "png" | "jpg";
       const mediaBuf = Buffer.from(media[fileName].split(",")[1], "base64");
-      // max width of 1600 px
       const convertedBuf = await sharp(mediaBuf)
+        // TODO make max width configurable
         .resize({ withoutEnlargement: true, width: 1600 })
-        // TODO have this be set based on the original filetype
-        .toFormat("jpg")
+        .toFormat(fileType)
         .toBuffer();
       files[fileName] = convertedBuf.toString("base64");
       console.log("converted!");

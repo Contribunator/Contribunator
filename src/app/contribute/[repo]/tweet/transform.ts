@@ -30,6 +30,7 @@ function transformTweet(obj: any, prefix: string = "[timestamp]") {
       transformed += `media:
 ${obj.media
   .map((m: string, i: number) => {
+    // if empty string, skip
     if (!m) {
       return "";
     } else {
@@ -40,8 +41,9 @@ ${obj.media
           lower: true,
           strict: true,
         });
-      // TODO inherit the correct file type
-      const filePath = `${fileName}.jpg`;
+      // infer type from data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...
+      const fileType = m.split(";")[0].split("/")[1] === "png" ? "png" : "jpg";
+      const filePath = `${fileName}.${fileType}`;
       const fileDest = `media/${filePath}`;
       let mediaString = `  - file: ${filePath}\n`;
       if (altText) {

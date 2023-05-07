@@ -2,8 +2,6 @@ import * as Yup from "yup";
 
 // TODO ...spread global options higher up
 
-// TODO allow blank tweet media is set
-
 const tweetValidation = Yup.object({
   text: Yup.string()
     // TODO use https://github.com/twitter/twitter-text
@@ -19,8 +17,8 @@ const tweetValidation = Yup.object({
       then: (schema) =>
         schema.required("Required unless retweeting or uploading images"),
     }),
-  media: Yup.array().of(Yup.string().nullable()), // TODO validate ?
-  alt_text_media: Yup.array().of(Yup.string().nullable()), // TODO validate (e.g. max length)
+  media: Yup.array().of(Yup.string()), // TODO validate ?
+  alt_text_media: Yup.array().of(Yup.string()), // TODO validate (e.g. max length)
   // TODO
   // file_type_media: Yup.array().of(
   //   Yup.string().oneOf(["jpg", "png"]).nullable()

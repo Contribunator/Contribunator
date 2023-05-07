@@ -11,8 +11,6 @@ import {
 
 import validation from "./validation";
 
-type Props = {};
-
 /*
 TODO: polls & thread
 */
@@ -22,7 +20,7 @@ const quoteTypes: { [key: string]: { text: string } } = {
   reply: { text: "Reply" },
 };
 
-function TweetForm({ formik }: Props & FormProps) {
+function TweetForm({ formik }: FormProps) {
   // const config = getRepoConfig(repo);
   const { quoteType } = formik.values;
   const quoteUrl = formik.getFieldMeta("quoteUrl");
@@ -68,5 +66,7 @@ export default withForm(TweetForm, {
     quoteType: undefined,
     quoteUrl: "",
     text: "",
+    media: ["", "", "", ""],
+    alt_text_media: ["", "", "", ""],
   },
 });

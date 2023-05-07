@@ -9,14 +9,19 @@ import TextInput from "./textInput";
 import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 import FieldHeader from "./fieldHeader";
 
+type Image = {
+  url: string;
+  type: string;
+};
+
 type Props = {};
 
 function EditImage({
-  url,
+  image,
   handleData,
   aspectRatio,
 }: {
-  url: string;
+  image: Image;
   handleData: (dataUrl: string) => void;
   aspectRatio?: number;
 }) {
@@ -24,7 +29,7 @@ function EditImage({
   return (
     <div className="relative">
       <Cropper
-        src={url}
+        src={image.url}
         style={{ height: 400, width: "100%" }}
         autoCropArea={1}
         aspectRatio={aspectRatio}
@@ -35,8 +40,7 @@ function EditImage({
         onClick={() => {
           if (!cropperRef.current) return;
           const cropper = cropperRef.current.cropper;
-          // TODO UI feedback
-          const imageData = cropper.getCroppedCanvas().toDataURL();
+          const imageData = cropper.getCroppedCanvas().toDataURL(image.type);
           handleData(imageData);
         }}
       >
@@ -47,7 +51,7 @@ function EditImage({
   );
 }
 
-function ImageSelect({ handleSet }: { handleSet: (imageUrl: string) => void }) {
+function ImageSelect({ handleSet }: { handleSet: (data: any) => void }) {
   return (
     <>
       <FieldHeader title="Upload an Image" info="JPEG and PNG supported" />
@@ -56,12 +60,14 @@ function ImageSelect({ handleSet }: { handleSet: (imageUrl: string) => void }) {
         accept="image/jpeg, image/png, image/jpg"
         className="file-input file-input-bordered w-full"
         onChange={(event) => {
-          if (!event.target.files?.length) return;
-          if (event.target.files[0].size > 1048576) {
+          const file = event.target.files && event.target.files[0];
+          if (!file) return;
+          if (file.size > 1048576) {
             alert("File is too big! Please upload a file less than 1MB.");
             return;
           }
-          handleSet(URL.createObjectURL(event.target.files[0]));
+          const url = URL.createObjectURL(file);
+          handleSet({ url, type: file.type });
         }}
       />
     </>
@@ -103,27 +109,27 @@ export default function ImageInput({
   const altTextName = `alt_text_${name}`;
   const [field, , helpers] = useField(name);
   const [, , altHelpers] = useField(altTextName);
-  const [imageUrl, setImageUrl] = useState<null | string>(null);
+  const [image, setImage] = useState<null | Image>(null);
 
   return (
     <div className="form-control relative">
-      {!imageUrl && <ImageSelect handleSet={setImageUrl} />}
-      {(imageUrl || field.value) && (
+      {!image && <ImageSelect handleSet={setImage} />}
+      {(image || field.value) && (
         <div
           className="btn btn-sm btn-error absolute top-2 right-2 z-10"
           onClick={() => {
-            setImageUrl(null);
-            altHelpers.setValue(null);
-            helpers.setValue(null);
+            setImage(null);
+            altHelpers.setValue("");
+            helpers.setValue("");
           }}
         >
           <HiXCircle className="mr-2" /> Remove
         </div>
       )}
-      {imageUrl && !field.value && (
+      {image && !field.value && (
         <>
           <EditImage
-            url={imageUrl}
+            image={image}
             aspectRatio={aspectRatio}
             handleData={helpers.setValue}
           />
