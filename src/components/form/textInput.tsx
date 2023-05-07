@@ -1,8 +1,6 @@
 import { Field, useField } from "formik";
 import FieldHeader from "./fieldHeader";
 
-// TODO fix the controlled field error
-
 export default function TextInput({
   title,
   name,

@@ -57,7 +57,7 @@ function ImageSelect({ handleSet }: { handleSet: (data: any) => void }) {
       <FieldHeader title="Upload an Image" info="JPEG and PNG supported" />
       <input
         type="file"
-        accept="image/jpeg, image/png, image/jpg"
+        accept="image/jpeg, image/png"
         className="file-input file-input-bordered w-full"
         onChange={(event) => {
           const file = event.target.files && event.target.files[0];
@@ -135,16 +135,11 @@ export default function ImageInput({
           />
         </>
       )}
-      {/* TODO option to enter media name */}
       {field.value && (
         <>
           <div className="flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={field.value}
-              alt="Image Preview"
-              className="m-0 rounded-md"
-            />
+            <img src={field.value} alt="Image Preview" className="rounded-md" />
           </div>
           <div className="-mt-2">
             <TextInput name={altTextName} placeholder="Optional Description" />

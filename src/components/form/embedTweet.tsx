@@ -1,7 +1,5 @@
 export default function EmbedTweet({ url }: { url: string | false }) {
   // TODO Get using twitter API?
-  // console.log(url);
-  // TODO scroll to bottom
   if (!url) {
     return null;
   }

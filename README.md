@@ -12,8 +12,6 @@
 - Refactor
 - Text / Docs
 - 404s
-- Media file type inference
--
 
 ## vAlpha
 

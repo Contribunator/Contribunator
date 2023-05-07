@@ -1,13 +1,30 @@
 import * as Yup from "yup";
 
+import twitter from "twitter-text";
 // TODO ...spread global options higher up
 
 const tweetValidation = Yup.object({
   text: Yup.string()
-    // TODO use https://github.com/twitter/twitter-text
-    // TODO ensure it doesn't include `---` or other twitter-together specific things
-    // .max(3, "Must be 3 characters or less")
-    .max(280, "Must be 280 characters or less")
+    .test({
+      name: "is-valid-tweet-text",
+      test(text = "", ctx) {
+        if (text === "") {
+          return true;
+        }
+        if (text.includes("---")) {
+          return ctx.createError({
+            message: "Do not include `---`",
+          });
+        }
+        const tweet = twitter.parseTweet(text);
+        if (!tweet.valid) {
+          return ctx.createError({
+            message: "Tweet is too long",
+          });
+        }
+        return true;
+      },
+    })
     .when(["media", "quoteType"], {
       is: (media: string[], quoteType: string) => {
         return (
@@ -17,37 +34,38 @@ const tweetValidation = Yup.object({
       then: (schema) =>
         schema.required("Required unless retweeting or uploading images"),
     }),
-  media: Yup.array().of(Yup.string()), // TODO validate ?
-  alt_text_media: Yup.array().of(Yup.string()), // TODO validate (e.g. max length)
-  // TODO
-  // file_type_media: Yup.array().of(
-  //   Yup.string().oneOf(["jpg", "png"]).nullable()
-  // ), // TODO validate
+  media: Yup.array().of(
+    Yup.string().matches(
+      /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
+      { excludeEmptyString: true, message: "Invalid image type" }
+    )
+  ),
+  alt_text_media: Yup.array().of(
+    Yup.string().max(999, "Must be less than 1,000 characters")
+  ),
   quoteType: Yup.string().oneOf(["reply", "retweet"]),
-  // type if quote is set
-  quoteUrl: Yup.string()
-    // TODO fetch from twitter api to validate?
-    .when("quoteType", {
-      is: (quoteType: string) => !!quoteType, // if quote type is set
-      then: (schema) =>
-        schema
-          .required("Required")
-          .url("Must be a valid URL")
-          .test({
-            name: "is-twitter-link",
-            test(text, ctx) {
-              const regexPattern =
-                /https:\/\/twitter\.com\/([\w]+)\/status\/(\d+)/;
-              if (!text || !text.match(regexPattern)) {
-                return ctx.createError({
-                  message:
-                    "Must match format https://twitter.com/[user]/status/[id]",
-                });
-              }
-              return true;
-            },
-          }),
-    }),
+  // TODO fetch from twitter api to validate
+  quoteUrl: Yup.string().when("quoteType", {
+    is: (quoteType: string) => !!quoteType, // if quote type is set
+    then: (schema) =>
+      schema
+        .required("Required")
+        .url("Must be a valid URL")
+        .test({
+          name: "is-twitter-link",
+          test(text, ctx) {
+            const regexPattern =
+              /https:\/\/twitter\.com\/([\w]+)\/status\/(\d+)/;
+            if (!text || !text.match(regexPattern)) {
+              return ctx.createError({
+                message:
+                  "Must match format https://twitter.com/[user]/status/[id]",
+              });
+            }
+            return true;
+          },
+        }),
+  }),
 });
 
 export default tweetValidation;

@@ -39,6 +39,7 @@ export default function withForm<P>(
 
     return (
       <Formik
+        validateOnMount
         initialValues={initialValues}
         validationSchema={validation}
         onSubmit={async (data: any) => {
@@ -99,7 +100,6 @@ export default function withForm<P>(
             )}
             {!prUrl && (
               <>
-                {/* TODO rename data and only pass relevent props */}
                 <WrappedComponent {...props} formik={formik} />
                 {/* TODO add generic commit options */}
                 {/* <GenericOptions /> */}
@@ -107,9 +107,7 @@ export default function withForm<P>(
                   <button
                     type="submit"
                     className={`btn btn-lg btn-success ${
-                      !formik.isValid ||
-                      formik.isSubmitting ||
-                      !Object.values(formik.touched).length
+                      !formik.isValid || formik.isSubmitting
                         ? "btn-disabled"
                         : ""
                     }`}
@@ -117,7 +115,7 @@ export default function withForm<P>(
                     {!formik.isValid && (
                       <>
                         <HiExclamationCircle className="mr-2" />
-                        Fix Errors Before Submitting
+                        Valid Tweet Required
                       </>
                     )}
                     {formik.isSubmitting && (
@@ -150,9 +148,7 @@ export default function withForm<P>(
               <HiRefresh className="mr-2" />
               Reset Form
             </div> */}
-            {/* <pre>
-              {JSON.stringify(formik, null, 2)}
-            </pre> */}
+            {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}
           </form>
         )}
       </Formik>
