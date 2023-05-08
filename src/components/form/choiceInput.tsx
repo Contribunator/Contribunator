@@ -25,9 +25,9 @@ function Dropdown({
   return (
     <div className="flex items-center space-x-2">
       <div className="dropdown">
-        <label tabIndex={0} className="btn">
+        <label tabIndex={0} className="btn gap-2">
           {options[field.value]?.text || unset}
-          <HiChevronDown className="ml-2" />
+          <HiChevronDown />
         </label>
         <ul
           tabIndex={0}

@@ -11,7 +11,9 @@ const UserInfo = async () => {
     <div className="flex items-center space-x-2">
       {session ? (
         <>
-          <span>{session.user.name}</span>
+          <span>
+            Contributing as <b>{session.user.name}</b>
+          </span>
           {session.user.image && (
             <Image
               className="rounded-full"
@@ -23,7 +25,15 @@ const UserInfo = async () => {
           )}
         </>
       ) : (
-        <span>Anonymous</span>
+        <span>
+          Contributing{" "}
+          <div
+            className="tooltip tooltip-bottom tooltip-warning	before:mt-1 after:mt-1 cursor-pointer"
+            data-tip="You contributions will not be credited to a GitHub account"
+          >
+            <b>Anonymously</b>*
+          </div>
+        </span>
       )}
       <LoginButton session={session} />
     </div>

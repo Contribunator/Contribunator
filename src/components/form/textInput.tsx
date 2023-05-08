@@ -17,7 +17,6 @@ export default function TextInput({
 }) {
   const [, meta] = useField(name);
   const styles = [
-    meta.error && "input-error",
     as === "input" && "input input-bordered",
     as === "textarea" && "textarea textarea-bordered h-32",
   ]

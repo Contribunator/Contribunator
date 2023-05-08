@@ -14,8 +14,6 @@ type Image = {
   type: string;
 };
 
-type Props = {};
-
 function EditImage({
   image,
   handleData,
@@ -36,7 +34,7 @@ function EditImage({
         ref={cropperRef}
       />
       <div
-        className="btn absolute bottom-2 left-2 btn-success"
+        className="btn absolute bottom-2 left-2 btn-success gap-2"
         onClick={() => {
           if (!cropperRef.current) return;
           const cropper = cropperRef.current.cropper;
@@ -44,7 +42,7 @@ function EditImage({
           handleData(imageData);
         }}
       >
-        <HiCheckCircle className="mr-2" />
+        <HiCheckCircle />
         Confirm Crop
       </div>
     </div>
@@ -116,14 +114,14 @@ export default function ImageInput({
       {!image && <ImageSelect handleSet={setImage} />}
       {(image || field.value) && (
         <div
-          className="btn btn-sm btn-error absolute top-2 right-2 z-10"
+          className="btn btn-sm btn-error absolute top-2 right-2 z-10 gap-2"
           onClick={() => {
             setImage(null);
             altHelpers.setValue("");
             helpers.setValue("");
           }}
         >
-          <HiXCircle className="mr-2" /> Remove
+          <HiXCircle /> Remove
         </div>
       )}
       {image && !field.value && (
@@ -142,7 +140,10 @@ export default function ImageInput({
             <img src={field.value} alt="Image Preview" className="rounded-md" />
           </div>
           <div className="-mt-2">
-            <TextInput name={altTextName} placeholder="Optional Description" />
+            <TextInput
+              name={altTextName}
+              placeholder="Optional image description"
+            />
           </div>
         </>
       )}

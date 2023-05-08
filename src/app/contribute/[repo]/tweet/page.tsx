@@ -1,8 +1,8 @@
 import { default as config, getRepoConfig } from "@/config";
 // import { getRepoData } from "@/octokit";
-import TweetForm from "./form";
 import Link from "next/link";
 import { Route } from "next";
+import TweetForm from "./tweetForm";
 
 type Props = {
   params: {

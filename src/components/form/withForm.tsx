@@ -12,6 +12,7 @@ import {
   HiRefresh,
 } from "react-icons/hi";
 import { ImSpinner2 } from "react-icons/im";
+import { BiGitPullRequest } from "react-icons/bi";
 
 type Config = {
   validation: any;
@@ -49,12 +50,11 @@ export default function withForm<P>(
                 method: "POST",
                 body: JSON.stringify(data),
               });
+              const json = await res.json();
               if (!res.ok) {
-                console.log(res);
-                throw new Error(`HTTP error! status: ${res.status}`);
+                throw new Error(json.error);
               }
-              const { pullRequestURL } = await res.json();
-              setPrUrl(pullRequestURL);
+              setPrUrl(json.prUrl);
             } catch (error) {
               let message = "Unknown Error";
               if (error instanceof Error) message = `Error: ${error.message}`;
@@ -90,10 +90,10 @@ export default function withForm<P>(
                   <Link
                     href={prUrl as Route}
                     target="_blank"
-                    className="btn btn-success btn-lg"
+                    className="btn btn-success btn-lg gap-2"
                   >
                     View PR on Github
-                    <HiExternalLink className="ml-2" />
+                    <HiExternalLink />
                   </Link>
                 </div>
               </>
@@ -106,7 +106,7 @@ export default function withForm<P>(
                 <div className="form-control">
                   <button
                     type="submit"
-                    className={`btn btn-lg btn-success ${
+                    className={`btn btn-lg btn-success gap-2 ${
                       !formik.isValid || formik.isSubmitting
                         ? "btn-disabled"
                         : ""
@@ -114,19 +114,19 @@ export default function withForm<P>(
                   >
                     {!formik.isValid && (
                       <>
-                        <HiExclamationCircle className="mr-2" />
+                        <HiExclamationCircle />
                         Valid Tweet Required
                       </>
                     )}
                     {formik.isSubmitting && (
                       <>
-                        <ImSpinner2 className="mr-2 animate-spin" />
+                        <ImSpinner2 className="animate-spin" />
                         Creating Pull Request...
                       </>
                     )}
                     {formik.isValid && !formik.isSubmitting && (
                       <>
-                        <HiCloudUpload className="mr-2" />
+                        <BiGitPullRequest />
                         Create Pull Request
                       </>
                     )}
@@ -135,7 +135,7 @@ export default function withForm<P>(
               </>
             )}
             {/* <div
-              className="btn btn-error"
+              className="btn btn-error gap-2"
               onClick={() => {
                 if (
                   prUrl ||
@@ -145,7 +145,7 @@ export default function withForm<P>(
                 }
               }}
             >
-              <HiRefresh className="mr-2" />
+              <HiRefresh />
               Reset Form
             </div> */}
             {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}

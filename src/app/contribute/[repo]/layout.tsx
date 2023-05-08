@@ -1,4 +1,6 @@
+import UserInfo from "@/components/header/userInfo";
 import Link from "next/link";
+import { BiListPlus } from "react-icons/bi";
 
 type Props = {
   children: React.ReactNode;
@@ -10,9 +12,15 @@ export default async function Contribution({ children }: Props) {
 
   return (
     <div className="min-h-screen py-6 space-y-6">
+      <div className="flex justify-center">
+        {/* @ts-expect-error Server Component */}
+        <UserInfo />
+      </div>
+      <div className="divider"></div>
       {children}
-      <Link className="btn" href="/contribute">
-        Go Back
+      <Link className="btn gap-2" href="/contribute">
+        Contributions List
+        <BiListPlus className="h-5 w-5" />
       </Link>
     </div>
   );

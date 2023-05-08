@@ -1,18 +1,35 @@
 import { createPullRequest } from "@/octokit";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import tweetValidation from "../validation";
 import transformTweet from "../transform";
+import { getToken } from "next-auth/jwt";
 
 dayjs.extend(utc);
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params: { repo } }: { params: { repo: string } }
 ) {
-  // TODO do some auth middlewhere somewhere
+  // TODO move this to some middlewhere somewhere, or maybe a hook
+  const token = (await getToken({ req })) as {
+    login: string;
+    accessToken: string;
+    name: string;
+  };
+
+  // if (!token || !token.login || !token.accessToken) {
+  //   return NextResponse.json(
+  //     { error: "You must be logged in" },
+  //     { status: 401 }
+  //   );
+  // }
+  // // const userEmail = token.login;
+  // console.log({ token });
+  // return NextResponse.json({ pullRequestURL: "https://test.com" });
+
   // TODO CAPTCHA
   const body = await req.json();
 
@@ -39,13 +56,14 @@ export async function POST(
     })
   );
 
-  const pullRequestURL = await createPullRequest({
+  const prUrl = await createPullRequest({
     repo,
     branch,
     name,
     files,
+    token,
   });
 
-  console.log("created pr", pullRequestURL);
-  return NextResponse.json({ pullRequestURL });
+  console.log("created pr", prUrl);
+  return NextResponse.json({ prUrl });
 }

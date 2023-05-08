@@ -29,11 +29,11 @@ function TweetForm({ formik }: FormProps) {
   return (
     <>
       <ChoiceInput
-        title="Tweet Type"
+        title="Quote Type"
         type="buttons"
         name="quoteType"
         options={quoteTypes}
-        unset="No Quote"
+        unset="None"
       />
       {!!formik.values.quoteType && (
         <div>
@@ -50,7 +50,7 @@ function TweetForm({ formik }: FormProps) {
         name="text"
         as="textarea"
         placeholder="e.g. I like turtles 🐢 #turtlepower"
-        info="Can be blank when retweeting or uploading images"
+        info="Optional when retweeting or uploading images"
       />
       <ImagesInput name="media" limit={4} />
       {/* tweet preview */}

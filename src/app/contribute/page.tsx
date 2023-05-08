@@ -1,6 +1,7 @@
 import config from "@/config";
 import RepositoryDetails from "@/components/contribute/repositoryDetails";
 import Link from "next/link";
+import { HiHome } from "react-icons/hi";
 
 const ContributePage = () => {
   return (
@@ -12,8 +13,9 @@ const ContributePage = () => {
           return <RepositoryDetails key={name} name={name} />;
         })}
       </div>
-      <Link href="/" className="btn">
-        Back to Home
+      <Link href="/" className="btn gap-2">
+        <HiHome />
+        Home
       </Link>
     </>
   );
