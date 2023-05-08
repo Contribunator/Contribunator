@@ -3,15 +3,9 @@ import ContributionLink from "./contributionLink";
 import { getRepoConfig } from "@/config";
 import { Route } from "next";
 
-type Props = {
-  name: string;
-};
-
-const RepositoryDetails = async (props: Props) => {
-  const { name } = props;
+const RepositoryDetails = async ({ name }: { name: string }) => {
   // fetch repo information from github api
   const repo = await getRepoConfig(name);
-  // const data = await getRepoData(name);
 
   return (
     <div className="cell">

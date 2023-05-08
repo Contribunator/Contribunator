@@ -1,5 +1,10 @@
 # Work in Progress
 
+## Before Release
+
+- CAPTCHA
+- Fix https://github.com/Contribunator/Sample/pull/53/files
+
 ## TODO
 
 - Error / Conf feedback in ui ( not alert )
@@ -8,14 +13,9 @@
 - Tailwind colors
 - Update config to object format
 - Advanced options and branch selection
-- Auth validation
 - Refactor
 - Text / Docs
 - 404s
-
-## vAlpha
-
-- Github Only
 
 ## 0.1
 

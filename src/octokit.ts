@@ -2,79 +2,81 @@ import { Octokit } from "@octokit/rest";
 import { createAppAuth } from "@octokit/auth-app";
 // @ts-ignore
 import commitPlugin from "octokit-commit-multiple-files";
-import config, { getRepoConfig } from "@/config";
-import slugify from "slugify";
 
-const octokitOptions = {
+import { getRepoConfig } from "@/config";
+import { Authorized } from "./authorize";
+
+const OctokitPlugin = Octokit.plugin(commitPlugin);
+
+const octokit = new OctokitPlugin({
   authStrategy: createAppAuth,
   auth: {
-    clientId: process.env.GITHUB_CLIENT_ID as string,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     appId: parseInt(process.env.GITHUB_APP_ID as string),
     installationId: parseInt(process.env.GITHUB_APP_INSTALLATION_ID as string),
     privateKey: process.env.GITHUB_APP_PK as string,
   },
-  // auth: token.accessToken // TODO if we want to impersonate user?
-};
+});
 
-export async function getRepoData(repo: string) {
-  const octokit = new Octokit(octokitOptions);
-  const { data } = await octokit.repos.get({ repo, owner: config.owner });
-  return data;
-}
+export async function createPullRequest(
+  { token }: Authorized,
+  {
+    repo,
+    files,
+    name,
+    branch,
+  }: {
+    repo: string;
+    name: string;
+    branch: string;
+    files: {
+      [key: string]: string;
+    };
+  }
+) {
+  const { base, branchPrefix, owner } = await getRepoConfig(repo);
 
-export async function createPullRequest({
-  repo,
-  files,
-  name,
-  branch,
-}: {
-  repo: string;
-  name: string;
-  branch: string;
-  files: {
-    [key: string]: string;
-  };
-}) {
-  // TODO validation
-  // TODO CAPTCH
-  // const repoConfig = await getRepoConfig(repo);
-  const repoData = await getRepoData(repo);
-
-  const OctokitPlugin = Octokit.plugin(commitPlugin);
-  const octokit = new OctokitPlugin(octokitOptions);
-
-  // TODO validaiton based on config file, don't let people push to any repo obvs...
-  const head = `c11r/${branch}`;
-
-  // TODO config mesasge based on PR type
   const message = `Add ${name}`;
 
-  await octokit.rest.repos.createOrUpdateFiles({
+  const commit = {
     repo,
-    owner: config.owner,
-    branch: head,
+    owner: owner,
+    branch: `${branchPrefix}${branch}`,
     createBranch: true,
+    ...(token && {
+      name: token.name || token.login,
+      email: `${token.login}@users.noreply.github.com`,
+    }),
     changes: [
       {
         message,
         files,
       },
     ],
-  });
+  };
 
-  const {
-    data: { html_url: url },
-  } = await octokit.pulls.create({
+  console.log("commit", commit);
+  await octokit.rest.repos.createOrUpdateFiles(commit);
+
+  const pr = {
     repo,
-    head,
-    owner: config.owner,
-    // TODO make it configurable
-    base: repoData.default_branch,
+    base,
+    head: commit.branch,
+    owner: owner,
     title: message,
-    body: "This PR was created by a bot, todo some message...", // TODO some AI?
-  });
+    body: `This PR was created by a bot, todo some message...`,
+  };
 
-  // todo error handling
-  return url;
+  // create the PR as the user if they are logged in
+  let prOctokit = octokit;
+
+  if (token) {
+    prOctokit = new OctokitPlugin({
+      auth: token.accessToken,
+    });
+  }
+
+  console.log("pr", pr);
+  const prResponse = await prOctokit.rest.pulls.create(pr);
+
+  return prResponse.data.html_url;
 }

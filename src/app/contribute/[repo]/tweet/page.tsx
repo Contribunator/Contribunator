@@ -1,5 +1,4 @@
 import { default as config, getRepoConfig } from "@/config";
-// import { getRepoData } from "@/octokit";
 import Link from "next/link";
 import { Route } from "next";
 import TweetForm from "./tweetForm";

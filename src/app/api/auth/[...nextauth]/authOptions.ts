@@ -1,8 +1,8 @@
-import { CustomSession } from "@/types";
 import { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
 
 // TODO move env imports to a single file?
+// TODO do we still need to do the token secrets stuff?
 
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -11,19 +11,13 @@ const authOptions: NextAuthOptions = {
   },
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      authorization: { params: { scope: "read:user" } }, // TODO, do not need `repo`
+      clientId: process.env.GITHUB_APP_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      // pass the github login to client
-      (session as CustomSession).user.login = token.login as string;
-      return session;
-    },
     async jwt({ token, account, profile }) {
-      // Persist the OAuth access_token and or the user id to the token right after signin
+      // persist the access_token and or the user id to the token right after signin
       if (account) {
         token.accessToken = account.access_token;
         token.login = (profile as GithubProfile).login;

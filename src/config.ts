@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import { FaTwitter } from "react-icons/fa";
 
 // type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
-// TODO add more color options, add to tailwind.config.js
+// TODO add more color options, add to tailwind.config.js, move this elsewhere
 type TailwindColor = "slate" | "blue" | "red";
 
 export type C11RContribution = {
@@ -14,19 +14,26 @@ export type C11RContribution = {
   icon?: IconType;
 };
 
-export type C11RRepo = {
+export type C11RRepoConfig = {
   title: string;
   name: string;
+  base?: string;
+  branchPrefix?: string;
   description?: string;
   contributions: C11RContribution[];
 };
 
+export type C11RRepo = C11RRepoConfig &
+  Omit<C11RConfig, "repos"> & {
+    githubUrl: string;
+  };
+
 export type C11RConfig = {
   owner: string;
-  repos: C11RRepo[];
+  branchPrefix?: string;
+  repos: C11RRepoConfig[];
 };
 
-// TODO restructure using key pairs instead of array
 const config: C11RConfig = {
   owner: "Contribunator",
   repos: [
@@ -48,7 +55,7 @@ const config: C11RConfig = {
     },
     {
       title: "Another Sample Repo",
-      name: "Another", // the name of the repo
+      name: "Another",
       description:
         "Another useless and vandalized demo repository for Contribunator",
       contributions: [
@@ -65,61 +72,20 @@ const config: C11RConfig = {
   ],
 };
 
-export function getRepoConfig(repo: string) {
+// decorate the defaults and parent properties
+export function getRepoConfig(repo: string): C11RRepo {
   const { repos, ...rest } = config;
   const repoConfig = repos.find((r) => r.name === repo);
   if (!repoConfig) {
     throw new Error(`Config not defined for repo: ${repo}`);
   }
-  const githubUrl = `https://github.com/${rest.owner}/${repoConfig.name}`;
-  return { ...rest, ...repoConfig, githubUrl };
+  const merged = { ...rest, ...repoConfig };
+  const defauls = {
+    base: "main",
+    branchPrefix: "c11r/",
+    githubUrl: `https://github.com/${merged.owner}/${merged.name}`,
+  };
+  return { ...defauls, ...merged };
 }
 
-/*
-const config: C11RConfig = {
-  owner: "ethereumclassic",
-  repos: [
-    {
-      name: "ETC Website",
-      repo: "ethereumclassic.github.io",
-      contributions: [
-        {
-          type: "video",
-          icon: HiVideoCamera,
-          name: "Video",
-          options: { title: "This is a test" },
-        },
-        {
-          type: "video",
-          name: "Video with something else",
-          options: { title: "Video, but with a different title" },
-        },
-      ],
-    },
-    {
-      name: "@eth_classic Twitter",
-      repo: "tweets-etc_network",
-      contributions: [{ type: "tweet", name: "Simple Tweet" }],
-    },
-    {
-      name: "@etc_network Twitter",
-      repo: "tweets-eth_classic",
-      contributions: [
-        { type: "tweet", name: "Simple Tweet" },
-        {
-          type: "tweet",
-          name: "Poll",
-          description: "A poll tweet",
-          options: { type: "poll" },
-        },
-      ],
-    },
-    {
-      name: "Test Failed to get repo",
-      repo: "not-real",
-      contributions: [],
-    },
-  ],
-};
-*/
 export default config;
