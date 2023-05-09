@@ -26,7 +26,7 @@ function transformTweet(obj: any, prefix: string = "[timestamp]") {
     if (obj.quoteType && obj.quoteUrl) {
       transformed += `${obj.quoteType}: ${obj.quoteUrl}\n`;
     }
-    if (obj.media) {
+    if (obj.media && obj.media.filter((m: string) => m).length > 0) {
       transformed += `media:
 ${obj.media
   .map((m: string, i: number) => {

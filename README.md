@@ -3,7 +3,6 @@
 ## Alpha Release
 
 - demo.contributions.app
-- Fix https://github.com/Contribunator/Sample/pull/53/files
 
 ## TODOs
 
