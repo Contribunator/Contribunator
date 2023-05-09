@@ -1,14 +1,16 @@
-# Contribunator (WIP)
+# Contribunator 😎
 
 GUI asissted Github Pull Request Bot
 
-> Say _Hasta la vista_ 😎 to your GitHub contribution woes.
+> Say _Hasta la vista_ to your GitHub contribution woes.
 
-## Alpha Release
+## Work in Progress
+
+### Alpha Release
 
 - demo.contributions.app
 
-## TODOs
+### TODOs
 
 - CAPTCHA
 - Error / Conf feedback in ui ( not alert )
@@ -16,10 +18,10 @@ GUI asissted Github Pull Request Bot
 - Thread Tweets
 - More Tailwind colors
 - Advanced options and branch selection
-- Text / Docs
+- Docs
 - 404s
 
-## Ideas
+### Ideas
 
 - User access token refreshing
 - Spell Check
