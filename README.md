@@ -1,14 +1,8 @@
-<div align="center">
+# Contribunator (WIP)
 
-# Contribunator
+GUI asissted Github Pull Request Bot
 
-_Say "Hasta la vista" to Github Pull Request technical barriers._
-
-😎💻
-
-**Work in Progress**
-
-</div>
+> Say _Hasta la vista_ 😎 to your GitHub contribution woes.
 
 ## Alpha Release
 
