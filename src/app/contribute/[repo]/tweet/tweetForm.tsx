@@ -9,7 +9,7 @@ import {
   ImagesInput,
 } from "@/components/form";
 
-import validation from "./validation";
+import validation from "./validateTweet";
 
 /*
 TODO: polls & thread
@@ -24,8 +24,6 @@ function TweetForm({ formik }: FormProps) {
   // const config = getRepoConfig(repo);
   const { quoteType } = formik.values;
   const quoteUrl = formik.getFieldMeta("quoteUrl");
-  const validQuote =
-    quoteUrl.touched && !quoteUrl.error && (quoteUrl.value as string);
   return (
     <>
       <ChoiceInput
@@ -42,7 +40,11 @@ function TweetForm({ formik }: FormProps) {
             name="quoteUrl"
             placeholder="e.g. https://twitter.com/[user]/status/[id]"
           />
-          <EmbedTweet url={validQuote} />
+          <EmbedTweet
+            url={
+              quoteUrl.touched && !quoteUrl.error && (quoteUrl.value as string)
+            }
+          />
         </div>
       )}
       <TextInput

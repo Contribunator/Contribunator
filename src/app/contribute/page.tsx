@@ -8,10 +8,9 @@ const ContributePage = () => {
     <>
       <h2 className="title">Select a Contribution Type</h2>
       <div className="flex flex-col space-y-8 my-8">
-        {config.repos.map(({ name }) => {
-          // @ts-expect-error Async Server Component
-          return <RepositoryDetails key={name} name={name} />;
-        })}
+        {Object.values(config.repos).map((repo) => (
+          <RepositoryDetails key={repo.name} repo={repo} />
+        ))}
       </div>
       <Link href="/" className="btn gap-2">
         <HiHome />

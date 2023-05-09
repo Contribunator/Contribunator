@@ -1,16 +1,14 @@
 import { HiCode } from "react-icons/hi";
 import Link from "next/link";
-import { C11RRepo, C11RContribution } from "@/config";
-
-type Props = {
-  contribution: C11RContribution;
-  repo: C11RRepo;
-};
+import { Repo, Contribution } from "@/config";
 
 const ContributionLink = ({
-  contribution: { icon, type, options, name, description, color = "slate" },
+  contribution: { icon, type, options, title, description, color = "slate" },
   repo,
-}: Props) => {
+}: {
+  contribution: Contribution;
+  repo: Repo;
+}) => {
   const Icon = icon || HiCode;
   return (
     <Link
@@ -27,7 +25,7 @@ const ContributionLink = ({
       </div>
       <div className="p-2 flex items-center">
         <div>
-          <div className="font-bold">{name}</div>
+          <div className="font-bold">{title}</div>
           {description && <div className="text-sm">{description}</div>}
         </div>
       </div>

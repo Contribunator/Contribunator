@@ -1,15 +1,15 @@
-import { CustomSession } from "@/types";
+import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
-import LoginButton from "./loginButton";
 
+import LoginButton from "./loginButton";
 import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
 
 const UserInfo = async () => {
-  const session = (await getServerSession(authOptions)) as CustomSession;
+  const session = (await getServerSession(authOptions)) as Session;
   return (
     <div className="flex items-center space-x-2">
-      {session ? (
+      {session?.user ? (
         <>
           <span>
             Contributing as <b>{session.user.name}</b>

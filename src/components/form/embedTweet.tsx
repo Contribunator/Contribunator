@@ -1,4 +1,4 @@
-export default function EmbedTweet({ url }: { url: string | false }) {
+export default function EmbedTweet({ url }: { url?: string | boolean }) {
   // TODO Get using twitter API?
   if (!url) {
     return null;

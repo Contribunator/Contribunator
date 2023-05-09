@@ -4,16 +4,17 @@ import { createAppAuth } from "@octokit/auth-app";
 import commitPlugin from "octokit-commit-multiple-files";
 
 import { getRepoConfig } from "@/config";
-import { Authorized } from "./authorize";
+import { Authorized } from "@/authorize";
+import { appId, installationId, privateKey } from "@/env";
 
 const OctokitPlugin = Octokit.plugin(commitPlugin);
 
 const octokit = new OctokitPlugin({
   authStrategy: createAppAuth,
   auth: {
-    appId: parseInt(process.env.GITHUB_APP_ID as string),
-    installationId: parseInt(process.env.GITHUB_APP_INSTALLATION_ID as string),
-    privateKey: process.env.GITHUB_APP_PK as string,
+    appId,
+    installationId,
+    privateKey,
   },
 });
 

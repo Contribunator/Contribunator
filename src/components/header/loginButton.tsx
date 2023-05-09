@@ -1,15 +1,11 @@
 "use client";
 
-import { CustomSession } from "@/types";
+import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 
-type Props = {
-  session: CustomSession | null;
-};
-
-export default function LoginButton({ session }: Props) {
+export default function LoginButton({ session }: { session: Session }) {
   if (session) {
     return (
       <button

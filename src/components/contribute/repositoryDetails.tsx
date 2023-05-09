@@ -1,12 +1,9 @@
 import Link from "next/link";
 import ContributionLink from "./contributionLink";
-import { getRepoConfig } from "@/config";
 import { Route } from "next";
+import { Repo } from "@/config";
 
-const RepositoryDetails = async ({ name }: { name: string }) => {
-  // fetch repo information from github api
-  const repo = await getRepoConfig(name);
-
+export default function RepositoryDetails({ repo }: { repo: Repo }) {
   return (
     <div className="cell">
       <h3 className="title -mb-1.5">{repo.title}</h3>
@@ -21,7 +18,7 @@ const RepositoryDetails = async ({ name }: { name: string }) => {
       <div className="space-y-2 mt-4">
         {repo.contributions.map((contribution) => (
           <ContributionLink
-            key={contribution.name}
+            key={contribution.title}
             repo={repo}
             contribution={contribution}
           />
@@ -29,5 +26,4 @@ const RepositoryDetails = async ({ name }: { name: string }) => {
       </div>
     </div>
   );
-};
-export default RepositoryDetails;
+}

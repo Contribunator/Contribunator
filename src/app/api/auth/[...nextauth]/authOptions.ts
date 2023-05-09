@@ -1,18 +1,13 @@
 import { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
 
-// TODO move env imports to a single file?
-// TODO do we still need to do the token secrets stuff?
+import { clientId, clientSecret } from "@/env";
 
 const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
-  jwt: {
-    secret: process.env.NEXTAUTH_JWT_SECRET,
-  },
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_APP_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET as string,
+      clientId,
+      clientSecret,
     }),
   ],
   callbacks: {

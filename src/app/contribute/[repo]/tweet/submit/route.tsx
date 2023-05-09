@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import tweetValidation from "../validation";
-import transformTweet from "../transform";
+import validateTweet from "../validateTweet";
+import transformTweet from "../transformTweet";
 import authorize from "@/authorize";
 
 dayjs.extend(utc);
@@ -15,7 +15,7 @@ export async function POST(
 ) {
   const authorized = await authorize(req);
   const body = await req.json();
-  const validBody = await tweetValidation.validate(body);
+  const validBody = await validateTweet.validate(body);
   const timeStamp = dayjs().utc().format("YYMMDD-HHmm");
   const { files, name, media, branch } = transformTweet(validBody, timeStamp);
 
