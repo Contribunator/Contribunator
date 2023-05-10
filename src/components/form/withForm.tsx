@@ -1,18 +1,10 @@
 import { Formik, FormikProps } from "formik";
 import { usePathname } from "next/navigation";
-import GenericOptions from "./genericOptions";
 import { useState } from "react";
 import Link from "next/link";
 import { Route } from "next";
-import {
-  HiCloudUpload,
-  HiExclamationCircle,
-  HiExternalLink,
-  HiOutlineEmojiHappy,
-  HiRefresh,
-} from "react-icons/hi";
-import { ImSpinner2 } from "react-icons/im";
-import { BiGitPullRequest } from "react-icons/bi";
+import { HiExternalLink, HiOutlineEmojiHappy } from "react-icons/hi";
+import SubmitButton from "./submitButton";
 
 type Config = {
   validation: any;
@@ -37,7 +29,6 @@ export default function withForm<P>(
     // At this point, the props being passed in are the original props the component expects.
     const path = usePathname();
     const [prUrl, setPrUrl] = useState<string | null>(null);
-
     return (
       <Formik
         validateOnMount
@@ -70,7 +61,7 @@ export default function withForm<P>(
             className={`text-center ${props.className}`}
           >
             {prUrl && (
-              <>
+              <div className="py-6 space-y-6">
                 <div className="flex justify-center">
                   <HiOutlineEmojiHappy className="text-6xl" />
                 </div>
@@ -79,9 +70,9 @@ export default function withForm<P>(
                     Congrats, your Pull Request was created!
                   </h3>
                   <Link
+                    className="link-hover text-xs"
                     href={prUrl as Route}
                     target="_blank"
-                    className="link-hover"
                   >
                     {prUrl}
                   </Link>
@@ -96,58 +87,16 @@ export default function withForm<P>(
                     <HiExternalLink />
                   </Link>
                 </div>
-              </>
+              </div>
             )}
             {!prUrl && (
               <>
                 <WrappedComponent {...props} formik={formik} />
                 {/* TODO add generic commit options */}
                 {/* <GenericOptions /> */}
-                <div className="form-control">
-                  <button
-                    type="submit"
-                    className={`btn btn-lg btn-success gap-2 ${
-                      !formik.isValid || formik.isSubmitting
-                        ? "btn-disabled"
-                        : ""
-                    }`}
-                  >
-                    {!formik.isValid && (
-                      <>
-                        <HiExclamationCircle />
-                        Valid Tweet Required
-                      </>
-                    )}
-                    {formik.isSubmitting && (
-                      <>
-                        <ImSpinner2 className="animate-spin" />
-                        Creating Pull Request...
-                      </>
-                    )}
-                    {formik.isValid && !formik.isSubmitting && (
-                      <>
-                        <BiGitPullRequest />
-                        Create Pull Request
-                      </>
-                    )}
-                  </button>
-                </div>
+                <SubmitButton formik={formik} />
               </>
             )}
-            {/* <div
-              className="btn btn-error gap-2"
-              onClick={() => {
-                if (
-                  prUrl ||
-                  confirm("Are you sure you want to reset the form?")
-                ) {
-                  window.location.reload();
-                }
-              }}
-            >
-              <HiRefresh />
-              Reset Form
-            </div> */}
             {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}
           </form>
         )}

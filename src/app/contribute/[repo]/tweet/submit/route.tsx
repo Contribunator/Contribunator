@@ -1,4 +1,4 @@
-import { createPullRequest } from "@/octokit";
+import { createPullRequest } from "@/github";
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import dayjs from "dayjs";

@@ -3,7 +3,7 @@ import RepositoryDetails from "@/components/contribute/repositoryDetails";
 import Link from "next/link";
 import { HiHome } from "react-icons/hi";
 
-const ContributePage = () => {
+export default function ContributePage() {
   return (
     <>
       <h2 className="title">Select a Contribution Type</h2>
@@ -18,6 +18,4 @@ const ContributePage = () => {
       </Link>
     </>
   );
-};
-
-export default ContributePage;
+}

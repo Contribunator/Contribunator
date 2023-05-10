@@ -1,10 +1,17 @@
 import UserInfo from "@/components/header/userInfo";
+import config from "@/config";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
 
 type Props = {
   children: React.ReactNode;
 };
+
+export async function generateStaticParams() {
+  return Object.keys(config.repos).map((repo) => ({
+    repo,
+  }));
+}
 
 export default async function Contribution({ children }: Props) {
   // TODO return empty page if the type isn't supported for this repo

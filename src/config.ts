@@ -22,11 +22,12 @@ type RepoConfig = Partial<InheritedSettings> &
     contributions: Contribution[];
   };
 
-type BaseConfig = InheritedSettings & {
-  repos: {
-    [key: string]: RepoConfig;
+type BaseConfig = CommonFields &
+  InheritedSettings & {
+    repos: {
+      [key: string]: RepoConfig;
+    };
   };
-};
 
 export type AppConfig = Partial<BaseConfig>;
 
@@ -49,6 +50,8 @@ export type Config = BaseConfig & {
 
 const defaultConfig: BaseConfig = {
   // TODO welcome text etc
+  title: "Contribunator Demo",
+  description: "A tool to help you contribute to open source",
   owner: "Contribunator",
   branchPrefix: "c11r/",
   base: "main",
@@ -68,20 +71,20 @@ const defaultConfig: BaseConfig = {
         },
       ],
     },
-    Another: {
-      title: "Another Sample Repo",
-      description:
-        "Another useless and vandalized demo repository for Contribunator",
-      contributions: [
-        {
-          type: "video",
-          title: "Video",
-          color: "red",
-          icon: FaVideo,
-          description: "Testing",
-        },
-      ],
-    },
+    // Another: {
+    //   title: "Another Sample Repo",
+    //   description:
+    //     "Another useless and vandalized demo repository for Contribunator",
+    //   contributions: [
+    //     {
+    //       type: "video",
+    //       title: "Video",
+    //       color: "red",
+    //       icon: FaVideo,
+    //       description: "Testing",
+    //     },
+    //   ],
+    // },
   },
 };
 

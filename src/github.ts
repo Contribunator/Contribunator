@@ -67,13 +67,11 @@ export async function createPullRequest(
     body: `This PR was created by a bot, todo some message...`,
   };
 
-  // create the PR as the user if they are logged in
   let prOctokit = octokit;
 
+  // create the PR as the user if they are logged in
   if (token) {
-    prOctokit = new OctokitPlugin({
-      auth: token.accessToken,
-    });
+    prOctokit = new Octokit({ auth: token.accessToken });
   }
 
   console.log("pr", pr);
