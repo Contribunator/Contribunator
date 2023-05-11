@@ -1,4 +1,5 @@
 import UserInfo from "@/components/header/userInfo";
+import Version from "@/components/version";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
 
@@ -20,6 +21,7 @@ export default function Home() {
         {/* @ts-expect-error Server Component */}
         <UserInfo />
       </div>
+      <Version />
     </div>
   );
 }
