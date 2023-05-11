@@ -6,12 +6,14 @@ GUI asissted Github Pull Request Bot
 
 ## Work in Progress
 
-### Alpha Release
+## Before Release
 
-- CAPTCHA for anon
+- Docs
+- Landing page info
 
 ### TODOs
 
+- Test iOS
 - Media, Animation, Gifs
 - Error / Conf feedback in ui ( not alert )
 - Poll Tweets
@@ -19,7 +21,6 @@ GUI asissted Github Pull Request Bot
 - More Tailwind colors
 - User access token refreshing
 - Advanced options and branch selection
-- Docs
 - 404s
 
 ### Ideas

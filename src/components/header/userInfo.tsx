@@ -1,23 +1,21 @@
-import { Session } from "next-auth";
-import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 
 import LoginButton from "./loginButton";
-import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
+import useUser from "../useUser";
 
-const UserInfo = async () => {
-  const session = (await getServerSession(authOptions)) as Session;
+export default async function UserInfo() {
+  const user = await useUser();
   return (
     <div className="flex items-center space-x-2">
-      {session?.user ? (
+      {user ? (
         <>
           <span>
-            Contributing as <b>{session.user.name}</b>
+            Contributing as <b>{user.name}</b>
           </span>
-          {session.user.image && (
+          {user.image && (
             <Image
               className="rounded-full"
-              src={session.user.image}
+              src={user.image}
               alt={"User Avatar"}
               width={32}
               height={32}
@@ -35,9 +33,7 @@ const UserInfo = async () => {
           </div>
         </span>
       )}
-      <LoginButton session={session} />
+      <LoginButton loggedIn={!!user} />
     </div>
   );
-};
-
-export default UserInfo;
+}

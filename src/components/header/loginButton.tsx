@@ -1,12 +1,11 @@
 "use client";
 
-import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 
-export default function LoginButton({ session }: { session: Session }) {
-  if (session) {
+export default function LoginButton({ loggedIn }: { loggedIn: boolean }) {
+  if (loggedIn) {
     return (
       <button
         onClick={() => signOut()}

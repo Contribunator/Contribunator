@@ -1,11 +1,14 @@
 import { Formik, FormikProps } from "formik";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
-import { Route } from "next";
-import { HiExternalLink, HiOutlineEmojiHappy } from "react-icons/hi";
 import SubmitButton from "./submitButton";
+import Captcha from "./captcha";
+import Submitted from "./submitted";
 
+type PassedProps = {
+  className?: string;
+  user?: any;
+};
 type Config = {
   validation: any;
   initialValues?: any;
@@ -15,8 +18,6 @@ export type FormProps = {
   formik: FormikProps<any>;
 };
 
-// TODO implement https://github.com/hCaptcha/react-hcaptcha
-
 // Mark the function as a generic using P (or whatever variable you want)
 export default function withForm<P>(
   // Then we need to type the incoming component.
@@ -25,15 +26,19 @@ export default function withForm<P>(
   WrappedComponent: React.ComponentType<P & FormProps>,
   { validation, initialValues = {} }: Config
 ) {
-  const ComponentWithForm = (props: P & { className?: string }) => {
+  const ComponentWithForm = (props: P & PassedProps) => {
+    const { className = "" } = props;
     // At this point, the props being passed in are the original props the component expects.
     const path = usePathname();
     const [prUrl, setPrUrl] = useState<string | null>(null);
     return (
       <Formik
         validateOnMount
-        initialValues={initialValues}
         validationSchema={validation}
+        initialValues={{
+          ...initialValues,
+          ...(props.user && { captcha: "session" }),
+        }}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {
             try {
@@ -58,42 +63,15 @@ export default function withForm<P>(
         {(formik) => (
           <form
             onSubmit={formik.handleSubmit}
-            className={`text-center ${props.className}`}
+            className={`text-center ${className}`}
           >
-            {prUrl && (
-              <div className="py-6 space-y-6">
-                <div className="flex justify-center">
-                  <HiOutlineEmojiHappy className="text-6xl" />
-                </div>
-                <div>
-                  <h3 className="title">
-                    Congrats, your Pull Request was created!
-                  </h3>
-                  <Link
-                    className="link-hover text-xs"
-                    href={prUrl as Route}
-                    target="_blank"
-                  >
-                    {prUrl}
-                  </Link>
-                </div>
-                <div>
-                  <Link
-                    href={prUrl as Route}
-                    target="_blank"
-                    className="btn btn-success btn-lg gap-2"
-                  >
-                    View PR on Github
-                    <HiExternalLink />
-                  </Link>
-                </div>
-              </div>
-            )}
+            {prUrl && <Submitted prUrl={prUrl} />}
             {!prUrl && (
               <>
                 <WrappedComponent {...props} formik={formik} />
                 {/* TODO add generic commit options */}
                 {/* <GenericOptions /> */}
+                {!props.user && <Captcha />}
                 <SubmitButton formik={formik} />
               </>
             )}

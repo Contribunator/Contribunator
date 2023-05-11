@@ -2,6 +2,7 @@ import { default as config, getRepoConfig } from "@/config";
 import Link from "next/link";
 import { Route } from "next";
 import TweetForm from "./tweetForm";
+import useUser from "@/components/useUser";
 
 type Props = {
   params: {
@@ -14,7 +15,7 @@ type Props = {
 
 export default async function TweetPage({ params: { repo } }: Props) {
   const repoConfig = await getRepoConfig(repo);
-  // const url = `https://github.com/${config.owner}/${repoConfig.name}`;
+  const user = await useUser();
   return (
     <>
       <div>
@@ -30,7 +31,8 @@ export default async function TweetPage({ params: { repo } }: Props) {
           </Link>
         </p>
       </div>
-      <TweetForm className="cell space-y-6" />
+      {/* TODO make it so I don't ened to pass user here, with composition? */}
+      <TweetForm user={user} className="cell space-y-6" />
       {/* {<pre>{JSON.stringify({ config, data, options }, null, 2)}</pre>} */}
     </>
   );

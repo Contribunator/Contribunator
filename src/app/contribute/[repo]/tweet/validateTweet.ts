@@ -1,9 +1,10 @@
 import * as Yup from "yup";
 
 import twitter from "twitter-text";
-// TODO ...spread global options higher up
+import genericValidation from "@/components/form/genericValidation";
 
 const tweetValidation = Yup.object({
+  ...genericValidation,
   text: Yup.string()
     .test({
       name: "is-valid-tweet-text",

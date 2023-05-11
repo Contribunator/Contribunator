@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Contribution({ children }: Props) {
+export default async function ContributionLayout({ children }: Props) {
   // TODO return empty page if the type isn't supported for this repo
   // Trigger notFound() if the type isn't supported for this repo
 

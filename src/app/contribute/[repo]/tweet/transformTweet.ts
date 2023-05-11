@@ -19,14 +19,16 @@ const generateName = (obj: any) => {
 function transformTweet(obj: any, prefix: string = "[timestamp]") {
   const name = generateName(obj);
   const media: { [key: string]: string } = {};
+  const hasQuote = obj.quoteType && obj.quoteUrl;
+  const hasMedia = obj.media && obj.media.filter((m: string) => m).length > 0;
   let transformed = "";
-  // todo add other types
-  if ((obj.quoteType && obj.quoteUrl) || obj.media) {
+  // HEADER START: todo add other types
+  if (hasQuote || hasMedia) {
     transformed += `---\n`;
-    if (obj.quoteType && obj.quoteUrl) {
+    if (hasQuote) {
       transformed += `${obj.quoteType}: ${obj.quoteUrl}\n`;
     }
-    if (obj.media && obj.media.filter((m: string) => m).length > 0) {
+    if (hasMedia) {
       transformed += `media:
 ${obj.media
   .map((m: string, i: number) => {
@@ -58,6 +60,7 @@ ${obj.media
     }
     transformed += `---\n\n`;
   }
+  // HEADER END
   if (obj.text) {
     transformed += obj.text;
   }

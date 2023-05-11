@@ -4,12 +4,11 @@ import {
   TextInput,
   ChoiceInput,
   EmbedTweet,
-  withForm,
   FormProps,
   ImagesInput,
+  withForm,
 } from "@/components/form";
-
-import validation from "./validateTweet";
+import tweetValidation from "./validateTweet";
 
 /*
 TODO: polls & thread
@@ -62,8 +61,10 @@ function TweetForm({ formik }: FormProps) {
   );
 }
 
+// export default TweetForm;
+
 export default withForm(TweetForm, {
-  validation,
+  validation: tweetValidation,
   initialValues: {
     quoteType: undefined,
     quoteUrl: "",

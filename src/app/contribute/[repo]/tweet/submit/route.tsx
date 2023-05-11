@@ -13,8 +13,9 @@ export async function POST(
   req: NextRequest,
   { params: { repo } }: { params: { repo: string } }
 ) {
-  const authorized = await authorize(req);
+  // TODO combine into a single middleware
   const body = await req.json();
+  const authorized = await authorize(req, body);
   const validBody = await validateTweet.validate(body);
   const timeStamp = dayjs().utc().format("YYMMDD-HHmm");
   const { files, name, media, branch } = transformTweet(validBody, timeStamp);
