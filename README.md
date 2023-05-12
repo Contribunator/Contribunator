@@ -4,9 +4,9 @@ A GUI-assisted GitHub Pull Request Bot
 
 > Say _hasta la vista_ to your GitHub contribution woes
 
-https://demo.contributions.app
+https://demo.contributions.app sumbits PRs to https://github.com/Contribunator/Sample
 
-TODO: Screenshot
+![Screenshot of Contribunator](./screenshot.jpg)
 
 ## About
 
