@@ -1,12 +1,16 @@
+<div align="center">
+
 # Contribunator 😎
 
-A GUI-assisted GitHub Pull Request Bot
+Say _hasta la vista_ to your GitHub contribution woes with this GUI-assisted Pull Request Bot.
 
-> Say _hasta la vista_ to your GitHub contribution woes
+<img src="./screenshot.jpg" height="500" align="center" alt="Screenshot of Contribunator" />
+  
+</div>
 
-https://demo.contributions.app sumbits PRs to https://github.com/Contribunator/Sample
+# Demo
 
-![Screenshot of Contribunator](./screenshot.jpg)
+https://demo.contributions.app sumbits PRs to the [Sample Repo](https://github.com/Contribunator/Sample).
 
 ## About
 
