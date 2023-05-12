@@ -63,6 +63,8 @@ NEXTAUTH_SECRET="xxx" # required in prod, generate with `openssl rand -hex 64`
 # for github login
 GITHUB_APP_CLIENT_ID="xxx"
 GITHUB_APP_CLIENT_SECRET="xxx"
+
+# for making PRs
 GITHUB_APP_ID=123
 GITHUB_APP_INSTALLATION_ID=123456
 GITHUB_APP_PK="" # github-generated private key, replace new lines with \n
