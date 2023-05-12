@@ -76,7 +76,7 @@ NEXT_PUBLIC_HCAPTCHA_SITEKEY="xxx"
 
 ### Configuration
 
-You should update the configuration with your Organization, Repository, and Contribution types. Defaults are set in `app/config.ts`.
+You should update `contribunator.config.ts` with your Organization, Repository, and Contribution types. Defaults are set in `app/config.ts`.
 
 ```js
 // contribunator.config.ts
@@ -109,10 +109,6 @@ You should update the configuration with your Organization, Repository, and Cont
   }
 }
 ```
-
-### Configuration
-
-You should update the configuration with your Organization, Repository, and Contribution types. Defaults are set in `app/config.ts`.
 
 You can also configure `tailwind.config.js` to use one of many [Daisy UI themes](https://daisyui.com/docs/themes/) or write a custom theme to customize the look and feel of your deployment.
 
