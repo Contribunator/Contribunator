@@ -37,7 +37,7 @@ Contribunator Bot relies on the [creation and installation of a GitHub App](http
 - Enable read and write `Repository Permissions` for `Contents` and `Pull Requests`.
 - Allow `Request user authorization (OAuth) during installation`.
 - Install the app only for your target repositories.
-- You may need to update the `Callback URL` in the app settings to match your deployment URL later.
+- You may need to update the `Callback URL` in the app settings to match your deployment's URL.
 
 ### Authentication
 
@@ -163,13 +163,12 @@ Below are the upcoming features and improvements.
 
 ### For vAlpha
 
-- Documentation improvements
-- Enhanced landing page info
+- Better PR message
 - iOS testing
-- More Tailwind colors
 
 ### For v0.1
 
+- More Tailwind colors
 - Addition of other contribution types
 - Grab (YouTube) URL metadata / OG tags
 - Configurable authentication methods via environment variables
