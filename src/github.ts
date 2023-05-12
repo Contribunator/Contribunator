@@ -44,8 +44,10 @@ export async function createPullRequest(
     branch: `${branchPrefix}${branch}`,
     createBranch: true,
     ...(token && {
-      name: token.name || token.login,
-      email: `${token.login}@users.noreply.github.com`,
+      author: {
+        name: token.name || token.login,
+        email: `${token.login}@users.noreply.github.com`,
+      },
     }),
     changes: [
       {
