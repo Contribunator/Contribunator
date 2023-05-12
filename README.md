@@ -174,6 +174,7 @@ Below are the upcoming features and improvements.
 
 ### For v0.1
 
+- Tests
 - More Tailwind colors
 - Addition of other contribution types
 - Grab (YouTube) URL metadata / OG tags
