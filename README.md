@@ -2,7 +2,7 @@
 
 # Contribunator
 
-Say _hasta la vista_ 😎 to your GitHub contribution woes with this GUI-assisted Pull Request Bot.
+The GUI-assisted Pull Request Bot that says _hasta la vista_ 😎 to your GitHub contribution woes.
 
 <img src="./screenshot.jpg" height="500" align="center" alt="Screenshot of Contribunator" />
   
