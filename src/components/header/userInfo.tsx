@@ -27,7 +27,7 @@ export default async function UserInfo() {
           Contributing{" "}
           <div
             className="tooltip tooltip-bottom tooltip-warning	before:mt-1 after:mt-1 cursor-pointer"
-            data-tip="You contributions will not be credited to a GitHub account"
+            data-tip="You contributions will not be credited and you'll need to complete a CAPTCHA"
           >
             <b>Anonymously</b>*
           </div>

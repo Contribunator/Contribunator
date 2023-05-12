@@ -1,5 +1,6 @@
 import UserInfo from "@/components/header/userInfo";
 import Version from "@/components/version";
+import config from "@/config";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
 
@@ -7,11 +8,8 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <div className="cell cell-hero">
-        <h1 className="title">Welcome</h1>
-        <p className="my-6">
-          This is some welcome text. Todo, some information about login and
-          shit.
-        </p>
+        <h1 className="title">{config.title}</h1>
+        <p className="my-6">{config.description}</p>
         <Link href="/contribute" className="btn btn-primary btn-lg gap-2">
           Contribute
           <BiListPlus className="h-6 w-6" />

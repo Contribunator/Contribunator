@@ -51,7 +51,8 @@ export type Config = BaseConfig & {
 const defaultConfig: BaseConfig = {
   // TODO welcome text etc
   title: "Contribunator Demo",
-  description: "A tool to help you contribute to open source",
+  description:
+    "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
   owner: "Contribunator",
   branchPrefix: "c11r/",
   base: "main",
