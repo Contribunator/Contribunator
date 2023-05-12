@@ -114,6 +114,10 @@ You should update the configuration with your Organization, Repository, and Cont
 
 You should update the configuration with your Organization, Repository, and Contribution types. Defaults are set in `app/config.ts`.
 
+You can also configure `tailwind.config.js` to use one of many [Daisy UI themes](https://daisyui.com/docs/themes/) or write a custom theme to customize the look and feel of your deployment.
+
+You can also edit the React components directly in your fork to customize the UI.
+
 ### Deployment
 
 Contribunator is a NextJS app and can be deployed to any platform that supports NextJS. The easiest way to deploy is with [Vercel](https://vercel.com/), which has a free tier.
