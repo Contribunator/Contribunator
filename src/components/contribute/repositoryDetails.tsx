@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ContributionLink from "./contributionLink";
 import { Route } from "next";
-import { Repo } from "@/config";
+import { Repo } from "@/util/config";
 
 export default function RepositoryDetails({ repo }: { repo: Repo }) {
   return (

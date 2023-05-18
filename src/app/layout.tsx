@@ -1,6 +1,6 @@
 import Header from "@/components/header";
 import "./globals.css";
-import config from "@/config";
+import config from "@/util/config";
 
 export const metadata = {
   title: config.title,

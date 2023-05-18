@@ -1,6 +1,6 @@
 import { HiCode } from "react-icons/hi";
 import Link from "next/link";
-import { Repo, Contribution } from "@/config";
+import { Repo, Contribution } from "@/util/config";
 
 const ContributionLink = ({
   contribution: { icon, type, options, title, description, color = "slate" },

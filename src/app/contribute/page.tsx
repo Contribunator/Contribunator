@@ -1,4 +1,4 @@
-import config from "@/config";
+import config from "@/util/config";
 import RepositoryDetails from "@/components/contribute/repositoryDetails";
 import Link from "next/link";
 import { HiHome } from "react-icons/hi";

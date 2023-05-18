@@ -1,24 +1,14 @@
-import { createPullRequest } from "@/github";
-import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import validateTweet from "../validateTweet";
+import submitHook from "@/util/submitHook";
 import transformTweet from "../transformTweet";
-import authorize from "@/authorize";
+import validateTweet from "../validateTweet";
 
-dayjs.extend(utc);
-
-export async function POST(
-  req: NextRequest,
-  { params: { repo } }: { params: { repo: string } }
-) {
-  // TODO combine into a single middleware
-  const body = await req.json();
-  const authorized = await authorize(req, body);
-  const validBody = await validateTweet.validate(body);
-  const timeStamp = dayjs().utc().format("YYMMDD-HHmm");
-  const { files, name, media, branch } = transformTweet(validBody, timeStamp);
+// TODO make the export prettier, single-liner possible?
+// TODO rename it, it's not a "hook"
+const POST = submitHook(async ({ body, timestamp }) => {
+  // validate the tweet, TODO check will throw an error if invalid?
+  await validateTweet.validate(body);
+  const { files, name, media, branch } = transformTweet(body, timestamp);
 
   // convert media
   await Promise.all(
@@ -42,13 +32,11 @@ export async function POST(
     })
   );
 
-  const prUrl = await createPullRequest(authorized, {
-    repo,
+  return {
     branch,
     name,
     files,
-  });
+  };
+});
 
-  console.log("created pr", prUrl);
-  return NextResponse.json({ prUrl });
-}
+export { POST };
