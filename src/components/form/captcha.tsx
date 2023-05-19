@@ -1,4 +1,4 @@
-import { captchaKey } from "@/env";
+import { captchaKey } from "@/util/env";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useField } from "formik";
 

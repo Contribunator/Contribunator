@@ -1,4 +1,4 @@
-import { AppConfig, Contribution } from "@/config";
+import { AppConfig, Contribution } from "@/util/config";
 import { FaTwitter } from "react-icons/fa";
 
 const tweet: Contribution = {

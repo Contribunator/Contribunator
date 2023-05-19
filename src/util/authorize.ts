@@ -34,7 +34,6 @@ export default async function authorize(
 
   if (body.captcha) {
     const url = `https://hcaptcha.com/siteverify?secret=${captchaSecret}&response=${body.captcha}`;
-    console.log(url);
     const repsonse = await fetch(url, {
       method: "POST",
     });

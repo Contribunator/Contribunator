@@ -1,4 +1,4 @@
-import { default as config, getRepoConfig } from "@/config";
+import { getRepoConfig } from "@/util/config";
 import Link from "next/link";
 import { Route } from "next";
 import TweetForm from "./tweetForm";
@@ -31,9 +31,8 @@ export default async function TweetPage({ params: { repo } }: Props) {
           </Link>
         </p>
       </div>
-      {/* TODO make it so I don't ened to pass user here, with composition? */}
+      {/* TODO make it so I don't need to pass the user here */}
       <TweetForm user={user} className="cell space-y-6" />
-      {/* {<pre>{JSON.stringify({ config, data, options }, null, 2)}</pre>} */}
     </>
   );
 }

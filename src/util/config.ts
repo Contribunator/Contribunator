@@ -49,7 +49,6 @@ export type Config = BaseConfig & {
 };
 
 const defaultConfig: BaseConfig = {
-  // TODO welcome text etc
   title: "Contribunator Demo",
   description:
     "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
@@ -59,7 +58,6 @@ const defaultConfig: BaseConfig = {
   repos: {
     Sample: {
       title: "Sample Repo",
-      // name: "Sample", // the name of the repo
       description: "A useless and vandalized demo repository for Contribunator",
       contributions: [
         {
@@ -72,20 +70,6 @@ const defaultConfig: BaseConfig = {
         },
       ],
     },
-    // Another: {
-    //   title: "Another Sample Repo",
-    //   description:
-    //     "Another useless and vandalized demo repository for Contribunator",
-    //   contributions: [
-    //     {
-    //       type: "video",
-    //       title: "Video",
-    //       color: "red",
-    //       icon: FaVideo,
-    //       description: "Testing",
-    //     },
-    //   ],
-    // },
   },
 };
 

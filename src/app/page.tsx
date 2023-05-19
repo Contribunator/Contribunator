@@ -1,6 +1,6 @@
 import UserInfo from "@/components/header/userInfo";
 import Version from "@/components/version";
-import config from "@/config";
+import config from "@/util/config";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
 
