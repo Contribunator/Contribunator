@@ -3,9 +3,7 @@ import submitHook from "@/util/submitHook";
 import transformTweet from "../transformTweet";
 import validateTweet from "../validateTweet";
 
-// TODO make the export prettier, single-liner possible?
-// TODO rename it, it's not a "hook"
-const POST = submitHook(async ({ body, timestamp }) => {
+export const POST = submitHook(async ({ body, timestamp }) => {
   // validate the tweet, TODO check will throw an error if invalid?
   await validateTweet.validate(body);
   const { files, name, media, branch } = transformTweet(body, timestamp);
@@ -38,5 +36,3 @@ const POST = submitHook(async ({ body, timestamp }) => {
     files,
   };
 });
-
-export { POST };

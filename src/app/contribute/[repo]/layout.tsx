@@ -7,11 +7,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-export async function generateStaticParams() {
-  return Object.keys(config.repos).map((repo) => ({
-    repo,
-  }));
-}
+export const generateStaticParams =
+  process.env.NODE_ENV !== "development"
+    ? async () => {
+        return Object.keys(config.repos).map((repo) => ({
+          repo,
+        }));
+      }
+    : undefined;
 
 export default async function ContributionLayout({ children }: Props) {
   // TODO return empty page if the type isn't supported for this repo
