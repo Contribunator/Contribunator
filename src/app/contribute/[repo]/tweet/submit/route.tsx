@@ -1,14 +1,13 @@
 import sharp from "sharp";
 import submitHook from "@/util/submitHook";
-import transformTweet from "../transformTweet";
-import validateTweet from "../validateTweet";
+import tweetTransform from "../tweetTransform";
+import schema from "../tweetSchema";
 
-export const POST = submitHook(async ({ body, timestamp }) => {
+export const POST = submitHook("tweet", schema, async ({ body, timestamp }) => {
   // validate the tweet, TODO check will throw an error if invalid?
-  await validateTweet.validate(body);
-  const { files, name, media, branch } = transformTweet(body, timestamp);
+  const { files, name, media, branch } = tweetTransform(body, timestamp);
 
-  // convert media
+  // convert media - todo move to utility function
   await Promise.all(
     Object.keys(media).map(async (fileName) => {
       try {

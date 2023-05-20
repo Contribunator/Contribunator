@@ -16,7 +16,7 @@ const generateName = (obj: any) => {
 };
 
 // returns the tweet formatted for twitter-together and github PR
-function transformTweet(obj: any, prefix: string = "[timestamp]") {
+function tweetTransform(obj: any, prefix: string = "[timestamp]") {
   const name = generateName(obj);
   const media: { [key: string]: string } = {};
   const hasQuote = obj.quoteType && obj.quoteUrl;
@@ -75,4 +75,4 @@ ${obj.media
   };
 }
 
-export default transformTweet;
+export default tweetTransform;

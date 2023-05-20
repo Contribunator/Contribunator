@@ -1,6 +1,7 @@
 import { IconType } from "react-icons";
 import { FaTwitter, FaVideo } from "react-icons/fa";
 import appConfig from "@/../contribunator.config";
+import { AuthType } from "./authorize";
 
 // type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
 // TODO add more color options, add to tailwind.config.js, move this elsewhere
@@ -24,6 +25,7 @@ type RepoConfig = Partial<InheritedSettings> &
 
 type BaseConfig = CommonFields &
   InheritedSettings & {
+    authorization: AuthType[];
     repos: {
       [key: string]: RepoConfig;
     };
@@ -49,6 +51,7 @@ export type Config = BaseConfig & {
 };
 
 const defaultConfig: BaseConfig = {
+  authorization: ["github", "captcha"],
   title: "Contribunator Demo",
   description:
     "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",

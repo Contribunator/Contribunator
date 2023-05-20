@@ -1,16 +1,23 @@
 import { Formik, FormikProps } from "formik";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import * as Yup from "yup";
+
+import config from "@/util/config";
+import commonSchema from "@/util/commonSchema";
+
 import SubmitButton from "./submitButton";
-import Captcha from "./captcha";
 import Submitted from "./submitted";
+import GenericOptions from "./genericOptions";
 
 type PassedProps = {
   className?: string;
   user?: any;
+  repo: string;
 };
 type Config = {
-  validation: any;
+  schema: any;
+  contribution: string;
   initialValues?: any;
 };
 
@@ -18,27 +25,29 @@ export type FormProps = {
   formik: FormikProps<any>;
 };
 
-// Mark the function as a generic using P (or whatever variable you want)
 export default function withForm<P>(
-  // Then we need to type the incoming component.
-  // This creates a union type of whatever the component
-  // already accepts AND our extraInfo prop
   WrappedComponent: React.ComponentType<P & FormProps>,
-  { validation, initialValues = {} }: Config
+  { contribution, schema, initialValues = {} }: Config
 ) {
-  const ComponentWithForm = (props: P & PassedProps) => {
-    const { className = "" } = props;
-    // At this point, the props being passed in are the original props the component expects.
+  return function ComponentWithForm(props: P & PassedProps) {
+    const { repo, className = "" } = props;
     const path = usePathname();
     const [prUrl, setPrUrl] = useState<string | null>(null);
+
+    let authorization = "anon";
+    if (props.user) {
+      authorization = "github";
+    } else if (config.authorization.includes("captcha")) {
+      authorization = "captcha";
+    }
+    const validation = Yup.object({ ...schema, ...commonSchema });
+    const initial = { ...initialValues, authorization, repo, contribution };
+
     return (
       <Formik
         validateOnMount
         validationSchema={validation}
-        initialValues={{
-          ...initialValues,
-          ...(props.user && { captcha: "session" }),
-        }}
+        initialValues={initial}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {
             try {
@@ -69,9 +78,7 @@ export default function withForm<P>(
             {!prUrl && (
               <>
                 <WrappedComponent {...props} formik={formik} />
-                {/* TODO add generic commit options */}
-                {/* <GenericOptions /> */}
-                {!props.user && <Captcha />}
+                <GenericOptions {...props} formik={formik} />
                 <SubmitButton formik={formik} />
               </>
             )}
@@ -81,5 +88,4 @@ export default function withForm<P>(
       </Formik>
     );
   };
-  return ComponentWithForm;
 }

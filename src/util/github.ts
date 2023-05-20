@@ -19,7 +19,8 @@ const octokit = new OctokitPlugin({
 });
 
 export async function createPullRequest({
-  authorized: { token },
+  // todo make this more explicit, the token might not always be a github token
+  authorized,
   repo,
   files,
   name,
@@ -34,18 +35,20 @@ export async function createPullRequest({
   };
 }) {
   const { base, branchPrefix, owner } = await getRepoConfig(repo);
-
   const message = `Add ${name}`;
+
+  const githubUser = authorized.type === "github" ? authorized.token : null;
 
   const commit = {
     repo,
     owner: owner,
     branch: `${branchPrefix}${branch}`,
     createBranch: true,
-    ...(token && {
+    ...(githubUser && {
       author: {
-        name: token.name || token.login,
-        email: `${token.login}@users.noreply.github.com`,
+        name: githubUser.name || githubUser.login,
+        email:
+          githubUser.email || `${githubUser.login}@users.noreply.github.com`,
       },
     }),
     changes: [
@@ -71,8 +74,8 @@ export async function createPullRequest({
   let prOctokit = octokit;
 
   // create the PR as the user if they are logged in, otherwise as the app
-  if (token) {
-    prOctokit = new Octokit({ auth: token.accessToken });
+  if (githubUser) {
+    prOctokit = new Octokit({ auth: githubUser.accessToken });
   }
 
   console.log("pr", pr);
