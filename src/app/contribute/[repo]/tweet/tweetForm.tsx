@@ -8,7 +8,8 @@ import {
   ImagesInput,
   withForm,
 } from "@/components/form";
-import tweetValidation from "./validateTweet";
+
+import schema from "./tweetSchema";
 
 /*
 TODO: polls & thread
@@ -64,7 +65,8 @@ function TweetForm({ formik }: FormProps) {
 // export default TweetForm;
 
 export default withForm(TweetForm, {
-  validation: tweetValidation,
+  contribution: "tweet",
+  schema,
   initialValues: {
     quoteType: undefined,
     quoteUrl: "",

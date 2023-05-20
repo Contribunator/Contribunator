@@ -32,7 +32,7 @@ export default async function TweetPage({ params: { repo } }: Props) {
         </p>
       </div>
       {/* TODO make it so I don't need to pass the user here */}
-      <TweetForm user={user} className="cell space-y-6" />
+      <TweetForm repo={repo} user={user} className="cell space-y-6" />
     </>
   );
 }

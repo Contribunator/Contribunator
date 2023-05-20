@@ -1,10 +1,8 @@
 import * as Yup from "yup";
 
 import twitter from "twitter-text";
-import genericValidation from "@/components/form/genericValidation";
 
-const tweetValidation = Yup.object({
-  ...genericValidation,
+const tweetSchema = {
   text: Yup.string()
     .test({
       name: "is-valid-tweet-text",
@@ -67,6 +65,6 @@ const tweetValidation = Yup.object({
           },
         }),
   }),
-});
+};
 
-export default tweetValidation;
+export default tweetSchema;
