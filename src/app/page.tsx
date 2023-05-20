@@ -16,7 +16,6 @@ export default function Home() {
         </Link>
       </div>
       <div className="flex justify-center">
-        {/* @ts-expect-error Server Component */}
         <UserInfo />
       </div>
       <Version />

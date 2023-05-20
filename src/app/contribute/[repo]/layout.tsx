@@ -23,7 +23,6 @@ export default async function ContributionLayout({ children }: Props) {
   return (
     <div className="min-h-screen py-6 space-y-6">
       <div className="flex justify-center">
-        {/* @ts-expect-error Server Component */}
         <UserInfo />
       </div>
       <div className="divider"></div>
