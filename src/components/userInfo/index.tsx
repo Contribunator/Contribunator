@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import LoginButton from "./loginButton";
-import useUser from "../useUser";
+import useUser from "@/util/useUser";
 
 export default async function UserInfo() {
   const user = await useUser();

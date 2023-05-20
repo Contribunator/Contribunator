@@ -1,4 +1,4 @@
-import UserInfo from "@/components/header/userInfo";
+import UserInfo from "@/components/userInfo";
 import config from "@/util/config";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
