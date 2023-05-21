@@ -25,7 +25,7 @@ const config: AppConfig = {
     "tweets-etc_network": {
       title: "@ETC_Network tweets",
       description:
-        "The secondary ETC Twitter Account. Suggested tweets have less restrictions, and can be less formal. See respository for more details.",
+        "The secondary ETC Twitter Account. Tweets are less restricted. Use this account for more spicy content, retweets, and memes.",
       contributions: [tweet],
     },
   },
