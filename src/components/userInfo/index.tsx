@@ -1,9 +1,16 @@
 import Image from "next/image";
 
 import LoginButton from "./loginButton";
-import useUser from "../useUser";
+import useUser from "@/util/useUser";
+import config from "@/util/config";
 
-export default async function UserInfo() {
+export default function UserInfo() {
+  if (!config.authorization.includes("github")) return null;
+  // @ts-expect-error Server Component
+  return <UserInfoInner />;
+}
+
+async function UserInfoInner() {
   const user = await useUser();
   return (
     <div className="flex items-center space-x-2">

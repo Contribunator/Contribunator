@@ -33,11 +33,31 @@ const tweetSchema = {
       then: (schema) =>
         schema.required("Required unless retweeting or uploading images"),
     }),
+  // TODO move this into a generic schema option
   media: Yup.array().of(
-    Yup.string().matches(
-      /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
-      { excludeEmptyString: true, message: "Invalid image type" }
-    )
+    Yup.string().test({
+      name: "is-valid-media",
+      test(data = "", ctx) {
+        if (data === "") {
+          return true;
+        }
+        if (data === "editing") {
+          return ctx.createError({
+            message: "Please complete crop selection",
+          });
+        }
+        if (
+          data.match(
+            /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+          )
+        ) {
+          return true;
+        }
+        return ctx.createError({
+          message: "Invalid image data",
+        });
+      },
+    })
   ),
   alt_text_media: Yup.array().of(
     Yup.string().max(999, "Must be less than 1,000 characters")

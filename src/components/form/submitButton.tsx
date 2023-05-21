@@ -48,7 +48,7 @@ export default function SubmitButton({ formik }: FormProps) {
   return (
     <Button className="btn-disabled">
       <HiExclamationCircle />
-      Valid Tweet Required
+      Incomplete Required Fields
     </Button>
   );
 }

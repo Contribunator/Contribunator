@@ -1,4 +1,4 @@
-import UserInfo from "@/components/header/userInfo";
+import UserInfo from "@/components/userInfo";
 import Version from "@/components/version";
 import config from "@/util/config";
 import Link from "next/link";
@@ -16,7 +16,6 @@ export default function Home() {
         </Link>
       </div>
       <div className="flex justify-center">
-        {/* @ts-expect-error Server Component */}
         <UserInfo />
       </div>
       <Version />
