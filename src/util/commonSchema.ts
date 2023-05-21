@@ -1,12 +1,15 @@
 import config, { getRepoConfig } from "@/util/config";
 import * as Yup from "yup";
 
-// TODO add branch, committer details, message, star etc.
+// TODO add options branch, star etc.
 // TODO optimize this so we only validate cetain options server side?
 
 const commonSchema = {
-  // add repo and type here
-  repo: Yup.string().oneOf(Object.keys(config.repos)).required("Invalid repo"),
+  customName: Yup.string().max(100),
+  customMessage: Yup.string(),
+  repo: Yup.string()
+    .oneOf(Object.keys(config.repos))
+    .required("Invalid repository"),
   contribution: Yup.string().test({
     name: "is-valid-contribution",
     test(value, ctx) {

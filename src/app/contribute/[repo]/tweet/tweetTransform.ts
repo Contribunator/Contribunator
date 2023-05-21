@@ -1,5 +1,7 @@
 import slugify from "slugify";
 
+// TODO add typing
+
 const generateName = (obj: any) => {
   let name = "";
   if (obj.quoteType && obj.quoteUrl) {
@@ -7,12 +9,34 @@ const generateName = (obj: any) => {
   }
   // TODO poll, etc.
   if (obj.text) {
-    name += slugify(obj.text, { lower: true, strict: true })
+    // strip url fluff and periods
+    const sanitized = obj.text.replace(/https?:\/\/([^\/\s]+)(\/\S*)?/g, "$1");
+    name += slugify(sanitized, { lower: true, remove: /[^a-zA-Z0-9-. ]/g })
       .split("-")
-      .slice(0, 5)
+      .slice(0, 10)
       .join(" ");
   }
-  return name.trim() || "tweet";
+  return `tweet: ${name.trim()}`.trim();
+};
+
+const generateMessage = (obj: any) => {
+  let message = "This Pull Request creates a new";
+  const mediaCount = obj.media && obj.media.filter((m: string) => m).length;
+  if (obj.quoteType && obj.quoteUrl) {
+    message += ` ${obj.quoteType} ${
+      obj.quoteType === "retweet" ? "of" : "to"
+    } ${obj.quoteUrl}`;
+  } else {
+    message += ` ${mediaCount === 0 ? "text-only " : ""}tweet`;
+  }
+  if (mediaCount) {
+    message += ` with ${mediaCount} image${mediaCount > 1 ? "s" : ""}`;
+  }
+  message += ".";
+  if (!obj.text) {
+    message += `\n\nThere is no text in the tweet.`;
+  }
+  return message;
 };
 
 // returns the tweet formatted for twitter-together and github PR
@@ -65,13 +89,18 @@ ${obj.media
     transformed += obj.text;
   }
   const tweet = transformed.trim();
-  const branch = `${prefix}-${slugify(name)}`;
-  return {
+  const branch = `${prefix}-${slugify(name, { strict: true })}`;
+  const data = {
     tweet,
     name,
     media,
     branch,
     files: { ...media, [`tweets/${branch}.tweet`]: tweet },
+  };
+  const message = generateMessage(obj);
+  return {
+    ...data,
+    message,
   };
 }
 
