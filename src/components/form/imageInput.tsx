@@ -105,14 +105,23 @@ export default function ImageInput({
   aspectRatio?: number;
 }) {
   const altTextName = `alt_text_${name}`;
-  const [field, , helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
   const [, , altHelpers] = useField(altTextName);
   const [image, setImage] = useState<null | Image>(null);
-
+  const isEditing = field.value === "editing";
   return (
     <div className="form-control relative">
-      {!image && <ImageSelect handleSet={setImage} />}
-      {(image || field.value) && (
+      {/* FILE PICKER */}
+      {!image && (
+        <ImageSelect
+          handleSet={(data) => {
+            helpers.setValue("editing");
+            setImage(data);
+          }}
+        />
+      )}
+      {/* REMOVE BUTTON */}
+      {!!field.value && (
         <div
           className="btn btn-sm btn-error absolute top-2 right-2 z-10 gap-2"
           onClick={() => {
@@ -124,7 +133,8 @@ export default function ImageInput({
           <HiXCircle /> Remove
         </div>
       )}
-      {image && !field.value && (
+      {/* CROP UI */}
+      {isEditing && image && (
         <>
           <EditImage
             image={image}
@@ -133,7 +143,8 @@ export default function ImageInput({
           />
         </>
       )}
-      {field.value && (
+      {/* CROPPED IMAGE */}
+      {field.value && !isEditing && (
         <>
           <div className="flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -147,6 +158,7 @@ export default function ImageInput({
           </div>
         </>
       )}
+      <FieldHeader error={meta.error} />
     </div>
   );
 }

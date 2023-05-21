@@ -3,9 +3,14 @@ import submitHook from "@/util/submitHook";
 import tweetTransform from "../tweetTransform";
 import schema from "../tweetSchema";
 
+// tweet is validated by passing the schema
+// TODO replace *all* of this with generic method hook using standard transform interface?
+
 export const POST = submitHook("tweet", schema, async ({ body, timestamp }) => {
-  // validate the tweet, TODO check will throw an error if invalid?
-  const { files, name, media, branch } = tweetTransform(body, timestamp);
+  const { files, name, media, branch, message } = tweetTransform(
+    body,
+    timestamp
+  );
 
   // convert media - todo move to utility function
   await Promise.all(
@@ -32,6 +37,7 @@ export const POST = submitHook("tweet", schema, async ({ body, timestamp }) => {
   return {
     branch,
     name,
+    message,
     files,
   };
 });

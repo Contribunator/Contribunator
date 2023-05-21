@@ -17,6 +17,7 @@ type PassedProps = {
 };
 type Config = {
   schema: any;
+  generateMeta: (data: any) => { name: string; message: string };
   contribution: string;
   initialValues?: any;
 };
@@ -27,7 +28,7 @@ export type FormProps = {
 
 export default function withForm<P>(
   WrappedComponent: React.ComponentType<P & FormProps>,
-  { contribution, schema, initialValues = {} }: Config
+  { contribution, schema, generateMeta, initialValues = {} }: Config
 ) {
   return function ComponentWithForm(props: P & PassedProps) {
     const { repo, className = "" } = props;
@@ -41,7 +42,14 @@ export default function withForm<P>(
       authorization = "captcha";
     }
     const validation = Yup.object({ ...schema, ...commonSchema });
-    const initial = { ...initialValues, authorization, repo, contribution };
+    const initial = {
+      ...initialValues,
+      authorization,
+      repo,
+      contribution,
+      customMessage: "",
+      customName: "",
+    };
 
     return (
       <Formik
@@ -78,7 +86,12 @@ export default function withForm<P>(
             {!prUrl && (
               <>
                 <WrappedComponent {...props} formik={formik} />
-                <GenericOptions {...props} formik={formik} />
+                <GenericOptions
+                  {...props}
+                  generateMeta={generateMeta}
+                  formik={formik}
+                  className={className}
+                />
                 <SubmitButton formik={formik} />
               </>
             )}

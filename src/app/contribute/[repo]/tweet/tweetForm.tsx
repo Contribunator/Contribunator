@@ -10,6 +10,7 @@ import {
 } from "@/components/form";
 
 import schema from "./tweetSchema";
+import tweetTransform from "./tweetTransform";
 
 /*
 TODO: polls & thread
@@ -55,9 +56,6 @@ function TweetForm({ formik }: FormProps) {
         info="Optional when retweeting or uploading images"
       />
       <ImagesInput name="media" limit={4} />
-      {/* tweet preview */}
-      {/* <pre className="bg-red-300 p-4">{transformTweet(data.values)}</pre> */}
-      {/* {<pre>{JSON.stringify(formik.errors, null, 2)}</pre>} */}
     </>
   );
 }
@@ -67,6 +65,7 @@ function TweetForm({ formik }: FormProps) {
 export default withForm(TweetForm, {
   contribution: "tweet",
   schema,
+  generateMeta: tweetTransform,
   initialValues: {
     quoteType: undefined,
     quoteUrl: "",

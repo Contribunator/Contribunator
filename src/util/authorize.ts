@@ -27,10 +27,10 @@ const authorizeFunctions: Record<string, AuthFunction> = {
   captcha: async function ({ body }) {
     if (body.captcha) {
       const url = `https://hcaptcha.com/siteverify?secret=${captchaSecret}&response=${body.captcha}`;
-      const repsonse = await fetch(url, {
+      const response = await fetch(url, {
         method: "POST",
       });
-      const data = await repsonse.json();
+      const data = await response.json();
       if (data.success) {
         console.log("authorized captcha");
         return {
@@ -73,7 +73,6 @@ export default async function authorize(
   body: any
 ): Promise<Authorized> {
   // TODO use the body's authorization type?
-  console.log({ body });
   for (const authType of config.authorization) {
     const authorized = await authorizeFunctions[authType]({ req, body });
     if (authorized) {

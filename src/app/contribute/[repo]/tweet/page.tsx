@@ -2,7 +2,7 @@ import { getRepoConfig } from "@/util/config";
 import Link from "next/link";
 import { Route } from "next";
 import TweetForm from "./tweetForm";
-import useUser from "@/components/useUser";
+import useUser from "@/util/useUser";
 
 type Props = {
   params: {

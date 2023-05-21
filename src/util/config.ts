@@ -26,6 +26,7 @@ type RepoConfig = Partial<InheritedSettings> &
 type BaseConfig = CommonFields &
   InheritedSettings & {
     authorization: AuthType[];
+    prPostfix: string;
     repos: {
       [key: string]: RepoConfig;
     };
@@ -58,6 +59,8 @@ const defaultConfig: BaseConfig = {
   owner: "Contribunator",
   branchPrefix: "c11r/",
   base: "main",
+  prPostfix:
+    "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
   repos: {
     Sample: {
       title: "Sample Repo",
