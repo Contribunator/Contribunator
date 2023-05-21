@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import "./globals.css";
 import config from "@/util/config";
 
@@ -19,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="flex min-h-screen justify-center items-center text-center">
-          {/* <Header /> */}
           <div className="max-w-xl w-full px-2">{children}</div>
         </div>
       </body>
