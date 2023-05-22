@@ -55,7 +55,11 @@ function TweetForm({ formik }: FormProps) {
         placeholder="e.g. I like turtles 🐢 #turtlepower"
         info="Optional when retweeting or uploading images"
       />
-      <ImagesInput name="media" limit={4} />
+      <ImagesInput
+        name="media"
+        limit={4}
+        totalFileSizeLimit={4.3} // vercel server functions to 5MB
+      />
     </>
   );
 }

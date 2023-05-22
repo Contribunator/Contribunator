@@ -15,7 +15,7 @@ type InheritedSettings = {
 
 type CommonFields = {
   title: string;
-  description?: string;
+  description: string;
 };
 
 type RepoConfig = Partial<InheritedSettings> &
