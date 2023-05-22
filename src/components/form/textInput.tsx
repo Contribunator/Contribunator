@@ -7,6 +7,7 @@ export default function TextInput({
   prefix,
   as = "input",
   info,
+  transform,
   placeholder,
 }: {
   title?: string;
@@ -16,8 +17,9 @@ export default function TextInput({
   as?: null | "input" | "textarea";
   info?: string;
   placeholder?: string;
+  transform?: (value: string) => string;
 }) {
-  const [, meta] = useField(name);
+  const [, meta, helpers] = useField(name);
   const styles = [
     as === "input" && "input input-bordered",
     as === "textarea" && "textarea textarea-bordered h-32",
@@ -40,6 +42,11 @@ export default function TextInput({
             as={as}
             className={`w-full ${styles}`}
             placeholder={placeholder}
+            {...(transform && {
+              onChange: (e: { target: { value: string } }) => {
+                helpers.setValue(transform(e.target.value));
+              },
+            })}
           />
         </div>
       </div>
