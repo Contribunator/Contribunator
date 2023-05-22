@@ -5,6 +5,7 @@ const config: AppConfig = {
   repos: {
     Another: {
       title: "Testing",
+      description: "Test Description",
       contributions: [
         {
           title: "Tweet",
