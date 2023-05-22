@@ -15,6 +15,8 @@ const config: AppConfig = {
   description:
     "This website makes it easy to contribute content updates to Ethereum Classic Github repositories without needing to know how to make Pull Requests.",
   owner: "ethereumclassic",
+  prPostfix:
+    "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
   repos: {
     "tweets-eth_classic": {
       title: "@eth_classic tweets",
