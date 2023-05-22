@@ -169,27 +169,34 @@ Below are the upcoming features and improvements.
 
 ### For vAlpha
 
-- iOS testing
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
-- Tweet Threads
-
-### For v0.1
-
-- Update the config to allow url aliases for repos
-- Tests
-- More Tailwind colors
-- Addition of other contribution types
-- Grab (YouTube) URL metadata / OG tags
-- Addition of media, animation, GIFs
+- Link to Github Repo SHA hash
 - Improved error/conf feedback in the UI (not alert)
+
+#### Tweets
+
+- Suggested Hashtags / Emojis, etc.
+- Tweet Threads
 - Poll Tweets
 - Thread Tweets
+
+#### Generic Contributions
+
+- Addition of other contribution types
+- Grab (YouTube) URL metadata / OG tags
+- 404 page for missing routes
+- More Tailwind colors
+
+### vNext
+
+- Option to add merge date
+- Addition of media, animation, GIFs, video
+- Get quoted tweet from API instead of iframe
+- Automation Integrations
+- Tests
+
+### Perhaps
+
 - User access token refreshing
-- Advanced options and UI branch selection
-- 404 page
-
-### Other Ideas
-
-- API Key auth for Automations
-- Get tweet from API
+- branch selection
 - AI to generate description/suggest improvement
