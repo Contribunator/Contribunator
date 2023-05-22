@@ -171,7 +171,6 @@ Below are the upcoming features and improvements.
 
 - iOS testing
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
-- Increase file upload limit (calculate over multiple images)
 - Tweet Threads
 
 ### For v0.1
