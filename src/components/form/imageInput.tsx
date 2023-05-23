@@ -14,6 +14,21 @@ type Image = {
   type: string;
 };
 
+export type ImageInputProps = {
+  fileSizeLimit?: number;
+  title?: string;
+  name: string;
+  info?: string;
+  aspectRatio?: number;
+};
+
+const defaultInfo = {
+  title: "Upload Image",
+  info: "PNG or JPEG",
+};
+
+const MB = 1048576;
+
 function EditImage({
   image,
   handleData,
@@ -49,10 +64,22 @@ function EditImage({
   );
 }
 
-function ImageSelect({ handleSet }: { handleSet: (data: any) => void }) {
+function ImageSelect({
+  handleSet,
+  fileSizeLimit,
+  title,
+  info,
+}: {
+  title: string;
+  info: string;
+  fileSizeLimit?: number;
+  handleSet: (data: any) => void;
+}) {
+  // calculate file size limit
+  const infoText = fileSizeLimit ? `${info}, up to ${fileSizeLimit}MB` : info;
   return (
     <>
-      <FieldHeader title="Upload an Image" info="JPEG and PNG supported" />
+      <FieldHeader title={title} info={infoText} />
       <input
         type="file"
         accept="image/jpeg, image/png"
@@ -60,8 +87,10 @@ function ImageSelect({ handleSet }: { handleSet: (data: any) => void }) {
         onChange={(event) => {
           const file = event.target.files && event.target.files[0];
           if (!file) return;
-          if (file.size > 1048576) {
-            alert("File is too big! Please upload a file less than 1MB.");
+          if (fileSizeLimit && file.size > fileSizeLimit * MB) {
+            alert(
+              `File is too big! Please upload a file less than ${fileSizeLimit}MB.`
+            );
             return;
           }
           const url = URL.createObjectURL(file);
@@ -72,13 +101,25 @@ function ImageSelect({ handleSet }: { handleSet: (data: any) => void }) {
   );
 }
 
-export function ImagesInput({ name, limit }: { name: string; limit: number }) {
+export function ImagesInput({
+  limit,
+  totalFileSizeLimit = 0,
+  fileSizeLimit = 0,
+  ...props
+}: ImageInputProps & { limit: number; totalFileSizeLimit?: number }) {
+  const { name, title } = { ...defaultInfo, ...props };
   const [field] = useField(name);
   const values = field.value || [];
+  const count = values.filter((i: any) => i).length;
   let firstEmptySlot = 0;
+  let totalFileSize = 0;
   const imageFields = new Array(limit).fill(null).map((_, i) => {
-    const exists = values[i] && values[i] !== null;
-    if (!exists && !firstEmptySlot) {
+    const exists = values[i] && values[i] !== "editing";
+    if (exists) {
+      const base64Image = values[i].split(",")[1];
+      const fileSize = Math.round((base64Image.length * 3) / 4);
+      totalFileSize += fileSize;
+    } else if (!firstEmptySlot) {
       firstEmptySlot = i + 1;
     }
     return {
@@ -86,12 +127,29 @@ export function ImagesInput({ name, limit }: { name: string; limit: number }) {
       show: exists || i + 1 === firstEmptySlot,
     };
   });
+  // calculate the filesize based on text length
+  const remainingFileSizeLimit = totalFileSizeLimit
+    ? parseFloat((totalFileSizeLimit - totalFileSize / MB).toFixed(1))
+    : fileSizeLimit;
+
+  // if the filesize limit is less than the remaining limit, use that
+  const thisFileSizeLimit =
+    fileSizeLimit && fileSizeLimit <= remainingFileSizeLimit
+      ? fileSizeLimit
+      : remainingFileSizeLimit;
+
   return (
     <>
       {imageFields
         .filter(({ show }) => show)
         .map((field) => (
-          <ImageInput key={field.name} {...field} />
+          <ImageInput
+            key={field.name}
+            {...props}
+            {...field}
+            fileSizeLimit={thisFileSizeLimit}
+            title={`${title} (${limit - count} remaining)`}
+          />
         ))}
     </>
   );
@@ -100,10 +158,10 @@ export function ImagesInput({ name, limit }: { name: string; limit: number }) {
 export default function ImageInput({
   name,
   aspectRatio,
-}: {
-  name: string;
-  aspectRatio?: number;
-}) {
+  title = defaultInfo.title,
+  info = defaultInfo.info,
+  fileSizeLimit,
+}: ImageInputProps) {
   const altTextName = `alt_text_${name}`;
   const [field, meta, helpers] = useField(name);
   const [, , altHelpers] = useField(altTextName);
@@ -114,6 +172,9 @@ export default function ImageInput({
       {/* FILE PICKER */}
       {!image && (
         <ImageSelect
+          title={title}
+          info={info}
+          fileSizeLimit={fileSizeLimit}
           handleSet={(data) => {
             helpers.setValue("editing");
             setImage(data);

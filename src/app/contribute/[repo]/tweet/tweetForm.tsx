@@ -21,10 +21,16 @@ const quoteTypes: { [key: string]: { text: string } } = {
   reply: { text: "Reply" },
 };
 
-function TweetForm({ formik }: FormProps) {
-  // const config = getRepoConfig(repo);
+function TweetForm({
+  formik,
+  config: {
+    repo: { contribution },
+  },
+}: // TODO fix the typings
+FormProps & any) {
   const { quoteType } = formik.values;
   const quoteUrl = formik.getFieldMeta("quoteUrl");
+  const { text = {} } = contribution?.options || {};
   return (
     <>
       <ChoiceInput
@@ -37,6 +43,7 @@ function TweetForm({ formik }: FormProps) {
       {!!formik.values.quoteType && (
         <div>
           <TextInput
+            transform={(value) => value.split("?")[0].trim()}
             title={`${quoteTypes[quoteType].text} URL`}
             name="quoteUrl"
             placeholder="e.g. https://twitter.com/[user]/status/[id]"
@@ -52,10 +59,16 @@ function TweetForm({ formik }: FormProps) {
         title="Tweet Text"
         name="text"
         as="textarea"
-        placeholder="e.g. I like turtles 🐢 #turtlepower"
         info="Optional when retweeting or uploading images"
+        placeholder={text.placeholder || "e.g. This is my tweet!"}
+        suggestions={text.suggestions}
+        tags={text.tags}
       />
-      <ImagesInput name="media" limit={4} />
+      <ImagesInput
+        name="media"
+        limit={4}
+        totalFileSizeLimit={4.3} // vercel server functions to 5MB
+      />
     </>
   );
 }

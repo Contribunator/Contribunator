@@ -162,35 +162,3 @@ transformation: {
   format: (update, existing) => `${JSON.stringify({...existing, ...update})}`,
 }
 ```
-
-## TODO
-
-Below are the upcoming features and improvements.
-
-### For vAlpha
-
-- iOS testing
-- Checkbox to Star Repo `starRepoForAuthenticatedUser`
-- Increase file upload limit (calculate over multiple images)
-- Tweet Threads
-
-### For v0.1
-
-- Update the config to allow url aliases for repos
-- Tests
-- More Tailwind colors
-- Addition of other contribution types
-- Grab (YouTube) URL metadata / OG tags
-- Addition of media, animation, GIFs
-- Improved error/conf feedback in the UI (not alert)
-- Poll Tweets
-- Thread Tweets
-- User access token refreshing
-- Advanced options and UI branch selection
-- 404 page
-
-### Other Ideas
-
-- API Key auth for Automations
-- Get tweet from API
-- AI to generate description/suggest improvement

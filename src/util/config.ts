@@ -15,7 +15,7 @@ type InheritedSettings = {
 
 type CommonFields = {
   title: string;
-  description?: string;
+  description: string;
 };
 
 type RepoConfig = Partial<InheritedSettings> &
@@ -73,6 +73,26 @@ const defaultConfig: BaseConfig = {
           icon: FaTwitter,
           description:
             "Submit a twitter-together formatted tweet to the sample respository, demonstrating the use of Contribunator",
+          options: {
+            text: {
+              placeholder: "e.g. I like turtles 🐢 #turtlepower",
+              suggestions: [
+                {
+                  has: "(?<!\n)\n(?!\n)",
+                  message: "Use double spaces to separate lines",
+                },
+                {
+                  hasNo: "[#$]",
+                  message: "Include some Hashtags",
+                },
+                {
+                  hasNo: "\\p{Emoji_Presentation}",
+                  message: "Add emojis to your tweet",
+                },
+              ],
+              tags: ["🐢", "💪", "#tutles", "#turtlepower"],
+            },
+          },
         },
       ],
     },
@@ -102,9 +122,40 @@ const config: Config = {
   ),
 };
 
-export function getRepoConfig(repo: string): Repo {
-  if (!config.repos[repo]) throw new Error(`Repo ${repo} not found`);
-  return config.repos[repo];
+export type ConfigWithRepo = Config & { repo: Repo };
+export type ConfigWithContribution = ConfigWithRepo & {
+  repo: { contribution: Contribution };
+};
+
+// returns relevant config object
+export function getConfig(): Config;
+export function getConfig(repo: string): ConfigWithRepo;
+export function getConfig(
+  repo: string,
+  contribution: string
+): ConfigWithContribution;
+export function getConfig(
+  repo?: string,
+  contribution?: string
+): Config | ConfigWithRepo | ConfigWithContribution {
+  if (!repo) return config;
+  const repoConfig = config.repos[repo];
+  if (!repoConfig) throw new Error(`Repository ${repo} not found`);
+  if (!contribution) return { ...config, repo: repoConfig };
+  // TODO replace this with a keyValue, so the same contribution type can have different
+  // will need to use dynamic paths for the form
+  const contributionConfig = repoConfig.contributions.find(
+    (c) => c.type === contribution
+  );
+  if (!contributionConfig)
+    throw new Error(`Contribution ${contribution} not found`);
+  return {
+    ...config,
+    repo: {
+      ...repoConfig,
+      contribution: contributionConfig,
+    },
+  };
 }
 
 export default config;

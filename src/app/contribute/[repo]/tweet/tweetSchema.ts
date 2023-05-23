@@ -81,6 +81,12 @@ const tweetSchema = {
                   "Must match format https://twitter.com/[user]/status/[id]",
               });
             }
+            // TODO automatically transform this for easier API usage?
+            if (text.includes("?")) {
+              return ctx.createError({
+                message: "Remove query params (?s=x&t=y) from the URL",
+              });
+            }
             return true;
           },
         }),
