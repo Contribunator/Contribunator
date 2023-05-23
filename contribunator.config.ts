@@ -7,6 +7,48 @@ const tweet: Contribution = {
   color: "blue",
   icon: FaTwitter,
   description: "Your submission will be reviwed and tweeted if accepted",
+  options: {
+    text: {
+      placeholder:
+        "e.g. Decentralized, Immutable, Unstoppable!\n\n$ETC #EthereumClassic #ClassicIsComing 🍀",
+      suggestions: [
+        {
+          has: "(?<!\n)\n(?!\n)",
+          message: "Use double spaces to separate lines",
+        },
+        {
+          hasNo: "[#$]",
+          message: "Include some Hashtags",
+        },
+        {
+          hasNo: "\\p{Emoji_Presentation}",
+          message: "Add emojis to your tweet",
+        },
+      ],
+      tags: [
+        "🍀",
+        "🚀",
+        "💚",
+        "🔥",
+        "🎉",
+        "$ETC",
+        "#ETC",
+        "#EthereumClassic",
+        "#ETCArmy",
+        "#ClassicIsComing",
+        "#CodeIsLaw",
+        "#Decentralization",
+        "#DeFi",
+        "#BTC",
+        "#web3",
+        "#Crypto",
+        "#NFT",
+        "#cryptocurrency",
+        "#mining",
+        "EthereumClassic.org",
+      ],
+    },
+  },
 };
 
 // override default config here, see src/config.ts for defaults
