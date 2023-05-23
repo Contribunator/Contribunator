@@ -25,13 +25,13 @@ export default function GenericOptions({
         <div className="collapse-content -mx-4">
           <div className={className}>
             <TextInput
-              title="Custom Name"
+              title="Custom Pull Request Name"
               info="Special characters will be removed"
               name="customName"
               placeholder={name}
             />
             <TextInput
-              title="Custom Message"
+              title="Custom Pull Request Message"
               name="customMessage"
               placeholder={message}
               as="textarea"

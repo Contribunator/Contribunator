@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
 
-import config from "@/util/config";
+import { ConfigWithContribution, getConfig } from "@/util/config";
 import commonSchema from "@/util/commonSchema";
 
 import SubmitButton from "./submitButton";
@@ -24,6 +24,7 @@ type Config = {
 
 export type FormProps = {
   formik: FormikProps<any>;
+  config: ConfigWithContribution;
 };
 
 export default function withForm<P>(
@@ -34,6 +35,7 @@ export default function withForm<P>(
     const { repo, className = "" } = props;
     const path = usePathname();
     const [prUrl, setPrUrl] = useState<string | null>(null);
+    const config = getConfig(repo, contribution);
 
     let authorization = "anon";
     if (props.user) {
@@ -85,14 +87,15 @@ export default function withForm<P>(
             {prUrl && <Submitted prUrl={prUrl} />}
             {!prUrl && (
               <>
-                <WrappedComponent {...props} formik={formik} />
+                <WrappedComponent {...props} formik={formik} config={config} />
                 <GenericOptions
                   {...props}
                   generateMeta={generateMeta}
                   formik={formik}
+                  config={config}
                   className={className}
                 />
-                <SubmitButton formik={formik} />
+                <SubmitButton formik={formik} config={config} />
               </>
             )}
             {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}
