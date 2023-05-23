@@ -2,13 +2,11 @@
 
 Below are the upcoming features and improvements.
 
-- Link to Github Repo SHA hash
-- Improved error/conf feedback in the UI (not alert)
 - OG Image
-- Rehaul config to have better defaults and tweet config inheritance
-- Default tweet suggestion: do not start with `@`
 - Fix titles like https://github.com/ethereumclassic/tweets-eth_classic/pull/105
 - Update docs with new config
+- Rehaul config to have better defaults and tweet config inheritance
+- Default tweet suggestion: do not start with `@`
 
 ### Tweets
 
@@ -27,6 +25,7 @@ Below are the upcoming features and improvements.
 
 ## vNext
 
+- Improved error/conf feedback in the UI (not alert)
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge date
 - Addition of media, animation, GIFs, video
