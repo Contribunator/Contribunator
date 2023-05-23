@@ -3,7 +3,7 @@ import { createAppAuth } from "@octokit/auth-app";
 // @ts-ignore
 import commitPlugin from "octokit-commit-multiple-files";
 
-import config, { getRepoConfig } from "@/util/config";
+import { getConfig } from "@/util/config";
 import { Authorized } from "@/util/authorize";
 import { appId, installationId, privateKey } from "@/util/env";
 
@@ -23,7 +23,7 @@ export default async function createPullRequest({
   authorized,
   repo,
   files,
-  name,
+  name: title, // TODO rename this?
   branch,
   message,
 }: {
@@ -36,13 +36,13 @@ export default async function createPullRequest({
     [key: string]: string;
   };
 }) {
-  const { base, branchPrefix, owner } = getRepoConfig(repo);
+  const {
+    prPostfix,
+    repo: { base, branchPrefix, owner },
+  } = getConfig(repo);
 
-  const title = name;
-  const prMessage = `${message || "Automated Pull Request"}${config.prPostfix}`;
-
+  const prMessage = `${message || "Automated Pull Request"}${prPostfix}`;
   const githubUser = authorized.type === "github" ? authorized.token : null;
-
   const commit = {
     repo,
     owner: owner,
