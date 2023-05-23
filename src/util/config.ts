@@ -1,7 +1,12 @@
 import { IconType } from "react-icons";
-import { FaTwitter, FaVideo } from "react-icons/fa";
-import appConfig from "@/../contribunator.config";
+import { FaTwitter } from "react-icons/fa";
 import { AuthType } from "./authorize";
+
+// todo is there a better way to do this?
+import userConfig from "@/../contribunator.config";
+import testConfig from "@/../test/test.contribunator.config";
+
+const appConfig = testConfig || userConfig;
 
 // type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
 // TODO add more color options, add to tailwind.config.js, move this elsewhere

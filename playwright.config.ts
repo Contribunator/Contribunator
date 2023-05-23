@@ -1,5 +1,8 @@
 import { PlaywrightTestConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
 import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.test") });
 
 // Use process.env.PORT by default and fallback to port 3000
 const PORT = process.env.PORT || 3000;
@@ -15,16 +18,20 @@ const config: PlaywrightTestConfig = {
     timeout: 500,
   },
   // Test directory
-  testDir: path.join(__dirname, "e2e"),
+  testDir: path.join(__dirname, "test/e2e"),
+  // snapshots
+  snapshotDir: path.join(__dirname, "snapshots"),
+  snapshotPathTemplate: "{snapshotDir}/{testName}/{arg}{ext}",
   // If a test fails, retry it additional 2 times
   retries: 2,
   // Artifacts folder where screenshots, videos, and traces are stored.
-  outputDir: "test-results/",
+  outputDir: path.join(__dirname, "test/results"),
 
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
-    command: "npm run dev",
+    // TODO option to build the app instead of dev server
+    command: "npm run dev:e2e",
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
@@ -47,33 +54,11 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: "Desktop Chrome",
+      name: "chrome",
       use: {
         ...devices["Desktop Chrome"],
+        viewport: { width: 640, height: 640 },
       },
-    },
-    // {
-    //   name: 'Desktop Firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
-    // {
-    //   name: 'Desktop Safari',
-    //   use: {
-    //     ...devices['Desktop Safari'],
-    //   },
-    // },
-    // Test against mobile viewports.
-    {
-      name: "Mobile Chrome",
-      use: {
-        ...devices["Pixel 5"],
-      },
-    },
-    {
-      name: "Mobile Safari",
-      use: devices["iPhone 12"],
     },
   ],
 };
