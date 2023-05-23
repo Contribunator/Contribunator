@@ -167,11 +167,9 @@ transformation: {
 
 Below are the upcoming features and improvements.
 
-### For vAlpha
-
-- Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Link to Github Repo SHA hash
 - Improved error/conf feedback in the UI (not alert)
+- OG Image
 
 #### Tweets
 
@@ -182,6 +180,7 @@ Below are the upcoming features and improvements.
 
 #### Generic Contributions
 
+- Generic Typings and Config
 - Addition of other contribution types
 - Grab (YouTube) URL metadata / OG tags
 - 404 page for missing routes
@@ -189,6 +188,7 @@ Below are the upcoming features and improvements.
 
 ### vNext
 
+- Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge date
 - Addition of media, animation, GIFs, video
 - Get quoted tweet from API instead of iframe

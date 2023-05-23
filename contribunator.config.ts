@@ -12,6 +12,18 @@ const config: AppConfig = {
           color: "blue",
           description: "Tweet about this project",
           type: "tweet",
+          options: {
+            text: {
+              placeholder: "e.g. This is my development tweet",
+              tags: ["#Contribunator"],
+              suggestions: [
+                {
+                  hasNo: "Contribunator",
+                  message: "Include the word Contribunator in your tweet!",
+                },
+              ],
+            },
+          },
         },
       ],
     },
