@@ -170,6 +170,8 @@ Below are the upcoming features and improvements.
 - Link to Github Repo SHA hash
 - Improved error/conf feedback in the UI (not alert)
 - OG Image
+- Rehaul config to have better defaults and tweet config inheritance
+- Default tweet suggestion: do not start with `@`
 
 #### Tweets
 

@@ -85,7 +85,7 @@ export default function TextInput({
             ))}
           </div>
         )}
-        {currentSuggestions.length > 0 && (
+        {currentSuggestions && currentSuggestions.length > 0 && (
           <div className="text-xs text-secondary text-left">
             <b>Optional Suggestion: </b>
             {currentSuggestions.join(", ")}
