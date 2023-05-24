@@ -21,7 +21,7 @@ export default async function ContributionLayout({ children }: Props) {
   // Trigger notFound() if the type isn't supported for this repo
 
   return (
-    <div className="min-h-screen py-6 space-y-6">
+    <div className="min-h-screen space-y-6">
       <div className="flex justify-center">
         <UserInfo />
       </div>
