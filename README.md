@@ -5,7 +5,9 @@
 The GUI-assisted Pull Request Bot that says _hasta la vista_ 😎 to your GitHub contribution woes.
 
 <img src="./screenshot.jpg" height="500" align="center" alt="Screenshot of Contribunator" />
-  
+
+[![Powered by Vercel](./public/powered-by-vercel-black.svg)](https://vercel.com?utm_source=contribunator&utm_campaign=oss)
+
 </div>
 
 ## Demo
