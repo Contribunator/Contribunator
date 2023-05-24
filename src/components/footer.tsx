@@ -12,7 +12,7 @@ const githubLink = (
 
 const teamName = process.env.NEXT_PUBLIC_VERCEL_OSS_TEAM;
 const vercelLink =
-  `https://vercel.com?utm_source=?utm_source=${teamName}&utm_campaign=oss` as Route;
+  `https://vercel.com?utm_source=${teamName}&utm_campaign=oss` as Route;
 
 export default function Footer() {
   return (
@@ -25,7 +25,7 @@ export default function Footer() {
         Contribunator@
         {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 6) || "local"}
       </Link>
-      {vercelLink && (
+      {teamName && (
         <Link
           href={vercelLink}
           target="_blank"
