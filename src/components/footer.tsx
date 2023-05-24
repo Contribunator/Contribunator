@@ -33,7 +33,7 @@ export default function Footer() {
         >
           <Image
             className="rounded-md border-black border"
-            src="/powered-by-vercel.svg"
+            src="/powered-by-vercel-white.svg" // change to black for dark mode
             alt="Powered by Vercel"
             width="212"
             height="44"
