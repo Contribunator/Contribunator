@@ -2,6 +2,7 @@
 
 Below are the upcoming features and improvements.
 
+- e2e twitter tests, skip screenshots in headless
 - OG Image
 - Fix titles like https://github.com/ethereumclassic/tweets-eth_classic/pull/105
 - Update docs with new config

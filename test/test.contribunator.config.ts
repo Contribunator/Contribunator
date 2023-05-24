@@ -62,8 +62,4 @@ if (process.env.NEXT_PUBLIC_TESTING === "DEMO") {
   exported = DEMO;
 }
 
-if (process.env.NEXT_PUBLIC_TESTING) {
-  console.log("loaded test config", process.env.NEXT_PUBLIC_TESTING);
-}
-
 export default exported;

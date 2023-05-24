@@ -20,8 +20,8 @@ const config: PlaywrightTestConfig = {
   // Test directory
   testDir: path.join(__dirname, "test/e2e"),
   // snapshots
-  snapshotDir: path.join(__dirname, "snapshots"),
-  snapshotPathTemplate: "{snapshotDir}/{testName}/{arg}{ext}",
+  snapshotDir: path.join(__dirname, "screenshots"),
+  snapshotPathTemplate: "{snapshotDir}/{testName}-{arg}{ext}",
   // If a test fails, retry it additional 2 times
   retries: 2,
   // Artifacts folder where screenshots, videos, and traces are stored.
