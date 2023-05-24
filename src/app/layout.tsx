@@ -1,5 +1,6 @@
 import "./globals.css";
 import config from "@/util/config";
+import Footer from "@/components/footer";
 
 export const metadata = {
   title: config.title,
@@ -16,10 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <div className="flex min-h-screen justify-center items-center text-center">
+      <body className="flex min-h-screen text-center items-center flex-col py-6">
+        <div className="flex flex-auto w-full justify-center items-center">
           <div className="max-w-xl w-full px-2">{children}</div>
         </div>
+        <Footer />
       </body>
     </html>
   );

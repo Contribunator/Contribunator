@@ -1,5 +1,4 @@
 import UserInfo from "@/components/userInfo";
-import Version from "@/components/version";
 import config from "@/util/config";
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
@@ -18,7 +17,6 @@ export default function Home() {
       <div className="flex justify-center">
         <UserInfo />
       </div>
-      <Version />
     </div>
   );
 }
