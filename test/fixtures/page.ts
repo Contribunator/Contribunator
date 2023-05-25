@@ -27,7 +27,9 @@ export class PageFixture {
   }
 
   async hasText(text: string) {
-    await expect(this.page.getByText(text)).toBeVisible();
+    const locator = this.page.getByText(text);
+    await expect(locator).toBeVisible();
+    return locator;
   }
 
   async screenshot(name: string = "") {
@@ -35,8 +37,7 @@ export class PageFixture {
     const paddedCounter = this.screenshotCounter.toString().padStart(2, "0");
     const fileName = `${paddedCounter}${name ? `-${name}` : ""}.png`;
     // do not take screenshots in headless mode
-    if (!this.headless) {
-      await expect(this.page).toHaveScreenshot(fileName, { fullPage: true });
-    }
+    if (this.headless) return;
+    await expect(this.page).toHaveScreenshot(fileName, { fullPage: true });
   }
 }

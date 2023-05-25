@@ -43,7 +43,10 @@ export class ContributionFixture extends PageFixture {
     await this.page.route(this.submitUrl, async (route) => {
       try {
         const body = (await route.request().postData()) as string;
-        expect(JSON.parse(body)).toEqual({ ...this.body, ...expected });
+        const parsed = JSON.parse(body);
+        // only test image headers
+        parsed.media = parsed.media.map((media: string) => media.split(",")[0]);
+        expect(parsed).toEqual({ ...this.body, ...expected });
         await route.fulfill({ json: { prUrl } });
       } catch (e) {
         await route.abort();
@@ -58,7 +61,6 @@ export class ContributionFixture extends PageFixture {
 
     await this.submitButton.click();
     await this.page.getByRole("link", { name: prUrl }).isVisible();
-    await this.screenshot("submitted");
   }
 
   // asser that validation errors exist

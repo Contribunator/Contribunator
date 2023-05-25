@@ -1,15 +1,9 @@
-import { Locator } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { ContributionFixture, ContributionFixtureProps } from "./contribution";
 
-type QuoteType = "none" | "reply" | "retweet";
+type QuoteType = "None" | "Reply" | "Retweet";
 
 export class TweetFixture extends ContributionFixture {
-  private readonly text: Locator;
-  private readonly quoteUrl: Locator;
-  private readonly quoteButtons: {
-    [key in QuoteType]: Locator;
-  };
-
   constructor(props: ContributionFixtureProps) {
     super({
       ...props,
@@ -21,30 +15,51 @@ export class TweetFixture extends ContributionFixture {
         alt_text_media: ["", "", "", ""],
       },
     });
-    // get textarea with name="text"
-    this.text = this.page.locator('textarea[name="text"]');
-    this.quoteUrl = this.page.locator('input[name="quoteUrl"]');
-    const buttonGroup = this.page
-      .locator("label")
-      .filter({ hasText: "Quote Type" })
-      .locator("..");
-    this.quoteButtons = {
-      none: buttonGroup.getByText("None"),
-      retweet: buttonGroup.getByText("Retweet"),
-      reply: buttonGroup.getByText("Reply"),
-    };
   }
 
   async setText(text: string) {
-    await this.text.fill(text);
-    await this.text.blur();
+    const locator = this.page.locator('textarea[name="text"]');
+    await locator.fill(text);
+    await locator.blur();
   }
 
   async setQuote(quote: QuoteType) {
-    await this.quoteButtons[quote].click();
+    await this.page
+      .locator("label")
+      .filter({ hasText: "Quote Type" })
+      .locator("..")
+      .getByText(quote)
+      .click();
   }
+
   async setQuoteUrl(url: string) {
-    await this.quoteUrl.fill(url);
-    await this.quoteUrl.blur();
+    const locator = this.page.locator('input[name="quoteUrl"]');
+    await locator.fill(url);
+    await locator.blur();
   }
+
+  async uploadMedia(filename: string) {
+    await this.page
+      .locator('input[type="file"]')
+      .setInputFiles(`./test/assets/${filename}`);
+  }
+
+  async confirmCrop() {
+    const cropButton = await this.hasText("Confirm Crop");
+    await cropButton.click();
+  }
+
+  async uploadAndCrop(filename: string, alt?: string) {
+    await this.uploadMedia(filename);
+    await this.confirmCrop();
+    if (alt) {
+      const altText = this.page
+        .getByPlaceholder("Optional image description")
+        .last();
+      await expect(altText).toBeVisible();
+      await altText.fill(alt);
+    }
+  }
+
+  // todo method to upload and crop image
 }
