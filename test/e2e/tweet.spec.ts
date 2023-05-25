@@ -2,10 +2,11 @@ import { test as base } from "@playwright/test";
 import { TweetFixture } from "@/../test/fixtures/tweet";
 
 const test = base.extend<{ t: TweetFixture }>({
-  t: async ({ page, baseURL }, use) => {
+  t: async ({ page, baseURL, headless }, use) => {
     const t = new TweetFixture({
       page,
-      baseURL: baseURL as string,
+      headless,
+      baseURL,
       repo: "TEST",
       contribution: "tweet",
     });

@@ -1,9 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { PageFixture } from "./page";
+import { PageFixture, PageFixtureProps } from "./page";
 
-export type ContributionFixtureProps = {
-  page: Page;
-  baseURL: string;
+export type ContributionFixtureProps = Omit<PageFixtureProps, "path"> & {
+  baseURL?: string;
   repo: string;
   contribution: string;
   body?: any;
@@ -20,9 +19,10 @@ export class ContributionFixture extends PageFixture {
     page,
     baseURL,
     body,
+    headless,
   }: ContributionFixtureProps) {
     const path = `/contribute/${repo}/${contribution}`;
-    super(page, path);
+    super({ page, path, headless });
     this.submitUrl = `${baseURL}${path}/submit`;
     this.body = {
       repo,

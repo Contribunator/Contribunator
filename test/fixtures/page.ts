@@ -1,9 +1,22 @@
-import { Page, expect } from "@playwright/test";
+import { Browser, Page, expect } from "@playwright/test";
+
+export type PageFixtureProps = {
+  page: Page;
+  path: string;
+  headless: boolean;
+};
 
 export class PageFixture {
+  readonly page: Page;
+  readonly path: string;
+  readonly headless: boolean;
   private screenshotCounter = 0;
 
-  constructor(public page: Page, public path: string) {}
+  constructor({ page, path, headless }: PageFixtureProps) {
+    this.page = page;
+    this.path = path;
+    this.headless = headless;
+  }
 
   async goto() {
     await this.page.goto(this.path);
@@ -20,6 +33,10 @@ export class PageFixture {
     this.screenshotCounter++;
     const paddedCounter = this.screenshotCounter.toString().padStart(2, "0");
     const fileName = `${paddedCounter}${name ? `-${name}` : ""}.png`;
-    await expect(this.page).toHaveScreenshot(fileName, { fullPage: true });
+
+    // do not take screenshots in headless mode
+    if (!this.headless) {
+      await expect(this.page).toHaveScreenshot(fileName, { fullPage: true });
+    }
   }
 }
