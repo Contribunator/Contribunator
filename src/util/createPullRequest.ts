@@ -7,35 +7,42 @@ import { getConfig } from "@/util/config";
 import { Authorized } from "@/util/authorize";
 import { appId, installationId, privateKey } from "@/util/env";
 
-const OctokitPlugin = Octokit.plugin(commitPlugin);
-
-const octokit = new OctokitPlugin({
-  authStrategy: createAppAuth,
-  auth: {
-    appId,
-    installationId,
-    privateKey,
-  },
-});
-
-export default async function createPullRequest({
-  // todo make this more explicit, the token might not always be a github token
-  authorized,
-  repo,
-  files,
-  name: title, // TODO rename this?
-  branch,
-  message,
-}: {
+type CreatePROptions = {
   authorized: Authorized;
-  repo: string;
-  message?: string;
-  name: string;
-  branch: string;
-  files: {
-    [key: string]: string;
+  pr: {
+    repo: string;
+    message?: string;
+    name: string;
+    branch: string;
+    files: {
+      [key: string]: string;
+    };
   };
-}) {
+};
+
+export default async function createPullRequest(
+  {
+    authorized,
+    pr: {
+      repo,
+      files,
+      name: title, // TODO rename this?
+      branch,
+      message,
+    },
+  }: CreatePROptions,
+  OctokitModule = Octokit
+) {
+  const OctokitPlugin = OctokitModule.plugin(commitPlugin);
+  const octokit = new OctokitPlugin({
+    authStrategy: createAppAuth,
+    auth: {
+      appId,
+      installationId,
+      privateKey,
+    },
+  });
+
   const {
     prPostfix,
     repo: { base, branchPrefix, owner },
@@ -79,7 +86,7 @@ export default async function createPullRequest({
 
   // create the PR as the user if they are logged in, otherwise as the app
   if (githubUser) {
-    prOctokit = new Octokit({ auth: githubUser.accessToken });
+    prOctokit = new OctokitModule({ auth: githubUser.accessToken });
   }
 
   console.log("pr", pr);

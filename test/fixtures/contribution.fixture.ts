@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { PageFixture, PageFixtureProps } from "./page";
+import { PageFixture, PageFixtureProps } from "./page.fixture";
 
 export type ContributionFixtureProps = Omit<PageFixtureProps, "path"> & {
   baseURL?: string;

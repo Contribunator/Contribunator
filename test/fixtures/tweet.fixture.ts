@@ -1,5 +1,8 @@
 import { expect } from "@playwright/test";
-import { ContributionFixture, ContributionFixtureProps } from "./contribution";
+import {
+  ContributionFixture,
+  ContributionFixtureProps,
+} from "./contribution.fixture";
 
 type QuoteType = "None" | "Reply" | "Retweet";
 

@@ -56,6 +56,8 @@ export type Config = BaseConfig & {
   repos: { [key: string]: Repo };
 };
 
+// TODO replace with test config?
+// Have demo config elsewhere
 const defaultConfig: BaseConfig = {
   authorization: ["github", "captcha"],
   title: "Contribunator Demo",
@@ -153,7 +155,7 @@ export function getConfig(
     (c) => c.type === contribution
   );
   if (!contributionConfig)
-    throw new Error(`Contribution ${contribution} not found`);
+    throw new Error(`Contribution ${contribution} notfound`);
   return {
     ...config,
     repo: {

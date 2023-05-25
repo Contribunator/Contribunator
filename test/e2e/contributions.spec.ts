@@ -1,8 +1,8 @@
 import config from "@/util/config";
-import { expect, test as t } from "@playwright/test";
-import { PageFixture } from "@/../test/fixtures/page";
+import { expect, test as base } from "@playwright/test";
+import { PageFixture } from "@/../test/fixtures/page.fixture";
 
-const test = t.extend<{ p: PageFixture }>({
+const test = base.extend<{ p: PageFixture }>({
   p: async ({ page, headless }, use) => {
     const p = new PageFixture({ page, headless, path: "/contribute" });
     await p.goto();

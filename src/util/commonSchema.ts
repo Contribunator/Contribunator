@@ -3,31 +3,56 @@ import * as Yup from "yup";
 
 // TODO add options branch, star etc.
 // TODO optimize this so we only validate cetain options server side?
-const { repos, authorization } = getConfig();
+const { authorization } = getConfig();
 
 const commonSchema = {
-  customName: Yup.string().max(100),
+  customName: Yup.string().max(100, "Name is too long"),
   customMessage: Yup.string(),
-  repo: Yup.string().oneOf(Object.keys(repos)).required("Invalid repository"),
-  contribution: Yup.string().test({
-    name: "is-valid-contribution",
+  // todo use getConfig?
+  repo: Yup.string().test({
+    name: "is-valid-repo",
     test(value, ctx) {
+      if (!value) {
+        return ctx.createError({
+          message: "No repo specified",
+        });
+      }
       try {
-        if (!value) {
-          throw new Error("No contribution type specified");
-        }
-        getConfig(ctx.parent.repo, value); // will throw is not found
+        getConfig(value); // will throw if not found
       } catch {
         return ctx.createError({
-          message: `Invalid contribution type ${value} for repo ${ctx.parent.repo}`,
+          message: "Invalid repo",
         });
       }
       return true;
     },
   }),
-  authorization: Yup.string()
-    .oneOf(authorization)
-    .required(`You must specify an auth type: ${authorization.join(", ")}`),
+  contribution: Yup.string()
+    // only trigger validation if repo is set, to ensure correct sequence of error messages
+    // TODO why does this work again?
+    .when("repo", {
+      is: (repo: string) => !!repo,
+      then: (schema) =>
+        schema.test({
+          name: "is-valid-contribution",
+          test(value, ctx) {
+            if (!value) {
+              return ctx.createError({
+                message: "No contribution specified",
+              });
+            }
+            try {
+              getConfig(ctx.parent.repo, value); // will throw if not found
+            } catch {
+              return ctx.createError({
+                message: "Invalid contribution",
+              });
+            }
+            return true;
+          },
+        }),
+    }),
+  authorization: Yup.string().oneOf(authorization, "Invalid authorization"),
   captcha: Yup.string().when(["authorization"], {
     is: (authorization: string) => authorization === "captcha",
     then: (schema) => {

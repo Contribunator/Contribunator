@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import { TweetFixture } from "@/../test/fixtures/tweet";
+import { TweetFixture } from "@/../test/fixtures/tweet.fixture";
 
 const test = base.extend<{ t: TweetFixture }>({
   t: async ({ page, baseURL, headless }, use) => {
