@@ -12,6 +12,7 @@ const test = t.extend<{ p: PageFixture }>({
 
 test("contributions list", async ({ p, page }) => {
   await p.hasTitle(config.title);
+  // TODO use a fixture, and check for various other configs
   for (const repo of Object.values(config.repos)) {
     const repoLocator = await page
       .getByRole("heading", { name: repo.name })

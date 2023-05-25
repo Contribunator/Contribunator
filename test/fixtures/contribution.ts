@@ -39,14 +39,26 @@ export class ContributionFixture extends PageFixture {
   async submit(expected: any) {
     const prUrl = "https://github.com/test-pr-url";
     // intercept the route and ensure the correct JSON is being sent
+    // TODO intercept on server-side
     await this.page.route(this.submitUrl, async (route) => {
-      const body = (await route.request().postData()) as string;
-      expect(JSON.parse(body)).toEqual({ ...this.body, ...expected });
-      await route.fulfill({ json: { prUrl } });
+      try {
+        const body = (await route.request().postData()) as string;
+        expect(JSON.parse(body)).toEqual({ ...this.body, ...expected });
+        await route.fulfill({ json: { prUrl } });
+      } catch (e) {
+        await route.abort();
+        throw e;
+      }
     });
     this.page.once("dialog", (dialog) => dialog.accept());
+
+    // wait for the submit button to be enabled
+    await expect(this.submitButton).toBeEnabled();
+    await this.screenshot("form-completed");
+
     await this.submitButton.click();
     await this.page.getByRole("link", { name: prUrl }).isVisible();
+    await this.screenshot("submitted");
   }
 
   // asser that validation errors exist
