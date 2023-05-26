@@ -1,5 +1,5 @@
 import slugify from "slugify";
-import { PullRequestInfo } from "./submitHook";
+import { PullRequestInfo } from "./postPullRequest";
 
 export default function commonTransforms({
   pr,
@@ -7,7 +7,8 @@ export default function commonTransforms({
 }: {
   pr: PullRequestInfo;
   body: any;
-}): PullRequestInfo {
+}): PullRequestInfo & { repo: string } {
+  // TODO, we should pass explicit values here as a sanity check
   return {
     ...pr,
     ...(body.customName && {
@@ -18,5 +19,6 @@ export default function commonTransforms({
       }),
     }),
     ...(body.customMessage && { message: body.customMessage }),
+    repo: body.repo,
   };
 }

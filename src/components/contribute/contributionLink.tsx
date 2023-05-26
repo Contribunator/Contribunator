@@ -1,4 +1,4 @@
-import { HiCode } from "react-icons/hi";
+import { BiGitPullRequest } from "react-icons/bi";
 import Link from "next/link";
 import { Repo, Contribution } from "@/util/config";
 
@@ -9,7 +9,7 @@ const ContributionLink = ({
   contribution: Contribution;
   repo: Repo;
 }) => {
-  const Icon = icon || HiCode;
+  const Icon = icon || BiGitPullRequest;
   return (
     <Link
       className={`flex overflow-hidden rounded-md bg-base-100 hover:bg-${color}-100 transition-colors`}

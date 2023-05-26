@@ -7,13 +7,19 @@ import React, { useEffect, useState } from "react";
 function Button({
   children,
   className,
+  disabled,
 }: {
   children: React.ReactNode;
   className: string;
+  disabled?: boolean;
 }) {
   return (
     <div className="form-control">
-      <button type="submit" className={`btn btn-lg gap-2 ${className}`}>
+      <button
+        type="submit"
+        className={`btn btn-lg gap-2 ${className}`}
+        disabled={disabled}
+      >
         {children}
       </button>
     </div>
@@ -46,7 +52,7 @@ export default function SubmitButton({ formik }: FormProps) {
   }
 
   return (
-    <Button className="btn-disabled">
+    <Button className="btn-disabled" disabled>
       <HiExclamationCircle />
       Incomplete Required Fields
     </Button>

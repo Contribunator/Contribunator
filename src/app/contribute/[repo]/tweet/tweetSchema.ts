@@ -67,29 +67,30 @@ const tweetSchema = {
   quoteUrl: Yup.string().when("quoteType", {
     is: (quoteType: string) => !!quoteType, // if quote type is set
     then: (schema) =>
-      schema
-        .required("Required")
-        .url("Must be a valid URL")
-        .test({
-          name: "is-twitter-link",
-          test(text, ctx) {
-            const regexPattern =
-              /https:\/\/twitter\.com\/([\w]+)\/status\/(\d+)/;
-            if (!text || !text.match(regexPattern)) {
-              return ctx.createError({
-                message:
-                  "Must match format https://twitter.com/[user]/status/[id]",
-              });
-            }
-            // TODO automatically transform this for easier API usage?
-            if (text.includes("?")) {
-              return ctx.createError({
-                message: "Remove query params (?s=x&t=y) from the URL",
-              });
-            }
-            return true;
-          },
-        }),
+      schema.url("Must be a valid URL").test({
+        name: "is-twitter-link",
+        test(text, ctx) {
+          if (!text) {
+            return ctx.createError({
+              message: `Required ${ctx.parent.quoteType} URL`,
+            });
+          }
+          const regexPattern = /https:\/\/twitter\.com\/([\w]+)\/status\/(\d+)/;
+          if (!text || !text.match(regexPattern)) {
+            return ctx.createError({
+              message:
+                "Must match format https://twitter.com/[user]/status/[id]",
+            });
+          }
+          // TODO automatically transform this for easier API usage?
+          if (text.includes("?")) {
+            return ctx.createError({
+              message: "Remove query params (?s=x&t=y) from the URL",
+            });
+          }
+          return true;
+        },
+      }),
   }),
 };
 

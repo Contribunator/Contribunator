@@ -23,46 +23,33 @@ export type TransformToPR = ({
   timestamp: string;
 }) => Promise<PullRequestInfo>;
 
-export default function submitHook(
-  type: string,
+export default function postPullRequest(
   schema: any,
-  transformToPR: TransformToPR
+  transform: TransformToPR,
+  Mocktokit?: any // only used for testing, TODO throw in prod?
 ) {
-  return async (
-    req: NextRequest,
-    { params: { repo } }: { params: { repo: string } }
-  ) => {
+  return async (req: NextRequest) => {
     try {
       // parse body
       const body = await req.json();
       // ensure the request is authorized
       const authorized = await authorize(req, body);
-      // ensure the request body matches the route
-      if (!body) {
-        throw new Error("Invalid request");
-      }
-      if (body.repo !== repo) {
-        throw new Error("Specified repository is invalid");
-      }
-      if (body.contribution !== type) {
-        throw new Error("Contribution type is invalid");
-      }
       // validate the request body
+      // TODO ensure we have some tests here for malicious input
+      // TODO we may want to return a transformed object here
       await Yup.object({ ...schema, ...commonSchema }).validate(body);
-      // transform the request into a PR
-      // TODO move all common stuff ionto this function to DRY
-      const pr = await commonTransform({
-        body,
-        pr: await transformToPR({ body, timestamp: timestamp() }),
-      });
-      // TODO add custom commit message etc.
+      // apply this contribution type's transformations
+      const transformed = await transform({ body, timestamp: timestamp() });
+      // apply common transformations, e.g. pr messages
+      const pr = await commonTransform({ body, pr: transformed });
       // create the PR
-      const prUrl = await createPullRequest({ ...pr, repo, authorized });
+      const prUrl = await createPullRequest({ pr, authorized }, Mocktokit);
       // return PR URL
       return NextResponse.json({ prUrl });
     } catch (err) {
+      // handle errors
       let message = "Something went wrong";
-      if (err instanceof Error) {
+      if (err instanceof Error && err.message) {
         message = err.message;
       }
       return NextResponse.json({ error: message }, { status: 500 });

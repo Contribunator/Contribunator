@@ -12,7 +12,7 @@ type AuthFunction = ({
   body: any;
 }) => Promise<any>;
 
-const authorizeFunctions: Record<string, AuthFunction> = {
+const authMethods: Record<string, AuthFunction> = {
   github: async function ({ req }) {
     const token = (await getToken({ req })) as GithubProfile;
 
@@ -61,7 +61,7 @@ const authorizeFunctions: Record<string, AuthFunction> = {
   },
 };
 
-export type AuthType = keyof typeof authorizeFunctions;
+export type AuthType = keyof typeof authMethods;
 
 export type Authorized = {
   type: AuthType;
@@ -70,14 +70,14 @@ export type Authorized = {
 
 export default async function authorize(
   req: NextRequest,
-  body: any
+  { authorization, ...body }: { authorization: AuthType }
 ): Promise<Authorized> {
-  // TODO use the body's authorization type?
-  for (const authType of config.authorization) {
-    const authorized = await authorizeFunctions[authType]({ req, body });
-    if (authorized) {
-      return authorized;
-    }
+  if (!config.authorization.includes(authorization)) {
+    throw new Error("Invalid authorization");
+  }
+  const authorized = await authMethods[authorization]({ req, body });
+  if (authorized) {
+    return authorized;
   }
   throw new Error("Unauthorized");
 }
