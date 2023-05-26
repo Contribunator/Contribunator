@@ -155,7 +155,7 @@ export function getConfig(
     (c) => c.type === contribution
   );
   if (!contributionConfig)
-    throw new Error(`Contribution ${contribution} notfound`);
+    throw new Error(`Contribution ${contribution} not found`);
   return {
     ...config,
     repo: {
