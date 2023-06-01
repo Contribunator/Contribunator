@@ -11,14 +11,14 @@ export const E2E: AppConfig = {
     TEST: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
-      contributions: [
-        {
+      contributions: {
+        tweet: {
           title: "TEST CONTRIBUTION TITLE",
           description: "TEST CONTRIBUTION DESCRIPTION",
           type: "tweet",
           color: "blue",
         },
-      ],
+      },
     },
   },
 };
@@ -28,8 +28,8 @@ export const DEMO: AppConfig = {
     Another: {
       title: "Testing",
       description: "Test Description",
-      contributions: [
-        {
+      contributions: {
+        tweet: {
           title: "Tweet",
           color: "blue",
           description: "Tweet about this project",
@@ -47,7 +47,7 @@ export const DEMO: AppConfig = {
             },
           },
         },
-      ],
+      },
     },
   },
 };

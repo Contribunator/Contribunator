@@ -17,9 +17,6 @@ export const generateStaticParams =
     : undefined;
 
 export default async function ContributionLayout({ children }: Props) {
-  // TODO return empty page if the type isn't supported for this repo
-  // Trigger notFound() if the type isn't supported for this repo
-
   return (
     <div className="min-h-screen space-y-6">
       <div className="flex justify-center">

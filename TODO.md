@@ -2,16 +2,16 @@
 
 Below are the upcoming features and improvements.
 
-- e2e twitter tests, skip screenshots in headless
 - OG Image
 - Fix titles like https://github.com/ethereumclassic/tweets-eth_classic/pull/105
 - Update docs with new config
 - Rehaul config to have better defaults and tweet config inheritance
-- Default tweet suggestion: do not start with `@`
+- Fix footer layouts
+- test for twitter and twitter configs
+- reserve `submit` name for contribution types
 
 ### Tweets
 
-- Suggested Hashtags / Emojis, etc.
 - Tweet Threads
 - Poll Tweets
 - Thread Tweets
@@ -26,6 +26,7 @@ Below are the upcoming features and improvements.
 
 ## vNext
 
+- Appprovals UI
 - Improved error/conf feedback in the UI (not alert)
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge date

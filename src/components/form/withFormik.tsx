@@ -1,3 +1,5 @@
+"use client";
+
 import { Formik, FormikProps } from "formik";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -11,14 +13,14 @@ import Submitted from "./submitted";
 import GenericOptions from "./genericOptions";
 
 type PassedProps = {
-  className?: string;
   user?: any;
   repo: string;
+  contribution: string;
 };
+
 type Config = {
   schema: any;
-  generateMeta: (data: any) => { name: string; message: string };
-  contribution: string;
+  transform: (data: any) => { name: string; message: string };
   initialValues?: any;
 };
 
@@ -27,41 +29,44 @@ export type FormProps = {
   config: ConfigWithContribution;
 };
 
-export default function withForm<P>(
-  WrappedComponent: React.ComponentType<P & FormProps>,
-  { contribution, schema, generateMeta, initialValues = {} }: Config
+export default function withFormik(
+  Form: React.ComponentType<FormProps>,
+  { schema, transform, initialValues = {} }: Config
 ) {
-  return function ComponentWithForm(props: P & PassedProps) {
-    const { repo, className = "" } = props;
-    const path = usePathname();
+  return function WithFormik({ repo, contribution, user }: PassedProps) {
     const [prUrl, setPrUrl] = useState<string | null>(null);
-    const config = getConfig(repo, contribution);
 
+    // get the config for the contribution
+    const config = getConfig(repo, contribution);
+    const submitUrl = `${usePathname()
+      .split("/")
+      .slice(0, 4)
+      .join("/")}/submit`;
+
+    // determine the auth based on use login status and config
     let authorization = "anon";
-    if (props.user) {
+    if (user) {
       authorization = "github";
     } else if (config.authorization.includes("captcha")) {
       authorization = "captcha";
     }
-    const validation = Yup.object({ ...schema, ...commonSchema });
-    const initial = {
-      ...initialValues,
-      authorization,
-      repo,
-      contribution,
-      customMessage: "",
-      customName: "",
-    };
 
     return (
       <Formik
         validateOnMount
-        validationSchema={validation}
-        initialValues={initial}
+        validationSchema={Yup.object({ ...schema, ...commonSchema })}
+        initialValues={{
+          ...initialValues,
+          authorization,
+          repo,
+          contribution,
+          customMessage: "",
+          customName: "",
+        }}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {
             try {
-              const res = await fetch(`${path}/submit`, {
+              const res = await fetch(submitUrl, {
                 method: "POST",
                 body: JSON.stringify(data),
               });
@@ -82,18 +87,16 @@ export default function withForm<P>(
         {(formik) => (
           <form
             onSubmit={formik.handleSubmit}
-            className={`text-center ${className}`}
+            className={`text-center space-y-6 bg-base-200 p-4 rounded-lg`}
           >
             {prUrl && <Submitted prUrl={prUrl} />}
             {!prUrl && (
               <>
-                <WrappedComponent {...props} formik={formik} config={config} />
+                <Form formik={formik} config={config} />
                 <GenericOptions
-                  {...props}
-                  generateMeta={generateMeta}
+                  transform={transform} // for displaying commit message
                   formik={formik}
                   config={config}
-                  className={className}
                 />
                 <SubmitButton formik={formik} config={config} />
               </>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ContributionLink from "./contributionLink";
+
 import { Route } from "next";
 import { Repo } from "@/util/config";
 
@@ -16,10 +17,11 @@ export default function RepositoryDetails({ repo }: { repo: Repo }) {
       </Link>
       {repo.description && <p className="text-sm mt-2">{repo.description}</p>}
       <div className="space-y-2 mt-4">
-        {repo.contributions.map((contribution) => (
+        {Object.entries(repo.contributions).map(([name, contribution]) => (
           <ContributionLink
-            key={contribution.title}
+            key={name}
             repo={repo}
+            name={name}
             contribution={contribution}
           />
         ))}

@@ -10,7 +10,7 @@ import {
 } from "@/components/form";
 
 import schema from "./tweetSchema";
-import tweetTransform from "./tweetTransform";
+import transform from "./tweetTransform";
 
 /*
 TODO: polls & thread
@@ -73,12 +73,9 @@ FormProps & any) {
   );
 }
 
-// export default TweetForm;
-
 export default withForm(TweetForm, {
-  contribution: "tweet",
   schema,
-  generateMeta: tweetTransform,
+  transform,
   initialValues: {
     quoteType: undefined,
     quoteUrl: "",

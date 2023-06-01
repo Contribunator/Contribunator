@@ -1,16 +1,16 @@
 import { IconType } from "react-icons";
-import { FaTwitter } from "react-icons/fa";
 import { AuthType } from "./authorize";
 
 // todo is there a better way to do this?
 import userConfig from "@/../contribunator.config";
 import testConfig from "@/../test/test.contribunator.config";
+import tweetConfig from "@/app/contribute/[repo]/tweet/tweetConfig";
 
 const appConfig = testConfig || userConfig;
 
 // type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
 // TODO add more color options, add to tailwind.config.js, move this elsewhere
-type TailwindColor = "slate" | "blue" | "red";
+export type TailwindColor = "slate" | "blue" | "red";
 
 type InheritedSettings = {
   owner: string;
@@ -25,7 +25,7 @@ type CommonFields = {
 
 type RepoConfig = Partial<InheritedSettings> &
   CommonFields & {
-    contributions: Contribution[];
+    contributions: { [key: string]: Contribution };
   };
 
 type BaseConfig = CommonFields &
@@ -57,6 +57,9 @@ export type Config = BaseConfig & {
 };
 
 // TODO replace with test config?
+// TODO, make user-defined configs easier to use;
+// export a method that decorates the config and contrib types
+
 // Have demo config elsewhere
 const defaultConfig: BaseConfig = {
   authorization: ["github", "captcha"],
@@ -72,36 +75,15 @@ const defaultConfig: BaseConfig = {
     Sample: {
       title: "Sample Repo",
       description: "A useless and vandalized demo repository for Contribunator",
-      contributions: [
-        {
-          type: "tweet",
-          title: "Tweet",
-          color: "blue",
-          icon: FaTwitter,
-          description:
-            "Submit a twitter-together formatted tweet to the sample respository, demonstrating the use of Contribunator",
-          options: {
-            text: {
-              placeholder: "e.g. I like turtles 🐢 #turtlepower",
-              suggestions: [
-                {
-                  has: "(?<!\n)\n(?!\n)",
-                  message: "Use double spaces to separate lines",
-                },
-                {
-                  hasNo: "[#$]",
-                  message: "Include some Hashtags",
-                },
-                {
-                  hasNo: "\\p{Emoji_Presentation}",
-                  message: "Add emojis to your tweet",
-                },
-              ],
-              tags: ["🐢", "💪", "#tutles", "#turtlepower"],
-            },
-          },
+      contributions: {
+        cool: {
+          title: "Generic Contribution",
+          description: "A generic contribution",
+          type: "generic",
         },
-      ],
+        tweet: tweetConfig(),
+        video: tweetConfig({ title: "Video Tweet" }),
+      },
     },
   },
 };
@@ -136,31 +118,27 @@ export type ConfigWithContribution = ConfigWithRepo & {
 
 // returns relevant config object
 export function getConfig(): Config;
-export function getConfig(repo: string): ConfigWithRepo;
+export function getConfig(repoName: string): ConfigWithRepo;
 export function getConfig(
-  repo: string,
-  contribution: string
+  repoName: string,
+  contributionName: string
 ): ConfigWithContribution;
 export function getConfig(
-  repo?: string,
-  contribution?: string
+  repoName?: string,
+  contributionName?: string
 ): Config | ConfigWithRepo | ConfigWithContribution {
-  if (!repo) return config;
-  const repoConfig = config.repos[repo];
-  if (!repoConfig) throw new Error(`Repository ${repo} not found`);
-  if (!contribution) return { ...config, repo: repoConfig };
-  // TODO replace this with a keyValue, so the same contribution type can have different
-  // will need to use dynamic paths for the form
-  const contributionConfig = repoConfig.contributions.find(
-    (c) => c.type === contribution
-  );
-  if (!contributionConfig)
-    throw new Error(`Contribution ${contribution} not found`);
+  if (!repoName) return config;
+  const repo = config.repos[repoName];
+  if (!repo) throw new Error(`Repository ${repoName} not found`);
+  if (!contributionName) return { ...config, repo };
+  const contribution = repo.contributions[contributionName];
+  if (!contribution)
+    throw new Error(`Contribution ${contributionName} not found`);
   return {
     ...config,
     repo: {
-      ...repoConfig,
-      contribution: contributionConfig,
+      ...repo,
+      contribution,
     },
   };
 }
