@@ -1,6 +1,6 @@
 import { test as base } from "@playwright/test";
 import { ApiFixture } from "@/../test/fixtures/api.fixture";
-import { getConfig } from "@/util/config";
+import { getConfig } from "@/lib/config";
 
 const repo = "TEST";
 const contribution = "tweet";

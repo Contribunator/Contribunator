@@ -3,9 +3,9 @@ import { createAppAuth } from "@octokit/auth-app";
 // @ts-ignore
 import commitPlugin from "octokit-commit-multiple-files";
 
-import { getConfig } from "@/util/config";
-import { Authorized } from "@/util/authorize";
-import { appId, installationId, privateKey } from "@/util/env";
+import { getConfig } from "./config";
+import { Authorized } from "./authorize";
+import { appId, installationId, privateKey } from "./env";
 
 type CreatePROptions = {
   authorized: Authorized;

@@ -1,4 +1,4 @@
-import config from "@/util/config";
+import config from "@/lib/config";
 import { expect, test as base } from "@playwright/test";
 import { PageFixture } from "@/../test/fixtures/page.fixture";
 

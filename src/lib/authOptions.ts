@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
 
-import { clientId, clientSecret } from "@/util/env";
+import { clientId, clientSecret } from "./env";
 
 const authOptions: NextAuthOptions = {
   providers: [

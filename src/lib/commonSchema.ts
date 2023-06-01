@@ -1,5 +1,6 @@
-import { getConfig } from "@/util/config";
 import * as Yup from "yup";
+
+import { getConfig } from "./config";
 
 // TODO add options branch, star etc.
 // TODO optimize this so we only validate cetain options server side?

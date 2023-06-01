@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 
 import { createRequest } from "node-mocks-http";
-import postPullRequest, { TransformToPR } from "@/util/postPullRequest";
+import postPullRequest, { TransformToPR } from "@/lib/pullRequestHandler";
 
 const SUCCESS_URL = "success";
 

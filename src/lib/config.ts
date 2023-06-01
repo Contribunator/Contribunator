@@ -4,7 +4,9 @@ import { AuthType } from "./authorize";
 // todo is there a better way to do this?
 import userConfig from "@/../contribunator.config";
 import testConfig from "@/../test/test.contribunator.config";
-import tweetConfig from "@/app/contribute/[repo]/tweet/tweetConfig";
+
+// TODO move this
+import tweetConfig from "@/contributions/tweet/config";
 
 const appConfig = testConfig || userConfig;
 

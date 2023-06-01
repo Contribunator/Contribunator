@@ -1,5 +1,6 @@
-import { Contribution, TailwindColor } from "@/util/config";
 import { FaTwitter } from "react-icons/fa";
+
+import { Contribution, TailwindColor } from "@/lib/config";
 
 type Suggestion = {
   has?: string;

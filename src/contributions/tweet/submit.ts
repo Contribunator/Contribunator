@@ -1,12 +1,16 @@
+"use server";
+
 import sharp from "sharp";
-import postPullRequest from "@/util/postPullRequest";
-import transform from "../tweetTransform";
-import schema from "../tweetSchema";
+
+import pullRequestHandler from "@/lib/pullRequestHandler";
+
+import transform from "./transform";
+import schema from "./schema";
 
 // tweet is validated by passing the schema
 // TODO replace *all* of this with generic method hook using standard transform interface?
 
-export const POST = postPullRequest(schema, async ({ body, timestamp }) => {
+export const POST = pullRequestHandler(schema, async ({ body, timestamp }) => {
   const { files, name, media, branch, message } = transform(body, timestamp);
 
   // convert media - todo move to utility function

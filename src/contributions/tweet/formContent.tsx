@@ -1,16 +1,15 @@
 "use client";
 
-import {
-  TextInput,
-  ChoiceInput,
-  EmbedTweet,
-  FormProps,
-  ImagesInput,
-  withForm,
-} from "@/components/form";
+import ChoiceInput from "@/components/form/choiceInput";
+import EmbedTweet from "@/components/form/embedTweet";
+import TextInput from "@/components/form/textInput";
+import withFormik from "@/components/form/withFormik";
 
-import schema from "./tweetSchema";
-import transform from "./tweetTransform";
+import { ImagesInput } from "@/components/form/imageInput";
+import { FormProps } from "@/components/form/withFormik";
+
+import schema from "./schema";
+import transform from "./transform";
 
 /*
 TODO: polls & thread
@@ -73,7 +72,7 @@ FormProps & any) {
   );
 }
 
-export default withForm(TweetForm, {
+export default withFormik(TweetForm, {
   schema,
   transform,
   initialValues: {

@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { GithubProfile } from "next-auth/providers/github";
+
 import config from "./config";
 import { captchaSecret, apiKeys } from "./env";
-import { GithubProfile } from "next-auth/providers/github";
 
 type AuthFunction = ({
   req,

@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
 
-import { ConfigWithContribution, getConfig } from "@/util/config";
-import commonSchema from "@/util/commonSchema";
+import { ConfigWithContribution, getConfig } from "@/lib/config";
+import commonSchema from "@/lib/commonSchema";
 
 import SubmitButton from "./submitButton";
 import Submitted from "./submitted";
-import GenericOptions from "./genericOptions";
+import CommonOptions from "./commonOptions";
 
 type PassedProps = {
   user?: any;
@@ -36,12 +36,10 @@ export default function withFormik(
   return function WithFormik({ repo, contribution, user }: PassedProps) {
     const [prUrl, setPrUrl] = useState<string | null>(null);
 
-    // get the config for the contribution
     const config = getConfig(repo, contribution);
-    const submitUrl = `${usePathname()
-      .split("/")
-      .slice(0, 4)
-      .join("/")}/submit`;
+
+    // TODO move then to config generation
+    const submitUrl = `/api/contribute/${config.repo.contribution.type}`;
 
     // determine the auth based on use login status and config
     let authorization = "anon";
@@ -93,7 +91,7 @@ export default function withFormik(
             {!prUrl && (
               <>
                 <Form formik={formik} config={config} />
-                <GenericOptions
+                <CommonOptions
                   transform={transform} // for displaying commit message
                   formik={formik}
                   config={config}

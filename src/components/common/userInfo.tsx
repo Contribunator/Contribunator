@@ -1,8 +1,9 @@
 import Image from "next/image";
 
+import config from "@/lib/config";
+import useUser from "@/lib/useUser";
+
 import LoginButton from "./loginButton";
-import useUser from "@/util/useUser";
-import config from "@/util/config";
 
 export default function UserInfo() {
   if (!config.authorization.includes("github")) return null;

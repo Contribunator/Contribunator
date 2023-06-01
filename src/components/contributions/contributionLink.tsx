@@ -1,6 +1,7 @@
 import { BiGitPullRequest } from "react-icons/bi";
 import Link from "next/link";
-import { Repo, Contribution } from "@/util/config";
+
+import { Repo, Contribution } from "@/lib/config";
 
 const ContributionLink = ({
   name,

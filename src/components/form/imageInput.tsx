@@ -1,5 +1,3 @@
-"use client";
-
 import { useRef, useState } from "react";
 import { useField } from "formik";
 import Cropper, { ReactCropperElement } from "react-cropper";

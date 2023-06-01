@@ -1,6 +1,7 @@
-import { captchaKey } from "@/util/env";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useField } from "formik";
+
+import { captchaKey } from "@/lib/env";
 
 export default function Captcha() {
   const [, meta, helpers] = useField("captcha");

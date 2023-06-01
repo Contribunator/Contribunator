@@ -8,7 +8,7 @@ Below are the upcoming features and improvements.
 - Rehaul config to have better defaults and tweet config inheritance
 - Fix footer layouts
 - test for twitter and twitter configs
-- reserve `submit` name for contribution types
+- reserve names for contribution types `tweet`, `submit`, etc. (or figure out something better)
 
 ### Tweets
 

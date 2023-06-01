@@ -1,4 +1,5 @@
-import { AppConfig } from "@/util/config";
+import tweetConfig from "@/contributions/tweet/config";
+import { AppConfig } from "@/lib/config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
@@ -47,6 +48,7 @@ export const DEMO: AppConfig = {
             },
           },
         },
+        "super-tweet": tweetConfig({ title: "SUPER TWEET! " }),
       },
     },
   },

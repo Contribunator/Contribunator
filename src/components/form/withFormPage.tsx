@@ -1,6 +1,7 @@
-import { getConfig } from "@/util/config";
-import useUser from "@/util/useUser";
 import { notFound } from "next/navigation";
+
+import { getConfig } from "@/lib/config";
+import useUser from "@/lib/useUser";
 
 type PageProps = {
   params: {
@@ -9,14 +10,14 @@ type PageProps = {
   };
 };
 
-export default function contributionPage(
+export default function withFormPage(
   Page: React.FC<any>,
   Form: React.FC<any>,
   contributionType?: string
 ) {
   // Nextjs 13: Optional route parameters are not yet supported for now
   // we use this workaround using [[...type]], trigger 404 if missing
-  return async function ContributionPage({
+  return async function FormPage({
     params: { repo, contribution: fragments = [] },
   }: PageProps) {
     const [contribution = contributionType, ...rest] = fragments;

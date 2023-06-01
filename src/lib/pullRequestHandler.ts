@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import * as Yup from "yup";
+import { NextRequest, NextResponse } from "next/server";
 
 import authorize from "./authorize";
 import commonSchema from "./commonSchema";
@@ -23,7 +23,7 @@ export type TransformToPR = ({
   timestamp: string;
 }) => Promise<PullRequestInfo>;
 
-export default function postPullRequest(
+export default function pullRequestHandler(
   schema: any,
   transform: TransformToPR,
   Mocktokit?: any // only used for testing, TODO throw in prod?

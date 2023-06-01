@@ -1,16 +1,16 @@
-import contributionPage from "@/components/contributionPage";
+import withFormPage from "@/components/form/withFormPage";
 
-function GenericPage({ children }: { children: React.ReactNode }) {
+function Container({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      TODO generic page.
+      TODO Generic Form page.
       {children}
     </div>
   );
 }
 
-function GenericForm() {
-  return <div>TODO generic form</div>;
+function Form() {
+  return <div>Form Goes Here</div>;
 }
 
-export default contributionPage(GenericPage, GenericForm);
+export default withFormPage(Container, Form);

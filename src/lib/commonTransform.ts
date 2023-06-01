@@ -1,5 +1,6 @@
 import slugify from "slugify";
-import { PullRequestInfo } from "./postPullRequest";
+
+import { PullRequestInfo } from "./pullRequestHandler";
 
 export default function commonTransforms({
   pr,

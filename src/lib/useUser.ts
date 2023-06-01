@@ -1,4 +1,4 @@
-import authOptions from "@/app/api/auth/[...nextauth]/authOptions";
+import authOptions from "./authOptions";
 import { getServerSession } from "next-auth";
 
 export default async function useUser() {

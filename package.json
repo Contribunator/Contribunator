@@ -27,17 +27,17 @@
     "dotenv": "^16.0.3",
     "encoding": "^0.1.13",
     "eslint": "8.39.0",
-    "eslint-config-next": "13.3.1",
+    "eslint-config-next": "^13.4.4",
     "eslint-config-prettier": "^8.8.0",
     "formik": "^2.2.9",
-    "next": "13.3.0",
+    "next": "^13.4.4",
     "next-auth": "^4.22.1",
     "octokit-commit-multiple-files": "^4.3.0",
     "postcss": "8.4.23",
     "prettier": "^2.8.8",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-cropper": "^2.3.3",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "sharp": "^0.32.1",
     "slugify": "^1.6.6",
@@ -48,7 +48,7 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
-    "node-mocks-http": "^1.12.2",
-    "@playwright/test": "^1.34.0"
+    "@playwright/test": "^1.34.0",
+    "node-mocks-http": "^1.12.2"
   }
 }

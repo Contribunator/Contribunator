@@ -1,14 +1,13 @@
+import { useField } from "formik";
+
 import Captcha from "./captcha";
 import TextInput from "./textInput";
 import { FormProps } from "./withFormik";
-import { useField } from "formik";
 
 export default function GenericOptions({
   formik,
-  className = "",
   transform,
 }: FormProps & {
-  className?: string;
   transform: (data: any) => { name: string; message: string };
 }) {
   const [authorization] = useField("authorization");
