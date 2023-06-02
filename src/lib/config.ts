@@ -41,7 +41,7 @@ export type AppConfig = Partial<BaseConfig>;
 export type Contribution = CommonFields & {
   type: string;
   color?: TailwindColor;
-  options?: { [key: string]: any };
+  options?: { [key: string]: any } & { useFiles?: { [key: string]: string } };
   icon?: IconType;
 };
 
@@ -96,11 +96,12 @@ const config: Config = {
   ),
 };
 
-export type ConfigWithRepo = Config & { repo: Repo };
-export type ConfigWithContribution = ConfigWithRepo & {
-  repo: { contribution: Contribution };
+export type ConfigWithRepo = Omit<Config, "repos"> & { repo: Repo };
+export type ConfigWithContribution = Omit<ConfigWithRepo, "repo"> & {
+  repo: Omit<ConfigWithRepo["repo"], "contributions"> & {
+    contribution: Contribution;
+  };
 };
-
 // returns relevant config object
 export function getConfig(): Config;
 export function getConfig(repoName: string): ConfigWithRepo;
@@ -112,17 +113,20 @@ export function getConfig(
   repoName?: string,
   contributionName?: string
 ): Config | ConfigWithRepo | ConfigWithContribution {
+  // TODO replace this with some kind of function
   if (!repoName) return config;
   const repo = config.repos[repoName];
   if (!repo) throw new Error(`Repository ${repoName} not found`);
-  if (!contributionName) return { ...config, repo };
+  const { repos, ...noReposConfig } = config;
+  if (!contributionName) return { ...noReposConfig, repo };
   const contribution = repo.contributions[contributionName];
   if (!contribution)
     throw new Error(`Contribution ${contributionName} not found`);
+  const { contributions, ...noContributionsRepoConfig } = repo;
   return {
-    ...config,
+    ...noReposConfig,
     repo: {
-      ...repo,
+      ...noContributionsRepoConfig,
       contribution,
     },
   };

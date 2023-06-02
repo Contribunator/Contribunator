@@ -20,7 +20,7 @@ const quoteTypes: { [key: string]: { text: string } } = {
   reply: { text: "Reply" },
 };
 
-function TweetForm({
+function TweetFormContent({
   formik,
   config: {
     repo: { contribution },
@@ -72,7 +72,7 @@ FormProps & any) {
   );
 }
 
-export default withFormik(TweetForm, {
+export default withFormik(TweetFormContent, {
   schema,
   transform,
   initialValues: {

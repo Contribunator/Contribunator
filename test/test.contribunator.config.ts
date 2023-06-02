@@ -1,4 +1,5 @@
-import tweetConfig from "@/contributions/tweet/config";
+import genericConfig from "@/contributions/generic/config";
+import tweetConfig, { tweetSuggestions } from "@/contributions/tweet/config";
 import { AppConfig } from "@/lib/config";
 
 export const E2E: AppConfig = {
@@ -31,16 +32,14 @@ export const DEV: AppConfig = {
       title: "Testing",
       description: "Test Description",
       contributions: {
-        tweet: {
-          title: "Tweet",
-          color: "blue",
-          description: "Tweet about this project",
-          type: "tweet",
+        generic: genericConfig(),
+        tweet: tweetConfig({
           options: {
             text: {
               placeholder: "e.g. This is my development tweet",
               tags: ["#Contribunator"],
               suggestions: [
+                ...tweetSuggestions(),
                 {
                   hasNo: "Contribunator",
                   message: "Include the word Contribunator in your tweet!",
@@ -48,8 +47,7 @@ export const DEV: AppConfig = {
               ],
             },
           },
-        },
-        "super-tweet": tweetConfig({ title: "SUPER TWEET! " }),
+        }),
       },
     },
   },

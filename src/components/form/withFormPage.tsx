@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { getConfig } from "@/lib/config";
 import useUser from "@/lib/useUser";
+import fetchFiles from "@/lib/fetchFiles";
 
 type PageProps = {
   params: {
@@ -26,16 +27,17 @@ export default function withFormPage(
       if (!contribution || rest.length > 0) throw new Error();
       config = getConfig(repo, contribution);
     } catch {
-      console.log("route not found");
       notFound();
     }
+
     const user = await useUser();
+    const files = await fetchFiles(config);
 
     return (
-      <Page {...{ user, config }}>
+      <Page {...{ user, config, files }}>
         {/* needs to be rendered seperately because it's a client side component */}
-        {/* for this reason we can't pass the whole config, it gets queried again client side */}
-        <Form {...{ repo, user, contribution }} />
+        {/* we can't pass the whole config directly; just pass names, and it gets queried again client side */}
+        <Form {...{ repo, user, contribution, files }} />
       </Page>
     );
   };

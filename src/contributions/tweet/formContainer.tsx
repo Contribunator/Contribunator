@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ConfigWithContribution } from "@/lib/config";
 
-export default function TweetPage({
+export default function TweetFormContainer({
   children,
   config,
 }: {

@@ -4,11 +4,11 @@ import { Contribution, TailwindColor } from "@/lib/config";
 
 type Suggestion = {
   has?: string;
-  hasNot?: string;
+  hasNo?: string;
   message: string;
 };
 
-const suggestions = {
+const suggestions: { [key: string]: Suggestion } = {
   spacing: {
     has: "(?<!\n)\n(?!\n)",
     message: "Use double spaces to separate lines",

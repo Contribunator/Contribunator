@@ -14,6 +14,7 @@ import CommonOptions from "./commonOptions";
 
 type PassedProps = {
   user?: any;
+  files?: any;
   repo: string;
   contribution: string;
 };
@@ -29,11 +30,12 @@ export type FormProps = {
   config: ConfigWithContribution;
 };
 
+// TODO do not pass intiial values here, instead get from type's config
 export default function withFormik(
   Form: React.ComponentType<FormProps>,
   { schema, transform, initialValues = {} }: Config
 ) {
-  return function WithFormik({ repo, contribution, user }: PassedProps) {
+  return function WithFormik({ repo, contribution, user, files }: PassedProps) {
     const [prUrl, setPrUrl] = useState<string | null>(null);
 
     const config = getConfig(repo, contribution);
@@ -41,7 +43,7 @@ export default function withFormik(
     // TODO move then to config generation
     const submitUrl = `/api/contribute/${config.repo.contribution.type}`;
 
-    // determine the auth based on use login status and config
+    // determine the auth UI based on use login status and config
     let authorization = "anon";
     if (user) {
       authorization = "github";
@@ -90,13 +92,10 @@ export default function withFormik(
             {prUrl && <Submitted prUrl={prUrl} />}
             {!prUrl && (
               <>
-                <Form formik={formik} config={config} />
-                <CommonOptions
-                  transform={transform} // for displaying commit message
-                  formik={formik}
-                  config={config}
-                />
-                <SubmitButton formik={formik} config={config} />
+                <Form {...{ formik, config, files }} />
+                {/* TODO only pass the metadata transform, not the commit */}
+                <CommonOptions {...{ formik, config, transform }} />
+                <SubmitButton {...{ formik, config }} />
               </>
             )}
             {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}

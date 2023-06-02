@@ -7,6 +7,7 @@ import pullRequestHandler from "@/lib/pullRequestHandler";
 import transform from "./transform";
 import schema from "./schema";
 
+// TODO, refactor and use the `commit` from generic..
 // tweet is validated by passing the schema
 // TODO replace *all* of this with generic method hook using standard transform interface?
 
