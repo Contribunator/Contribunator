@@ -24,7 +24,8 @@ export const E2E: AppConfig = {
   },
 };
 
-export const DEMO: AppConfig = {
+export const DEV: AppConfig = {
+  title: "DEV C11R",
   repos: {
     Another: {
       title: "Testing",
@@ -54,6 +55,23 @@ export const DEMO: AppConfig = {
   },
 };
 
+export const DEMO: AppConfig = {
+  repos: {
+    Sample: {
+      title: "Sample Repo",
+      description: "A useless and vandalized demo repository for Contribunator",
+      contributions: {
+        cool: {
+          title: "Generic Contribution",
+          description: "A generic contribution",
+          type: "generic",
+        },
+        tweet: tweetConfig(),
+      },
+    },
+  },
+};
+
 let exported: null | AppConfig = null;
 
 if (process.env.NEXT_PUBLIC_TESTING === "E2E") {
@@ -62,6 +80,10 @@ if (process.env.NEXT_PUBLIC_TESTING === "E2E") {
 
 if (process.env.NEXT_PUBLIC_TESTING === "DEMO") {
   exported = DEMO;
+}
+
+if (process.env.NEXT_PUBLIC_TESTING === "DEV") {
+  exported = DEV;
 }
 
 export default exported;

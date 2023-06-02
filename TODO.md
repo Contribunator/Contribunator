@@ -9,6 +9,8 @@ Below are the upcoming features and improvements.
 - Fix footer layouts
 - test for twitter and twitter configs
 - reserve names for contribution types `tweet`, `submit`, etc. (or figure out something better)
+- test UI for no repos
+- figure out how to set up various demo/dev/e2e configs
 
 ### Tweets
 

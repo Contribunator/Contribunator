@@ -5,9 +5,6 @@ import { AuthType } from "./authorize";
 import userConfig from "@/../contribunator.config";
 import testConfig from "@/../test/test.contribunator.config";
 
-// TODO move this
-import tweetConfig from "@/contributions/tweet/config";
-
 const appConfig = testConfig || userConfig;
 
 // type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
@@ -65,7 +62,7 @@ export type Config = BaseConfig & {
 // Have demo config elsewhere
 const defaultConfig: BaseConfig = {
   authorization: ["github", "captcha"],
-  title: "Contribunator Demo",
+  title: "Contribunator",
   description:
     "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
   owner: "Contribunator",
@@ -73,21 +70,7 @@ const defaultConfig: BaseConfig = {
   base: "main",
   prPostfix:
     "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
-  repos: {
-    Sample: {
-      title: "Sample Repo",
-      description: "A useless and vandalized demo repository for Contribunator",
-      contributions: {
-        cool: {
-          title: "Generic Contribution",
-          description: "A generic contribution",
-          type: "generic",
-        },
-        tweet: tweetConfig(),
-        video: tweetConfig({ title: "Video Tweet" }),
-      },
-    },
-  },
+  repos: {},
 };
 
 const mergedConfig: BaseConfig = {
