@@ -2,18 +2,12 @@ import { useField } from "formik";
 
 import Captcha from "./captcha";
 import TextInput from "./textInput";
-import { FormProps } from "./withFormik";
+import { BaseFormProps } from "./withFormik";
 
-export default function GenericOptions({
-  formik,
-  transform,
-}: FormProps & {
-  transform: (data: any) => { name: string; message: string };
-}) {
+export default function GenericOptions({ formik, config }: BaseFormProps) {
   const [authorization] = useField("authorization");
   const showCaptcha = authorization.value === "captcha";
-  const { name, message } = transform(formik.values);
-
+  const { title, message } = config.contribution.metadata;
   return (
     <>
       <div className="collapse collapse-arrow rounded-md border border-base-300">
@@ -23,15 +17,15 @@ export default function GenericOptions({
         </div>
         <div className="collapse-content space-y-6">
           <TextInput
-            title="Custom Pull Request Name"
+            title="Custom Pull Request Title"
             info="Special characters will be removed"
-            name="customName"
-            placeholder={name}
+            name="customTitle"
+            placeholder={title(formik.values)}
           />
           <TextInput
             title="Custom Pull Request Message"
             name="customMessage"
-            placeholder={message}
+            placeholder={message(formik.values)}
             as="textarea"
           />
         </div>

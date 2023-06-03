@@ -1,6 +1,6 @@
 import { test as base } from "@playwright/test";
 import { ApiFixture } from "@/../test/fixtures/api.fixture";
-import { getConfig } from "@/lib/config";
+import config from "@/lib/config";
 
 const repo = "TEST";
 const contribution = "tweet";
@@ -12,15 +12,14 @@ const postBase = {
   contribution,
 };
 
-const config = getConfig(repo, contribution);
-
 function createMessage(text: string) {
   return `${text}${config.prPostfix}`;
 }
 
 const testCommit = {
   branch: "test-branch",
-  name: "test-name",
+  title: "test-generated-title",
+  message: "test-generated-message",
   files: {
     "test.txt": "test-content",
   },
@@ -29,10 +28,10 @@ const testCommit = {
 const prBase = {
   repo,
   base: config.base,
-  title: testCommit.name,
+  title: testCommit.title,
   head: `${config.branchPrefix}${testCommit.branch}`,
   owner: config.owner,
-  body: createMessage("Automated Pull Request"),
+  body: createMessage(testCommit.message),
 };
 
 const test = base.extend<{ a: ApiFixture }>({
@@ -41,7 +40,7 @@ const test = base.extend<{ a: ApiFixture }>({
       new ApiFixture({
         postBase,
         prBase,
-        // pass in a fake transform
+        // pass in a fake pr transformation
         transform: async () => testCommit,
       })
     );
@@ -54,16 +53,16 @@ test("api allows valid params", async ({ a }) => {
 
 test("api transforms common options", async ({ a }) => {
   const customMessage = "test mesage";
-  const customName = "test name";
+  const customTitle = "test title";
   await a.expect(
-    { customMessage, customName },
-    { pr: { body: createMessage(customMessage), title: customName } }
+    { customMessage, customTitle },
+    { pr: { body: createMessage(customMessage), title: customTitle } }
   );
 });
 
-test("api rejects long names", async ({ a }) => {
-  const customName = new Array(101).fill("a").join("");
-  await a.expect({ customName }, { error: "Name is too long" });
+test("api rejects long titles", async ({ a }) => {
+  const customTitle = new Array(101).fill("a").join("");
+  await a.expect({ customTitle }, { error: "Title is too long" });
 });
 
 // TODO test auth methods
@@ -78,16 +77,19 @@ test("api rejects invalid auth", async ({ a }) => {
 });
 
 test("api rejects invalid repo", async ({ a }) => {
-  await a.expect({ repo: undefined }, { error: "No repo specified" });
-  await a.expect({ repo: "hax" }, { error: "Invalid repo" });
+  await a.expect({ repo: undefined }, { error: "Repo name required" });
+  await a.expect({ repo: "hax" }, { error: "Repository hax not found" });
 });
 
 test("api rejects invalid contribution type", async ({ a }) => {
   await a.expect(
     { contribution: undefined },
-    { error: "No contribution specified" }
+    { error: "Contribution name required" }
   );
-  await a.expect({ contribution: "hax" }, { error: "Invalid contribution" });
+  await a.expect(
+    { contribution: "hax" },
+    { error: "Contribution hax not found" }
+  );
 });
 
 // TODO test twitter specific api requests

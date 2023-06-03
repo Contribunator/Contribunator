@@ -12,8 +12,9 @@ export default function commonTransforms({
   // TODO, we should pass explicit values here as a sanity check
   return {
     ...pr,
-    ...(body.customName && {
-      name: slugify(body.customName, {
+    // override the generated title and message if it's set
+    ...(body.customTitle && {
+      title: slugify(body.customTitle, {
         lower: true,
         strict: true,
         replacement: " ",

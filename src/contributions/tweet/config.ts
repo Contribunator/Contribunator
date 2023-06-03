@@ -2,6 +2,9 @@ import { FaTwitter } from "react-icons/fa";
 
 import { Contribution, TailwindColor } from "@/lib/config";
 
+import schema from "./schema";
+import * as metadata from "./metadata";
+
 type Suggestion = {
   has?: string;
   hasNo?: string;
@@ -76,9 +79,21 @@ type TweetConfig = Contribution & {
 type TweetOptions = Omit<Partial<TweetConfig>, "type"> & { name?: string };
 
 export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
+  // TODO generate different schema, initialValues, meta based on config options
+  const initialValues = {
+    quoteType: undefined,
+    quoteUrl: "",
+    text: "",
+    media: ["", "", "", ""],
+    alt_text_media: ["", "", "", ""],
+  };
+
   return {
     ...defaultConfig,
     ...opts,
+    initialValues,
+    schema,
+    metadata,
     options: {
       text: {
         ...defaultConfig.options.text,

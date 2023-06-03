@@ -1,6 +1,8 @@
 import { IconType } from "react-icons";
 import { AuthType } from "./authorize";
 
+// TODO refactor and seperatre into multiple files
+
 // todo is there a better way to do this?
 import userConfig from "@/../contribunator.config";
 import testConfig from "@/../test/test.contribunator.config";
@@ -15,6 +17,7 @@ type InheritedSettings = {
   owner: string;
   base: string;
   branchPrefix: string;
+  prPostfix: string;
 };
 
 type CommonFields = {
@@ -30,7 +33,6 @@ type RepoConfig = Partial<InheritedSettings> &
 type BaseConfig = CommonFields &
   InheritedSettings & {
     authorization: AuthType[];
-    prPostfix: string;
     repos: {
       [key: string]: RepoConfig;
     };
@@ -38,12 +40,27 @@ type BaseConfig = CommonFields &
 
 export type AppConfig = Partial<BaseConfig>;
 
-export type Contribution = CommonFields & {
+type UseFiles = { [key: string]: string };
+
+export type ContributionConfig = {
   type: string;
   color?: TailwindColor;
-  options?: { [key: string]: any } & { useFiles?: { [key: string]: string } };
+  options?: { [key: string]: any }; // TODO type specific options
   icon?: IconType;
+  useFiles?: UseFiles; // server and client
+  useFilesOnClient?: UseFiles; // client only
+  useFilesOnServer?: UseFiles; // server only
 };
+
+export type Contribution = CommonFields &
+  ContributionConfig & {
+    initialValues: any;
+    schema: any;
+    metadata: {
+      title: (values: any) => string;
+      message: (values: any) => string;
+    };
+  };
 
 export type Repo = RepoConfig &
   Omit<BaseConfig, "repos"> & {
@@ -55,11 +72,6 @@ export type Config = BaseConfig & {
   repos: { [key: string]: Repo };
 };
 
-// TODO replace with test config?
-// TODO, make user-defined configs easier to use;
-// export a method that decorates the config and contrib types
-
-// Have demo config elsewhere
 const defaultConfig: BaseConfig = {
   authorization: ["github", "captcha"],
   title: "Contribunator",
@@ -88,6 +100,7 @@ const config: Config = {
         branchPrefix: mergedConfig.branchPrefix,
         base: mergedConfig.base,
         owner: mergedConfig.owner,
+        prPostfix: mergedConfig.prPostfix,
         name: key,
         githubUrl: `https://github.com/${mergedConfig.owner}/${key}`,
       },
@@ -97,39 +110,31 @@ const config: Config = {
 };
 
 export type ConfigWithRepo = Omit<Config, "repos"> & { repo: Repo };
-export type ConfigWithContribution = Omit<ConfigWithRepo, "repo"> & {
-  repo: Omit<ConfigWithRepo["repo"], "contributions"> & {
-    contribution: Contribution;
-  };
-};
-// returns relevant config object
-export function getConfig(): Config;
-export function getConfig(repoName: string): ConfigWithRepo;
-export function getConfig(
-  repoName: string,
-  contributionName: string
-): ConfigWithContribution;
-export function getConfig(
-  repoName?: string,
-  contributionName?: string
-): Config | ConfigWithRepo | ConfigWithContribution {
-  // TODO replace this with some kind of function
-  if (!repoName) return config;
+
+export function getRepo(repoName: string): ConfigWithRepo {
+  if (!repoName) throw new Error("Repo name required");
   const repo = config.repos[repoName];
   if (!repo) throw new Error(`Repository ${repoName} not found`);
   const { repos, ...noReposConfig } = config;
-  if (!contributionName) return { ...noReposConfig, repo };
-  const contribution = repo.contributions[contributionName];
+  return { ...noReposConfig, repo };
+}
+
+export type ConfigWithContribution = Omit<ConfigWithRepo, "repo"> & {
+  repo: Omit<ConfigWithRepo["repo"], "contributions">;
+  contribution: Contribution;
+};
+
+export function getContribution(
+  repoName: string,
+  contributionName: string
+): ConfigWithContribution {
+  if (!contributionName) throw new Error("Contribution name required");
+  const config = getRepo(repoName);
+  const contribution = config.repo.contributions[contributionName];
   if (!contribution)
     throw new Error(`Contribution ${contributionName} not found`);
-  const { contributions, ...noContributionsRepoConfig } = repo;
-  return {
-    ...noReposConfig,
-    repo: {
-      ...noContributionsRepoConfig,
-      contribution,
-    },
-  };
+  const { contributions, ...noContributionsRepoConfig } = config.repo;
+  return { ...config, repo: noContributionsRepoConfig, contribution };
 }
 
 export default config;

@@ -14,12 +14,14 @@ export const E2E: AppConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        tweet: {
+        generic: genericConfig({
+          title: "TEST GENERIC TITLE",
+          description: "TEST GENERIC DESCRIPTION",
+        }),
+        tweet: tweetConfig({
           title: "TEST CONTRIBUTION TITLE",
           description: "TEST CONTRIBUTION DESCRIPTION",
-          type: "tweet",
-          color: "blue",
-        },
+        }),
       },
     },
   },
@@ -32,7 +34,7 @@ export const DEV: AppConfig = {
       title: "Testing",
       description: "Test Description",
       contributions: {
-        generic: genericConfig(),
+        test: genericConfig(),
         tweet: tweetConfig({
           options: {
             text: {
@@ -59,11 +61,10 @@ export const DEMO: AppConfig = {
       title: "Sample Repo",
       description: "A useless and vandalized demo repository for Contribunator",
       contributions: {
-        cool: {
+        cool: genericConfig({
           title: "Generic Contribution",
           description: "A generic contribution",
-          type: "generic",
-        },
+        }),
         tweet: tweetConfig(),
       },
     },

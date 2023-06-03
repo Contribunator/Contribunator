@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getConfig } from "@/lib/config";
+import { getContribution } from "@/lib/config";
 import useUser from "@/lib/useUser";
 import fetchFiles from "@/lib/fetchFiles";
 
@@ -25,13 +25,13 @@ export default function withFormPage(
     let config;
     try {
       if (!contribution || rest.length > 0) throw new Error();
-      config = getConfig(repo, contribution);
+      config = getContribution(repo, contribution);
     } catch {
       notFound();
     }
 
     const user = await useUser();
-    const files = await fetchFiles(config);
+    const files = await fetchFiles(config, true);
 
     return (
       <Page {...{ user, config, files }}>

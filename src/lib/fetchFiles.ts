@@ -53,18 +53,26 @@ class MockOctokit {
 }
 
 export default async function fetchFiles(
-  { owner, repo, repo: { contribution } }: ConfigWithContribution,
+  { owner, repo, contribution }: ConfigWithContribution,
+  isClient: boolean,
   OctokitModule = MockOctokit
 ) {
-  const { useFiles } = contribution.options || {};
-  if (!useFiles) {
+  const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
+
+  const usedFiles = {
+    ...useFiles,
+    ...(isClient ? useFilesOnClient : useFilesOnServer),
+  };
+
+  console.log(Object.keys(usedFiles), contribution);
+  if (Object.keys(usedFiles).length === 0) {
     return null;
   }
 
   const octokit = new OctokitModule();
   return (
     await Promise.all(
-      Object.entries(useFiles).map(async ([name, path]) => {
+      Object.entries(usedFiles).map(async ([name, path]) => {
         const file = { name, path };
         try {
           const { data } = await octokit.repos.getContent({
@@ -106,6 +114,4 @@ export default async function fetchFiles(
       })
     )
   ).reduce((o, file) => ({ ...o, [file.name]: file }), {});
-
-  // return { hello: "world" };
 }

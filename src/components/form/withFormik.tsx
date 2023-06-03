@@ -1,11 +1,10 @@
 "use client";
 
 import { Formik, FormikProps } from "formik";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
 
-import { ConfigWithContribution, getConfig } from "@/lib/config";
+import { ConfigWithContribution, getContribution } from "@/lib/config";
 import commonSchema from "@/lib/commonSchema";
 
 import SubmitButton from "./submitButton";
@@ -19,29 +18,26 @@ type PassedProps = {
   contribution: string;
 };
 
-type Config = {
-  schema: any;
-  transform: (data: any) => { name: string; message: string };
-  initialValues?: any;
-};
-
-export type FormProps = {
+export type BaseFormProps = {
   formik: FormikProps<any>;
   config: ConfigWithContribution;
 };
 
+export type FormProps = BaseFormProps & {
+  files?: any; // TODO
+  user?: any;
+};
+
 // TODO do not pass intiial values here, instead get from type's config
-export default function withFormik(
-  Form: React.ComponentType<FormProps>,
-  { schema, transform, initialValues = {} }: Config
-) {
+export default function withFormik(Form: React.ComponentType<FormProps>) {
   return function WithFormik({ repo, contribution, user, files }: PassedProps) {
     const [prUrl, setPrUrl] = useState<string | null>(null);
 
-    const config = getConfig(repo, contribution);
+    const config = getContribution(repo, contribution);
+    const { initialValues, schema, type } = config.contribution;
 
-    // TODO move then to config generation
-    const submitUrl = `/api/contribute/${config.repo.contribution.type}`;
+    const submitUrl = `/api/contribute/${type}`;
+    const validationSchema = Yup.object({ ...schema, ...commonSchema });
 
     // determine the auth UI based on use login status and config
     let authorization = "anon";
@@ -54,7 +50,7 @@ export default function withFormik(
     return (
       <Formik
         validateOnMount
-        validationSchema={Yup.object({ ...schema, ...commonSchema })}
+        validationSchema={validationSchema}
         initialValues={{
           ...initialValues,
           authorization,
@@ -92,9 +88,9 @@ export default function withFormik(
             {prUrl && <Submitted prUrl={prUrl} />}
             {!prUrl && (
               <>
-                <Form {...{ formik, config, files }} />
+                <Form {...{ formik, config, files, user }} />
                 {/* TODO only pass the metadata transform, not the commit */}
-                <CommonOptions {...{ formik, config, transform }} />
+                <CommonOptions {...{ formik, config }} />
                 <SubmitButton {...{ formik, config }} />
               </>
             )}

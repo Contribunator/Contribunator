@@ -1,42 +1,41 @@
 import { Contribution, TailwindColor } from "@/lib/config";
 
-type File = {
-  fileName: string;
-  content: string;
-  exists: boolean;
+type GenericConfig = Contribution & {};
+type GenericOptions = Omit<Partial<GenericConfig>, "type"> & { name?: string };
+
+const defaultConfig = {
+  type: "generic",
+  title: "Generic Contribution",
+  description: "This is a generic contribution",
+  color: "red" as TailwindColor,
+  schema: {},
+  initialValues: {},
+  metadata: {
+    title: (values: any) => "Add Generic Contribution",
+    message: (values: any) => "This PR adds a Generic Contribution",
+  },
 };
 
-type Transform = {
-  body: any;
-  files: File[];
-};
+export default function genericConfig(
+  opts: GenericOptions = {}
+): GenericConfig {
+  // TODO generate different schema, initialValues, meta based on config options
 
-type Transformed = {
-  [key: string]: string;
-};
+  // throw if invalid options
+  // throw if using reserved names e.g. `title` and `message`
 
-export default function genericConfig(): Contribution {
+  // TODO option for collections
+
   return {
-    type: "generic",
-    title: "Generic Contribution",
-    description: "This is a generic contribution",
-    color: "red" as TailwindColor,
+    ...defaultConfig,
+    ...opts,
+    useFiles: {
+      folder: "test",
+      json: "test/hello.json",
+      notFound: "test.json",
+      readme: "README.md",
+    },
     options: {
-      useFiles: {
-        folder: "test",
-        json: "test/hello.json",
-        notFound: "test.json",
-        readme: "README.md",
-      },
-
-      commit: ({ body: { name, link }, files }: Transform): Transformed => {
-        // if the file doesn't exist, let's create it
-        // should return an object similar to createMultipleFiles
-        console.log(files);
-        return {
-          [`${name}.txt`]: `Hello, my link is ${link}`,
-        };
-      },
       fields: {
         name: {
           type: "text",

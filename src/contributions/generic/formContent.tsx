@@ -1,14 +1,13 @@
 "use client";
 
-import withFormik from "@/components/form/withFormik";
-
-const schema = {};
-const transform = () => {
-  return { name: "test", message: "test" };
-};
+import withFormik, { FormProps } from "@/components/form/withFormik";
 
 // this function is used to generate the form
-function GenericFormContent({ formik, config, files }) {
+function GenericFormContent({
+  formik,
+  files,
+  config: { contribution },
+}: FormProps) {
   return (
     <div>
       Form Goes Here
@@ -17,14 +16,4 @@ function GenericFormContent({ formik, config, files }) {
   );
 }
 
-export default withFormik(GenericFormContent, {
-  schema,
-  transform,
-  initialValues: {
-    quoteType: undefined,
-    quoteUrl: "",
-    text: "",
-    media: ["", "", "", ""],
-    alt_text_media: ["", "", "", ""],
-  },
-});
+export default withFormik(GenericFormContent);

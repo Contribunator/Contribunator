@@ -8,9 +8,6 @@ import withFormik from "@/components/form/withFormik";
 import { ImagesInput } from "@/components/form/imageInput";
 import { FormProps } from "@/components/form/withFormik";
 
-import schema from "./schema";
-import transform from "./transform";
-
 /*
 TODO: polls & thread
 */
@@ -20,13 +17,7 @@ const quoteTypes: { [key: string]: { text: string } } = {
   reply: { text: "Reply" },
 };
 
-function TweetFormContent({
-  formik,
-  config: {
-    repo: { contribution },
-  },
-}: // TODO fix the typings
-FormProps & any) {
+function TweetFormContent({ formik, config: { contribution } }: FormProps) {
   const { quoteType } = formik.values;
   const quoteUrl = formik.getFieldMeta("quoteUrl");
   const { text = {} } = contribution?.options || {};
@@ -72,14 +63,4 @@ FormProps & any) {
   );
 }
 
-export default withFormik(TweetFormContent, {
-  schema,
-  transform,
-  initialValues: {
-    quoteType: undefined,
-    quoteUrl: "",
-    text: "",
-    media: ["", "", "", ""],
-    alt_text_media: ["", "", "", ""],
-  },
-});
+export default withFormik(TweetFormContent);

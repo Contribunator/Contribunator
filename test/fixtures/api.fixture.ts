@@ -44,7 +44,6 @@ class Mocktokit {
 }
 
 type ApiFixtureProps = {
-  schema?: any;
   transform: TransformToPR;
   postBase: any;
   prBase: any;
@@ -53,13 +52,11 @@ type ApiFixtureProps = {
 export class ApiFixture {
   private moctokit: Mocktokit;
   private mock: any;
-  private schema: any;
   private transform: TransformToPR;
   private postBase: any;
   private prBase: any;
 
   constructor(props: ApiFixtureProps) {
-    this.schema = props.schema;
     this.transform = props.transform;
     this.postBase = props.postBase;
     this.prBase = props.prBase;
@@ -77,13 +74,9 @@ export class ApiFixture {
   }
   async post(body: any) {
     // we pass moktokit to hook into generated PR
-    const tweetHandler = postPullRequest(
-      this.schema,
-      this.transform,
-      this.mock
-    );
+    const handler = postPullRequest(this.transform, this.mock);
     const req = createRequest({ json: async () => body });
-    return (await tweetHandler(req)).json();
+    return (await handler(req)).json();
   }
 
   // Note: merges the base params with the passed params

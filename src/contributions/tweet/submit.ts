@@ -2,17 +2,14 @@
 
 import sharp from "sharp";
 
-import pullRequestHandler from "@/lib/pullRequestHandler";
+import { PullRequestInfo, TransformInputs } from "@/lib/pullRequestHandler";
 
-import transform from "./transform";
-import schema from "./schema";
+import transformToPR from "./transformToPR";
 
-// TODO, refactor and use the `commit` from generic..
-// tweet is validated by passing the schema
-// TODO replace *all* of this with generic method hook using standard transform interface?
-
-export const POST = pullRequestHandler(schema, async ({ body, timestamp }) => {
-  const { files, name, media, branch, message } = transform(body, timestamp);
+export default async function submitTweet(
+  props: TransformInputs
+): Promise<PullRequestInfo> {
+  const { files, title, media, branch, message } = transformToPR(props);
 
   // convert media - todo move to utility function
   await Promise.all(
@@ -38,8 +35,8 @@ export const POST = pullRequestHandler(schema, async ({ body, timestamp }) => {
 
   return {
     branch,
-    name,
+    title,
     message,
     files,
   };
-});
+}

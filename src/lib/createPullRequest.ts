@@ -3,16 +3,16 @@ import { createAppAuth } from "@octokit/auth-app";
 // @ts-ignore
 import commitPlugin from "octokit-commit-multiple-files";
 
-import { getConfig } from "./config";
+import { Repo, getRepo } from "./config";
 import { Authorized } from "./authorize";
 import { appId, installationId, privateKey } from "./env";
 
 type CreatePROptions = {
   authorized: Authorized;
+  repo: Repo;
   pr: {
-    repo: string;
     message?: string;
-    name: string;
+    title: string;
     branch: string;
     files: {
       [key: string]: string;
@@ -21,16 +21,7 @@ type CreatePROptions = {
 };
 
 export default async function createPullRequest(
-  {
-    authorized,
-    pr: {
-      repo,
-      files,
-      name: title, // TODO rename this?
-      branch,
-      message,
-    },
-  }: CreatePROptions,
+  { authorized, repo, pr: { files, title, branch, message } }: CreatePROptions,
   OctokitModule = Octokit
 ) {
   const OctokitPlugin = OctokitModule.plugin(commitPlugin);
@@ -43,17 +34,12 @@ export default async function createPullRequest(
     },
   });
 
-  const {
-    prPostfix,
-    repo: { base, branchPrefix, owner },
-  } = getConfig(repo);
-
-  const prMessage = `${message || "Automated Pull Request"}${prPostfix}`;
+  const prMessage = `${message}${repo.prPostfix}`;
   const githubUser = authorized.type === "github" ? authorized.token : null;
   const commit = {
-    repo,
-    owner: owner,
-    branch: `${branchPrefix}${branch}`,
+    repo: repo.name,
+    owner: repo.owner,
+    branch: `${repo.branchPrefix}${branch}`,
     createBranch: true,
     ...(githubUser && {
       author: {
@@ -74,11 +60,11 @@ export default async function createPullRequest(
   await octokit.rest.repos.createOrUpdateFiles(commit);
 
   const pr = {
-    repo,
-    base,
+    base: repo.base,
     title,
+    repo: repo.name,
     head: commit.branch,
-    owner: owner,
+    owner: repo.owner,
     body: prMessage,
   };
 

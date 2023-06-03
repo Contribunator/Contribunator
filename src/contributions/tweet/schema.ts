@@ -2,7 +2,8 @@ import * as Yup from "yup";
 
 import twitter from "twitter-text";
 
-// TODO validations based on the contribution type config
+// TODO replace with a function that generates schema
+// based on the contribution type config
 
 const tweetSchema = {
   text: Yup.string()

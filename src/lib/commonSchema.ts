@@ -1,58 +1,29 @@
 import * as Yup from "yup";
 
-import { getConfig } from "./config";
+import config, { getRepo, getContribution } from "./config";
 
 // TODO add options branch, star etc.
 // TODO optimize this so we only validate cetain options server side?
-const { authorization } = getConfig();
+const { authorization } = config;
 
 const commonSchema = {
-  customName: Yup.string().max(100, "Name is too long"),
+  customTitle: Yup.string().max(100, "Title is too long"),
   customMessage: Yup.string(),
   // todo use getConfig?
   repo: Yup.string().test({
     name: "is-valid-repo",
-    test(value, ctx) {
-      if (!value) {
-        return ctx.createError({
-          message: "No repo specified",
-        });
-      }
-      try {
-        getConfig(value); // will throw if not found
-      } catch {
-        return ctx.createError({
-          message: "Invalid repo",
-        });
-      }
+    test(value) {
+      getRepo(value as string); // will throw if not found
       return true;
     },
   }),
-  contribution: Yup.string()
-    // only trigger validation if repo is set, to ensure correct sequence of error messages
-    // TODO why does this work again?
-    .when("repo", {
-      is: (repo: string) => !!repo,
-      then: (schema) =>
-        schema.test({
-          name: "is-valid-contribution",
-          test(value, ctx) {
-            if (!value) {
-              return ctx.createError({
-                message: "No contribution specified",
-              });
-            }
-            try {
-              getConfig(ctx.parent.repo, value); // will throw if not found
-            } catch {
-              return ctx.createError({
-                message: "Invalid contribution",
-              });
-            }
-            return true;
-          },
-        }),
-    }),
+  contribution: Yup.string().test({
+    name: "is-valid-contribution",
+    test(value, ctx) {
+      getContribution(ctx.parent.repo, value as string); // will throw if not found
+      return true;
+    },
+  }),
   authorization: Yup.string().oneOf(authorization, "Invalid authorization"),
   captcha: Yup.string().when(["authorization"], {
     is: (authorization: string) => authorization === "captcha",

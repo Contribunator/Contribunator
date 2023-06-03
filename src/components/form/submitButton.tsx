@@ -3,7 +3,7 @@ import { BiGitPullRequest } from "react-icons/bi";
 import { HiExclamationCircle } from "react-icons/hi";
 import { ImSpinner2 } from "react-icons/im";
 
-import { FormProps } from "./withFormik";
+import { BaseFormProps } from "./withFormik";
 
 function Button({
   children,
@@ -27,7 +27,7 @@ function Button({
   );
 }
 
-export default function SubmitButton({ formik }: FormProps) {
+export default function SubmitButton({ formik }: BaseFormProps) {
   // prevent the button from being enabled until the form is valdiated (SSR)
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
