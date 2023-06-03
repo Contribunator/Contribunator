@@ -1,5 +1,7 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Locator, expect } from "@playwright/test";
 import { PageFixture, PageFixtureProps } from "./page.fixture";
+
+import { getContribution } from "@/lib/config";
 
 export type ContributionFixtureProps = Omit<PageFixtureProps, "path"> & {
   baseURL?: string;
@@ -23,7 +25,11 @@ export class ContributionFixture extends PageFixture {
   }: ContributionFixtureProps) {
     const path = `/contribute/${repo}/${contribution}`;
     super({ page, path, headless });
-    this.submitUrl = `${baseURL}${path}/submit`;
+    const {
+      contribution: { type },
+    } = getContribution(repo, contribution);
+    // TODO, do a full E2E test with a real server
+    this.submitUrl = `${baseURL}/api/contribute/${type}`;
     this.body = {
       repo,
       contribution,
@@ -60,7 +66,7 @@ export class ContributionFixture extends PageFixture {
     await this.screenshot("form-completed");
 
     await this.submitButton.click();
-    await this.page.getByRole("link", { name: prUrl }).isVisible();
+    await expect(this.page.getByRole("link", { name: prUrl })).toBeVisible();
   }
 
   // asser that validation errors exist
