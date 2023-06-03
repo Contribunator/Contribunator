@@ -35,7 +35,7 @@ export class ContributionFixture extends PageFixture {
       contribution,
       authorization: "anon", // TODO make configurable when needed
       customMessage: "",
-      customName: "",
+      customTitle: "",
       ...body,
     };
 

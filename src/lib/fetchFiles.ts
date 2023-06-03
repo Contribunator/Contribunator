@@ -64,7 +64,6 @@ export default async function fetchFiles(
     ...(isClient ? useFilesOnClient : useFilesOnServer),
   };
 
-  console.log(Object.keys(usedFiles), contribution);
   if (Object.keys(usedFiles).length === 0) {
     return null;
   }
@@ -91,7 +90,6 @@ export default async function fetchFiles(
               }),
             };
           } else if (data.type === "file") {
-            console.log(file, data);
             const content = Buffer.from(data.content, "base64").toString();
             return {
               ...file,

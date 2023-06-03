@@ -52,12 +52,13 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
         validateOnMount
         validationSchema={validationSchema}
         initialValues={{
+          // TODO move to the schema generation function
           ...initialValues,
           authorization,
           repo,
           contribution,
           customMessage: "",
-          customName: "",
+          customTitle: "",
         }}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {

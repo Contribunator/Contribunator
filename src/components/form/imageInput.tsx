@@ -12,7 +12,7 @@ type Image = {
   type: string;
 };
 
-export type ImageInputProps = {
+export type ImageInput = {
   fileSizeLimit?: number;
   title?: string;
   name: string;
@@ -20,12 +20,13 @@ export type ImageInputProps = {
   aspectRatio?: number;
 };
 
-const defaultInfo = {
+export const MB = 1048576;
+
+export const defaultInfo = {
   title: "Upload Image",
   info: "PNG or JPEG",
+  fileSizeLimit: 4.3,
 };
-
-const MB = 1048576;
 
 function EditImage({
   image,
@@ -99,67 +100,13 @@ function ImageSelect({
   );
 }
 
-export function ImagesInput({
-  limit,
-  totalFileSizeLimit = 0,
-  fileSizeLimit = 0,
-  ...props
-}: ImageInputProps & { limit: number; totalFileSizeLimit?: number }) {
-  const { name, title } = { ...defaultInfo, ...props };
-  const [field] = useField(name);
-  const values = field.value || [];
-  const count = values.filter((i: any) => i).length;
-  let firstEmptySlot = 0;
-  let totalFileSize = 0;
-  const imageFields = new Array(limit).fill(null).map((_, i) => {
-    const exists = values[i] && values[i] !== "editing";
-    if (exists) {
-      const base64Image = values[i].split(",")[1];
-      const fileSize = Math.round((base64Image.length * 3) / 4);
-      totalFileSize += fileSize;
-    } else if (!firstEmptySlot) {
-      firstEmptySlot = i + 1;
-    }
-    return {
-      name: `${name}[${i}]`,
-      show: exists || i + 1 === firstEmptySlot,
-    };
-  });
-  // calculate the filesize based on text length
-  const remainingFileSizeLimit = totalFileSizeLimit
-    ? parseFloat((totalFileSizeLimit - totalFileSize / MB).toFixed(1))
-    : fileSizeLimit;
-
-  // if the filesize limit is less than the remaining limit, use that
-  const thisFileSizeLimit =
-    fileSizeLimit && fileSizeLimit <= remainingFileSizeLimit
-      ? fileSizeLimit
-      : remainingFileSizeLimit;
-
-  return (
-    <>
-      {imageFields
-        .filter(({ show }) => show)
-        .map((field) => (
-          <ImageInput
-            key={field.name}
-            {...props}
-            {...field}
-            fileSizeLimit={thisFileSizeLimit}
-            title={`${title} (${limit - count} remaining)`}
-          />
-        ))}
-    </>
-  );
-}
-
 export default function ImageInput({
   name,
   aspectRatio,
   title = defaultInfo.title,
   info = defaultInfo.info,
-  fileSizeLimit,
-}: ImageInputProps) {
+  fileSizeLimit = defaultInfo.fileSizeLimit,
+}: ImageInput) {
   const altTextName = `alt_text_${name}`;
   const [field, meta, helpers] = useField(name);
   const [, , altHelpers] = useField(altTextName);

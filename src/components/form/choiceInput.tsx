@@ -3,24 +3,26 @@ import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 
 import FieldHeader from "./fieldHeader";
 
-type Props = {
+export type ChoiceInput = {
   name: string;
+  title?: string;
   unset?: string;
   info?: string;
   options: { [key: string]: { text: string } };
-  type: "dropdown" | "buttons";
+  component?: "dropdown" | "buttons";
 };
 
-type CompProps = Omit<Props, "type"> & {
+type CompProps = ChoiceInput & {
   handleChange: (value: string | undefined) => void;
   field: { value: string };
 };
 
+// TODO, only show unselect when not required.
 function Dropdown({
   handleChange,
   field,
   options,
-  unset = "Select an option",
+  unset = "No Selection",
   info,
 }: CompProps) {
   return (
@@ -59,14 +61,17 @@ function Dropdown({
 }
 
 function Buttons({ field, options, handleChange, unset }: CompProps) {
+  // add option to show buttons instead of dropdown
   return (
     <div className="btn-group flex bg-base-100 rounded-lg textarea textarea-bordered p-0">
-      <a
-        className={`flex-1 btn ${field.value ? "btn-ghost" : ""}`}
-        onClick={() => handleChange(undefined)}
-      >
-        {unset}
-      </a>
+      {unset && (
+        <a
+          className={`flex-1 btn ${field.value ? "btn-ghost" : ""}`}
+          onClick={() => handleChange(undefined)}
+        >
+          {unset}
+        </a>
+      )}
       {Object.keys(options).map((name) => (
         <a
           key={name}
@@ -80,28 +85,21 @@ function Buttons({ field, options, handleChange, unset }: CompProps) {
   );
 }
 
-export default function ChoiceInput(props: {
-  name: string;
-  title?: string;
-  unset?: string;
-  info?: string;
-  options: { [key: string]: { text: string } };
-  type?: "dropdown" | "buttons";
-}) {
+export default function ChoiceInput(props: ChoiceInput) {
   // todo option to show buttons instead of dropdown
-  const { name, type = "dropdown" } = props;
-  const [field, , helpers] = useField(name);
+  const { name, component = "dropdown" } = props;
+  const [field, meta, helpers] = useField(name);
   function handleChange(value: string | undefined) {
     (document.activeElement as HTMLElement)?.blur();
     helpers.setValue(value);
   }
   return (
     <div className="form-control">
-      <FieldHeader {...props} />
-      {type === "dropdown" && (
+      <FieldHeader {...{ ...props, ...meta }} />
+      {component === "dropdown" && (
         <Dropdown {...props} field={field} handleChange={handleChange} />
       )}
-      {type === "buttons" && (
+      {component === "buttons" && (
         <Buttons {...props} field={field} handleChange={handleChange} />
       )}
     </div>

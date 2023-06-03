@@ -3,9 +3,9 @@
 import ChoiceInput from "@/components/form/choiceInput";
 import EmbedTweet from "@/components/form/embedTweet";
 import TextInput from "@/components/form/textInput";
-import withFormik from "@/components/form/withFormik";
+import ImagesInput from "@/components/form/imagesInput";
 
-import { ImagesInput } from "@/components/form/imageInput";
+import withFormik from "@/components/form/withFormik";
 import { FormProps } from "@/components/form/withFormik";
 
 /*
@@ -25,7 +25,7 @@ function TweetFormContent({ formik, config: { contribution } }: FormProps) {
     <>
       <ChoiceInput
         title="Quote Type"
-        type="buttons"
+        component="buttons"
         name="quoteType"
         options={quoteTypes}
         unset="None"
@@ -54,11 +54,7 @@ function TweetFormContent({ formik, config: { contribution } }: FormProps) {
         suggestions={text.suggestions}
         tags={text.tags}
       />
-      <ImagesInput
-        name="media"
-        limit={4}
-        totalFileSizeLimit={4.3} // vercel server functions to 5MB
-      />
+      <ImagesInput name="media" limit={4} />
     </>
   );
 }

@@ -4,6 +4,19 @@ import FieldHeader from "./fieldHeader";
 
 // TODO move these types in to a config
 
+export type TextInput = {
+  title?: string;
+  prefix?: string;
+  name: string;
+  type?: string;
+  as?: "input" | "textarea";
+  info?: string;
+  placeholder?: string;
+  transform?: (value: string) => string;
+  suggestions?: { has?: string; hasNo?: string; message: string }[];
+  tags?: string[];
+};
+
 export default function TextInput({
   title,
   name,
@@ -14,18 +27,7 @@ export default function TextInput({
   suggestions,
   placeholder,
   tags,
-}: {
-  title?: string;
-  prefix?: string;
-  name: string;
-  type?: string;
-  as?: null | "input" | "textarea";
-  info?: string;
-  placeholder?: string;
-  transform?: (value: string) => string;
-  suggestions?: { has?: string; hasNo?: string; message: string }[];
-  tags?: string[];
-}) {
+}: TextInput) {
   const [field, meta, helpers] = useField(name);
   const styles = [
     as === "input" && "input input-bordered",

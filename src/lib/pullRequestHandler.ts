@@ -32,23 +32,20 @@ export default function pullRequestHandler(
       const authorized = await authorize(req, body);
       // validate the request body
       // get the config and schema
-      const { contribution, repo } = getContribution(
-        body.repo,
-        body.contribution
-      );
-      console.log({ contribution });
+      const config = getContribution(body.repo, body.contribution);
       // TODO ensure we have some tests here for malicious input
       // TODO we may want to return a transformed object here
-      await Yup.object({ ...contribution.schema, ...commonSchema }).validate(
-        body
-      );
+      await Yup.object({
+        ...config.contribution.schema,
+        ...commonSchema,
+      }).validate(body);
       // apply this contribution type's transformations
       const transformed = await transform({ body, timestamp: timestamp() });
       // apply common transformations, e.g. pr messages
       const pr = await commonTransform({ body, pr: transformed });
       // create the PR
       const prUrl = await createPullRequest(
-        { pr, authorized, repo },
+        { pr, authorized, config },
         Mocktokit
       );
       // return PR URL

@@ -6,8 +6,8 @@ export default function GenericFormContainer({
 }) {
   return (
     <>
-      <div>TODO Generic Form page.</div>
-      <pre className="text-left">{JSON.stringify(props, null, 2)}</pre>
+      <div>Generic Form Goes Here</div>
+      {/* <pre className="text-left">{JSON.stringify(props, null, 2)}</pre> */}
       {children}
     </>
   );
