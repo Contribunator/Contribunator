@@ -13,6 +13,9 @@ Below are the upcoming features and improvements.
 - figure out how to set up various demo/dev/e2e configs
 - support private repos
 - Replace all `any` types
+- Standardize all typings (use `Inputs` and `Outputs`)
+- update docs, use "nocode" somewhere
+- Tweets: test `title` and `message` generation
 
 ### Tweets
 
@@ -44,3 +47,4 @@ Below are the upcoming features and improvements.
 - User access token refreshing
 - branch selection
 - AI to generate description/suggest improvement
+- Allow multiple repos, set up a public contribunator instance, with config updates

@@ -6,6 +6,8 @@ import { ImageInput } from "@/components/form/imageInput";
 import { ImagesInput } from "@/components/form/imagesInput";
 
 import generateSchema from "./generateSchema";
+import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
+import getImageType from "@/lib/getImageType";
 
 type ValidationOptions = { required?: string; min?: number; max?: number };
 
@@ -24,9 +26,12 @@ type Field = { type: FieldType; validation?: ValidationOptions } & (
   | ImagesField
 );
 
+type CommitOutput = Omit<TransformOutputs, "title" | "message">;
+
 export type GenericConfig = Contribution & {
   type: string;
   options: {
+    commit: (arg: TransformInputs) => Promise<CommitOutput>;
     fields: {
       [key: string]: Field;
     };
@@ -39,10 +44,10 @@ const defaultConfig = {
   title: "Generic Contribution",
   description: "This is a generic contribution",
   color: "red" as TailwindColor,
-  metadata: {
-    title: (values: any) => "Add Generic Contribution",
-    message: (values: any) => "This PR adds a Generic Contribution",
-  },
+  prMetadata: (values: any) => ({
+    title: "Add Generic Contribution",
+    message: "This PR adds a Generic Contribution",
+  }),
 };
 
 export default function genericConfig(
@@ -51,7 +56,7 @@ export default function genericConfig(
   // throw if invalid options
   // throw if using reserved names e.g. `title` and `message`
   // TODO option for collections
-  const config = {
+  const config: Omit<GenericConfig, "initialValues" | "schema"> = {
     ...defaultConfig,
     ...opts,
     type: "generic",
@@ -61,8 +66,28 @@ export default function genericConfig(
     //   notFound: "test.json",
     //   readme: "README.md",
     // },
+    useFilesOnServer: {
+      hello: "test/hello.json",
+    },
     options: {
+      commit: async ({
+        body,
+        timestamp,
+      }: TransformInputs): Promise<CommitOutput> => {
+        // TODO automatically parse JSON from files
+        // TODO autoamtically infer image types
+        const commit = {
+          files: {
+            "hello.txt": `Hello, world! ${timestamp}`,
+          },
+          ...(body.image && {
+            images: { [`cat.${getImageType(body.image)}`]: body.image },
+          }),
+        };
+        return commit;
+      },
       fields: {
+        // TODO collections
         name: {
           type: "text" as FieldType,
           title: "Enter your name",
@@ -84,6 +109,7 @@ export default function genericConfig(
           validation: {
             required: "You must choose an color!",
           },
+          // TODO allow this to consume useFiles
           options: {
             red: {
               text: "Red",

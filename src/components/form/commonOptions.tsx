@@ -5,9 +5,8 @@ import TextInput from "./textInput";
 import { BaseFormProps } from "./withFormik";
 
 export default function GenericOptions({ formik, config }: BaseFormProps) {
-  const [authorization] = useField("authorization");
-  const showCaptcha = authorization.value === "captcha";
-  const { title, message } = config.contribution.metadata;
+  const showCaptcha = formik.values.authorization === "captcha";
+  const { title, message } = config.contribution.prMetadata(formik.values);
   return (
     <>
       <div className="collapse collapse-arrow rounded-md border border-base-300">
@@ -20,12 +19,12 @@ export default function GenericOptions({ formik, config }: BaseFormProps) {
             title="Custom Pull Request Title"
             info="Special characters will be removed"
             name="customTitle"
-            placeholder={title(formik.values)}
+            placeholder={title}
           />
           <TextInput
             title="Custom Pull Request Message"
             name="customMessage"
-            placeholder={message(formik.values)}
+            placeholder={message}
             as="textarea"
           />
         </div>

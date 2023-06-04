@@ -1,26 +1,46 @@
-import slugify from "slugify";
+import slugify from "./slugify";
+import { TransformOutputs } from "./pullRequestHandler";
+import { ConfigWithContribution } from "./config";
+import { convertImages } from "./convertImages";
 
-import { PullRequestInfo } from "./pullRequestHandler";
-
-export default function commonTransforms({
-  pr,
-  body,
-}: {
-  pr: PullRequestInfo;
+type CommonTransformInptus = {
   body: any;
-}): PullRequestInfo & { repo: string } {
-  // TODO, we should pass explicit values here as a sanity check
+  transformed: TransformOutputs;
+  timestamp: string;
+  config: ConfigWithContribution;
+};
+
+export type CommonTransformOutputs = {
+  branch: string;
+  message?: string;
+  title: string;
+  files: {
+    [key: string]: string;
+  };
+};
+
+export default async function commonTransform({
+  transformed,
+  config,
+  timestamp,
+  body,
+}: CommonTransformInptus): Promise<CommonTransformOutputs> {
+  const prMeta = config.contribution.prMetadata(body);
+
+  const title = body.customTitle || prMeta.title;
+  const message = body.customMessage || prMeta.message;
+
+  const branch = slugify(`${timestamp} ${title}`);
+
+  const files = {
+    ...transformed.files,
+    ...(transformed.images && (await convertImages(transformed.images))),
+  };
+
   return {
-    ...pr,
-    // override the generated title and message if it's set
-    ...(body.customTitle && {
-      title: slugify(body.customTitle, {
-        lower: true,
-        strict: true,
-        replacement: " ",
-      }),
-    }),
-    ...(body.customMessage && { message: body.customMessage }),
-    repo: body.repo,
+    files,
+    message,
+    title,
+    branch,
   };
 }

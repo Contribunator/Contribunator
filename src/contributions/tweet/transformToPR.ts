@@ -1,12 +1,15 @@
-import slugify from "slugify";
+import slugify from "@/lib/slugify";
+import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
 
-import * as generate from "./metadata";
-import { TransformInputs } from "@/lib/pullRequestHandler";
+import prMetadata from "./prMetadata";
+import getImageType from "@/lib/getImageType";
 
 // returns the tweet formatted for twitter-together and github PR
-export default function transformToPR({ body, timestamp }: TransformInputs) {
-  const title = generate.title(body);
-  const message = generate.message(body);
+export default async function transformTweetToPR({
+  body,
+  timestamp,
+}: TransformInputs): Promise<TransformOutputs> {
+  const { title } = prMetadata(body);
   const media: { [key: string]: string } = {};
   const hasQuote = body.quoteType && body.quoteUrl;
   const hasMedia = body.media && body.media.filter((m: string) => m).length > 0;
@@ -26,14 +29,10 @@ ${body.media
       return "";
     } else {
       const altText = body.alt_text_media?.[i] || "";
-      const fileName =
-        `${timestamp}-` +
-        slugify(`${title} ${altText} ${i || ""}`.trim(), {
-          lower: true,
-          strict: true,
-        });
-      // infer type from data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...
-      const fileType = m.split(";")[0].split("/")[1] === "png" ? "png" : "jpg";
+      const fileName = slugify(`${timestamp} ${title} ${altText}`, {
+        append: i, // does not append if i is 0
+      });
+      const fileType = getImageType(m);
       const filePath = `${fileName}.${fileType}`;
       const fileDest = `media/${filePath}`;
       let mediaString = `  - file: ${filePath}\n`;
@@ -53,17 +52,13 @@ ${body.media
   if (body.text) {
     transformed += body.text;
   }
-  const tweet = transformed.trim();
-  const branch = `${timestamp}-${slugify(title, { strict: true })}`;
-  const data = {
-    tweet,
-    title,
-    media,
-    branch,
-    files: { ...media, [`tweets/${branch}.tweet`]: tweet },
-  };
+
+  const tweetFileName = slugify(`${timestamp} ${title}`);
+
   return {
-    ...data,
-    message,
+    images: media, // these will get converted in pullRequestHandler
+    files: {
+      [`tweets/${tweetFileName}.tweet`]: transformed.trim(),
+    },
   };
 }

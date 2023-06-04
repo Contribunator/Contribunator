@@ -90,7 +90,6 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
             {!prUrl && (
               <>
                 <Form {...{ formik, config, files, user }} />
-                {/* TODO only pass the metadata transform, not the commit */}
                 <CommonOptions {...{ formik, config }} />
                 <SubmitButton {...{ formik, config }} />
               </>

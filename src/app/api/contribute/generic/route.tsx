@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import transformToPR from "@/contributions/generic/transformToPR";
+import pullRequestHandler from "@/lib/pullRequestHandler";
 
-export async function GET() {
-  return NextResponse.json({ hello: "World" });
-}
+const POST = pullRequestHandler(transformToPR);
+
+export { POST };

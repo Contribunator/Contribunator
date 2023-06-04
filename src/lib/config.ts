@@ -56,10 +56,7 @@ export type Contribution = CommonFields &
   ContributionConfig & {
     initialValues: any;
     schema: any;
-    metadata: {
-      title: (values: any) => string;
-      message: (values: any) => string;
-    };
+    prMetadata: (values: any) => { title: string; message: string };
   };
 
 export type Repo = RepoConfig &

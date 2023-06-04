@@ -3,7 +3,7 @@ import { FaTwitter } from "react-icons/fa";
 import { Contribution, TailwindColor } from "@/lib/config";
 
 import schema from "./schema";
-import * as metadata from "./metadata";
+import prMetadata from "./prMetadata";
 
 type Suggestion = {
   has?: string;
@@ -93,7 +93,7 @@ export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
     ...opts,
     initialValues,
     schema,
-    metadata,
+    prMetadata,
     options: {
       text: {
         ...defaultConfig.options.text,

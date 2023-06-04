@@ -5,8 +5,7 @@ import EmbedTweet from "@/components/form/embedTweet";
 import TextInput from "@/components/form/textInput";
 import ImagesInput from "@/components/form/imagesInput";
 
-import withFormik from "@/components/form/withFormik";
-import { FormProps } from "@/components/form/withFormik";
+import withFormik, { FormProps } from "@/components/form/withFormik";
 
 /*
 TODO: polls & thread

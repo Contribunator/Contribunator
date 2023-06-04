@@ -6,19 +6,6 @@ class MockOctokit {
   repos = {
     async getContent({ path }: { owner: string; repo: string; path: string }) {
       switch (path) {
-        case "test":
-          return {
-            data: [
-              {
-                name: "hello.json",
-                html_url:
-                  "https://github.com/Contribunator/Another/blob/main/test/hello.json",
-                path: "test/hello.json",
-                sha: "f2a886f39de7d36f08be433bdba1e47851752aa9",
-                type: "file",
-              },
-            ],
-          };
         case "test/hello.json":
           return {
             data: {
@@ -31,8 +18,6 @@ class MockOctokit {
               content: "ewogICJoZWxsbyI6ICJ3b3JsZCIKfQo=\n",
             },
           };
-        case "test.json":
-          throw { status: 404 };
         case "README.md":
           return {
             data: {
@@ -46,17 +31,29 @@ class MockOctokit {
             },
           };
         default:
-          throw new Error(`Unknown path: ${path}`);
+          throw { status: 404 };
       }
     },
   };
 }
 
+export type File = {
+  name: string;
+  path: string;
+  sha?: string;
+  url?: string;
+  type?: string;
+  exists: boolean;
+  content?: string;
+};
+
+export type Files = { [name: string]: File };
+
 export default async function fetchFiles(
   { owner, repo, contribution }: ConfigWithContribution,
   isClient: boolean,
   OctokitModule = MockOctokit
-) {
+): Promise<Files> {
   const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
 
   const usedFiles = {
@@ -65,7 +62,7 @@ export default async function fetchFiles(
   };
 
   if (Object.keys(usedFiles).length === 0) {
-    return null;
+    return {};
   }
 
   const octokit = new OctokitModule();

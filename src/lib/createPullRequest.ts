@@ -3,21 +3,15 @@ import { createAppAuth } from "@octokit/auth-app";
 // @ts-ignore
 import commitPlugin from "octokit-commit-multiple-files";
 
-import { ConfigWithContribution, Repo, getRepo } from "./config";
+import { ConfigWithContribution } from "./config";
 import { Authorized } from "./authorize";
 import { appId, installationId, privateKey } from "./env";
+import { CommonTransformOutputs } from "./commonTransform";
 
-type CreatePROptions = {
+type CreatePullRequestInputs = {
   authorized: Authorized;
   config: ConfigWithContribution;
-  pr: {
-    message?: string;
-    title: string;
-    branch: string;
-    files: {
-      [key: string]: string;
-    };
-  };
+  pr: CommonTransformOutputs;
 };
 
 export default async function createPullRequest(
@@ -25,7 +19,7 @@ export default async function createPullRequest(
     authorized,
     config: { repo },
     pr: { files, title, branch, message },
-  }: CreatePROptions,
+  }: CreatePullRequestInputs,
   OctokitModule = Octokit
 ) {
   const OctokitPlugin = OctokitModule.plugin(commitPlugin);

@@ -4,45 +4,61 @@ import { NextRequest, NextResponse } from "next/server";
 import authorize from "./authorize";
 import commonSchema from "./commonSchema";
 import createPullRequest from "./createPullRequest";
-import timestamp from "./timestamp";
+import getTimestamp from "./timestamp";
 import commonTransform from "./commonTransform";
-import { getContribution } from "./config";
+import { ConfigWithContribution, getContribution } from "./config";
+import fetchFiles, { Files } from "./fetchFiles";
 
-export type PullRequestInfo = {
-  branch: string;
-  title: string;
-  message: string;
+export type TransformInputs = {
+  body: any;
+  timestamp: string;
+  config: ConfigWithContribution;
+  files?: Files;
+};
+
+export type TransformOutputs = {
+  message?: string;
+  title?: string;
+  images?: {
+    [key: string]: string;
+  };
   files: {
     [key: string]: string;
   };
 };
 
-export type TransformInputs = { body: any; timestamp: string };
-export type TransformToPR = (arg: TransformInputs) => Promise<PullRequestInfo>;
+export type TransformToPR = (arg: TransformInputs) => Promise<TransformOutputs>;
 
 export default function pullRequestHandler(
-  transform: TransformToPR,
+  transformToPR: TransformToPR,
   Mocktokit?: any // only used for testing, TODO throw in prod?
 ) {
   return async (req: NextRequest) => {
     try {
       // parse body
       const body = await req.json();
-      // ensure the request is authorized
+      // ensure the request is authorized, throw early if not
       const authorized = await authorize(req, body);
-      // validate the request body
-      // get the config and schema
+      // get the config and schema, validates request
       const config = getContribution(body.repo, body.contribution);
-      // TODO ensure we have some tests here for malicious input
-      // TODO we may want to return a transformed object here
+      // validate the schema
+      // TODO we may want to return a Yup-transformed object here for easier transforms later
       await Yup.object({
         ...config.contribution.schema,
         ...commonSchema,
       }).validate(body);
-      // apply this contribution type's transformations
-      const transformed = await transform({ body, timestamp: timestamp() });
-      // apply common transformations, e.g. pr messages
-      const pr = await commonTransform({ body, pr: transformed });
+
+      // transform the PR
+      const prOpts = {
+        config,
+        body,
+        timestamp: getTimestamp(),
+        files: await fetchFiles(config, false),
+      };
+      // apply the type-specific transformation
+      const transformed = await transformToPR(prOpts);
+      // apply common transformations, ensure formatting, cerate title/branch/message, convert images
+      const pr = await commonTransform({ ...prOpts, transformed });
       // create the PR
       const prUrl = await createPullRequest(
         { pr, authorized, config },
