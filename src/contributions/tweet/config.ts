@@ -2,7 +2,7 @@ import { FaTwitter } from "react-icons/fa";
 
 import { Contribution, TailwindColor } from "@/lib/config";
 
-import schema from "./schema";
+import generateSchema from "./generateSchema";
 import prMetadata from "./prMetadata";
 
 type Suggestion = {
@@ -72,27 +72,18 @@ type TextFieldOptions = {
   suggestions?: Suggestion[];
 };
 
-type TweetConfig = Contribution & {
+export type TweetConfig = Contribution & {
   options: { text: TextFieldOptions };
 };
 
-type TweetOptions = Omit<Partial<TweetConfig>, "type"> & { name?: string };
+export type TweetOptions = Omit<Partial<TweetConfig>, "type"> & {
+  name?: string;
+};
 
 export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
-  // TODO generate different schema, initialValues, meta based on config options
-  const initialValues = {
-    quoteType: undefined,
-    quoteUrl: "",
-    text: "",
-    media: ["", "", "", ""],
-    alt_text_media: ["", "", "", ""],
-  };
-
-  return {
+  const config: Omit<TweetConfig, "initialValues" | "schema"> = {
     ...defaultConfig,
     ...opts,
-    initialValues,
-    schema,
     prMetadata,
     options: {
       text: {
@@ -101,4 +92,6 @@ export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
       },
     },
   };
+
+  return { ...config, ...generateSchema(config) };
 }

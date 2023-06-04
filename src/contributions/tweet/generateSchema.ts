@@ -3,8 +3,10 @@ import * as Yup from "yup";
 import twitter from "twitter-text";
 
 import { validImageAlts, validImages } from "@/lib/commonValidation";
+import { init } from "next/dist/compiled/@vercel/og/satori";
+import { TweetConfig } from "./config";
 
-const tweetSchema = {
+const schema = {
   media: validImages,
   alt_text_media: validImageAlts,
   quoteType: Yup.string().oneOf(["reply", "retweet"]),
@@ -69,4 +71,18 @@ const tweetSchema = {
     }),
 };
 
-export default tweetSchema;
+export default function generateSchema(
+  config: Omit<TweetConfig, "initialValues" | "schema">
+): { schema: any; initialValues: any } {
+  // TODO generate the schema and config based on options passed
+  return {
+    schema,
+    initialValues: {
+      quoteType: undefined,
+      quoteUrl: "",
+      text: "",
+      media: ["", "", "", ""],
+      alt_text_media: ["", "", "", ""],
+    },
+  };
+}
