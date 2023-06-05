@@ -13,7 +13,7 @@ export type TransformInputs = {
   body: any;
   timestamp: string;
   config: ConfigWithContribution;
-  files?: Files;
+  files: Files;
 };
 
 export type TransformOutputs = {
@@ -22,8 +22,14 @@ export type TransformOutputs = {
   images?: {
     [key: string]: string;
   };
-  files: {
+  files?: {
     [key: string]: string;
+  };
+  json?: {
+    [key: string]: any;
+  };
+  yaml?: {
+    [key: string]: any;
   };
 };
 

@@ -35,7 +35,6 @@ function GenericFormContent({
           return <Input key={name} name={name} {...field} />;
         }
       )}
-      {<pre>{JSON.stringify(formik.values, null, 2)}</pre>}
     </>
   );
 }

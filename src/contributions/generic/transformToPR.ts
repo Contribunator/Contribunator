@@ -11,10 +11,7 @@ export default async function transformGenericToPR(
     throw new Error("Contribution has no commit method defined");
   }
 
-  // TODO automatically parse JSON / YAML etc. ?
-  // TODO automatically infer iamge types
+  const { files, images, yaml, json } = await commit(props);
 
-  const { files, images } = await commit(props);
-
-  return { files, images };
+  return { files, images, yaml, json };
 }

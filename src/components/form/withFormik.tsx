@@ -94,7 +94,6 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
                 <SubmitButton {...{ formik, config }} />
               </>
             )}
-            {/* <pre className="text-left">{JSON.stringify(formik, null, 2)}</pre> */}
           </form>
         )}
       </Formik>

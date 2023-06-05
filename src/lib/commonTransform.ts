@@ -1,7 +1,10 @@
+import YAML from "yaml";
+
 import slugify from "./slugify";
+import convertImages from "./convertImages";
+
 import { TransformOutputs } from "./pullRequestHandler";
 import { ConfigWithContribution } from "./config";
-import { convertImages } from "./convertImages";
 
 type CommonTransformInptus = {
   body: any;
@@ -19,6 +22,24 @@ export type CommonTransformOutputs = {
   };
 };
 
+function toJson(obj: { [fileName: string]: string }) {
+  return Object.keys(obj).reduce((acc, fileName) => {
+    return {
+      ...acc,
+      [fileName]: JSON.stringify(obj[fileName], null, 2),
+    };
+  }, {});
+}
+
+function toYaml(obj: { [fileName: string]: string }) {
+  return Object.keys(obj).reduce((acc, fileName) => {
+    return {
+      ...acc,
+      [fileName]: YAML.stringify(obj[fileName]),
+    };
+  }, {});
+}
+
 export default async function commonTransform({
   transformed,
   config,
@@ -26,17 +47,15 @@ export default async function commonTransform({
   body,
 }: CommonTransformInptus): Promise<CommonTransformOutputs> {
   const prMeta = config.contribution.prMetadata(body);
-
   const title = body.customTitle || prMeta.title;
   const message = body.customMessage || prMeta.message;
-
   const branch = slugify(`${timestamp} ${title}`);
-
   const files = {
     ...transformed.files,
     ...(transformed.images && (await convertImages(transformed.images))),
+    ...(transformed.json && toJson(transformed.json)),
+    ...(transformed.yaml && toYaml(transformed.yaml)),
   };
-
   return {
     files,
     message,

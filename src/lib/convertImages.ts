@@ -3,7 +3,7 @@ import sharp from "sharp";
 type Images = { [fileName: string]: string };
 
 // TODO add conversion options
-export async function convertImages(images: Images): Promise<Images> {
+export default async function convertImages(images: Images): Promise<Images> {
   const converted: Images = {};
   await Promise.all(
     Object.keys(images).map(async (fileName) => {

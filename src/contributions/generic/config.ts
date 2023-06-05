@@ -5,10 +5,8 @@ import { TextInput } from "@/components/form/textInput";
 import { ImageInput } from "@/components/form/imageInput";
 import { ImagesInput } from "@/components/form/imagesInput";
 
-import generateSchema from "./generateSchema";
+import generateSchema, { ValidationTypes } from "./generateSchema";
 import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
-
-type ValidationOptions = { required?: string; min?: number; max?: number };
 
 type FieldType = "text" | "choice" | "image" | "images";
 
@@ -19,7 +17,7 @@ export type ImagesField = Omit<ImagesInput, "name">;
 
 type BaseField = {
   type: FieldType;
-  validation?: ValidationOptions;
+  validation?: ValidationTypes;
   visible?: (values: any) => boolean;
   // embed?: (values: any) => boolean;
 };

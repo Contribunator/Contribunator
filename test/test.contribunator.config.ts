@@ -39,17 +39,27 @@ export const DEV: AppConfig = {
         link: genericConfig({
           title: "Link",
           description: "A link to a website",
+          useFilesOnServer: {
+            links: "links.yaml",
+          },
           options: {
-            commit: async (data) => {
-              console.log(data);
-              throw new Error("Just testing");
-              return { files: { "link.txt": data.body.url } };
+            commit: async ({
+              files,
+              timestamp,
+              body: { name, url, category },
+            }) => {
+              // if links file doesnt exist, create it
+              const links = files.links?.parsed || [];
+              // append the new link to the links array
+              links.push({ name, url, category, timestamp });
+              // return the new links array
+              return { yaml: { "links.yaml": links } };
             },
             fields: {
               category: {
                 type: "choice",
-                validation: { required: "Please select a category" },
-                // component: "buttons",
+                validation: { required: true },
+                component: "buttons",
                 title: "Category",
                 options: {
                   books: {
@@ -86,18 +96,14 @@ export const DEV: AppConfig = {
                 type: "text",
                 title: "Name",
                 placeholder: "e.g. The Best Website Ever",
-                // todo some common validation types, like URL.
+                validation: { required: true, min: 3, max: 50 },
               },
               url: {
                 type: "text",
                 title: "URL",
                 placeholder: "e.g. https://www.example.com",
-                // todo some common validation types, like URL.
+                validation: { required: true, url: true, max: 100 },
               },
-              // treeCatego: {
-              //   type: "choice",
-
-              // }
             },
           },
         }),

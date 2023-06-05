@@ -1,5 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { ConfigWithContribution } from "./config";
+import YAML from "yaml";
+
+const testYaml = YAML.stringify([{ name: "hello" }]);
 
 class MockOctokit {
   constructor() {}
@@ -30,6 +33,18 @@ class MockOctokit {
               content: Buffer.from("# Another").toString("base64"),
             },
           };
+        case "links.yaml":
+          return {
+            data: {
+              name: "README.md",
+              html_url:
+                "https://github.com/Contribunator/Another/blob/main/links.yaml",
+              path: "README.md",
+              sha: "whatever",
+              type: "file",
+              content: Buffer.from(testYaml).toString("base64"),
+            },
+          };
         default:
           throw { status: 404 };
       }
@@ -45,6 +60,7 @@ export type File = {
   type?: string;
   exists: boolean;
   content?: string;
+  parsed?: any;
 };
 
 export type Files = { [name: string]: File };
@@ -52,7 +68,7 @@ export type Files = { [name: string]: File };
 export default async function fetchFiles(
   { owner, repo, contribution }: ConfigWithContribution,
   isClient: boolean,
-  OctokitModule = MockOctokit
+  OctokitModule = Octokit
 ): Promise<Files> {
   const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
 
@@ -88,14 +104,21 @@ export default async function fetchFiles(
             };
           } else if (data.type === "file") {
             const content = Buffer.from(data.content, "base64").toString();
-            return {
+            const fileData: File = {
               ...file,
               sha: data.sha,
-              url: data.html_url,
+              url: data.html_url || undefined,
               type: data.type,
               exists: true,
               content,
             };
+            if (file.path.endsWith(".json")) {
+              fileData.parsed = JSON.parse(content);
+            }
+            if (file.path.endsWith(".yaml") || file.path.endsWith(".yml")) {
+              fileData.parsed = YAML.parse(content);
+            }
+            return fileData;
           } else {
             throw new Error(`Unknown file type ${data.type}`);
           }
