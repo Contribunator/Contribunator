@@ -52,27 +52,28 @@ export default function TextInput({
   return (
     <div className="form-control">
       <FieldHeader name={name} error={meta.error} title={title} info={info} />
-      <div className="flex">
-        {prefix && (
-          <div className="flex bg-base-300 items-center px-2 text-sm rounded-l-md select-none">
-            {prefix}
-          </div>
-        )}
-        <div className="flex-auto">
-          <Field
-            name={name}
-            as={as}
-            className={`w-full ${styles}`}
-            placeholder={placeholder}
-            {...(transform && {
-              onChange: (e: { target: { value: string } }) => {
-                helpers.setValue(transform(e.target.value));
-              },
-            })}
-          />
-        </div>
-      </div>
       <div className="space-y-2">
+        <div className="flex">
+          {/* TODO use formgroup instead */}
+          {prefix && (
+            <div className="flex bg-base-300 items-center px-2 text-sm rounded-l-md select-none">
+              {prefix}
+            </div>
+          )}
+          <div className="flex-auto">
+            <Field
+              name={name}
+              as={as}
+              className={`w-full ${styles}`}
+              placeholder={placeholder}
+              {...(transform && {
+                onChange: (e: { target: { value: string } }) => {
+                  helpers.setValue(transform(e.target.value));
+                },
+              })}
+            />
+          </div>
+        </div>
         {tags && tags.length > 0 && (
           <div className="text-left text-sm">
             {tags.map((tag) => (

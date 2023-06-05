@@ -31,9 +31,10 @@ Below are the upcoming features and improvements.
 
 ## vNext
 
-- Convert the has/hasNo back to regex now we don't need to serialize
+- Convert the has/hasNo back to regex now we don't need to serialize?
 - Appprovals UI
 - Improved error/conf feedback in the UI (not alert)
+- Add contributor name to prs
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge date
 - Addition of media, animation, GIFs, video
@@ -51,6 +52,7 @@ Below are the upcoming features and improvements.
 - AI to generate description/suggest improvement
 - Allow multiple repos, set up a public contribunator instance, with config updates
 - support private repos
+- Option to only allow maintainers or certain github accounts to make contribution based on repo
 
 ## Form Input Ideas
 

@@ -18,11 +18,20 @@ export type ImagesField = Omit<ImagesInput, "name">;
 type BaseField = {
   type: FieldType;
   validation?: ValidationTypes;
+  initialValue?: any;
   visible?: (values: any) => boolean;
   // embed?: (values: any) => boolean;
 };
 
-type Field = BaseField & (TextField | ChoiceField | ImageField | ImagesField);
+type InfoField = {
+  type: "info";
+  text: string;
+  visible?: (values: any) => boolean;
+};
+
+type Field =
+  | InfoField
+  | (BaseField & (TextField | ChoiceField | ImageField | ImagesField));
 
 type CommitOutput = Omit<TransformOutputs, "title" | "message">;
 

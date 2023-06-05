@@ -48,7 +48,7 @@ export default function ChoiceButtons({
               }
             }}
           >
-            {option.text}
+            {option.title}
           </a>
         ))}
       </div>

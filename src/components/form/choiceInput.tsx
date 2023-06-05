@@ -5,7 +5,7 @@ import ChoiceDropdown from "./choiceDropdown";
 import ChoiceButtons from "./choiceButtons";
 
 type ChoiceOption = {
-  text: string;
+  title: string;
   options?: NestedChoiceOptions;
 };
 
@@ -19,7 +19,7 @@ export type ChoiceInput = {
   unset?: string;
   info?: string;
   options: NestedChoiceOptions;
-  component?: "dropdown" | "buttons";
+  as?: "dropdown" | "buttons";
 };
 
 export type ChoiceCompProps = Omit<ChoiceInput, "name"> & {
@@ -29,7 +29,7 @@ export type ChoiceCompProps = Omit<ChoiceInput, "name"> & {
 
 export default function ChoiceInput(props: ChoiceInput) {
   // todo option to show buttons instead of dropdown
-  const { name, component = "dropdown" } = props;
+  const { name, as = "dropdown" } = props;
   const [field, meta, helpers] = useField(name);
   function handleChange(value: string | undefined) {
     (document.activeElement as HTMLElement)?.blur();
@@ -38,10 +38,10 @@ export default function ChoiceInput(props: ChoiceInput) {
   return (
     <div className="form-control">
       <FieldHeader {...{ ...props, ...meta }} />
-      {component === "dropdown" && (
+      {as === "dropdown" && (
         <ChoiceDropdown {...props} field={field} handleChange={handleChange} />
       )}
-      {component === "buttons" && (
+      {as === "buttons" && (
         <ChoiceButtons {...props} field={field} handleChange={handleChange} />
       )}
     </div>

@@ -19,11 +19,11 @@ function DropdownItems({
         return (
           <li key={key}>
             {!option.options && (
-              <a onClick={() => handleChange(parentKey)}>{option.text}</a>
+              <a onClick={() => handleChange(parentKey)}>{option.title}</a>
             )}
             {!!option.options && (
               <details>
-                <summary>{option.text}</summary>
+                <summary>{option.title}</summary>
                 <ul>
                   <DropdownItems
                     {...{
@@ -53,7 +53,7 @@ export default function ChoiceDropdown({
 }: ChoiceCompProps) {
   const selectedOption = field.value.split(".").reduce(
     // @ts-ignore
-    (acc, cur) => acc[cur] && (acc[cur].options || acc[cur].text),
+    (acc, cur) => acc[cur] && (acc[cur].options || acc[cur].title),
     options
   );
   return (
@@ -62,11 +62,11 @@ export default function ChoiceDropdown({
         {/* displayed when selecting */}
         <label tabIndex={0} className="btn btn-neutral gap-2">
           {selectedOption || unset || "No Selection"}
-          <HiChevronDown />
+          <HiChevronDown className="w-5 h-5" />
         </label>
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-1"
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-1"
         >
           {/* option to unset */}
           {!!field.value && !!unset && (
@@ -79,7 +79,7 @@ export default function ChoiceDropdown({
         </ul>
       </div>
       {info && !field.value && (
-        <label className="label label-text">
+        <label className="label label-title">
           <HiChevronLeft className="mr-1" />
           {info}
         </label>

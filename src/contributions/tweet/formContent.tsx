@@ -11,9 +11,9 @@ import withFormik, { FormProps } from "@/components/form/withFormik";
 TODO: polls & thread
 */
 
-const quoteTypes: { [key: string]: { text: string } } = {
-  retweet: { text: "Retweet" },
-  reply: { text: "Reply" },
+const quoteTypes: { [key: string]: { title: string } } = {
+  retweet: { title: "Retweet" },
+  reply: { title: "Reply" },
 };
 
 function TweetFormContent({ formik, config: { contribution } }: FormProps) {
@@ -24,7 +24,7 @@ function TweetFormContent({ formik, config: { contribution } }: FormProps) {
     <>
       <ChoiceInput
         title="Quote Type"
-        component="buttons"
+        as="buttons"
         name="quoteType"
         options={quoteTypes}
         unset="None"

@@ -1,7 +1,9 @@
-import genericConfig from "@/contributions/generic/config";
 import tweetConfig, { tweetSuggestions } from "@/contributions/tweet/config";
 import { AppConfig } from "@/lib/config";
-import kitchenSinkGenericConfig from "./configs/kitchenSink.generic.config";
+import kitchenSinkGenericConfig from "./configs/kitchenSink.config";
+
+import linkConfig from "./configs/link.config";
+import appConfig from "./configs/app.config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
@@ -35,78 +37,9 @@ export const DEV: AppConfig = {
       title: "Testing",
       description: "Test Description",
       contributions: {
-        "kitchen-sink": kitchenSinkGenericConfig,
-        link: genericConfig({
-          title: "Link",
-          description: "A link to a website",
-          useFilesOnServer: {
-            links: "links.yaml",
-          },
-          options: {
-            commit: async ({
-              files,
-              timestamp,
-              body: { name, url, category },
-            }) => {
-              // if links file doesnt exist, create it
-              const links = files.links?.parsed || [];
-              // append the new link to the links array
-              links.push({ name, url, category, timestamp });
-              // return the new links array
-              return { yaml: { "links.yaml": links } };
-            },
-            fields: {
-              category: {
-                type: "choice",
-                validation: { required: true },
-                component: "buttons",
-                title: "Category",
-                options: {
-                  books: {
-                    text: "Books",
-                    options: {
-                      fiction: {
-                        text: "Fiction",
-                      },
-                      nonfiction: {
-                        text: "Non-Fiction",
-                        options: {
-                          "self-help": {
-                            text: "Self-Help",
-                          },
-                          "how-to": {
-                            text: "How-To",
-                          },
-                          diy: {
-                            text: "DIY",
-                          },
-                        },
-                      },
-                    },
-                  },
-                  movies: {
-                    text: "Movies",
-                  },
-                  music: {
-                    text: "Music",
-                  },
-                },
-              },
-              name: {
-                type: "text",
-                title: "Name",
-                placeholder: "e.g. The Best Website Ever",
-                validation: { required: true, min: 3, max: 50 },
-              },
-              url: {
-                type: "text",
-                title: "URL",
-                placeholder: "e.g. https://www.example.com",
-                validation: { required: true, url: true, max: 100 },
-              },
-            },
-          },
-        }),
+        link: linkConfig,
+        app: appConfig,
+        testing: kitchenSinkGenericConfig,
         tweet: tweetConfig({
           options: {
             text: {

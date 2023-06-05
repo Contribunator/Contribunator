@@ -2,13 +2,15 @@ import * as Yup from "yup";
 
 import twitter from "twitter-text";
 
-import { validImageAlts, validImages } from "@/lib/commonValidation";
+import { imageSchema } from "@/lib/commonValidation";
 import { init } from "next/dist/compiled/@vercel/og/satori";
 import { TweetConfig } from "./config";
 
+const { image, alt } = imageSchema(true);
+
 const schema = {
-  media: validImages,
-  alt_text_media: validImageAlts,
+  media: image,
+  alt_text_media: alt,
   quoteType: Yup.string().oneOf(["reply", "retweet"]),
   quoteUrl: Yup.string().when("quoteType", {
     is: (quoteType: string) => !!quoteType, // if quote type is set
