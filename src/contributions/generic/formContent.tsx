@@ -24,13 +24,17 @@ function GenericFormContent({
   } = contribution as GenericConfig; // TODO figure out how to get the right type
   return (
     <>
-      {/* ignore validation options here, everything else gets passed */}
-      {Object.entries(fields).map(([name, { validation, ...field }]) => {
-        const Input = components[field.type];
-        // TODO do not ignore typescript
-        // @ts-ignore
-        return <Input key={name} name={name} {...field} />;
-      })}
+      {Object.entries(fields).map(
+        ([name, { validation, visible, type, ...field }]) => {
+          const Input = components[type];
+          if (visible && !visible(formik.values)) {
+            return null;
+          }
+          // TODO do not ignore typescript
+          // @ts-ignore
+          return <Input key={name} name={name} {...field} />;
+        }
+      )}
       {<pre>{JSON.stringify(formik.values, null, 2)}</pre>}
     </>
   );

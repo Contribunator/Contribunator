@@ -28,6 +28,7 @@ export default function generateSchema(
     if (["text", "choice"].includes(type)) {
       schema[name] = Yup.string();
     }
+    // TODO validate options are oneOf
     if (["image", "images"].includes(type)) {
       const single = type === "image";
       schema[name] = single ? validImage : validImages;

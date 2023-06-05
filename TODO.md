@@ -2,20 +2,19 @@
 
 Below are the upcoming features and improvements.
 
-- OG Image
-- Fix titles like https://github.com/ethereumclassic/tweets-eth_classic/pull/105
-- Update docs with new config
+## Week Milestone
+
+- Links, Apps, Videos
+- Generation; show when
+
 - Rehaul config to have better defaults and tweet config inheritance
 - Fix footer layouts
-- test for twitter and twitter configs
-- reserve names for contribution types `tweet`, `submit`, etc. (or figure out something better)
-- test UI for no repos
-- figure out how to set up various demo/dev/e2e configs
-- support private repos
 - Replace all `any` types
 - Standardize all typings (use `Inputs` and `Outputs`)
-- update docs, use "nocode" somewhere
+- test for twitter and twitter configs
+- reserve names for contribution types `tweet`, `submit`, etc. (or figure out something better)
 - Tweets: test `title` and `message` generation
+- update docs, use "nocode" somewhere
 
 ### Tweets
 
@@ -41,10 +40,13 @@ Below are the upcoming features and improvements.
 - Get quoted tweet from API instead of iframe
 - Automation Integrations
 - Tests
+- test UI for no repos
 
 ## Perhaps
 
+- OG Image
 - User access token refreshing
 - branch selection
 - AI to generate description/suggest improvement
 - Allow multiple repos, set up a public contribunator instance, with config updates
+- support private repos
