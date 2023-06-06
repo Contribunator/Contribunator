@@ -5,6 +5,8 @@ import { useState } from "react";
 import * as Yup from "yup";
 
 import { ConfigWithContribution, getContribution } from "@/lib/config";
+import { CreatePullRequestOutputs } from "@/lib/createPullRequest";
+
 import commonSchema from "@/lib/commonSchema";
 
 import SubmitButton from "./submitButton";
@@ -31,7 +33,7 @@ export type FormProps = BaseFormProps & {
 // TODO do not pass intiial values here, instead get from type's config
 export default function withFormik(Form: React.ComponentType<FormProps>) {
   return function WithFormik({ repo, contribution, user, files }: PassedProps) {
-    const [prUrl, setPrUrl] = useState<string | null>(null);
+    const [pr, setPr] = useState<CreatePullRequestOutputs | null>(null);
 
     const config = getContribution(repo, contribution);
     const { schema, type } = config.contribution;
@@ -52,8 +54,8 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
         validateOnMount
         validationSchema={validationSchema}
         initialValues={{
-          authorization,
           repo,
+          authorization,
           contribution,
         }}
         onSubmit={async (data: any) => {
@@ -67,11 +69,14 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
               if (!res.ok) {
                 throw new Error(json.error);
               }
-              setPrUrl(json.prUrl);
+              if (!json.pr) {
+                throw new Error("Unexpected response");
+              }
+              setPr(json.pr);
             } catch (error) {
               let message = "Unknown Error";
               if (error instanceof Error) message = `Error: ${error.message}`;
-              // TODO show in UI
+              // TODO show in DOM
               alert(message);
             }
           }
@@ -82,8 +87,8 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
             onSubmit={formik.handleSubmit}
             className={`text-center space-y-6 bg-base-200 p-4 rounded-lg`}
           >
-            {prUrl && <Submitted prUrl={prUrl} />}
-            {!prUrl && (
+            {pr && <Submitted pr={pr} />}
+            {!pr && (
               <>
                 <Form {...{ formik, config, files, user }} />
                 <CommonOptions {...{ formik, config }} />

@@ -8,16 +8,7 @@ type QuoteType = "None" | "Reply" | "Retweet";
 
 export class TweetFixture extends ContributionFixture {
   constructor(props: ContributionFixtureProps) {
-    super({
-      ...props,
-      body: {
-        quoteUrl: "",
-        // quoteType: "none",
-        text: "",
-        media: ["", "", "", ""],
-        alt_text_media: ["", "", "", ""],
-      },
-    });
+    super(props);
   }
 
   async setText(text: string) {

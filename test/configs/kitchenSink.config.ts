@@ -157,6 +157,48 @@ export default genericConfig({
         limit: 2,
         totalFileSizeLimit: 1,
       },
+      info: {
+        type: "info",
+        text: "The following is a collection containing a sub-collection",
+      },
+      collection: {
+        type: "collection",
+        limit: 5, // UI Disaply
+        // showAtLeast: 2, // UI Disaply
+        validation: { required: true }, // API Validationp
+        title: "Exhibitions",
+        addButton: "Add an Exhibition",
+        // addButton: "Create a new item",
+        fields: {
+          title: {
+            title: "Exhibition Name",
+            type: "text",
+          },
+          subCollection: {
+            type: "collection",
+            title: "Exhibited Artworks",
+            addButton: "Add a piece of artwork",
+            info: "This is a sub collection",
+            // limit: 5,
+            validation: {
+              required: true,
+              min: 2,
+            },
+            fields: {
+              url: {
+                validation: { required: true },
+                title: "Artwork Name",
+                type: "text",
+              },
+              image: {
+                validation: { required: true },
+                title: "Artwork Image",
+                type: "image",
+              },
+            },
+          },
+        },
+      },
     },
   },
 });

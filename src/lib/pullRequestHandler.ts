@@ -35,10 +35,7 @@ export type TransformOutputs = {
 
 export type TransformToPR = (arg: TransformInputs) => Promise<TransformOutputs>;
 
-export default function pullRequestHandler(
-  transformToPR: TransformToPR,
-  Mocktokit?: any // only used for testing, TODO throw in prod?
-) {
+export default function pullRequestHandler(transformToPR: TransformToPR) {
   return async (req: NextRequest) => {
     try {
       // parse body
@@ -61,17 +58,26 @@ export default function pullRequestHandler(
         timestamp: getTimestamp(),
         files: await fetchFiles(config, false),
       };
+      // TODO merge this into once method after removing twitter
       // apply the type-specific transformation
       const transformed = await transformToPR(prOpts);
       // apply common transformations, ensure formatting, cerate title/branch/message, convert images
-      const pr = await commonTransform({ ...prOpts, transformed });
+      const commonTransformed = await commonTransform({
+        ...prOpts,
+        transformed,
+      });
       // create the PR
-      const prUrl = await createPullRequest(
-        { pr, authorized, config },
-        Mocktokit
-      );
+      const { pr, test } = await createPullRequest({
+        commonTransformed,
+        authorized,
+        config,
+      });
+      // return test data if testing
+      if (process.env.NEXT_PUBLIC_TESTING === "E2E") {
+        return NextResponse.json({ pr, test });
+      }
       // return PR URL
-      return NextResponse.json({ prUrl });
+      return NextResponse.json({ pr });
     } catch (err) {
       // handle errors
       let message = "Something went wrong";

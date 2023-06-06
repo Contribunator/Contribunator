@@ -1,37 +1,46 @@
-import { Octokit } from "@octokit/rest";
 import { createAppAuth } from "@octokit/auth-app";
+// TODO use octokit-plugin-create-pull-request, and fix ts-ignores
 // @ts-ignore
-import commitPlugin from "octokit-commit-multiple-files";
+import commitMultipleFiles from "octokit-commit-multiple-files";
+
+import Octokit from "@/lib/octokit";
 
 import { ConfigWithContribution } from "./config";
 import { Authorized } from "./authorize";
 import { appId, installationId, privateKey } from "./env";
 import { CommonTransformOutputs } from "./commonTransform";
 
-type CreatePullRequestInputs = {
+const OctokitPlugin = Octokit.plugin(commitMultipleFiles);
+
+const octokit = new OctokitPlugin({
+  authStrategy: createAppAuth,
+  auth: {
+    appId,
+    installationId,
+    privateKey,
+  },
+});
+
+export type CreatePullRequestInputs = {
   authorized: Authorized;
   config: ConfigWithContribution;
-  pr: CommonTransformOutputs;
+  commonTransformed: CommonTransformOutputs;
 };
 
-export default async function createPullRequest(
-  {
-    authorized,
-    config: { repo },
-    pr: { files, title, branch, message },
-  }: CreatePullRequestInputs,
-  OctokitModule = Octokit
-) {
-  const OctokitPlugin = OctokitModule.plugin(commitPlugin);
-  const octokit = new OctokitPlugin({
-    authStrategy: createAppAuth,
-    auth: {
-      appId,
-      installationId,
-      privateKey,
-    },
-  });
+export type CreatePullRequestOutputs = {
+  url: string;
+  number: number;
+  title: string;
+};
 
+export default async function createPullRequest({
+  authorized,
+  config: { repo },
+  commonTransformed: { files, title, branch, message },
+}: CreatePullRequestInputs): Promise<{
+  pr: CreatePullRequestOutputs;
+  test: any; // for testing
+}> {
   const prMessage = `${message}${repo.prPostfix}`;
   const githubUser = authorized.type === "github" ? authorized.token : null;
   const commit = {
@@ -54,7 +63,7 @@ export default async function createPullRequest(
     ],
   };
 
-  console.log("commit", commit);
+  console.log("comitting", commit);
   await octokit.rest.repos.createOrUpdateFiles(commit);
 
   const pr = {
@@ -70,11 +79,20 @@ export default async function createPullRequest(
 
   // create the PR as the user if they are logged in, otherwise as the app
   if (githubUser) {
-    prOctokit = new OctokitModule({ auth: githubUser.accessToken });
+    prOctokit = new Octokit({ auth: githubUser.accessToken });
   }
 
-  console.log("pr", pr);
-  const prResponse = await prOctokit.rest.pulls.create(pr);
-  // return "test ok";
-  return prResponse.data.html_url;
+  const { data } = await prOctokit.rest.pulls.create(pr);
+
+  return {
+    test: {
+      pr,
+      commit,
+    },
+    pr: {
+      url: data.html_url,
+      number: data.number,
+      title: data.title,
+    },
+  };
 }

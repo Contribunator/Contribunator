@@ -1,11 +1,14 @@
 import tweetConfig, { tweetSuggestions } from "@/contributions/tweet/config";
 import { AppConfig } from "@/lib/config";
-import kitchenSinkGenericConfig from "./configs/kitchenSink.config";
 
-import linkConfig from "./configs/link.config";
-import appConfig from "./configs/app.config";
-import collectionConfig from "./configs/collection.config";
-import genericTweetConfig from "./configs/tweet.config";
+// TODO sort this out into different files
+
+import kitchenSinkGenericConfig from "./kitchenSink.config";
+import linkConfig from "./link.config";
+import appConfig from "./app.config";
+import collectionConfig from "./collection.config";
+import genericTweetConfig from "./tweet.config";
+import genericConfig from "@/contributions/generic/config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
@@ -19,10 +22,18 @@ export const E2E: AppConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        // generic: genericConfig({
-        //   title: "TEST GENERIC TITLE",
-        //   description: "TEST GENERIC DESCRIPTION",
-        // }),
+        api: genericConfig({
+          options: {
+            commit: async ({ body }) => ({ files: { "test.md": body.text } }),
+            fields: {
+              text: {
+                type: "text",
+                title: "Text",
+              },
+            },
+          },
+        }),
+        testing: kitchenSinkGenericConfig,
         tweet: tweetConfig({
           title: "TEST CONTRIBUTION TITLE",
           description: "TEST CONTRIBUTION DESCRIPTION",

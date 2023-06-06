@@ -1,56 +1,10 @@
-import { Octokit } from "@octokit/rest";
-import { ConfigWithContribution } from "./config";
 import YAML from "yaml";
 
-const testYaml = YAML.stringify([{ name: "hello" }]);
+import Octokit from "@/lib/octokit";
 
-class MockOctokit {
-  constructor() {}
-  repos = {
-    async getContent({ path }: { owner: string; repo: string; path: string }) {
-      switch (path) {
-        case "test/hello.json":
-          return {
-            data: {
-              name: "hello.json",
-              path: "test/hello.json",
-              sha: "f2a886f39de7d36f08be433bdba1e47851752aa9",
-              html_url:
-                "https://github.com/Contribunator/Another/blob/main/test/hello.json",
-              type: "file",
-              content: "ewogICJoZWxsbyI6ICJ3b3JsZCIKfQo=\n",
-            },
-          };
-        case "README.md":
-          return {
-            data: {
-              name: "README.md",
-              html_url:
-                "https://github.com/Contribunator/Another/blob/main/README.md",
-              path: "README.md",
-              sha: "de8d415abb9dc949d702eac7b23021c410c4f09e",
-              type: "file",
-              content: Buffer.from("# Another").toString("base64"),
-            },
-          };
-        case "links.yaml":
-          return {
-            data: {
-              name: "README.md",
-              html_url:
-                "https://github.com/Contribunator/Another/blob/main/links.yaml",
-              path: "README.md",
-              sha: "whatever",
-              type: "file",
-              content: Buffer.from(testYaml).toString("base64"),
-            },
-          };
-        default:
-          throw { status: 404 };
-      }
-    },
-  };
-}
+import { ConfigWithContribution } from "./config";
+
+const octokit = new Octokit();
 
 export type File = {
   name: string;
@@ -67,8 +21,7 @@ export type Files = { [name: string]: File };
 
 export default async function fetchFiles(
   { owner, repo, contribution }: ConfigWithContribution,
-  isClient: boolean,
-  OctokitModule = Octokit
+  isClient: boolean
 ): Promise<Files> {
   const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
 
@@ -81,7 +34,6 @@ export default async function fetchFiles(
     return {};
   }
 
-  const octokit = new OctokitModule();
   return (
     await Promise.all(
       Object.entries(usedFiles).map(async ([name, path]) => {

@@ -5,7 +5,7 @@ import { AuthType } from "./authorize";
 
 // todo is there a better way to do this?
 import userConfig from "@/../contribunator.config";
-import testConfig from "@/../test/test.contribunator.config";
+import testConfig from "@/../test/configs/contribunator.config";
 
 const appConfig = testConfig || userConfig;
 
@@ -55,7 +55,7 @@ export type ContributionConfig = {
 export type Contribution = CommonFields &
   ContributionConfig & {
     schema: any;
-    prMetadata: (values: any) => { title: string; message: string };
+    prMetadata: (todo?: any) => { title: string; message: string };
   };
 
 export type Repo = RepoConfig &

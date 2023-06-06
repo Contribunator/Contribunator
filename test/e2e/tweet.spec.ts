@@ -43,22 +43,22 @@ test("tweet image", async ({ t }) => {
   await t.screenshot("uploaded-image");
   await t.confirmCrop();
   await t.submit({
-    media: [JPEG_BASE64, "", "", ""],
+    media: [JPEG_BASE64],
   });
 });
 
 test("tweet image png", async ({ t }) => {
   await t.uploadAndCrop("dice.png");
   await t.submit({
-    media: [PNG_BASE64, "", "", ""],
+    media: [PNG_BASE64],
   });
 });
 
 test("tweet image with description", async ({ t }) => {
   await t.uploadAndCrop(JPEG_NAME, JPEG_ALT);
   await t.submit({
-    media: [JPEG_BASE64, "", "", ""],
-    alt_text_media: [JPEG_ALT, "", "", ""],
+    media: [JPEG_BASE64],
+    alt_text_media: [JPEG_ALT],
   });
 });
 
@@ -70,7 +70,7 @@ test("tweet image multiple", async ({ t }) => {
   await t.uploadAndCrop(PNG_NAME, PNG_ALT);
   await t.submit({
     media: [JPEG_BASE64, PNG_BASE64, JPEG_BASE64, PNG_BASE64],
-    alt_text_media: ["", "", JPEG_ALT, PNG_ALT],
+    alt_text_media: [null, null, JPEG_ALT, PNG_ALT],
   });
 });
 
