@@ -72,6 +72,23 @@ export default genericConfig({
         type: "info",
         text: "TODO: Other links, e.g. discord, etc.",
       },
+      otherLinks: {
+        title: "Other Links",
+        type: "collection",
+        limit: 5,
+        fields: {
+          title: {
+            title: "Link title",
+            type: "text",
+            validation: { required: true },
+          },
+          url: {
+            title: "Link URL",
+            type: "text",
+            validation: { url: true, required: true },
+          },
+        },
+      },
       trustInfo: {
         type: "info",
         text: "The following fields are optional, but will help users trust your app",

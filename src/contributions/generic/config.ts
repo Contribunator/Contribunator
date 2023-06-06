@@ -1,19 +1,16 @@
 import { Contribution, TailwindColor } from "@/lib/config";
+import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
 
 import { ChoiceInput } from "@/components/form/choiceInput";
 import { TextInput } from "@/components/form/textInput";
 import { ImageInput } from "@/components/form/imageInput";
 import { ImagesInput } from "@/components/form/imagesInput";
+import { InfoField } from "@/components/form/infoField";
+import { CollectionInput } from "@/components/form/collectionInput";
 
 import generateSchema, { ValidationTypes } from "./generateSchema";
-import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
 
-type FieldType = "text" | "choice" | "image" | "images";
-
-export type TextField = Omit<TextInput, "name">;
-export type ChoiceField = Omit<ChoiceInput, "name">;
-export type ImageField = Omit<ImageInput, "name">;
-export type ImagesField = Omit<ImagesInput, "name">;
+type FieldType = "text" | "choice" | "image" | "images" | "collection" | "info";
 
 type BaseField = {
   type: FieldType;
@@ -23,23 +20,22 @@ type BaseField = {
   // embed?: (values: any) => boolean;
 };
 
-type InfoField = {
-  type: "info";
-  text: string;
-  visible?: (values: any) => boolean;
-};
+type GenericField =
+  | Omit<TextInput, "name">
+  | Omit<ChoiceInput, "name">
+  | Omit<ImageInput, "name">
+  | Omit<ImagesInput, "name">
+  | Omit<InfoField, "name">
+  | Omit<CollectionInput, "name" | "formik">;
 
-type Field =
-  | InfoField
-  | (BaseField & (TextField | ChoiceField | ImageField | ImagesField));
+export type Field = BaseField & GenericField;
+export type Fields = { [key: string]: Field };
 
 type CommitOutput = Omit<TransformOutputs, "title" | "message">;
 
 type GenericOptions = {
   commit: (arg: TransformInputs) => Promise<CommitOutput>;
-  fields: {
-    [key: string]: Field;
-  };
+  fields: Fields;
 };
 
 export type GenericConfig = Contribution & {

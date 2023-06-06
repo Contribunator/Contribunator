@@ -63,6 +63,7 @@ export default function TextInput({
           <div className="flex-auto">
             <Field
               name={name}
+              value={field.value || ""}
               as={as}
               className={`w-full ${styles}`}
               placeholder={placeholder}

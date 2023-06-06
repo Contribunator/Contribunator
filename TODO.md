@@ -4,6 +4,7 @@ Below are the upcoming features and improvements.
 
 ## Week Milestone
 
+- remove initial values, render in defualts in client instead
 - Links, Apps, Videos
 - Generation; show when
 - Fix footer layout

@@ -6,6 +6,7 @@ import "cropperjs/dist/cropper.css";
 import TextInput from "./textInput";
 import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 import FieldHeader from "./fieldHeader";
+import RemoveButton from "./removeButton";
 
 type Image = {
   url: string;
@@ -128,26 +129,21 @@ export default function ImageInput({
       )}
       {/* REMOVE BUTTON */}
       {!!field.value && (
-        <div
-          className="btn btn-sm btn-error absolute top-2 right-2 z-10 gap-2"
+        <RemoveButton
           onClick={() => {
             setImage(null);
             altHelpers.setValue("");
             helpers.setValue("");
           }}
-        >
-          <HiXCircle /> Remove
-        </div>
+        />
       )}
       {/* CROP UI */}
       {isEditing && image && (
-        <>
-          <EditImage
-            image={image}
-            aspectRatio={aspectRatio}
-            handleData={helpers.setValue}
-          />
-        </>
+        <EditImage
+          image={image}
+          aspectRatio={aspectRatio}
+          handleData={helpers.setValue}
+        />
       )}
       {/* CROPPED IMAGE */}
       {field.value && !isEditing && (
