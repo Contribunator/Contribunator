@@ -5,6 +5,7 @@ import kitchenSinkGenericConfig from "./configs/kitchenSink.config";
 import linkConfig from "./configs/link.config";
 import appConfig from "./configs/app.config";
 import collectionConfig from "./configs/collection.config";
+import genericTweetConfig from "./configs/tweet.config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
@@ -38,6 +39,7 @@ export const DEV: AppConfig = {
       title: "Testing",
       description: "Test Description",
       contributions: {
+        genericTweet: genericTweetConfig,
         collection: collectionConfig,
         link: linkConfig,
         app: appConfig,

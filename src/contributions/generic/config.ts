@@ -15,9 +15,7 @@ type FieldType = "text" | "choice" | "image" | "images" | "collection" | "info";
 type BaseField = {
   type: FieldType;
   validation?: ValidationTypes;
-  initialValue?: any;
   visible?: (values: any) => boolean;
-  // embed?: (values: any) => boolean;
 };
 
 export type Text = Omit<TextInput, "name">;
@@ -26,6 +24,7 @@ export type Image = Omit<ImageInput, "name">;
 export type Images = Omit<ImagesInput, "name">;
 export type Info = Omit<InfoField, "name">;
 export type Collection = Omit<CollectionInput, "name">;
+
 export type GenericField = Text | Choice | Image | Images | Info | Collection;
 export type Field = BaseField & GenericField;
 export type Fields = { [key: string]: Field };

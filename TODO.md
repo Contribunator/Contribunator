@@ -2,22 +2,39 @@
 
 Below are the upcoming features and improvements.
 
+## Today
+
+- Image alt text config
+
 ## Week Milestone
 
-- Links, Apps, Videos
-- Generation; show when
-- Fix footer layout
-- Replace all `any` types
-- Standardize all type names (use `Inputs` and `Outputs` etc)
-- reserve names for contribution types `tweet`, `submit`, etc. (or figure out something better)
-- Tweets: test `title` and `message` generation
+- Tests
+
+  - E2E tests w/ serverside responses
+  - Kitchen Sink Test
+  - API-only tests, with malicious, validation requests
+  - Test `title` and `message` generation
+
+- Cleanup
+
+  - Fix footer layout
+  - Replace all `any` types
+  - standardardize props passed to all components and DRY components (infoLink)
+  - Standardize all type names (use `Inputs` and `Outputs` etc)
+  - tests for generic configs
+
+- Figure out how to do video / twitter api grab?
+- Videos
 - update docs, use "nocode" somewhere
 - test for twitter and twitter configs
-- tests for generic configs
-- E2E tests w/ serverside responses
-- API-only tests, with malicious, validation requests
-- standardardize props passed to all components and DRY components (infoLink)
-- Convert tweet to generic config
+
+## Thursday
+
+- Deploy ETC Config w/ Apps, Twitter, Links
+
+## After
+
+- Convert tweet to generic config, use threads
 
 ### Tweets
 

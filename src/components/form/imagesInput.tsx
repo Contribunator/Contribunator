@@ -26,6 +26,7 @@ export default function ImagesInput({
   const count = values.filter((i: any) => i).length;
   let firstEmptySlot = 0;
   let totalFileSize = 0;
+  // TODO refactor as per collections
   const imageFields = new Array(limit).fill(null).map((_, i) => {
     const exists = values[i] && values[i] !== "editing";
     if (exists) {
