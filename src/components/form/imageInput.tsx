@@ -148,9 +148,9 @@ export default function ImageInput({
       {/* CROPPED IMAGE */}
       {field.value && !isEditing && (
         <>
-          <div className="flex justify-center">
+          <div className="flex justify-center checkered rounded-md overflow-hidden border border-base-300">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={field.value} alt="Image Preview" className="rounded-md" />
+            <img src={field.value} alt="Image Preview" />
           </div>
           <div className="-mt-2">
             <TextInput

@@ -54,7 +54,6 @@ export type ContributionConfig = {
 
 export type Contribution = CommonFields &
   ContributionConfig & {
-    initialValues: any;
     schema: any;
     prMetadata: (values: any) => { title: string; message: string };
   };

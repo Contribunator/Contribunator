@@ -81,7 +81,7 @@ export type TweetOptions = Omit<Partial<TweetConfig>, "type"> & {
 };
 
 export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
-  const config: Omit<TweetConfig, "initialValues" | "schema"> = {
+  const config: Omit<TweetConfig, "schema"> = {
     ...defaultConfig,
     ...opts,
     prMetadata,
@@ -93,5 +93,5 @@ export default function tweetConfig(opts: TweetOptions = {}): TweetConfig {
     },
   };
 
-  return { ...config, ...generateSchema(config) };
+  return { ...config, schema: generateSchema(config) };
 }

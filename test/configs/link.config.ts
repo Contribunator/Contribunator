@@ -1,5 +1,3 @@
-import * as Yup from "yup";
-
 import genericConfig from "@/contributions/generic/config";
 import { HiLink } from "react-icons/hi";
 

@@ -17,15 +17,17 @@ export default genericConfig({
     fields: {
       myCollection: {
         type: "collection",
-        limit: 2,
-        // validation: { required: true },
+        limit: 3, // UI Disaply
+        // showAtLeast: 2, // UI Disaply
+        validation: { required: true }, // API Validationp
         title: "Collection Test",
-        addButton: true,
+        // addButton: true,
         // addButton: "Create a new item",
         fields: {
           title: {
             title: "Test Text",
             type: "text",
+            validation: { required: true, url: true },
           },
           url: {
             title: "Test URL",
@@ -38,6 +40,8 @@ export default genericConfig({
           subCollection: {
             type: "collection",
             title: "Sub Collection",
+            limit: 4,
+            validation: { required: true, min: 2 },
             fields: {
               title: {
                 title: "Test Text",

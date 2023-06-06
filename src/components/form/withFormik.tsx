@@ -34,7 +34,7 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
     const [prUrl, setPrUrl] = useState<string | null>(null);
 
     const config = getContribution(repo, contribution);
-    const { initialValues, schema, type } = config.contribution;
+    const { schema, type } = config.contribution;
 
     const submitUrl = `/api/contribute/${type}`;
     const validationSchema = Yup.object({ ...schema, ...commonSchema });
@@ -52,13 +52,9 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
         validateOnMount
         validationSchema={validationSchema}
         initialValues={{
-          // TODO move to the schema generation function
-          ...initialValues,
           authorization,
           repo,
           contribution,
-          customMessage: "",
-          customTitle: "",
         }}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {

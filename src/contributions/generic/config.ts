@@ -20,14 +20,13 @@ type BaseField = {
   // embed?: (values: any) => boolean;
 };
 
-type GenericField =
-  | Omit<TextInput, "name">
-  | Omit<ChoiceInput, "name">
-  | Omit<ImageInput, "name">
-  | Omit<ImagesInput, "name">
-  | Omit<InfoField, "name">
-  | Omit<CollectionInput, "name" | "formik">;
-
+export type Text = Omit<TextInput, "name">;
+export type Choice = Omit<ChoiceInput, "name">;
+export type Image = Omit<ImageInput, "name">;
+export type Images = Omit<ImagesInput, "name">;
+export type Info = Omit<InfoField, "name">;
+export type Collection = Omit<CollectionInput, "name">;
+export type GenericField = Text | Choice | Image | Images | Info | Collection;
 export type Field = BaseField & GenericField;
 export type Fields = { [key: string]: Field };
 
@@ -53,9 +52,9 @@ const defaultConfig = {
   }),
 };
 
-type GenericConfigInput = Partial<
-  Omit<GenericConfig, "initialValues" | "schema">
-> & { options: GenericOptions };
+type GenericConfigInput = Partial<Omit<GenericConfig, "schema">> & {
+  options: GenericOptions;
+};
 
 export default function genericConfig(opts: GenericConfigInput): GenericConfig {
   // throw if invalid options
@@ -71,5 +70,5 @@ export default function genericConfig(opts: GenericConfigInput): GenericConfig {
     },
   };
 
-  return { ...config, ...generateSchema(config) };
+  return { ...config, schema: generateSchema(config) };
 }

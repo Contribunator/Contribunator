@@ -6,7 +6,6 @@ import ImageInput from "@/components/form/imageInput";
 import ImagesInput from "@/components/form/imagesInput";
 import InfoField from "@/components/form/infoField";
 import CollectionInput from "@/components/form/collectionInput";
-import { FormikProps } from "formik";
 
 const components = {
   text: TextInput,

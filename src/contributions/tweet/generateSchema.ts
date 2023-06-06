@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import twitter from "twitter-text";
 
 import { imageSchema } from "@/lib/commonValidation";
-import { init } from "next/dist/compiled/@vercel/og/satori";
 import { TweetConfig } from "./config";
 
 const { image, alt } = imageSchema(true);
@@ -74,17 +73,8 @@ const schema = {
 };
 
 export default function generateSchema(
-  config: Omit<TweetConfig, "initialValues" | "schema">
-): { schema: any; initialValues: any } {
+  config: Omit<TweetConfig, "schema">
+): any {
   // TODO generate the schema and config based on options passed
-  return {
-    schema,
-    initialValues: {
-      quoteType: undefined,
-      quoteUrl: "",
-      text: "",
-      media: ["", "", "", ""],
-      alt_text_media: ["", "", "", ""],
-    },
-  };
+  return schema;
 }

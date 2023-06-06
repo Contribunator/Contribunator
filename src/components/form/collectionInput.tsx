@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import { HiOutlineInformationCircle, HiPlus } from "react-icons/hi";
+import { HiPlus } from "react-icons/hi";
 
 import { Fields } from "@/contributions/generic/config";
 import GenericFormItems from "@/contributions/generic/formItems";
@@ -11,23 +11,28 @@ export type CollectionInput = {
   name: string;
   title: string;
   limit?: number;
+  showAtLeast?: number;
   fields: Fields;
   info?: string;
+  infoLink?: string;
   addButton?: boolean | string;
 };
 
 export default function CollectionInput({
-  limit = 5,
+  limit,
+  showAtLeast = 1,
   title,
   fields,
   name,
   info,
+  infoLink,
   addButton,
 }: CollectionInput) {
   const [field, meta, helpers] = useField(name);
 
   const collection = field?.value || [];
-  const items = collection.length + 1;
+  const items =
+    showAtLeast > collection.length + 1 ? showAtLeast : collection.length + 1;
   const showItems = limit && items > limit ? limit : items;
 
   const childFields: Fields[] = [];
@@ -41,26 +46,33 @@ export default function CollectionInput({
 
   const remaining = limit ? ` (${limit + 1 - items} remaining)` : "";
 
+  let error = undefined;
+  if (typeof meta.error === "string") {
+    error = meta.error;
+  } else if (meta.error) {
+    error = "Item(s) are invalid";
+  }
   return (
     <>
       <div className="form-control">
         <FieldHeader
           name={name}
           title={`${title}${remaining}`}
-          error={meta.error}
+          error={error}
           info={info}
+          infoLink={infoLink}
         />
         <div className="flex flex-col space-y-2">
           {childFields.map((childField, i) => {
             const key = `${name}.${i}`;
             const hasValue = collection[i];
-            if (!hasValue && addButton && i > 0) {
-              // set to an empty object
+            if (!hasValue && addButton && i > 0 && i > showAtLeast - 1) {
               return (
                 <div
                   key={key}
                   className="btn gap-2 bg-white"
                   onClick={() => {
+                    // append a new empty object
                     helpers.setValue([...collection, {}]);
                   }}
                 >
@@ -72,7 +84,7 @@ export default function CollectionInput({
             return (
               <div
                 key={key}
-                className={`relative rounded-md bg-base-100 bg-opacity-40 space-y-4 p-2 ${
+                className={`relative rounded-md bg-base-100 bg-opacity-50 space-y-4 -mx-2 p-2 ${
                   hasValue
                     ? "opacity-100"
                     : "opacity-50 hover:opacity-100 focus:opacity-100 transition-all first:opacity-100"
@@ -81,8 +93,9 @@ export default function CollectionInput({
                 <GenericFormItems fields={childField} />
                 {hasValue && (
                   <RemoveButton
-                    className="btn-xs -top-3 right-1"
+                    className="btn-xs -top-6 right-2"
                     onClick={() => {
+                      // remove current index from array
                       const newValues = [...collection];
                       newValues.splice(i, 1);
                       helpers.setValue(newValues);
@@ -94,7 +107,6 @@ export default function CollectionInput({
           })}
         </div>
       </div>
-      <pre>{JSON.stringify({ name, childFields, field }, null, 2)}</pre>
     </>
   );
 }

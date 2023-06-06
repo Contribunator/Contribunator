@@ -11,6 +11,7 @@ export type TextInput = {
   type?: string;
   as?: "input" | "textarea";
   info?: string;
+  infoLink?: string;
   placeholder?: string;
   transform?: (value: string) => string;
   suggestions?: { has?: string; hasNo?: string; message: string }[];
@@ -26,6 +27,7 @@ export default function TextInput({
   transform,
   suggestions,
   placeholder,
+  infoLink,
   tags,
 }: TextInput) {
   const [field, meta, helpers] = useField(name);
@@ -49,9 +51,16 @@ export default function TextInput({
         return hasMatch && hasNoMatch;
       })
       .map(({ message }) => message);
+
   return (
     <div className="form-control">
-      <FieldHeader name={name} error={meta.error} title={title} info={info} />
+      <FieldHeader
+        name={name}
+        error={meta.error}
+        title={title}
+        info={info}
+        infoLink={infoLink}
+      />
       <div className="space-y-2">
         <div className="flex">
           {/* TODO use formgroup instead */}

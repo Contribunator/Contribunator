@@ -32,10 +32,10 @@ export default function ChoiceButtons({
             {unset}
           </a>
         )}
-        {Object.entries(options).map(([name, option]) => (
+        {Object.entries(options).map(([name, { icon: Icon, ...option }]) => (
           <a
             key={name}
-            className={`flex-1 btn btn-neutral ${
+            className={`flex-1 btn gap-2 btn-neutral ${
               currentValue !== name ? "btn-ghost" : ""
             }`}
             onClick={() => {
@@ -48,6 +48,7 @@ export default function ChoiceButtons({
               }
             }}
           >
+            {Icon && <Icon />}
             {option.title}
           </a>
         ))}

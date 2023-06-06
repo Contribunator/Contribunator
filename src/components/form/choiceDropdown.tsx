@@ -14,12 +14,15 @@ function DropdownItems({
 }) {
   return (
     <>
-      {Object.entries(options).map(([key, option]) => {
+      {Object.entries(options).map(([key, { icon: Icon, ...option }]) => {
         const parentKey = parent ? `${parent}.${key}` : key;
         return (
           <li key={key}>
             {!option.options && (
-              <a onClick={() => handleChange(parentKey)}>{option.title}</a>
+              <a className="gap-2" onClick={() => handleChange(parentKey)}>
+                {Icon && <Icon />}
+                {option.title}
+              </a>
             )}
             {!!option.options && (
               <details>
@@ -51,7 +54,7 @@ export default function ChoiceDropdown({
   unset,
   info,
 }: ChoiceCompProps) {
-  const selectedOption = field.value.split(".").reduce(
+  const selectedOption = field.value?.split(".").reduce(
     // @ts-ignore
     (acc, cur) => acc[cur] && (acc[cur].options || acc[cur].title),
     options

@@ -3,9 +3,11 @@ import { useField } from "formik";
 import FieldHeader from "./fieldHeader";
 import ChoiceDropdown from "./choiceDropdown";
 import ChoiceButtons from "./choiceButtons";
+import React from "react";
 
 type ChoiceOption = {
-  title: string;
+  title?: string;
+  icon?: React.FC<any>;
   options?: NestedChoiceOptions;
 };
 

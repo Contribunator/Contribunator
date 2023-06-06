@@ -4,7 +4,6 @@ Below are the upcoming features and improvements.
 
 ## Week Milestone
 
-- remove initial values, render in defualts in client instead
 - Links, Apps, Videos
 - Generation; show when
 - Fix footer layout
@@ -15,6 +14,10 @@ Below are the upcoming features and improvements.
 - update docs, use "nocode" somewhere
 - test for twitter and twitter configs
 - tests for generic configs
+- E2E tests w/ serverside responses
+- API-only tests, with malicious, validation requests
+- standardardize props passed to all components and DRY components (infoLink)
+- Convert tweet to generic config
 
 ### Tweets
 

@@ -1,4 +1,13 @@
 import genericConfig from "@/contributions/generic/config";
+import {
+  FaBook,
+  FaDiscord,
+  FaGithub,
+  FaLink,
+  FaMedium,
+  FaTelegram,
+  FaTwitter,
+} from "react-icons/fa";
 import { HiDesktopComputer } from "react-icons/hi";
 
 export default genericConfig({
@@ -66,28 +75,7 @@ export default genericConfig({
         title: "Author Link",
         type: "text",
         placeholder: "eg. https://author-website.com/",
-        info: "A link to the author's website, not the app itself",
-      },
-      linksInfo: {
-        type: "info",
-        text: "TODO: Other links, e.g. discord, etc.",
-      },
-      otherLinks: {
-        title: "Other Links",
-        type: "collection",
-        limit: 5,
-        fields: {
-          title: {
-            title: "Link title",
-            type: "text",
-            validation: { required: true },
-          },
-          url: {
-            title: "Link URL",
-            type: "text",
-            validation: { url: true, required: true },
-          },
-        },
+        info: "Optional link to the author's website, not the app itself",
       },
       trustInfo: {
         type: "info",
@@ -100,9 +88,11 @@ export default genericConfig({
           "e.g. https://blockscout.com/etc/mainnet/address/0x0000000000000000000000000000000000000000/contracts",
       },
       openSource: {
-        title: "Open Source Repo Link",
+        title: "Source Code Link",
         type: "text",
         placeholder: "e.g. https://github.com/my-org/my-repo",
+        info: "Open Source Definition",
+        infoLink: "https://en.wikipedia.org/wiki/The_Open_Source_Definition",
       },
       audit: {
         title: "Link to Audit",
@@ -121,6 +111,43 @@ export default genericConfig({
         placeholder:
           "e.g. https://cloudflare-ipfs.com/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
         validation: { url: true },
+      },
+      linksInfo: {
+        type: "info",
+        text: "Below you can add any relevant links, such as docs, twitter, discord, etc.",
+      },
+      otherLinks: {
+        title: "Other Links",
+        type: "collection",
+        limit: 5,
+        addButton: "Add another link",
+        fields: {
+          title: {
+            title: "Link title",
+            type: "text",
+            validation: { required: true },
+          },
+          url: {
+            title: "Link URL",
+            type: "text",
+            validation: { url: true, required: true },
+          },
+          icon: {
+            title: "Link Icon",
+            type: "choice",
+            as: "buttons",
+            unset: "No Icon",
+            options: {
+              link: { icon: FaLink },
+              book: { icon: FaBook },
+              github: { icon: FaGithub },
+              twitter: { icon: FaTwitter },
+              discord: { icon: FaDiscord },
+              telegram: { icon: FaTelegram },
+              medium: { icon: FaMedium },
+            },
+          },
+        },
       },
       // TODO links collection
     },

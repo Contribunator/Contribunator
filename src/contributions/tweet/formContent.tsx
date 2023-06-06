@@ -33,7 +33,7 @@ function TweetFormContent({ formik, config: { contribution } }: FormProps) {
         <div>
           <TextInput
             transform={(value) => value.split("?")[0].trim()}
-            title={`${quoteTypes[quoteType].text} URL`}
+            title={`${quoteTypes[quoteType].title} URL`}
             name="quoteUrl"
             placeholder="e.g. https://twitter.com/[user]/status/[id]"
           />
