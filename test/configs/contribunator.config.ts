@@ -4,11 +4,11 @@ import { AppConfig } from "@/lib/config";
 // TODO sort this out into different files
 
 import kitchenSinkGenericConfig from "./kitchenSink.config";
-import linkConfig from "./link.config";
-import appConfig from "./app.config";
-import collectionConfig from "./collection.config";
 import genericTweetConfig from "./tweet.config";
 import genericConfig from "@/contributions/generic/config";
+import linkConfig from "./etc/link.config";
+import appConfig from "./etc/app.config";
+import newsConfig from "./etc/news.config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
@@ -50,26 +50,27 @@ export const DEV: AppConfig = {
       title: "Testing",
       description: "Test Description",
       contributions: {
-        genericTweet: genericTweetConfig,
-        collection: collectionConfig,
+        // genericTweet: genericTweetConfig,
+        // collection: collectionConfig,
         link: linkConfig,
         app: appConfig,
-        testing: kitchenSinkGenericConfig,
-        tweet: tweetConfig({
-          options: {
-            text: {
-              placeholder: "e.g. This is my development tweet",
-              tags: ["#Contribunator"],
-              suggestions: [
-                ...tweetSuggestions(),
-                {
-                  hasNo: "Contribunator",
-                  message: "Include the word Contribunator in your tweet!",
-                },
-              ],
-            },
-          },
-        }),
+        news: newsConfig,
+        // testing: kitchenSinkGenericConfig,
+        // tweet: tweetConfig({
+        //   options: {
+        //     text: {
+        //       placeholder: "e.g. This is my development tweet",
+        //       tags: ["#Contribunator"],
+        //       suggestions: [
+        //         ...tweetSuggestions(),
+        //         {
+        //           hasNo: "Contribunator",
+        //           message: "Include the word Contribunator in your tweet!",
+        //         },
+        //       ],
+        //     },
+        //   },
+        // }),
       },
     },
   },

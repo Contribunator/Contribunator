@@ -9,17 +9,24 @@ function DropdownItems({
 }: {
   parent?: string;
   options: NestedChoiceOptions;
-  value: string;
+  value: string | string[] | undefined;
+  multiple?: boolean;
   handleChange: (value: string | undefined) => void;
 }) {
   return (
     <>
       {Object.entries(options).map(([key, { icon: Icon, ...option }]) => {
         const parentKey = parent ? `${parent}.${key}` : key;
+        const isSelected = (Array.isArray(value) ? value : [value]).includes(
+          parentKey
+        );
         return (
           <li key={key}>
             {!option.options && (
-              <a className="gap-2" onClick={() => handleChange(parentKey)}>
+              <a
+                onClick={() => handleChange(parentKey)}
+                className={`gap-2 ${isSelected ? "active" : ""}`}
+              >
                 {Icon && <Icon />}
                 {option.title}
               </a>
@@ -54,22 +61,28 @@ export default function ChoiceDropdown({
   unset,
   info,
 }: ChoiceCompProps) {
-  const selectedOption = field.value?.split(".").reduce(
-    // @ts-ignore
-    (acc, cur) => acc[cur] && (acc[cur].options || acc[cur].title),
-    options
-  );
+  const selectedOptions =
+    field.value &&
+    (Array.isArray(field.value) ? field.value : [field.value])
+      .map((value) =>
+        value.split(".").reduce(
+          // @ts-ignore
+          (acc, cur) => acc[cur] && (acc[cur].options || acc[cur].title),
+          options
+        )
+      )
+      .join(", ");
   return (
     <div className="flex items-center space-x-2">
-      <div className="dropdown z-10">
+      <div className="dropdown">
         {/* displayed when selecting */}
         <label tabIndex={0} className="btn btn-neutral gap-2">
-          {selectedOption || unset || "No Selection"}
+          {selectedOptions || unset || "No Selection"}
           <HiChevronDown className="w-5 h-5" />
         </label>
         <ul
           tabIndex={0}
-          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-1"
+          className="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-1 z-10"
         >
           {/* option to unset */}
           {!!field.value && !!unset && (

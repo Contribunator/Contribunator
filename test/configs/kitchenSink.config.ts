@@ -159,7 +159,7 @@ export default genericConfig({
       },
       info: {
         type: "info",
-        text: "The following is a collection containing a sub-collection",
+        title: "The following is a collection containing a sub-collection",
       },
       collection: {
         type: "collection",

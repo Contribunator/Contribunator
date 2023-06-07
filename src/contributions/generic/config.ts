@@ -9,13 +9,20 @@ import { InfoField } from "@/components/form/infoField";
 import { CollectionInput } from "@/components/form/collectionInput";
 
 import generateSchema, { ValidationTypes } from "./generateSchema";
+import { FormikContextType } from "formik";
 
 type FieldType = "text" | "choice" | "image" | "images" | "collection" | "info";
 
+type VisibleProps = {
+  formik: FormikContextType<any>;
+  field: Field & { name: string };
+};
 type BaseField = {
   type: FieldType;
   validation?: ValidationTypes;
-  visible?: (values: any) => boolean;
+  visible?: (
+    p: VisibleProps
+  ) => boolean | { query: string; visible: (p: VisibleProps) => boolean };
 };
 
 export type Text = Omit<TextInput, "name">;

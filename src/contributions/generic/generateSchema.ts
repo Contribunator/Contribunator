@@ -40,27 +40,31 @@ export default function generateSchema(
         return;
       }
 
+      function setLabel() {
+        if (field.title) {
+          schema[name] = schema[name].label(field.title);
+        }
+      }
+
       // recursively build if we have a collection
       if (field.type === "collection") {
         // TODO, prepend field name to nested fields
         schema[name] = Yup.array();
-        if (field.title) {
-          schema[name] = schema[name].label(field.title);
-        }
+        setLabel();
         const subSchema = buildSchema((field as Collection).fields);
+        // TODO api test empty arrays and require them
         schema[name] = schema[name].of(Yup.object(subSchema));
       }
 
       // otherwise generate the schema
-      if (["text", "choice"].includes(type)) {
+      if (type === "text") {
         schema[name] = Yup.string();
-        if (field.title) {
-          schema[name] = schema[name].label(field.title);
-        }
+        setLabel();
       }
 
       if (type === "choice") {
         // generate list of options for validation
+        const choiceField = field as Choice;
         const choices: string[] = [];
         const getOptions = (
           options: NestedChoiceOptions,
@@ -75,8 +79,17 @@ export default function generateSchema(
             }
           });
         };
-        getOptions((field as Choice).options);
-        schema[name] = schema[name].oneOf(choices);
+        getOptions(choiceField.options);
+
+        if (choiceField.multiple) {
+          schema[name] = Yup.array();
+          setLabel();
+          schema[name] = schema[name].of(Yup.string().oneOf(choices));
+        } else {
+          schema[name] = Yup.string();
+          setLabel();
+          schema[name] = schema[name].oneOf(choices);
+        }
       }
 
       // images have special validation schemas

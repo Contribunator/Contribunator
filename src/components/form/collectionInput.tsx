@@ -57,12 +57,12 @@ export default function CollectionInput({
       <div className="form-control">
         <FieldHeader
           name={name}
-          title={`${title}${remaining}`}
+          title={title && `${title}${remaining}`}
           error={error}
           info={info}
           infoLink={infoLink}
         />
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-4">
           {childFields.map((childField, i) => {
             const key = `${name}.${i}`;
             const hasValue = collection[i];
@@ -84,7 +84,7 @@ export default function CollectionInput({
             return (
               <div
                 key={key}
-                className={`relative rounded-md bg-base-100 bg-opacity-50 space-y-4 -mx-2 p-2 ${
+                className={`relative rounded-md bg-base-100 bg-opacity-50 space-y-4 -m-2 p-2 ${
                   hasValue
                     ? "opacity-100"
                     : "opacity-50 hover:opacity-100 focus:opacity-100 transition-all first:opacity-100"

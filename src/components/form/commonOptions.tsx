@@ -1,19 +1,17 @@
-import Captcha from "./captcha";
 import TextInput from "./textInput";
 import { BaseFormProps } from "./withFormik";
 
 export default function GenericOptions({ formik, config }: BaseFormProps) {
-  const showCaptcha = formik.values.authorization === "captcha";
   const { title, message } = config.contribution.prMetadata(formik.values);
   return (
     <>
-      <div className="-mx-2">
+      <div className="">
         <div className="collapse collapse-arrow rounded-md bg-base-100 bg-opacity-50">
           <input type="checkbox" className="peer" />
           <div className="collapse-title text-left text-sm flex items-center peer-checked:font-bold">
             Advanced Options
           </div>
-          <div className="collapse-content space-y-6">
+          <div className="collapse-content space-y-6 -mx-1">
             <TextInput
               title="Custom Pull Request Title"
               info="Special characters will be removed"
@@ -29,7 +27,6 @@ export default function GenericOptions({ formik, config }: BaseFormProps) {
           </div>
         </div>
       </div>
-      {showCaptcha && <Captcha />}
     </>
   );
 }

@@ -12,6 +12,7 @@ import commonSchema from "@/lib/commonSchema";
 import SubmitButton from "./submitButton";
 import Submitted from "./submitted";
 import CommonOptions from "./commonOptions";
+import AuthOptions from "./authOptions";
 
 type PassedProps = {
   user?: any;
@@ -91,8 +92,9 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
             {!pr && (
               <>
                 <Form {...{ formik, config, files, user }} />
-                <CommonOptions {...{ formik, config }} />
+                <AuthOptions {...{ formik, config }} />
                 <SubmitButton {...{ formik, config }} />
+                <CommonOptions {...{ formik, config }} />
               </>
             )}
           </form>

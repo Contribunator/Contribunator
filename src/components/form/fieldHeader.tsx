@@ -13,6 +13,7 @@ export default function FieldHeader({
   info?: string;
   infoLink?: string;
 }) {
+  if (!title && !error && !info) return null;
   return (
     <label className="label" htmlFor={name}>
       {title && <span className="label-text text-left">{title}</span>}

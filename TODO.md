@@ -2,9 +2,12 @@
 
 Below are the upcoming features and improvements.
 
-## Today
+## Next
 
 - Image alt text config
+
+- Ready to deploy ETC Config w/ Apps, Twitter, Links
+- Figure out how to do video / twitter api grab?
 
 ## Week Milestone
 
@@ -17,24 +20,19 @@ Below are the upcoming features and improvements.
 
 - Cleanup
 
-  - Fix footer layout
   - Replace all `any` types
   - standardardize props passed to all components and DRY components (infoLink)
   - Standardize all type names (use `Inputs` and `Outputs` etc)
   - tests for generic configs
 
-- Figure out how to do video / twitter api grab?
-- Videos
 - update docs, use "nocode" somewhere
 - test for twitter and twitter configs
 
-## Thursday
-
-- Deploy ETC Config w/ Apps, Twitter, Links
-
 ## After
 
+- Fix footer layout
 - Convert tweet to generic config, use threads
+- Optional functions for dynamic field props
 
 ### Tweets
 
@@ -78,7 +76,6 @@ Below are the upcoming features and improvements.
 ## Form Input Ideas
 
 - Code
-- Multiple select
 - Radios
 - Generic Files
 - Checkbox

@@ -79,7 +79,8 @@ export default genericConfig({
       },
       trustInfo: {
         type: "info",
-        text: "The following fields are optional, but will help users trust your app",
+        title:
+          "The following fields are optional, but will help users trust your app",
       },
       verifiedContract: {
         title: "Verified Contract Link",
@@ -114,7 +115,8 @@ export default genericConfig({
       },
       linksInfo: {
         type: "info",
-        text: "Below you can add any relevant links, such as docs, twitter, discord, etc.",
+        title:
+          "Below you can add any relevant links, such as docs, twitter, discord, etc.",
       },
       otherLinks: {
         title: "Other Links",
