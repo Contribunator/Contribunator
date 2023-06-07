@@ -4,7 +4,9 @@ import ImageInput, {
   ImageInput as ImageInputProps,
   defaultInfo,
   MB,
+  Image,
 } from "./imageInput";
+import FieldHeader from "./fieldHeader";
 
 export type ImagesInput = ImageInputProps & {
   limit: number;
@@ -12,7 +14,7 @@ export type ImagesInput = ImageInputProps & {
 };
 
 export default function ImagesInput({
-  limit,
+  limit = 4,
   totalFileSizeLimit = defaultInfo.fileSizeLimit,
   fileSizeLimit = 0,
   ...props
@@ -21,26 +23,24 @@ export default function ImagesInput({
     ...{ ...defaultInfo, title: "Upload Images" },
     ...props,
   };
-  const [field] = useField(name);
-  const values = field.value || [];
-  const count = values.filter((i: any) => i).length;
-  let firstEmptySlot = 0;
+  const [field, meta, helpers] = useField(name);
+
+  const images: Image[] = field?.value || [];
+
   let totalFileSize = 0;
-  // TODO refactor as per collections
-  const imageFields = new Array(limit).fill(null).map((_, i) => {
-    const exists = values[i] && values[i] !== "editing";
-    if (exists) {
-      const base64Image = values[i].split(",")[1];
+  let lastExisting = 0;
+
+  images.forEach(({ data }, i) => {
+    if (data) {
+      lastExisting = i + 1;
+      const base64Image = data.split(",")[1];
       const fileSize = Math.round((base64Image.length * 3) / 4);
       totalFileSize += fileSize;
-    } else if (!firstEmptySlot) {
-      firstEmptySlot = i + 1;
     }
-    return {
-      name: `${name}[${i}]`,
-      show: exists || i + 1 === firstEmptySlot,
-    };
   });
+
+  const itemsToShow = lastExisting + 1 < limit ? lastExisting + 1 : limit;
+
   // calculate the filesize based on text length
   const remainingFileSizeLimit = totalFileSizeLimit
     ? parseFloat((totalFileSizeLimit - totalFileSize / MB).toFixed(1))
@@ -53,18 +53,31 @@ export default function ImagesInput({
       : remainingFileSizeLimit;
 
   return (
-    <>
-      {imageFields
-        .filter(({ show }) => show)
-        .map((field) => (
-          <ImageInput
-            key={field.name}
-            {...props}
-            name={field.name}
-            fileSizeLimit={thisFileSizeLimit}
-            title={`${title} (${limit - count} remaining)`}
-          />
-        ))}
-    </>
+    <div>
+      <div className="space-y-4">
+        {Array(itemsToShow)
+          .fill(null)
+          .map((_, i) => (
+            <ImageInput
+              key={i}
+              {...props}
+              name={`${name}[${i}]`}
+              fileSizeLimit={thisFileSizeLimit}
+              title={`${title} (${limit - images.length} remaining)`}
+              showErrors={false}
+              handleRemove={() => {
+                const newValues = [...images];
+                newValues.splice(i, 1);
+                helpers.setValue(newValues);
+              }}
+            />
+          ))}
+      </div>
+      {meta.error && (
+        <div>
+          <FieldHeader name={name} error={meta.error} />
+        </div>
+      )}
+    </div>
   );
 }

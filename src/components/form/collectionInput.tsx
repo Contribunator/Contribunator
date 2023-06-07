@@ -46,19 +46,13 @@ export default function CollectionInput({
 
   const remaining = limit ? ` (${limit + 1 - items} remaining)` : "";
 
-  let error = undefined;
-  if (typeof meta.error === "string") {
-    error = meta.error;
-  } else if (meta.error) {
-    error = "Item(s) are invalid";
-  }
   return (
     <>
-      <div className="form-control">
+      <div className="form-control space-y-2">
         <FieldHeader
           name={name}
           title={title && `${title}${remaining}`}
-          error={error}
+          error={meta.error}
           info={info}
           infoLink={infoLink}
         />

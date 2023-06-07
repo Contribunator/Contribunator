@@ -1,4 +1,5 @@
 import { HiExternalLink } from "react-icons/hi";
+import ErrorMessage, { MixedErrorMessage } from "./errorMessage";
 
 export default function FieldHeader({
   name,
@@ -8,7 +9,7 @@ export default function FieldHeader({
   infoLink,
 }: {
   name?: string;
-  error?: string;
+  error?: MixedErrorMessage;
   title?: string;
   info?: string;
   infoLink?: string;
@@ -18,7 +19,7 @@ export default function FieldHeader({
     <label className="label" htmlFor={name}>
       {title && <span className="label-text text-left">{title}</span>}
       {error ? (
-        <span className="label-text-alt text-error text-right">{error}</span>
+        <ErrorMessage error={error} />
       ) : (
         info && (
           <span className="label-text-alt text-right">

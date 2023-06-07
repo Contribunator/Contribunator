@@ -13,7 +13,7 @@ function Unset({
   }
   return (
     <a
-      className={`btn btn-neutral ${value ? "btn-ghost" : ""}`}
+      className={`btn flex-1 btn-neutral ${value ? "btn-ghost" : ""}`}
       onClick={() => {
         handleChange(undefined);
       }}

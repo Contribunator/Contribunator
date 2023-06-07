@@ -1,8 +1,9 @@
 import * as Yup from "yup";
 
 import { Choice, Collection, Fields, GenericConfig } from "./config";
-import { ALT_TEXT, imageSchema } from "@/lib/commonValidation";
 import { NestedChoiceOptions } from "@/components/form/choiceInput";
+
+// TODO, split into seperate files
 
 type RegexValidation = {
   regex: RegExp;
@@ -28,29 +29,22 @@ export default function generateSchema(
     const schema: any = {};
 
     Object.entries(fields).forEach(([name, field]) => {
-      if (field.type === "info") {
-        return;
-      }
-
       const { type, validation = {} } = field;
 
-      // we can skip the rest if yup is passed
+      // skip generation if not an input field
+      if (type === "info") {
+        return;
+      }
+      // skip generation if yup is passed
       if (validation.yup) {
         schema[name] = validation.yup;
         return;
-      }
-
-      function setLabel() {
-        if (field.title) {
-          schema[name] = schema[name].label(field.title);
-        }
       }
 
       // recursively build if we have a collection
       if (field.type === "collection") {
         // TODO, prepend field name to nested fields
         schema[name] = Yup.array();
-        setLabel();
         const subSchema = buildSchema((field as Collection).fields);
         // TODO api test empty arrays and require them
         schema[name] = schema[name].of(Yup.object(subSchema));
@@ -59,7 +53,6 @@ export default function generateSchema(
       // otherwise generate the schema
       if (type === "text") {
         schema[name] = Yup.string();
-        setLabel();
       }
 
       if (type === "choice") {
@@ -83,20 +76,60 @@ export default function generateSchema(
 
         if (choiceField.multiple) {
           schema[name] = Yup.array();
-          setLabel();
           schema[name] = schema[name].of(Yup.string().oneOf(choices));
         } else {
           schema[name] = Yup.string();
-          setLabel();
           schema[name] = schema[name].oneOf(choices);
         }
       }
 
-      // images have special validation schemas
       if (["image", "images"].includes(type)) {
-        const { image, alt } = imageSchema(type === "images", field.title);
-        schema[name] = image;
-        schema[`${ALT_TEXT}${name}`] = alt;
+        let image = Yup.object({
+          type: Yup.string()
+            .oneOf(["png", "jpg", "jpeg"])
+            .when("data", {
+              is: (data: string) => !!data,
+              then: (schema) => schema.required(),
+            }),
+          alt: Yup.string().max(999),
+          editing: Yup.string().test({
+            test(data = "", ctx) {
+              if (data) {
+                return ctx.createError({
+                  message: "Please complete crop selection",
+                });
+              }
+              return true;
+            },
+          }),
+          data: Yup.string().test({
+            test(data = "", ctx) {
+              if (!data) {
+                return true;
+              }
+              if (
+                data.match(
+                  /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+                )
+              ) {
+                return true;
+              }
+              return ctx.createError({
+                message: "Invalid image data",
+              });
+            },
+          }),
+        });
+        if (type === "images") {
+          schema[name] = Yup.array().of(image);
+        } else {
+          schema[name] = image;
+        }
+      }
+
+      // add label to fields
+      if (field.title) {
+        schema[name] = schema[name].label(field.title);
       }
 
       Object.entries(validation).forEach(([key, value]) => {

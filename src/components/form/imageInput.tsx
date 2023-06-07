@@ -1,24 +1,26 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useField } from "formik";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
-import TextInput from "./textInput";
-import { HiCheckCircle, HiXCircle } from "react-icons/hi";
+import { HiCheckCircle } from "react-icons/hi";
 import FieldHeader from "./fieldHeader";
 import RemoveButton from "./removeButton";
-
-type Image = {
-  url: string;
-  type: string;
-};
+import TextInput from "./textInput";
 
 export type ImageInput = {
   fileSizeLimit?: number;
   title?: string;
   name: string;
+  alt?: boolean | string;
   info?: string;
   aspectRatio?: number;
+};
+
+export type Image = {
+  data?: string;
+  type?: string;
+  editing?: string;
 };
 
 export const MB = 1048576;
@@ -35,14 +37,14 @@ function EditImage({
   aspectRatio,
 }: {
   image: Image;
-  handleData: (dataUrl: string) => void;
+  handleData: (data: string) => void;
   aspectRatio?: number;
 }) {
   const cropperRef = useRef<ReactCropperElement>(null);
   return (
     <div className="relative">
       <Cropper
-        src={image.url}
+        src={image.editing}
         style={{ height: 400, width: "100%" }}
         autoCropArea={1}
         aspectRatio={aspectRatio}
@@ -73,7 +75,7 @@ function ImageSelect({
   title: string;
   info: string;
   fileSizeLimit?: number;
-  handleSet: (data: any) => void;
+  handleSet: (param: { data: string; type: string }) => void;
 }) {
   // calculate file size limit
   const infoText = fileSizeLimit ? `${info}, up to ${fileSizeLimit}MB` : info;
@@ -93,8 +95,9 @@ function ImageSelect({
             );
             return;
           }
-          const url = URL.createObjectURL(file);
-          handleSet({ url, type: file.type });
+          const data = URL.createObjectURL(file);
+          const type = file.type.split("/")[1];
+          handleSet({ data, type });
         }}
       />
     </>
@@ -103,64 +106,84 @@ function ImageSelect({
 
 export default function ImageInput({
   name,
+  alt,
   aspectRatio,
   title = defaultInfo.title,
   info = defaultInfo.info,
   fileSizeLimit = defaultInfo.fileSizeLimit,
-}: ImageInput) {
-  const altTextName = `alt_text_${name}`;
+  handleRemove,
+  showErrors = true,
+}: ImageInput & { showErrors?: boolean; handleRemove?: () => void }) {
   const [field, meta, helpers] = useField(name);
-  const [, , altHelpers] = useField(altTextName);
-  const [image, setImage] = useState<null | Image>(null);
-  const isEditing = field.value === "editing";
+  const image = field.value || {};
   return (
-    <div className="form-control relative">
+    <div className="form-control">
       {/* FILE PICKER */}
-      {!image && (
+      {!image.data && !image.editing && (
         <ImageSelect
           title={title}
           info={info}
           fileSizeLimit={fileSizeLimit}
-          handleSet={(data) => {
-            helpers.setValue("editing");
-            setImage(data);
+          handleSet={({ data, type }) => {
+            helpers.setValue({ editing: data, type });
           }}
         />
       )}
-      {/* REMOVE BUTTON */}
-      {!!field.value && (
-        <RemoveButton
-          onClick={() => {
-            setImage(null);
-            altHelpers.setValue("");
-            helpers.setValue("");
-          }}
-        />
-      )}
-      {/* CROP UI */}
-      {isEditing && image && (
-        <EditImage
-          image={image}
-          aspectRatio={aspectRatio}
-          handleData={helpers.setValue}
-        />
-      )}
-      {/* CROPPED IMAGE */}
-      {field.value && !isEditing && (
+      {/* EDITING */}
+      {(image.data || image.editing) && (
         <>
-          <div className="flex justify-center checkered rounded-md overflow-hidden border border-base-300">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={field.value} alt="Image Preview" />
-          </div>
-          <div className="-mt-2">
-            <TextInput
-              name={altTextName}
-              placeholder="Optional image description"
-            />
+          {!handleRemove && <FieldHeader title={title} />}
+          <div className="relative">
+            {/* REMOVE BUTTON */}
+            {!!field.value && (
+              <RemoveButton
+                onClick={() => {
+                  if (handleRemove) {
+                    handleRemove();
+                  } else {
+                    helpers.setValue(undefined);
+                  }
+                }}
+              />
+            )}
+            {/* CROP UI */}
+            {image.editing && (
+              <EditImage
+                image={image}
+                aspectRatio={aspectRatio}
+                handleData={(data) =>
+                  helpers.setValue({ data, type: image.type })
+                }
+              />
+            )}
+            {/* CROPPED IMAGE */}
+            {image.data && (
+              <>
+                <div className="flex justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={image.data}
+                    alt="Image Preview"
+                    className="rounded-md checkered border border-base-300"
+                  />
+                </div>
+                {/* ALT TEXT */}
+                {!!alt && (
+                  <div className="mt-1">
+                    <TextInput
+                      name={`${name}.alt`}
+                      placeholder={
+                        typeof alt === "string" ? alt : "Image Description"
+                      }
+                    />
+                  </div>
+                )}
+              </>
+            )}
+            {showErrors && <FieldHeader error={meta.error} />}
           </div>
         </>
       )}
-      <FieldHeader error={meta.error} />
     </div>
   );
 }

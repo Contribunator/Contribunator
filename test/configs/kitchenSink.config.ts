@@ -76,7 +76,7 @@ export default genericConfig({
         type: "choice",
         as: "buttons",
         title: "Vehicle Color",
-        visible: ({ vehicle }) => !!vehicle,
+        visible: ({ formik }) => !!formik.values.vehicle,
         unset: "Don't Care",
         // TODO allow this to consume useFiles
         options: {
@@ -148,15 +148,24 @@ export default genericConfig({
           },
         },
       },
-      image: {
+      oneImage: {
         type: "image",
         aspectRatio: 1,
+        title: "My Pet",
+        alt: true,
       },
-      images: {
+      myImages: {
         type: "images",
-        limit: 2,
-        totalFileSizeLimit: 1,
+        limit: 3, // TODO use max instead of limit
+        title: "Some Images",
+        alt: true,
+        validation: { required: true, min: 2 },
       },
+      // images: {
+      //   type: "images",
+      //   limit: 2,
+      //   totalFileSizeLimit: 1,
+      // },
       info: {
         type: "info",
         title: "The following is a collection containing a sub-collection",
