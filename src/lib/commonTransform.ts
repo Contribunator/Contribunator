@@ -6,7 +6,7 @@ import convertImages from "./convertImages";
 import { TransformOutputs } from "./pullRequestHandler";
 import { ConfigWithContribution } from "./config";
 
-type CommonTransformInptus = {
+export type CommonTransformInptus = {
   body: any;
   transformed: TransformOutputs;
   timestamp: string;

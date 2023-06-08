@@ -55,7 +55,8 @@ function EditImage({
         onClick={() => {
           if (!cropperRef.current) return;
           const cropper = cropperRef.current.cropper;
-          const imageData = cropper.getCroppedCanvas().toDataURL(image.type);
+          const imageType = image.type === "png" ? "image/png" : "image/jpeg";
+          const imageData = cropper.getCroppedCanvas().toDataURL(imageType);
           handleData(imageData);
         }}
       >

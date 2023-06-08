@@ -47,9 +47,7 @@ export class TweetFixture extends ContributionFixture {
     await this.uploadMedia(filename);
     await this.confirmCrop();
     if (alt) {
-      const altText = this.page
-        .getByPlaceholder("Optional image description")
-        .last();
+      const altText = this.page.getByPlaceholder("Image Description").last();
       await expect(altText).toBeVisible();
       await altText.fill(alt);
     }

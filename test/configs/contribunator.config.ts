@@ -1,10 +1,9 @@
-import tweetConfig, { tweetSuggestions } from "@/contributions/tweet/config";
 import { AppConfig } from "@/lib/config";
 
 // TODO sort this out into different files
 
 import kitchenSinkGenericConfig from "./kitchenSink.config";
-import genericTweetConfig from "./tweet.config";
+import genericTweetConfig from "@/contributions/tweet";
 import genericConfig from "@/contributions/generic/config";
 import linkConfig from "./etc/link.config";
 import appConfig from "./etc/app.config";
@@ -33,11 +32,14 @@ export const E2E: AppConfig = {
             },
           },
         }),
-        testing: kitchenSinkGenericConfig,
-        tweet: tweetConfig({
-          title: "TEST CONTRIBUTION TITLE",
-          description: "TEST CONTRIBUTION DESCRIPTION",
+        tweet: genericTweetConfig({
+          options: { description: "Here's my custom description" },
         }),
+        // testing: kitchenSinkGenericConfig,
+        // tweet: tweetConfig({
+        //   title: "TEST CONTRIBUTION TITLE",
+        //   description: "TEST CONTRIBUTION DESCRIPTION",
+        // }),
       },
     },
   },
@@ -86,7 +88,7 @@ export const DEMO: AppConfig = {
         //   title: "Generic Contribution",
         //   description: "A generic contribution",
         // }),
-        tweet: tweetConfig(),
+        // tweet: tweetConfig(),
       },
     },
   },

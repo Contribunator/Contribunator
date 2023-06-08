@@ -20,10 +20,14 @@ const QUOTE_URL = "https://twitter.com/TEST/status/1234567890";
 const TEXT_VALIDATION = "Required unless retweeting or uploading images";
 const RETWEET_VALIDATION = "Required retweet URL";
 const REPLY_VALIDATION = "Required reply URL";
-const IFRAME_TEXT = `iFrame for preview of ${QUOTE_URL}`;
+const IFRAME_TEXT = `iframe: https://twitframe.com/show?url=${encodeURIComponent(
+  QUOTE_URL
+)}`;
 const JPEG_NAME = "kitten.jpg";
+const JPEG_TYPE = "jpeg";
 const JPEG_ALT = "A cute kitten";
 const JPEG_BASE64 = "data:image/jpeg;base64";
+const PNG_TYPE = "png";
 const PNG_NAME = "dice.png";
 const PNG_ALT = "Translucent dice";
 const PNG_BASE64 = "data:image/png;base64";
@@ -43,22 +47,21 @@ test("tweet image", async ({ t }) => {
   await t.screenshot("uploaded-image");
   await t.confirmCrop();
   await t.submit({
-    media: [JPEG_BASE64],
+    media: [{ data: JPEG_BASE64, type: JPEG_TYPE }],
   });
 });
 
 test("tweet image png", async ({ t }) => {
   await t.uploadAndCrop("dice.png");
   await t.submit({
-    media: [PNG_BASE64],
+    media: [{ data: PNG_BASE64, type: PNG_TYPE }],
   });
 });
 
 test("tweet image with description", async ({ t }) => {
   await t.uploadAndCrop(JPEG_NAME, JPEG_ALT);
   await t.submit({
-    media: [JPEG_BASE64],
-    alt_text_media: [JPEG_ALT],
+    media: [{ data: JPEG_BASE64, type: JPEG_TYPE, alt: JPEG_ALT }],
   });
 });
 
@@ -69,10 +72,17 @@ test("tweet image multiple", async ({ t }) => {
   await t.uploadAndCrop(JPEG_NAME, JPEG_ALT);
   await t.uploadAndCrop(PNG_NAME, PNG_ALT);
   await t.submit({
-    media: [JPEG_BASE64, PNG_BASE64, JPEG_BASE64, PNG_BASE64],
-    alt_text_media: [null, null, JPEG_ALT, PNG_ALT],
+    media: [
+      { data: JPEG_BASE64, type: JPEG_TYPE },
+      { data: PNG_BASE64, type: PNG_TYPE },
+      { data: JPEG_BASE64, type: JPEG_TYPE, alt: JPEG_ALT },
+      { data: PNG_BASE64, type: PNG_TYPE, alt: PNG_ALT },
+    ],
   });
 });
+
+// TODO also validate the API response
+// TODO test remove images after editing, and before cropping.
 
 test("tweet retweet basic", async ({ t }) => {
   await t.setQuote("Retweet");
@@ -101,3 +111,12 @@ test("tweet reply basic", async ({ t }) => {
     quoteType: "reply",
   });
 });
+
+// test transofrmation
+// test("tweet transformation", async ({ t }) => {
+//   // await t.screenshot("required-text");
+//   // await t.cannotSubmit([TEXT_VALIDATION]);
+//   await t.setText(TWEET_TEXT);
+//   await t.submit({ text: TWEET_TEXT }, {});
+//   // await t.screenshot("submitted");
+// });

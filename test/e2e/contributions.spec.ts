@@ -23,7 +23,7 @@ test("contributions list", async ({ p, page }) => {
     await expect(repoLocator).toContainText(
       `https://github.com/${config.owner}/${repo.name}`
     );
-    // todo etc.
+    // todo check for contribution types
   }
   await p.screenshot();
 });

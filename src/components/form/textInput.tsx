@@ -1,6 +1,7 @@
-import { Field, useField } from "formik";
+import { Field, FieldInputProps, FieldMetaProps, useField } from "formik";
 
 import FieldHeader from "./fieldHeader";
+import Iframe from "./iframe";
 
 // TODO move these types in to a config
 
@@ -14,6 +15,10 @@ export type TextInput = {
   infoLink?: string;
   placeholder?: string;
   transform?: (value: string) => string;
+  iframe?: (props: {
+    field: FieldInputProps<any>;
+    meta: FieldMetaProps<any>;
+  }) => string | null;
   suggestions?: { has?: string; hasNo?: string; message: string }[];
   tags?: string[];
 };
@@ -25,6 +30,7 @@ export default function TextInput({
   as = "input",
   info,
   transform,
+  iframe,
   suggestions,
   placeholder,
   infoLink,
@@ -52,6 +58,7 @@ export default function TextInput({
       })
       .map(({ message }) => message);
 
+  const iframeUrl = iframe && iframe({ field, meta });
   return (
     <div className="form-control">
       <FieldHeader
@@ -91,7 +98,7 @@ export default function TextInput({
                 key={tag}
                 className="inline-flex bg-base-100 cursor-pointer mr-1 rounded-md px-2 py-1 mb-1 hover:bg-base-300 select-none"
                 onClick={() => {
-                  helpers.setValue(`${field.value} ${tag}`);
+                  helpers.setValue(`${field.value || ""}${tag} `);
                 }}
               >
                 {tag}
@@ -99,12 +106,14 @@ export default function TextInput({
             ))}
           </div>
         )}
+        {/* TODO move to another component */}
         {currentSuggestions && currentSuggestions.length > 0 && (
           <div className="text-xs text-secondary text-left">
             <b>Optional Suggestion: </b>
             {currentSuggestions.join(", ")}
           </div>
         )}
+        {iframeUrl && <Iframe url={iframeUrl} />}
       </div>
     </div>
   );

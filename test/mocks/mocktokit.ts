@@ -1,3 +1,10 @@
+// TODO test with genreated title
+export const testPr = {
+  url: "https://github.com/repo/owner/pulls/123",
+  number: 123,
+  title: "This is my test commit",
+};
+
 class Mocktokit {
   constructor() {}
 
@@ -13,9 +20,9 @@ class Mocktokit {
         return {
           test: data,
           data: {
-            html_url: "https://github.com/test/test/pull/1",
-            title: "Test PR",
-            number: 1,
+            html_url: testPr.url,
+            title: testPr.title,
+            number: testPr.number,
           },
         };
       },

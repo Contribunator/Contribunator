@@ -2,6 +2,7 @@ import { Locator, expect } from "@playwright/test";
 import { PageFixture, PageFixtureProps } from "./page.fixture";
 
 import { getContribution } from "@/lib/config";
+import { testPr } from "test/mocks/mocktokit";
 
 export type ContributionFixtureProps = Omit<PageFixtureProps, "path"> & {
   baseURL?: string;
@@ -40,28 +41,48 @@ export class ContributionFixture extends PageFixture {
     this.submitButton = page.locator('button[type="submit"]');
   }
 
-  async submit(expected: any) {
+  async submit(expectedRequest: any, expectedReposne?: any) {
     // intercept the route and ensure the correct JSON is being sent
     // also have a mode for returning server-side resposnes
-    const pr = {
-      url: "https://github.com/test-pr-url",
-      number: 1,
-      title: "Test PR Title",
-    };
-
+    // TODO get this from moctokit
+    // evaluate the request and serverside response if passed
     await this.page.route(this.submitUrl, async (route) => {
       try {
         const body = (await route.request().postData()) as string;
         const parsed = JSON.parse(body);
-        // expect(parsed).toEqual({});
         // only test image headers
-        if (parsed.media) {
-          parsed.media = parsed.media.map(
-            (media: string) => media.split(",")[0]
-          );
+        Object.entries(parsed).forEach(([key, value]: any) => {
+          const trimImageData = (data: any) => {
+            if (
+              data &&
+              typeof data === "string" &&
+              data.startsWith("data:image")
+            ) {
+              return data.split(",")[0];
+            }
+
+            return data;
+          };
+          if (Array.isArray(value)) {
+            parsed[key].forEach((item: any) => {
+              if (item.data) {
+                item.data = trimImageData(item.data);
+              }
+            });
+          } else if (value.data) {
+            parsed[key].data = trimImageData(value.data);
+          }
+        });
+        expect(parsed).toEqual({ ...this.body, ...expectedRequest });
+        if (expectedReposne) {
+          const response = await route.fetch();
+          const json = await response.json();
+          expect(json).toEqual(expectedReposne);
+          // await route.fulfill({ response, json });
         }
-        expect(parsed).toEqual({ ...this.body, ...expected });
-        await route.fulfill({ json: { pr } });
+        // always return dummy date for screeenshot
+        // TODO in future replace with server resposne
+        await route.fulfill({ json: { pr: testPr } });
       } catch (e) {
         await route.abort();
         throw e;
@@ -73,7 +94,7 @@ export class ContributionFixture extends PageFixture {
     await expect(this.submitButton).toBeEnabled();
     await this.screenshot("form-completed");
     await this.submitButton.click();
-    await this.hasText(pr.url);
+    await this.hasText(testPr.url);
     // await expect(this.page.getByRole("link", { name: prUrl })).toBeVisible();
   }
 

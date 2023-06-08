@@ -1,5 +1,7 @@
 import { ConfigWithContribution } from "@/lib/config";
 import { GenericConfig } from "./config";
+import Link from "next/link";
+import { Route } from "next";
 
 type Props = {
   children: React.ReactNode;
@@ -9,13 +11,29 @@ type Props = {
 
 export default function GenericFormContainer({
   children,
-  config: { contribution },
+  config: { contribution, repo },
   ...props
 }: Props) {
   return (
     <>
-      <h2 className="title">{contribution.title}</h2>
-      <p>{contribution.description}</p>
+      <div className="space-y-2">
+        <h2 className="title">
+          {contribution.options.title || contribution.title}
+        </h2>
+        <div>
+          {contribution.options.description || contribution.description}
+        </div>
+        <div className="text-sm">
+          Submits a Pull Request to{" "}
+          <Link
+            className="hover:underline"
+            target="_blank"
+            href={repo.githubUrl as Route}
+          >
+            {repo.githubUrl}
+          </Link>
+        </div>
+      </div>
       {children}
     </>
   );
