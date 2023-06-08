@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
 import genericConfig from "@/contributions/generic/config";
-import getImageType from "@/lib/getImageType";
 import { FaSink } from "react-icons/fa";
 
 export default genericConfig({
@@ -16,6 +15,7 @@ export default genericConfig({
     description: "The ultimate taxi service booking form",
     commit: async ({ body, timestamp, files }) => {
       // todo convencience method for pulling out image data
+      throw new Error("WIP");
       const commit = {
         files: {
           "hello.txt": `Hello, world! ${timestamp}`,

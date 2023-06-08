@@ -6,12 +6,9 @@ import { AuthType } from "./authorize";
 // todo is there a better way to do this?
 import userConfig from "@/../contribunator.config";
 import testConfig from "@/../test/configs/contribunator.config";
+import { TailwindColor } from "./tailwindColors";
 
 const appConfig = testConfig || userConfig;
-
-// type TailwindColor = "slate" | "gray" | "zinc" | "neutral" | "stone" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose";
-// TODO add more color options, add to tailwind.config.js, move this elsewhere
-export type TailwindColor = "slate" | "blue" | "red";
 
 type InheritedSettings = {
   owner: string;

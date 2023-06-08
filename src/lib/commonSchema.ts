@@ -11,14 +11,12 @@ const commonSchema = {
   customMessage: Yup.string(),
   // todo use getConfig?
   repo: Yup.string().test({
-    name: "is-valid-repo",
     test(value) {
       getRepo(value as string); // will throw if not found
       return true;
     },
   }),
   contribution: Yup.string().test({
-    name: "is-valid-contribution",
     test(value, ctx) {
       getContribution(ctx.parent.repo, value as string); // will throw if not found
       return true;

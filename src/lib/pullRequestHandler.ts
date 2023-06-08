@@ -11,6 +11,7 @@ import fetchFiles, { Files } from "./fetchFiles";
 
 export type TransformInputs = {
   body: any;
+  fields: any;
   timestamp: string;
   config: ConfigWithContribution;
   files: Files;
@@ -44,17 +45,31 @@ export default function pullRequestHandler(transformToPR: TransformToPR) {
       const authorized = await authorize(req, body);
       // get the config and schema, validates request
       const config = getContribution(body.repo, body.contribution);
-      // validate the schema
-      // TODO we may want to return a Yup-transformed object here for easier transforms later
-      await Yup.object({
+
+      // validate the schema, returns an object we can trust
+      const validated = await Yup.object({
         ...config.contribution.schema,
         ...commonSchema,
-      }).validate(body);
+      })
+        .noUnknown("Unexpected field in request body")
+        .validate(body, { strict: true });
+
+      // console.log("valid body", validated);
+      // destructure form fields
+      const {
+        authorization,
+        contribution,
+        repo,
+        customName,
+        customMessage,
+        ...fields
+      } = validated;
 
       // transform the PR
       const prOpts = {
         config,
-        body,
+        body: validated,
+        fields,
         timestamp: getTimestamp(),
         files: await fetchFiles(config, false),
       };

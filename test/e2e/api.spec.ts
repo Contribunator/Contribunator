@@ -31,6 +31,14 @@ test("applies generic option", async ({ a }) => {
   );
 });
 
+test("disallows fields outside of schema", async ({ a }) => {
+  const error = "Unexpected field in request body";
+  await a.expect({ text: "test", notInSchema: "test" }, { error });
+  await a.expect({ text: "test", nested: { item: "test" } }, { error });
+  // TODO also test this for collections
+  // TODO fix the validation extra keys in collections
+});
+
 test("applies common options", async ({ a }) => {
   const customMessage = "test mesage";
   const customTitle = "test title";

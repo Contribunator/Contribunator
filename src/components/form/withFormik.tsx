@@ -34,7 +34,7 @@ export type FormProps = BaseFormProps & {
 // TODO do not pass intiial values here, instead get from type's config
 export default function withFormik(Form: React.ComponentType<FormProps>) {
   return function WithFormik({ repo, contribution, user, files }: PassedProps) {
-    const [pr, setPr] = useState<CreatePullRequestOutputs | null>(null);
+    const [pr, setPr] = useState<{ pr: CreatePullRequestOutputs } | null>(null);
 
     const config = getContribution(repo, contribution);
     const { schema, type } = config.contribution;
@@ -73,7 +73,7 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
               if (!json.pr) {
                 throw new Error("Unexpected response");
               }
-              setPr(json.pr);
+              setPr(json);
             } catch (error) {
               let message = "Unknown Error";
               if (error instanceof Error) message = `Error: ${error.message}`;

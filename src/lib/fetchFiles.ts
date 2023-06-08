@@ -44,6 +44,12 @@ export default async function fetchFiles(
             repo: repo.name,
             path,
           });
+          // TODO handle file doesn't exist,
+          // TODO test with real API
+          if (!data) {
+            // throw Error(`Error fetching file ${path}`);
+            return { ...file, exists: false };
+          }
           // if it's a directory
           if (Array.isArray(data)) {
             return {
@@ -75,11 +81,14 @@ export default async function fetchFiles(
             throw new Error(`Unknown file type ${data.type}`);
           }
         } catch (e: any) {
+          // TODO we need to detect if there's a 404 error
+          // or a rate limit error or something else
+          // TODO handle API rate lmiting and other errors
+          console.log(e);
           if (e.status === 404) {
             return { ...file, exists: false };
-          } else {
-            throw e;
           }
+          throw e;
         }
       })
     )

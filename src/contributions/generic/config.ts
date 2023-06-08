@@ -1,4 +1,4 @@
-import { Contribution, TailwindColor } from "@/lib/config";
+import { Contribution } from "@/lib/config";
 import { TransformInputs, TransformOutputs } from "@/lib/pullRequestHandler";
 
 import { ChoiceInput } from "@/components/form/choiceInput";
@@ -10,6 +10,7 @@ import { CollectionInput } from "@/components/form/collectionInput";
 
 import generateSchema, { ValidationTypes } from "./generateSchema";
 import { FormikContextType } from "formik";
+import { TailwindColor } from "@/lib/tailwindColors";
 
 type FieldType = "text" | "choice" | "image" | "images" | "collection" | "info";
 

@@ -28,11 +28,10 @@ module.exports = {
   },
   // TODO generate this
   safelist: [
-    "bg-blue-800",
-    "hover:bg-blue-100",
-    "bg-slate-800",
-    "hover:bg-slate-100",
-    "bg-red-800",
-    "hover:bg-red-100",
+    {
+      pattern:
+        /bg-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(100|800)/,
+      variants: ["hover"],
+    },
   ],
 };

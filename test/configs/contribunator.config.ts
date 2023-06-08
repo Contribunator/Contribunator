@@ -11,8 +11,9 @@ import newsConfig from "./etc/news.config";
 
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
-  title: "TEST TITLE",
-  description: "TEST DESCRIPTION",
+  title: "E2E C11R",
+  description:
+    "This is a test mode for end-to-end testing, using a Mock Github API",
   owner: "test-owner",
   base: "test-base",
   branchPrefix: "test-branch-prefix/",
@@ -21,7 +22,16 @@ export const E2E: AppConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
+        app: appConfig({
+          description: "My App Description",
+          options: {
+            imagePath: "./images",
+            absoluteImagePath: "content/services/apps/images",
+          },
+        }),
+        news: newsConfig,
         api: genericConfig({
+          title: "Simple API Test",
           options: {
             commit: async ({ body }) => ({ files: { "test.md": body.text } }),
             fields: {
@@ -54,9 +64,29 @@ export const DEV: AppConfig = {
       contributions: {
         // genericTweet: genericTweetConfig,
         // collection: collectionConfig,
-        link: linkConfig,
-        app: appConfig,
+        app: appConfig({
+          description: "My App Description",
+          options: {
+            imagePath: "./images",
+            absoluteImagePath: "content/services/apps/images",
+          },
+        }),
         news: newsConfig,
+        api: genericConfig({
+          title: "Simple API Test",
+          options: {
+            commit: async ({ body }) => ({ files: { "test.md": body.text } }),
+            fields: {
+              text: {
+                type: "text",
+                title: "Text",
+              },
+            },
+          },
+        }),
+        tweet: genericTweetConfig({
+          options: { description: "Here's my custom description" },
+        }),
         // testing: kitchenSinkGenericConfig,
         // tweet: tweetConfig({
         //   options: {

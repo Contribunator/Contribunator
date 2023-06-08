@@ -1,22 +1,38 @@
 import genericConfig from "@/contributions/generic/config";
+import timestamp from "@/lib/timestamp";
 import { HiNewspaper } from "react-icons/hi";
 
+// TODO better generated messages that create a table with the fields like below
 export default genericConfig({
   title: "News Item",
   description: "A link to an article on an external website",
   icon: HiNewspaper,
-  // useFilesOnServer: {
-  //   links: "links.yaml",
-  // },
+  color: "green",
+  useFilesOnServer: {
+    news: "test/data/news.yaml",
+  },
+  // TODO this should only run when it's valid
+  prMetadata: ({ name, link, tags = [] }) => {
+    return {
+      title: `Add news item ${name}`,
+      message: `This Pull Request adds a new news link:
+      
+**${name}**
+${link}
+Tags: ${tags.join(", ")}
+`,
+    };
+  },
   options: {
-    commit: async ({ files, timestamp, body: { name, url, category } }) => {
-      throw new Error("Just testing");
-      // // if links file doesnt exist, create it
-      // const links = files.links?.parsed || [];
-      // // append the new link to the links array
-      // links.push({ name, url, category, timestamp });
-      // // return the new links array
-      // return { yaml: { "links.yaml": links } };
+    commit: async ({ files, fields }) => {
+      return {
+        yaml: {
+          [files.news.path]: [
+            { date: timestamp("YYYY-MM-DD"), ...fields },
+            ...files.news.parsed,
+          ],
+        },
+      };
     },
     fields: {
       name: {
@@ -41,12 +57,6 @@ export default genericConfig({
         title: "Source Name",
         placeholder: "e.g. CoinDesk",
       },
-      // date: {
-      //   type: "text",
-      //   title: "Date Published",
-      //   placeholder: "e.g. Hard Fork Success!",
-      //   validation: { required: true, min: 3, max: 50 },
-      // },
       tags: {
         type: "choice",
         multiple: true,
