@@ -1,6 +1,7 @@
 import slugify from "@/lib/slugify";
 
-export default function tweetPrMetadata(body: any) {
+// todo Types
+export default function tweetPrMetadata(body: any = {}) {
   // todo poll, etc.
   const mediaCount = body.media && body.media.filter((m: string) => m).length;
 
