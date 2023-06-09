@@ -20,15 +20,26 @@ export type File = {
 export type Files = { [name: string]: File };
 
 export default async function fetchFiles(
-  { owner, repo, contribution }: ConfigWithContribution,
+  {
+    config: { owner, repo, contribution },
+    fields,
+  }: { config: ConfigWithContribution; fields: any },
   isClient: boolean
 ): Promise<Files> {
   const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
 
-  const usedFiles = {
-    ...useFiles,
-    ...(isClient ? useFilesOnClient : useFilesOnServer),
-  };
+  let usedFiles: { [key: string]: string } = {};
+
+  // if a function is provided, call it with the fields
+  [useFiles, isClient ? useFilesOnClient : useFilesOnServer].forEach(
+    (filesConfig) => {
+      if (typeof filesConfig === "function") {
+        usedFiles = { ...usedFiles, ...filesConfig(fields) };
+      } else {
+        usedFiles = { ...usedFiles, ...filesConfig };
+      }
+    }
+  );
 
   if (Object.keys(usedFiles).length === 0) {
     return {};

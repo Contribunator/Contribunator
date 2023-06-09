@@ -37,7 +37,9 @@ type BaseConfig = CommonFields &
 
 export type AppConfig = Partial<BaseConfig>;
 
-type UseFiles = { [key: string]: string };
+type UseFiles =
+  | { [key: string]: string }
+  | ((values: any) => { [key: string]: string });
 
 export type ContributionConfig = {
   type: string;

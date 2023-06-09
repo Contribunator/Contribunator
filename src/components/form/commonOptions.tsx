@@ -2,7 +2,12 @@ import TextInput from "./textInput";
 import { BaseFormProps } from "./withFormik";
 
 export default function GenericOptions({ formik, config }: BaseFormProps) {
-  const { title, message } = config.contribution.prMetadata(formik.values);
+  const meta = formik.isValid
+    ? config.contribution.prMetadata(formik.values)
+    : {
+        title: "",
+        message: "",
+      };
   return (
     <>
       <div className="">
@@ -16,12 +21,12 @@ export default function GenericOptions({ formik, config }: BaseFormProps) {
               title="Custom Pull Request Title"
               info="Special characters will be removed"
               name="customTitle"
-              placeholder={title}
+              placeholder={meta.title}
             />
             <TextInput
               title="Custom Pull Request Message"
               name="customMessage"
-              placeholder={message}
+              placeholder={meta.message}
               as="textarea"
             />
           </div>

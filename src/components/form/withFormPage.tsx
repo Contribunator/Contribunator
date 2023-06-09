@@ -31,7 +31,8 @@ export default function withFormPage(
     }
 
     const user = await useUser();
-    const files = await fetchFiles(config, true);
+    // TODO dynamic fetch on client side
+    const files = {}; // await fetchFiles({config, fields}, true);
 
     return (
       <Page {...{ user, config, files }}>

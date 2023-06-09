@@ -71,7 +71,7 @@ export default function pullRequestHandler(transformToPR: TransformToPR) {
         body: validated,
         fields,
         timestamp: getTimestamp(),
-        files: await fetchFiles(config, false),
+        files: await fetchFiles({ config, fields: validated }, false),
       };
       // TODO merge this into once method after removing twitter
       // apply the type-specific transformation

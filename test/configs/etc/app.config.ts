@@ -21,6 +21,7 @@ export type Options = Partial<
       description?: string;
       imagePath?: string;
       absoluteImagePath?: string;
+      collectionPath?: string;
     };
   }
 >;
@@ -29,6 +30,8 @@ export type Options = Partial<
 export default function appConfig(opts: Options = {}) {
   const { options = {} } = opts;
 
+  // TODO throw if not set
+  const appsPath = options.collectionPath || "test/data/apps.yaml";
   const relativeImagePath = options.imagePath || "apps/";
   const absoluteImagePath = options.absoluteImagePath || relativeImagePath;
 
@@ -37,15 +40,26 @@ export default function appConfig(opts: Options = {}) {
     description: "Submit a new application",
     icon: HiCursorClick,
     color: "purple",
-    useFilesOnServer: {
-      apps: "test/data/apps.yaml",
-    },
     ...opts,
+    useFilesOnServer: {
+      apps: appsPath,
+    },
+    prMetadata: ({ title, url, type, description }) => {
+      return {
+        title: `Add application: ${title}`,
+        message: `This Pull Request adds a new ${type} app:
+          
+**${title}**
+${url}
+
+${description}`,
+      };
+    },
+
     options: {
       ...opts.options,
-      // TODO
       commit: async ({ files, timestamp: t, fields }) => {
-        const { icon, url, title, description, links = [], ...rest } = fields;
+        const { image, url, title, description, links = [], ...rest } = fields;
 
         let newApp: any = {
           date: timestamp("YYYY-MM-DD"),
@@ -54,12 +68,10 @@ export default function appConfig(opts: Options = {}) {
         };
 
         const images: { [key: string]: string } = {};
-        if (icon) {
-          const iconName = `${t}-${slugify(title)}.${icon.type}`;
-          const iconPathRel = `${relativeImagePath}/${iconName}`;
-          const iconPathAbs = `${absoluteImagePath}/${iconName}`;
-          images[iconPathAbs] = icon.data;
-          newApp.image = iconPathRel;
+        if (image) {
+          const imageName = `${t}-${slugify(title)}.${image.type}`;
+          images[`${absoluteImagePath}/${imageName}`] = image.data;
+          newApp.image = `${relativeImagePath}/${imageName}`;
         }
 
         newApp = {
@@ -72,10 +84,9 @@ export default function appConfig(opts: Options = {}) {
         return {
           images,
           yaml: {
-            [files.apps.path]: [newApp, ...(files.apps.parsed || [])],
+            [appsPath]: [newApp, ...(files.apps.parsed || [])],
           },
         };
-        // throw new Error("testing");
       },
       fields: {
         type: {
@@ -108,9 +119,9 @@ export default function appConfig(opts: Options = {}) {
           type: "text",
           as: "textarea",
           placeholder: "e.g. An amazing app that does amazing things!",
-          validation: { required: true, max: 1000 },
+          validation: { required: true, max: 500 },
         },
-        icon: {
+        image: {
           title: "App Icon",
           type: "image",
           aspectRatio: 1,

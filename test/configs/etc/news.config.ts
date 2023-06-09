@@ -19,8 +19,7 @@ export default genericConfig({
       
 **${name}**
 ${link}
-Tags: ${tags.join(", ")}
-`,
+Tags: ${tags.join(", ")}`,
     };
   },
   options: {

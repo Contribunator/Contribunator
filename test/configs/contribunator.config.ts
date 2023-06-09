@@ -9,6 +9,33 @@ import linkConfig from "./etc/link.config";
 import appConfig from "./etc/app.config";
 import newsConfig from "./etc/news.config";
 
+const contributions = {
+  app: appConfig({
+    description: "My App Description",
+    options: {
+      imagePath: "./images",
+      absoluteImagePath: "content/services/apps/images",
+    },
+  }),
+  link: linkConfig,
+  news: newsConfig,
+  tweet: genericTweetConfig({
+    options: { description: "Here's my custom description" },
+  }),
+  api: genericConfig({
+    title: "Simple API Test",
+    options: {
+      commit: async ({ body }) => ({ files: { "test.md": body.text } }),
+      fields: {
+        text: {
+          type: "text",
+          title: "Text",
+        },
+      },
+    },
+  }),
+};
+
 export const E2E: AppConfig = {
   authorization: ["github", "anon"],
   title: "E2E C11R",
@@ -21,36 +48,7 @@ export const E2E: AppConfig = {
     TEST: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
-      contributions: {
-        app: appConfig({
-          description: "My App Description",
-          options: {
-            imagePath: "./images",
-            absoluteImagePath: "content/services/apps/images",
-          },
-        }),
-        news: newsConfig,
-        api: genericConfig({
-          title: "Simple API Test",
-          options: {
-            commit: async ({ body }) => ({ files: { "test.md": body.text } }),
-            fields: {
-              text: {
-                type: "text",
-                title: "Text",
-              },
-            },
-          },
-        }),
-        tweet: genericTweetConfig({
-          options: { description: "Here's my custom description" },
-        }),
-        // testing: kitchenSinkGenericConfig,
-        // tweet: tweetConfig({
-        //   title: "TEST CONTRIBUTION TITLE",
-        //   description: "TEST CONTRIBUTION DESCRIPTION",
-        // }),
-      },
+      contributions,
     },
   },
 };
@@ -61,49 +59,7 @@ export const DEV: AppConfig = {
     Another: {
       title: "Testing",
       description: "Test Description",
-      contributions: {
-        // genericTweet: genericTweetConfig,
-        // collection: collectionConfig,
-        app: appConfig({
-          description: "My App Description",
-          options: {
-            imagePath: "./images",
-            absoluteImagePath: "content/services/apps/images",
-          },
-        }),
-        news: newsConfig,
-        api: genericConfig({
-          title: "Simple API Test",
-          options: {
-            commit: async ({ body }) => ({ files: { "test.md": body.text } }),
-            fields: {
-              text: {
-                type: "text",
-                title: "Text",
-              },
-            },
-          },
-        }),
-        tweet: genericTweetConfig({
-          options: { description: "Here's my custom description" },
-        }),
-        // testing: kitchenSinkGenericConfig,
-        // tweet: tweetConfig({
-        //   options: {
-        //     text: {
-        //       placeholder: "e.g. This is my development tweet",
-        //       tags: ["#Contribunator"],
-        //       suggestions: [
-        //         ...tweetSuggestions(),
-        //         {
-        //           hasNo: "Contribunator",
-        //           message: "Include the word Contribunator in your tweet!",
-        //         },
-        //       ],
-        //     },
-        //   },
-        // }),
-      },
+      contributions,
     },
   },
 };
@@ -113,13 +69,7 @@ export const DEMO: AppConfig = {
     Sample: {
       title: "Sample Repo",
       description: "A useless and vandalized demo repository for Contribunator",
-      contributions: {
-        // cool: genericConfig({
-        //   title: "Generic Contribution",
-        //   description: "A generic contribution",
-        // }),
-        // tweet: tweetConfig(),
-      },
+      contributions,
     },
   },
 };
