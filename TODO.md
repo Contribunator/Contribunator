@@ -6,7 +6,7 @@ Below are the upcoming features and improvements.
 
 - Ready to deploy ETC Config w/ Apps, Twitter, Links
 - Figure out how to do video / twitter api grab?
-- Default dynamic fields
+- Video contribution
 
 ## Week Milestone
 
@@ -36,7 +36,6 @@ Below are the upcoming features and improvements.
 ### Generic Contributions
 
 - Generic Typings and Config
-- Addition of other contribution types
 - Grab (YouTube) URL metadata / OG tags
 - 404 page for missing routes
 - More Tailwind colors

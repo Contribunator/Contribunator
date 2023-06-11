@@ -31,7 +31,9 @@ export class ApiFixture {
     const { repo, contribution } = this.postDefaults;
 
     this.config = getContribution(repo, contribution);
-    const { title, message } = this.config.contribution.prMetadata();
+    const { title, message } = this.config.contribution.prMetadata(
+      props.postDefaults
+    );
 
     // define the expected values for basic PR and commit
     this.pr = {

@@ -49,16 +49,6 @@ export type GenericConfig = Contribution & {
   options: GenericOptions;
 };
 
-const defaultConfig = {
-  title: "Generic Contribution",
-  description: "This is a generic contribution",
-  color: "red" as TailwindColor,
-  prMetadata: () => ({
-    title: "Add Generic Contribution",
-    message: "This PR adds a Generic Contribution",
-  }),
-};
-
 type GenericConfigInput = Partial<Omit<GenericConfig, "schema">> & {
   options: GenericOptions;
 };
@@ -69,7 +59,49 @@ export default function genericConfig(opts: GenericConfigInput): GenericConfig {
   // throw if using reserved names e.g. `title` and `message`
   // TODO option for collections
   const config = {
-    ...defaultConfig,
+    title: "Generic Contribution",
+    description: "This is a generic contribution",
+    color: "red" as TailwindColor,
+    prMetadata({ repo, authorization, contribution, ...fields }: any = {}): {
+      title: string;
+      message: string;
+    } {
+      const itemName = fields.title || fields.name;
+      return {
+        title: `Add ${config.title}${itemName ? `: ${itemName}` : ""}`,
+        message: `This PR adds a new ${config.title}:
+
+${Object.entries(config.options.fields)
+  .map(([key, { title }]) => {
+    const value = fields[key];
+
+    if (!value) {
+      return null;
+    }
+
+    let valueString = value;
+    if (Array.isArray(value)) {
+      if (typeof value[0] === "string") {
+        valueString = value.join(", ");
+      } else {
+        valueString = valueString.length + " item(s)";
+      }
+    } else if (typeof value === "object") {
+      valueString = "✔";
+    }
+    if (typeof value === "boolean") {
+      valueString = value ? "✔" : "❌";
+    }
+    if (valueString.length > 250) {
+      valueString = valueString.slice(0, 250) + "... [trimmed]";
+    }
+
+    return `## ${title}\n${valueString}`;
+  })
+  .filter((i) => i)
+  .join("\n\n")}`,
+      };
+    },
     ...opts,
     type: "generic",
     options: {

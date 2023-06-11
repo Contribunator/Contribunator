@@ -44,8 +44,8 @@ test("tweet text", async ({ t }) => {
   await t.screenshot("required-text");
   await t.cannotSubmit([TEXT_VALIDATION]);
   await t.setText(TWEET_TEXT);
-  const message = "tweet this is my test tweet";
-  const branch = "tweet-this-is-my-test";
+  const message = "Add tweet this is my test tweet";
+  const branch = "add-tweet-this-is-my-test-tweet";
   await t.submit(
     { text: TWEET_TEXT },
     {
@@ -71,8 +71,8 @@ test("tweet image", async ({ t }) => {
   await t.uploadMedia(JPEG_NAME);
   await t.screenshot("uploaded-image");
   await t.confirmCrop();
-  const message = "tweet with media";
-  const branch = "tweet-with-media";
+  const message = "Add tweet with media";
+  const branch = "add-tweet-with-media";
   await t.submit(
     {
       media: [{ data: JPEG_BASE64, type: JPEG_TYPE }],
@@ -101,8 +101,8 @@ There is no text in the tweet.`,
 
 test("tweet image png", async ({ t }) => {
   await t.uploadAndCrop("dice.png");
-  const message = "tweet with media";
-  const branch = "tweet-with-media";
+  const message = "Add tweet with media";
+  const branch = "add-tweet-with-media";
   await t.submit(
     {
       media: [{ data: PNG_BASE64, type: PNG_TYPE }],
@@ -131,8 +131,8 @@ There is no text in the tweet.`,
 
 test("tweet image with description", async ({ t }) => {
   await t.uploadAndCrop(JPEG_NAME, JPEG_ALT);
-  const message = "tweet with media";
-  const branch = "tweet-with-media";
+  const message = "Add tweet with media";
+  const branch = "add-tweet-with-media";
   // TODO allow longer file names for media images
   await t.submit(
     {
@@ -143,10 +143,10 @@ test("tweet image with description", async ({ t }) => {
       commit: {
         message,
         files: {
-          [`media/${TIME}${branch}-a-cute.jpeg`]: JPEG_CONVERTED,
+          [`media/${TIME}${branch}-a-cute-kitten.jpeg`]: JPEG_CONVERTED,
           [`tweets/${TIME}${branch}.tweet`]: `---
 media:
-  - file: ${TIME}${branch}-a-cute.jpeg
+  - file: ${TIME}${branch}-a-cute-kitten.jpeg
     alt: A cute kitten
 ---`,
         },
@@ -167,8 +167,8 @@ test("tweet image multiple", async ({ t }) => {
   await t.screenshot("calculate-filesize");
   await t.uploadAndCrop(JPEG_NAME, JPEG_ALT);
   await t.uploadAndCrop(PNG_NAME, PNG_ALT);
-  const message = "tweet with media";
-  const branch = "tweet-with-media";
+  const message = "Add tweet with media";
+  const branch = "add-tweet-with-media";
   await t.submit(
     {
       media: [
@@ -185,13 +185,13 @@ test("tweet image multiple", async ({ t }) => {
         files: {
           [`media/${TIME}${branch}.jpeg`]: JPEG_CONVERTED,
           [`media/${TIME}${branch}-1.png`]: PNG_CONVERTED,
-          [`media/${TIME}${branch}-a-cute-2.jpeg`]: JPEG_CONVERTED,
+          [`media/${TIME}${branch}-a-cute-kitten-2.jpeg`]: JPEG_CONVERTED,
           [`media/${TIME}${branch}-translucent-dice-3.png`]: PNG_CONVERTED,
           [`tweets/${TIME}${branch}.tweet`]: `---
 media:
   - file: ${TIME}${branch}.jpeg
   - file: ${TIME}${branch}-1.png
-  - file: ${TIME}${branch}-a-cute-2.jpeg
+  - file: ${TIME}${branch}-a-cute-kitten-2.jpeg
     alt: A cute kitten
   - file: ${TIME}${branch}-translucent-dice-3.png
     alt: Translucent dice
@@ -214,8 +214,8 @@ test("tweet retweet basic", async ({ t }) => {
   await t.screenshot("required-quote-url");
   await t.setQuoteUrl(QUOTE_URL);
   await t.hasText(IFRAME_TEXT);
-  const message = "retweet test";
-  const branch = "retweet-test";
+  const message = "Add retweet test";
+  const branch = "add-retweet-test";
   await t.submit(
     {
       quoteUrl: QUOTE_URL,
@@ -250,8 +250,8 @@ test("tweet reply basic", async ({ t }) => {
   await t.cannotSubmit([TEXT_VALIDATION]);
   await t.screenshot("required-text");
   await t.setText(TWEET_TEXT);
-  const message = "reply test this is my test tweet";
-  const branch = "reply-test-this-is-my";
+  const message = "Add reply test this is my test tweet";
+  const branch = "add-reply-test-this-is-my-test-tweet";
   await t.submit(
     {
       quoteUrl: QUOTE_URL,

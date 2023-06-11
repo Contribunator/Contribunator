@@ -2,7 +2,7 @@ export default function slugify(
   str: string,
   opts?: { append?: string | number; slice?: number; join?: string }
 ) {
-  const { append, slice, join } = { slice: 7, join: "-", ...opts };
+  const { append, slice, join } = { slice: 10, join: "-", ...opts };
 
   const slugified = str
     .trim()

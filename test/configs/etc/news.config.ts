@@ -11,17 +11,6 @@ export default genericConfig({
   useFilesOnServer: {
     news: "test/data/news.yaml",
   },
-  // TODO this should only run when it's valid
-  prMetadata: ({ name, link, tags = [] }) => {
-    return {
-      title: `Add news item ${name}`,
-      message: `This Pull Request adds a new news link:
-      
-**${name}**
-${link}
-Tags: ${tags.join(", ")}`,
-    };
-  },
   options: {
     commit: async ({ files, fields }) => {
       return {

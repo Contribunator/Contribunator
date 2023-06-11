@@ -44,18 +44,6 @@ export default function appConfig(opts: Options = {}) {
     useFilesOnServer: {
       apps: appsPath,
     },
-    prMetadata: ({ title, url, type, description }) => {
-      return {
-        title: `Add application: ${title}`,
-        message: `This Pull Request adds a new ${type} app:
-          
-**${title}**
-${url}
-
-${description}`,
-      };
-    },
-
     options: {
       ...opts.options,
       commit: async ({ files, timestamp: t, fields }) => {
