@@ -8,9 +8,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-screen text-center items-center flex-col py-6">
-        <div className="flex flex-auto w-full justify-center items-center">
-          <div className="max-w-xl w-full px-2">{children}</div>
-        </div>
+        {children}
         <Footer />
       </body>
     </html>

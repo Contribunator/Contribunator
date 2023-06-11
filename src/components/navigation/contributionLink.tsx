@@ -14,14 +14,7 @@ const ContributionLink = ({
 }) => {
   const Icon = icon || BiGitPullRequest;
 
-  // url is `/contribute/:repo/:type?/:name`
-  let url = `/contribute/${repo.name}/`;
-  if (type === "generic") {
-    url += name;
-  } else {
-    // if the type is equal to the name, create a nicer URL
-    url += name === type ? type : `${type}/${name}`;
-  }
+  const url = `/contribute/${repo.name}/${name}`;
 
   return (
     <Link

@@ -9,4 +9,4 @@ export const metadata = {
   },
 };
 
-export { default as default } from "@/components/rootLayout";
+export { default as default } from "@/components/layouts/rootLayout";

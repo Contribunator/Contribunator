@@ -4,10 +4,9 @@ Below are the upcoming features and improvements.
 
 ## Next
 
-- Image alt text config
-
 - Ready to deploy ETC Config w/ Apps, Twitter, Links
 - Figure out how to do video / twitter api grab?
+- Default dynamic fields
 
 ## Week Milestone
 
@@ -27,12 +26,6 @@ Below are the upcoming features and improvements.
 
 - update docs, use "nocode" somewhere
 - test for twitter and twitter configs
-
-## After
-
-- Fix footer layout
-- Convert tweet to generic config, use threads
-- Optional functions for dynamic field props
 
 ### Tweets
 
