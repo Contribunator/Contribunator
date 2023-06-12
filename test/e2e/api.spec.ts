@@ -1,94 +1,158 @@
-import { test as base } from "@playwright/test";
+import { test as base, expect } from "@playwright/test";
 import { ApiFixture } from "@/../test/fixtures/api.fixture";
-
-const TEXT = "TEST TEXT";
 
 const test = base.extend<{ a: ApiFixture }>({
   a: ({ request }, use) => {
-    use(
-      new ApiFixture({
-        postDefaults: {
-          repo: "TEST",
-          contribution: "api",
-          authorization: "anon",
-          text: TEXT,
-        },
-        request,
-      })
-    );
+    use(new ApiFixture(request));
   },
 });
 
+const baseReq = {
+  authorization: "anon",
+  repo: "TEST",
+  contribution: "api",
+  text: "test text",
+};
+
 test("allows valid params", async ({ a }) => {
-  await a.expect({}, {});
+  expect(await a.post(baseReq)).toEqual({
+    pr: {
+      number: 123,
+      title: "This is my test commit",
+      url: "https://github.com/repo/owner/pulls/123",
+    },
+    test: {
+      commit: {
+        branch: "test-branch-prefix/timestamp-add-simple-api-test",
+        changes: [
+          {
+            files: {
+              "test.md": "test text",
+            },
+            message: "Add Simple API Test",
+          },
+        ],
+        createBranch: true,
+        owner: "test-owner",
+        repo: "TEST",
+      },
+      pr: {
+        base: "test-base",
+        body: `This PR adds a new Simple API Test:
+
+## Text
+test text
+
+---
+*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        head: "test-branch-prefix/timestamp-add-simple-api-test",
+        owner: "test-owner",
+        repo: "TEST",
+        title: "Add Simple API Test",
+      },
+    },
+  });
 });
 
-test("applies generic option", async ({ a }) => {
-  const text = "Testy McTestface";
-  await a.expect(
-    { text },
-    { commit: { changes: [{ files: { "test.md": text } }] } }
-  );
+test("allows custom PR options", async ({ a }) => {
+  expect(
+    await a.post({
+      ...baseReq,
+      customMessage: "test message",
+      customTitle: "test title",
+    })
+  ).toEqual({
+    pr: {
+      number: 123,
+      title: "This is my test commit",
+      url: "https://github.com/repo/owner/pulls/123",
+    },
+    test: {
+      commit: {
+        branch: "test-branch-prefix/timestamp-test-title",
+        changes: [
+          {
+            files: {
+              "test.md": "test text",
+            },
+            message: "test title",
+          },
+        ],
+        createBranch: true,
+        owner: "test-owner",
+        repo: "TEST",
+      },
+      pr: {
+        base: "test-base",
+        body: `test message
+
+---
+*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        head: "test-branch-prefix/timestamp-test-title",
+        owner: "test-owner",
+        repo: "TEST",
+        title: "test title",
+      },
+    },
+  });
 });
 
 test("disallows fields outside of schema", async ({ a }) => {
-  const error = "Unexpected field in request body";
-  await a.expect({ text: "test", notInSchema: "test" }, { error });
-  await a.expect({ text: "test", nested: { item: "test" } }, { error });
+  expect(await a.post({ ...baseReq, blah: "something" })).toEqual({
+    error: "Unexpected field in request body",
+  });
+  expect(await a.post({ ...baseReq, nested: { thing: "yo" } })).toEqual({
+    error: "Unexpected field in request body",
+  });
+  // await a.expect({ text: "test", notInSchema: "test" }, { error });
+  // await a.expect({ text: "test", nested: { item: "test" } }, { error });
   // TODO also test this for collections
   // TODO fix the validation extra keys in collections
 });
 
-test("applies common options", async ({ a }) => {
-  const customMessage = "test mesage";
-  const customTitle = "test title";
-  await a.expect(
-    { customMessage, customTitle },
-    {
-      pr: { body: customMessage, title: customTitle },
-      commit: { changes: [{ message: customTitle }] },
-    }
-  );
-});
-
 test("rejects long titles", async ({ a }) => {
-  const customTitle = new Array(101).fill("a").join("");
-  await a.expect({ customTitle }, { error: "Title is too long" });
+  expect(
+    await a.post({ ...baseReq, customTitle: new Array(101).fill("a").join("") })
+  ).toEqual({ error: "Title is too long" });
 });
 
 test("rejects invalid auth", async ({ a }) => {
-  await a.expect(
-    { authorization: undefined },
-    { error: "Invalid authorization" }
-  );
-  await a.expect({ authorization: "hax" }, { error: "Invalid authorization" });
+  expect(await a.post({ ...baseReq, authorization: undefined })).toEqual({
+    error: "Invalid authorization",
+  });
+  expect(await a.post({ ...baseReq, authorization: "hax" })).toEqual({
+    error: "Invalid authorization",
+  });
 });
 
 test("rejects disabled auth", async ({ a }) => {
-  await a.expect(
-    { authorization: "captcha" },
-    { error: "Invalid authorization" }
-  );
+  expect(await a.post({ ...baseReq, authorization: "captcha" })).toEqual({
+    error: "Invalid authorization",
+  });
 });
 
 test("rejects unauthorized github request", async ({ a }) => {
-  await a.expect({ authorization: "github" }, { error: "Unauthorized" });
+  expect(await a.post({ ...baseReq, authorization: "github" })).toEqual({
+    error: "Unauthorized",
+  });
 });
 
 test("rejects invalid repo", async ({ a }) => {
-  await a.expect({ repo: undefined }, { error: "Repo name required" });
-  await a.expect({ repo: "hax" }, { error: "Repository hax not found" });
+  expect(await a.post({ ...baseReq, repo: undefined })).toEqual({
+    error: "Repository name required",
+  });
+  expect(await a.post({ ...baseReq, repo: "hax" })).toEqual({
+    error: "Repository hax not found",
+  });
 });
 
 test("rejects invalid contribution type", async ({ a }) => {
-  await a.expect(
-    { contribution: undefined },
-    { error: "Contribution name required" }
-  );
-  await a.expect(
-    { contribution: "hax" },
-    { error: "Contribution hax not found" }
-  );
+  expect(await a.post({ ...baseReq, contribution: undefined })).toEqual({
+    error: "Contribution name required",
+  });
+  expect(await a.post({ ...baseReq, contribution: "hax" })).toEqual({
+    error: "Contribution hax not found",
+  });
 });
 
 // TODO test auth methods

@@ -107,7 +107,7 @@ const config: Config = {
 export type ConfigWithRepo = Omit<Config, "repos"> & { repo: Repo };
 
 export function getRepo(repoName: string): ConfigWithRepo {
-  if (!repoName) throw new Error("Repo name required");
+  if (!repoName) throw new Error("Repository name required");
   const repo = config.repos[repoName];
   if (!repo) throw new Error(`Repository ${repoName} not found`);
   const { repos, ...noReposConfig } = config;
