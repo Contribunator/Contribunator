@@ -37,9 +37,9 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
     const [pr, setPr] = useState<{ pr: CreatePullRequestOutputs } | null>(null);
 
     const config = getContribution(repo, contribution);
-    const { schema, type } = config.contribution;
+    const { schema } = config.contribution;
 
-    const submitUrl = `/api/contribute/${type}`;
+    const submitUrl = `/api/contribute`;
     const validationSchema = Yup.object({ ...schema, ...commonSchema });
 
     // determine the auth UI based on use login status and config

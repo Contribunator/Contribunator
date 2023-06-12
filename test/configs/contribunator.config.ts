@@ -1,25 +1,32 @@
 import { AppConfig } from "@/lib/config";
 
-// TODO sort this out into different files
-
-import kitchenSinkGenericConfig from "./kitchenSink.config";
-import genericTweetConfig from "@/contributions/tweet";
+import tweetConfig from "@/contributions/tweet";
+import newsConfig from "@/contributions/etc/news";
 import genericConfig from "@/contributions/generic/config";
-import linkConfig from "./etc/link.config";
-import appConfig from "./etc/app.config";
-import newsConfig from "./etc/news.config";
+import linkConfig from "@/contributions/etc/link";
+import appConfig from "@/contributions/etc/app";
+
+import { APPS_COLLECTION, NEWS_COLLECTION } from "test/mocks/mocktokit";
+
+import testLinkCategories from "./etc/link.categories";
 
 const contributions = {
   app: appConfig({
     description: "My App Description",
     options: {
-      imagePath: "./images",
+      relativeImagePath: "./images",
       absoluteImagePath: "content/services/apps/images",
+      // collectionPath: "content/services/apps/apps.collection.yaml",
+      collectionPath: APPS_COLLECTION,
     },
   }),
-  link: linkConfig,
-  news: newsConfig,
-  tweet: genericTweetConfig({
+  link: linkConfig({
+    options: { categories: testLinkCategories },
+  }),
+  news: newsConfig({
+    options: { collectionPath: NEWS_COLLECTION },
+  }),
+  tweet: tweetConfig({
     options: { description: "Here's my custom description" },
   }),
   api: genericConfig({

@@ -53,6 +53,15 @@ type GenericConfigInput = Partial<Omit<GenericConfig, "schema">> & {
   options: GenericOptions;
 };
 
+export type ExtendedGenericInput = Partial<
+  Pick<Contribution, "title" | "description" | "icon" | "color"> & {
+    options: {
+      title?: string;
+      description?: string;
+    };
+  }
+>;
+
 export default function genericConfig(opts: GenericConfigInput): GenericConfig {
   // throw if invalid options
   // TODO when commit is passed, wrap it wtih convenience methods

@@ -1,6 +1,8 @@
 import * as Yup from "yup";
 import { NextRequest, NextResponse } from "next/server";
 
+import { e2e } from "@/lib/testEnv";
+
 import authorize from "./authorize";
 import commonSchema from "./commonSchema";
 import createPullRequest from "./createPullRequest";
@@ -87,12 +89,8 @@ export default function pullRequestHandler(transformToPR: TransformToPR) {
         authorized,
         config,
       });
-      // return test data if testing
-      if (process.env.NEXT_PUBLIC_TESTING === "E2E") {
-        return NextResponse.json({ pr, test });
-      }
-      // return PR URL
-      return NextResponse.json({ pr });
+      // return pr, test data if testing
+      return NextResponse.json(e2e ? { pr, test } : { pr });
     } catch (err) {
       // handle errors
       let message = "Something went wrong";

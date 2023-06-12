@@ -1,8 +1,4 @@
-import genericConfig from "@/contributions/generic/config";
-import { Contribution } from "@/lib/config";
-import slugify from "@/lib/slugify";
-import timestamp from "@/lib/timestamp";
-
+import { HiCursorClick } from "react-icons/hi";
 import {
   FaBook,
   FaDiscord,
@@ -12,28 +8,35 @@ import {
   FaTelegram,
   FaTwitter,
 } from "react-icons/fa";
-import { HiCursorClick } from "react-icons/hi";
 
-export type Options = Partial<
-  Pick<Contribution, "title" | "description" | "icon" | "color"> & {
-    options: {
-      title?: string;
-      description?: string;
-      imagePath?: string;
-      absoluteImagePath?: string;
-      collectionPath?: string;
-    };
+import slugify from "@/lib/slugify";
+import timestamp from "@/lib/timestamp";
+import genericConfig, {
+  ExtendedGenericInput,
+  GenericConfig,
+} from "@/contributions/generic/config";
+
+export type AppConfig = ExtendedGenericInput & {
+  options: {
+    relativeImagePath: string;
+    collectionPath: string;
+    absoluteImagePath: string;
+  };
+};
+
+export default function appConfig({
+  options: { collectionPath, relativeImagePath, absoluteImagePath, ...options },
+  ...opts
+}: AppConfig): GenericConfig {
+  if (!collectionPath) {
+    throw new Error("App config requires a collectionPath");
   }
->;
-
-// TODO make paths, etc, configurable
-export default function appConfig(opts: Options = {}) {
-  const { options = {} } = opts;
-
-  // TODO throw if not set
-  const appsPath = options.collectionPath || "test/data/apps.yaml";
-  const relativeImagePath = options.imagePath || "apps/";
-  const absoluteImagePath = options.absoluteImagePath || relativeImagePath;
+  if (!relativeImagePath) {
+    throw new Error("App config requires a relativeImagePath");
+  }
+  if (!absoluteImagePath) {
+    throw new Error("App config requires an absoluteImagePath");
+  }
 
   return genericConfig({
     title: "App",
@@ -42,10 +45,10 @@ export default function appConfig(opts: Options = {}) {
     color: "purple",
     ...opts,
     useFilesOnServer: {
-      apps: appsPath,
+      apps: collectionPath,
     },
     options: {
-      ...opts.options,
+      ...options,
       commit: async ({ files, timestamp: t, fields }) => {
         const { image, url, title, description, links = [], ...rest } = fields;
 
@@ -72,7 +75,7 @@ export default function appConfig(opts: Options = {}) {
         return {
           images,
           yaml: {
-            [appsPath]: [newApp, ...(files.apps.parsed || [])],
+            [files.apps.path]: [newApp, ...(files.apps.parsed || [])],
           },
         };
       },
@@ -117,7 +120,7 @@ export default function appConfig(opts: Options = {}) {
         author: {
           title: "Author Name",
           type: "text",
-          placeholder: "e.g. Satoshi Nakamoto",
+          placeholder: "e.g. Johnny Dapp",
           validation: { required: true, max: 42 },
         },
         authorLink: {
@@ -160,7 +163,7 @@ export default function appConfig(opts: Options = {}) {
           validation: { url: true },
         },
         ipfsFrontend: {
-          title: "IPFS Frontned",
+          title: "IPFS Frontend",
           type: "text",
           placeholder:
             "e.g. https://cloudflare-ipfs.com/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
@@ -204,7 +207,6 @@ export default function appConfig(opts: Options = {}) {
             },
           },
         },
-        // TODO links collection
       },
     },
   });

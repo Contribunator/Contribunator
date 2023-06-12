@@ -2,30 +2,30 @@ import * as Yup from "yup";
 import { FaTwitter } from "react-icons/fa";
 import twitterText from "twitter-text";
 
-import genericConfig, { GenericConfig } from "@/contributions/generic/config";
-import { Contribution } from "@/lib/config";
+import genericConfig, {
+  ExtendedGenericInput,
+  GenericConfig,
+} from "@/contributions/generic/config";
 
 import suggestions, { Suggestion } from "./tweet.suggestions";
 import prMetadata from "./tweet.prMetadata";
 import commit from "./tweet.commit";
 
-export type Options = Partial<
-  Pick<Contribution, "title" | "description" | "icon" | "color"> & {
-    options: {
-      title?: string;
-      description?: string;
-      fields?: {
-        text?: {
-          placeholder?: string;
-          tags?: string[];
-          suggestions?: Suggestion[];
-        };
+export type TweetConfigInput = ExtendedGenericInput & {
+  options?: {
+    fields?: {
+      text?: {
+        placeholder?: string;
+        tags?: string[];
+        suggestions?: Suggestion[];
       };
     };
-  }
->;
+  };
+};
 
-export default function tweetConfig(opts: Options = {}): GenericConfig {
+export default function tweetConfig(
+  opts: TweetConfigInput = {}
+): GenericConfig {
   // TODO options for disallowing media etc.
   return genericConfig({
     title: "Generic Tweet",

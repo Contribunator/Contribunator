@@ -1,10 +1,10 @@
 import { Octokit } from "@octokit/rest";
 import Mocktokit from "@/../test/mocks/mocktokit";
+import { e2e } from "@/lib/testEnv";
 
 let exported = Octokit;
 
-if (process.env.NEXT_PUBLIC_TESTING === "E2E") {
-  // console.log("🤡 Loaded Mocktokit");
+if (e2e) {
   // @ts-ignore
   exported = Mocktokit;
 }

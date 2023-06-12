@@ -5,27 +5,22 @@ Below are the upcoming features and improvements.
 ## Next
 
 - Ready to deploy ETC Config w/ Apps, Twitter, Links
-- Figure out how to do video / twitter api grab?
-- Video contribution
 
 ## Week Milestone
 
 - Tests
-
-  - E2E tests w/ serverside responses
-  - Kitchen Sink Test
-  - API-only tests, with malicious, validation requests
-  - Test `title` and `message` generation
-
+- API-only tests, with malicious, validation requests
 - Cleanup
-
-  - Replace all `any` types
-  - standardardize props passed to all components and DRY components (infoLink)
-  - Standardize all type names (use `Inputs` and `Outputs` etc)
-  - tests for generic configs
-
+- Replace all `any` types
+- standardardize props passed to all components and DRY components (infoLink)
+- Standardize all type names (use `Inputs` and `Outputs` etc)
+- tests for generic configs
 - update docs, use "nocode" somewhere
 - test for twitter and twitter configs
+- update twitter tests
+- Figure out how to do video / twitter api grab?
+- Video contribution
+- Collapse dropdown if sub-item not selected
 
 ### Tweets
 
@@ -35,6 +30,8 @@ Below are the upcoming features and improvements.
 
 ### Generic Contributions
 
+- Create a kitchen sink and test it
+- Kitchen Sink Test
 - Generic Typings and Config
 - Grab (YouTube) URL metadata / OG tags
 - 404 page for missing routes

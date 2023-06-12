@@ -10,9 +10,10 @@ const test = base.extend<{ p: PageFixture }>({
   },
 });
 
-test("landing page", async ({ p }) => {
+test("landing page and contribution list", async ({ p }) => {
   await p.hasTitle(config.title);
   await p.hasText(config.title);
   await p.hasText(config.description);
-  await p.screenshot();
+  await p.page.getByText("Contribute").click();
+  // TODO
 });
