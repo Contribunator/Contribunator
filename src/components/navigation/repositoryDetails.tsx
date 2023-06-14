@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { Route } from "next";
 
-import { Repo } from "@/lib/config";
-
 import ContributionLink from "./contributionLink";
+import { RepoWithContributions } from "@/types";
 
-export default function RepositoryDetails({ repo }: { repo: Repo }) {
+export default function RepositoryDetails({
+  repo,
+}: {
+  repo: RepoWithContributions;
+}) {
   return (
     <div className="cell">
       <h3 className="title -mb-1.5">{repo.title}</h3>

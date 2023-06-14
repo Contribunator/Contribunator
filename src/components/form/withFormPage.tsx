@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { getContribution } from "@/lib/config";
-import useUser from "@/lib/useUser";
-import fetchFiles from "@/lib/fetchFiles";
+import useUser from "@/components/common/useUser";
+
+// import fetchFiles from "@/lib/fetchFiles";
 
 type PageProps = {
   params: {

@@ -207,8 +207,7 @@ items:
   };
 }
 
-Mocktokit.plugin = () => {
-  return Mocktokit;
-};
+// @ts-ignore
+Mocktokit.plugin = () => Mocktokit;
 
 export default Mocktokit;

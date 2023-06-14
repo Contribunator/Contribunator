@@ -1,6 +1,1 @@
-import transformToPR from "@/contributions/generic/transformToPR";
-import pullRequestHandler from "@/lib/pullRequestHandler";
-
-const POST = pullRequestHandler(transformToPR);
-
-export { POST };
+export { default as POST } from "@/lib/server/postContribution";

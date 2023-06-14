@@ -1,19 +1,16 @@
-import { BiGitPullRequest } from "react-icons/bi";
 import Link from "next/link";
 
-import { Repo, Contribution } from "@/lib/config";
+import { Repo, Contribution } from "@/types";
 
 const ContributionLink = ({
   name,
-  contribution: { icon, type, title, description, color = "slate" },
+  contribution: { icon: Icon, title, description, color },
   repo,
 }: {
   contribution: Contribution;
   repo: Repo;
   name: string;
 }) => {
-  const Icon = icon || BiGitPullRequest;
-
   const url = `/contribute/${repo.name}/${name}`;
 
   return (

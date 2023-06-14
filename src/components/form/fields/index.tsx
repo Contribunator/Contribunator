@@ -1,0 +1,59 @@
+import type { Field as BaseField, Fields } from "@/types";
+import { useFormikContext } from "formik";
+
+import TextInput from "./textInput";
+import ChoiceInput from "./choiceInput";
+import ImageInput from "./imageInput";
+import ImagesInput from "./imagesInput";
+import InfoField from "./infoField";
+import CollectionInput from "./collectionInput";
+
+const components = {
+  text: TextInput,
+  choice: ChoiceInput,
+  image: ImageInput,
+  images: ImagesInput,
+  info: InfoField,
+  collection: CollectionInput,
+};
+
+type Field = BaseField & { name: string };
+type VisibilityProps = {
+  field: Field;
+  children: any;
+};
+
+// fetch values for visible method
+function RenderWhenVisible({ field, children }: VisibilityProps) {
+  const formik = useFormikContext();
+  const visible = field.visible && field.visible({ formik, field });
+  if (!visible) return null;
+  return children;
+}
+
+// show early if visibility method not defined
+function VisibilityCheck({ field, children }: VisibilityProps) {
+  if (!field.visible) return children;
+  // otherwise do the more expensive check
+  return <RenderWhenVisible field={field}>{children}</RenderWhenVisible>;
+}
+
+export default function FormFields({ fields }: { fields: Fields }) {
+  return (
+    <>
+      {Object.entries(fields).map(([name, val]) => {
+        const field = { name, ...val } as Field;
+        // TODO
+        // @ts-ignore
+        const Input = components[field.type];
+        return (
+          <VisibilityCheck key={name} field={field}>
+            {/* TODO fix this, typescript? */}
+            {/* @ts-ignore */}
+            <Input {...field} />
+          </VisibilityCheck>
+        );
+      })}
+    </>
+  );
+}

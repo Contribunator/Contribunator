@@ -4,19 +4,15 @@ Below are the upcoming features and improvements.
 
 ## This
 
-- Ready to deploy ETC Config w/ Apps, Twitter, Links
-
-- Cleanup
-
-  - Generic Typings and Config
-  - Replace all `any` types
-  - standardardize props passed to all components and DRY components (infoLink)
-  - Standardize all type names (use `Inputs` and `Outputs` etc)
-
+- Sort out config generation
+- Integrate highlight.io
+- Cleanup, replace all `any` types
 - update docs, use "nocode" somewhere
+- Ready to deploy ETC Config w/ Apps, Twitter, Links
 
 ## Next
 
+- Tests for regex validation
 - Figure out how to do video / twitter api grab?
   - Video contribution
 

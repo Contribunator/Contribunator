@@ -1,6 +1,6 @@
-import { AppConfig } from "@/lib/config";
+import { UserConfig } from "@/types";
 
 // override default config here, see src/config.ts for defaults
-const config: AppConfig = {};
+const config: UserConfig = {};
 
 export default config;

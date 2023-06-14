@@ -1,4 +1,4 @@
-import { CatMap } from "@/contributions/etc/link";
+import { CatMap } from "@/lib/contribution/etc/link";
 
 const testLinkCategories: CatMap = {
   wallets: {

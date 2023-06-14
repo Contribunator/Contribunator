@@ -1,21 +1,26 @@
 import Image from "next/image";
 
-import config from "@/lib/config";
-import useUser from "@/lib/useUser";
+import { getConfig } from "@/lib/config";
 
+import useUser from "./useUser";
 import LoginButton from "./loginButton";
 
+const { authorization } = getConfig();
+
 export default function UserInfo() {
-  if (!config.authorization.includes("github")) return null;
+  if (!authorization.includes("github")) return null;
   // @ts-expect-error Server Component
   return <UserInfoInner />;
 }
 
 async function UserInfoInner() {
   const user = await useUser();
+  const canAnon = authorization.find((item) =>
+    ["anon", "captcha"].includes(item)
+  );
   return (
     <div className="flex items-center space-x-2">
-      {user ? (
+      {!!user && (
         <>
           <span>
             Contributing as <b>{user.name}</b>
@@ -30,7 +35,8 @@ async function UserInfoInner() {
             />
           )}
         </>
-      ) : (
+      )}
+      {!user && canAnon && (
         <span>
           Contributing{" "}
           <div
@@ -41,6 +47,7 @@ async function UserInfoInner() {
           </div>
         </span>
       )}
+
       <LoginButton loggedIn={!!user} />
     </div>
   );

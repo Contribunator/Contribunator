@@ -1,5 +1,8 @@
 import "./globals.css";
-import config from "@/lib/config";
+
+import { getConfig } from "@/lib/config";
+
+const config = getConfig();
 
 export const metadata = {
   title: config.title,

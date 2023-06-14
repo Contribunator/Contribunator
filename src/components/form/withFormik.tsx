@@ -2,17 +2,14 @@
 
 import { Formik, FormikProps } from "formik";
 import { useState } from "react";
-import * as Yup from "yup";
 
-import { ConfigWithContribution, getContribution } from "@/lib/config";
-import { CreatePullRequestOutputs } from "@/lib/createPullRequest";
+import type { ConfigWithContribution } from "@/types";
+import { getContribution } from "@/lib/config";
 
-import commonSchema from "@/lib/commonSchema";
-
-import SubmitButton from "./submitButton";
-import Submitted from "./submitted";
-import CommonOptions from "./commonOptions";
-import AuthOptions from "./authOptions";
+import SubmitButton from "./common/submitButton";
+import Submitted from "./common/submitted";
+import CommonOptions from "./common/commonOptions";
+import AuthWidgets from "./common/authWidgets";
 
 type PassedProps = {
   user?: any;
@@ -31,16 +28,23 @@ export type FormProps = BaseFormProps & {
   user?: any;
 };
 
+export type PrData = {
+  pr: {
+    title: string;
+    number: number;
+    url: string;
+  };
+  test?: any;
+};
+
 // TODO do not pass intiial values here, instead get from type's config
 export default function withFormik(Form: React.ComponentType<FormProps>) {
   return function WithFormik({ repo, contribution, user, files }: PassedProps) {
-    const [pr, setPr] = useState<{ pr: CreatePullRequestOutputs } | null>(null);
+    const [pr, setPr] = useState<PrData | null>(null);
 
     const config = getContribution(repo, contribution);
-    const { schema } = config.contribution;
 
     const submitUrl = `/api/contribute`;
-    const validationSchema = Yup.object({ ...schema, ...commonSchema });
 
     // determine the auth UI based on use login status and config
     let authorization = "anon";
@@ -53,12 +57,8 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
     return (
       <Formik
         validateOnMount
-        validationSchema={validationSchema}
-        initialValues={{
-          repo,
-          authorization,
-          contribution,
-        }}
+        validationSchema={config.contribution.schema}
+        initialValues={{ repo, authorization, contribution }}
         onSubmit={async (data: any) => {
           if (confirm("Are you sure you want to submit the form?")) {
             try {
@@ -92,7 +92,7 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
             {!pr && (
               <>
                 <Form {...{ formik, config, files, user }} />
-                <AuthOptions {...{ formik, config }} />
+                <AuthWidgets {...{ formik, config }} />
                 <SubmitButton {...{ formik, config }} />
                 <CommonOptions {...{ formik, config }} />
               </>

@@ -1,6 +1,6 @@
 import withFormPage from "@/components/form/withFormPage";
 
-import GenericFormContainer from "@/contributions/generic/formContainer";
-import GenericFormContent from "@/contributions/generic/formContent";
+import FormContainer from "@/components/form/formContainer";
+import FormClient from "@/components/form/formClient";
 
-export default withFormPage(GenericFormContainer, GenericFormContent);
+export default withFormPage(FormContainer, FormClient);
