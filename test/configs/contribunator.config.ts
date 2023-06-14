@@ -81,6 +81,7 @@ export default function config(): UserConfig {
 
   if (demo) {
     return {
+      authorization: ["github", "captcha"],
       repos: {
         Sample: {
           title: "Sample Repo",
