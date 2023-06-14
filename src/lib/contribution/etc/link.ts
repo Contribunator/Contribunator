@@ -91,12 +91,12 @@ export default function link({
       return {
         yaml: {
           [links.path]: _.set(
-            links.parsed,
+            links.parsed || {},
             itemsKey,
             _.sortBy(
               [
                 _.mapKeys(fields, (_v, key) => `__${key}`),
-                ..._.get(links.parsed, itemsKey, []),
+                ..._.get(links.parsed || {}, itemsKey, []),
               ],
               "__name"
             )

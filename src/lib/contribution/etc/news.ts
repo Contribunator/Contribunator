@@ -33,7 +33,7 @@ export default function news({
         yaml: {
           [files.news.path]: [
             { date: timestamp("YYYY-MM-DD"), ...fields },
-            ...files.news.parsed,
+            ...(files.news.parsed || []),
           ],
         },
       };
