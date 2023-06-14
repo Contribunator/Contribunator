@@ -1,1 +1,1 @@
-export { default as default } from "@/components/spinner";
+export { default as default } from "@/components/common/spinner";
