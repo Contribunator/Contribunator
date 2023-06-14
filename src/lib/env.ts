@@ -18,36 +18,36 @@ export const apiKeys = process.env.API_KEYS?.split("|").reduce((o, item) => {
 }, {});
 
 // validate env vars, throws the build if any are missing
-export function validate(config: Config) {
-  if (typeof window === "undefined") {
-    const required = (key: string) => {
-      if (!process.env[key]) {
-        throw new Error(`Missing required env var: ${key}`);
-      }
-    };
-    // github credentials always required to make PRs
-    ["GITHUB_APP_ID", "GITHUB_APP_INSTALLATION_ID", "GITHUB_APP_PK"].forEach(
-      required
-    );
+function required(key: string) {
+  if (!process.env[key]) {
+    throw new Error(`Missing required env var: ${key}`);
+  }
+}
 
-    if (config.authorization.includes("github")) {
-      ["GITHUB_APP_CLIENT_SECRET", "GITHUB_APP_CLIENT_ID"].forEach(required);
-    }
-    if (config.authorization.includes("captcha")) {
-      ["NEXT_PUBLIC_HCAPTCHA_SITEKEY", "HCAPTCHA_SECRET"].forEach(required);
-    }
-    if (config.authorization.includes("api")) {
-      const pattern = new RegExp(
-        /^([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)(\|[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)*$/
+export function validate(config: Config) {
+  if (typeof window !== "undefined") return;
+  // github credentials always required to make PRs
+  ["GITHUB_APP_ID", "GITHUB_APP_INSTALLATION_ID", "GITHUB_APP_PK"].forEach(
+    required
+  );
+
+  if (config.authorization.includes("github")) {
+    ["GITHUB_APP_CLIENT_SECRET", "GITHUB_APP_CLIENT_ID"].forEach(required);
+  }
+  if (config.authorization.includes("captcha")) {
+    ["NEXT_PUBLIC_HCAPTCHA_SITEKEY", "HCAPTCHA_SECRET"].forEach(required);
+  }
+  if (config.authorization.includes("api")) {
+    const pattern = new RegExp(
+      /^([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)(\|[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)*$/
+    );
+    if (
+      !process.env.API_KEYS ||
+      !pattern.test(process.env.API_KEYS as string)
+    ) {
+      throw new Error(
+        `Invalid API_KEYS env var. It must match the pattern API_KEYS=key1:abc123|key2:def456|key3:ghi789`
       );
-      if (
-        !process.env.API_KEYS ||
-        !pattern.test(process.env.API_KEYS as string)
-      ) {
-        throw new Error(
-          `Invalid API_KEYS env var. It must match the pattern API_KEYS=key1:abc123|key2:def456|key3:ghi789`
-        );
-      }
     }
   }
 }

@@ -1,7 +1,11 @@
 import { UserConfig } from "@/types";
 
-export default function AppConfig(): UserConfig {
-  return {
-    // your config here
-  };
-}
+const config: UserConfig = {
+  // your config goes here
+  title: "User Config",
+  repos: () => ({
+    // your repos go here
+  }),
+};
+
+export default config;

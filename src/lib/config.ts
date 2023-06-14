@@ -7,7 +7,10 @@ import type {
 
 import { validate } from "./env";
 
-import resolveConfig from "./server/resolveConfig";
+import testConfig from "@/../test/configs/test.config";
+import userConfig from "@/../contribunator.config";
+
+const appConfig = testConfig || userConfig;
 
 // build the config
 const baseConfig: ConfigBase = {
@@ -20,33 +23,27 @@ const baseConfig: ConfigBase = {
   base: "main",
   prPostfix:
     "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
-  repos: {},
 };
 
-// TODO: this is a really stupid hack, fix it
-let config = baseConfig;
-const { repos, ...userConfig } = resolveConfig();
-config = { ...baseConfig, ...userConfig };
-const mergedConfig = { ...config, ...resolveConfig() };
+const { repos, ...mainConfig } = appConfig;
 
-config = {
-  ...mergedConfig,
-  repos: Object.entries(mergedConfig.repos).reduce(
-    (o, [name, repo]) => ({
-      ...o,
-      [name]: {
-        ...repo,
-        name,
-        branchPrefix: mergedConfig.branchPrefix,
-        base: mergedConfig.base,
-        owner: mergedConfig.owner,
-        prPostfix: mergedConfig.prPostfix,
-        githubUrl: `https://github.com/${mergedConfig.owner}/${name}`,
-      },
-    }),
-    {}
-  ),
-};
+const config = { ...baseConfig, ...mainConfig };
+
+config.repos = Object.entries(repos()).reduce(
+  (r, [name, repo]) => ({
+    ...r,
+    [name]: {
+      ...repo,
+      name,
+      branchPrefix: config.branchPrefix,
+      base: config.base,
+      owner: config.owner,
+      prPostfix: config.prPostfix,
+      githubUrl: `https://github.com/${config.owner}/${name}`,
+    },
+  }),
+  {}
+);
 
 validate(config as Config);
 

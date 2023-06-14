@@ -31,12 +31,14 @@ export type Repo = Omit<RepoWithContributions, "contributions">;
 export type ConfigBase = CommonFields &
   InheritedProperties & {
     authorization: AuthType[];
-    repos: {
-      [key: string]: RepoConfig;
-    };
+    repos?: Repos;
   };
 
-export type UserConfig = Partial<ConfigBase>;
+export type GetRepos = { repos: () => Repos | {} };
+
+export type Repos = { [key: string]: RepoConfig };
+
+export type UserConfig = Partial<ConfigBase> & GetRepos;
 
 export type Config = ConfigBase & {
   repos: { [key: string]: RepoWithContributions };
