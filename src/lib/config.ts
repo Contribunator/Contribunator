@@ -7,9 +7,7 @@ import type {
 
 import { validate } from "./env";
 
-// // TODO figure out a better way to do this
-// import userConfig from "@/../contribunator.config";
-import getTestConfig from "@/../test/configs/contribunator.config";
+import resolveConfig from "./server/resolveConfig";
 
 // build the config
 const baseConfig: ConfigBase = {
@@ -27,23 +25,23 @@ const baseConfig: ConfigBase = {
 
 // TODO: this is a really stupid hack, fix it
 let config = baseConfig;
-const { repos, ...userConfig } = getTestConfig();
+const { repos, ...userConfig } = resolveConfig();
 config = { ...baseConfig, ...userConfig };
-const mergedConfig = { ...config, ...getTestConfig() };
+const mergedConfig = { ...config, ...resolveConfig() };
 
 config = {
   ...mergedConfig,
   repos: Object.entries(mergedConfig.repos).reduce(
-    (o, [key, value]) => ({
+    (o, [name, repo]) => ({
       ...o,
-      [key]: {
-        ...value,
-        name: key,
+      [name]: {
+        ...repo,
+        name,
         branchPrefix: mergedConfig.branchPrefix,
         base: mergedConfig.base,
         owner: mergedConfig.owner,
         prPostfix: mergedConfig.prPostfix,
-        githubUrl: `https://github.com/${mergedConfig.owner}/${key}`,
+        githubUrl: `https://github.com/${mergedConfig.owner}/${name}`,
       },
     }),
     {}

@@ -23,13 +23,13 @@ test("allows valid params", async ({ a }) => {
     },
     test: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-simple-api-test",
+        branch: "test-branch-prefix/timestamp-add-simple-test",
         changes: [
           {
             files: {
               "test.md": "test text",
             },
-            message: "Add Simple API Test",
+            message: "Add Simple Test",
           },
         ],
         createBranch: true,
@@ -38,17 +38,17 @@ test("allows valid params", async ({ a }) => {
       },
       pr: {
         base: "test-base",
-        body: `This PR adds a new Simple API Test:
+        body: `This PR adds a new Simple Test:
 
 ## Text
 test text
 
 ---
 *Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
-        head: "test-branch-prefix/timestamp-add-simple-api-test",
+        head: "test-branch-prefix/timestamp-add-simple-test",
         owner: "test-owner",
         repo: "TEST",
-        title: "Add Simple API Test",
+        title: "Add Simple Test",
       },
     },
   });

@@ -8,7 +8,8 @@ import app from "@/lib/contribution/etc/app";
 
 import { APPS_COLLECTION, NEWS_COLLECTION } from "test/mocks/mocktokit";
 
-import testLinkCategories from "./etc/link.categories";
+import testLinkCategories from "./link.categories";
+
 import { demo, dev, e2e } from "@/lib/env";
 
 export default function config(): UserConfig {
@@ -30,7 +31,7 @@ export default function config(): UserConfig {
       description: "Here's my custom description",
     }),
     api: contribution({
-      title: "Simple API Test",
+      title: "Simple Test",
       commit: async ({ body }: { body: { text: string } }) => ({
         files: { "test.md": body.text },
       }),
@@ -39,6 +40,7 @@ export default function config(): UserConfig {
           text: {
             type: "text",
             title: "Text",
+            validation: { required: true },
           },
         },
       },
@@ -69,7 +71,7 @@ export default function config(): UserConfig {
       title: "DEV C11R",
       repos: {
         Another: {
-          title: "Testing",
+          title: "Dev Repo",
           description: "Test Description",
           contributions,
         },
@@ -82,8 +84,7 @@ export default function config(): UserConfig {
       repos: {
         Sample: {
           title: "Sample Repo",
-          description:
-            "A useless and vandalized demo repository for Contribunator",
+          description: "A demo repository to test out Contribunator",
           contributions,
         },
       },
