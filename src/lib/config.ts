@@ -7,7 +7,10 @@ import type {
 
 import { validate } from "./env";
 
-import resolveConfig from "./server/resolveConfig";
+import testConfig from "@/../test/configs/test.config";
+import userConfig from "@/../contribunator.config";
+
+const appConfig = testConfig || userConfig;
 
 // build the config
 const baseConfig: ConfigBase = {
@@ -20,43 +23,35 @@ const baseConfig: ConfigBase = {
   base: "main",
   prPostfix:
     "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
-  repos: {},
 };
 
-// TODO: this is a really stupid hack, fix it
-let config = baseConfig;
-const { repos, ...userConfig } = resolveConfig();
-config = { ...baseConfig, ...userConfig };
-const mergedConfig = { ...config, ...resolveConfig() };
+const { repos = {}, ...mainConfig } = appConfig;
+const config: Config = { ...baseConfig, ...mainConfig, repos: {} };
 
-config = {
-  ...mergedConfig,
-  repos: Object.entries(mergedConfig.repos).reduce(
-    (o, [name, repo]) => ({
-      ...o,
-      [name]: {
-        ...repo,
-        name,
-        branchPrefix: mergedConfig.branchPrefix,
-        base: mergedConfig.base,
-        owner: mergedConfig.owner,
-        prPostfix: mergedConfig.prPostfix,
-        githubUrl: `https://github.com/${mergedConfig.owner}/${name}`,
-      },
-    }),
-    {}
-  ),
-};
+config.repos = Object.entries(repos).reduce(
+  (r, [name, repo]) => ({
+    ...r,
+    [name]: {
+      ...repo,
+      name,
+      branchPrefix: config.branchPrefix,
+      base: config.base,
+      owner: config.owner,
+      prPostfix: config.prPostfix,
+      githubUrl: `https://github.com/${config.owner}/${name}`,
+      contributions: Object.entries(repo.contributions).reduce(
+        (o, [key, value]) => ({ ...o, [key]: value(config) }),
+        {}
+      ),
+    },
+  }),
+  {}
+);
 
-validate(config as Config);
-
-export function getConfig() {
-  return config as Config;
-}
+validate(config);
 
 export function getRepo(repoName: string): ConfigWithRepo {
   if (!repoName) throw new Error("Repository name required");
-  const config = getConfig();
   const repo = config.repos[repoName];
   if (!repo) throw new Error(`Repository ${repoName} not found`);
   const { repos, ...configNoRepos } = config;
@@ -75,3 +70,5 @@ export function getContribution(
   const { contributions, ...repo } = config.repo;
   return { ...config, repo, contribution };
 }
+
+export default config;

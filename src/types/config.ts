@@ -16,8 +16,10 @@ type CommonFields = {
 
 type RepoBase = Partial<InheritedProperties> & CommonFields;
 
+export type ContributionLoader = (c: Config) => Contribution;
+
 type RepoConfig = RepoBase & {
-  contributions: { [key: string]: ContributionOptions };
+  contributions: { [key: string]: ContributionLoader };
 };
 
 export type RepoWithContributions = RepoBase & {
@@ -31,12 +33,11 @@ export type Repo = Omit<RepoWithContributions, "contributions">;
 export type ConfigBase = CommonFields &
   InheritedProperties & {
     authorization: AuthType[];
-    repos: {
-      [key: string]: RepoConfig;
-    };
   };
 
-export type UserConfig = Partial<ConfigBase>;
+export type UserConfig = Partial<ConfigBase> & {
+  repos?: { [key: string]: RepoConfig };
+};
 
 export type Config = ConfigBase & {
   repos: { [key: string]: RepoWithContributions };

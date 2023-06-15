@@ -2,9 +2,9 @@ import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { GithubProfile } from "next-auth/providers/github";
 
-import { getConfig } from "../config";
 import { AuthType, Authorized } from "@/types";
 import { captchaSecret } from "@/lib/env";
+import config from "@/lib/config";
 
 type AuthFunction = ({
   req,
@@ -67,8 +67,7 @@ export default async function authorize(
   req: NextRequest,
   { authorization, ...body }: { authorization: AuthType }
 ): Promise<Authorized> {
-  const { authorization: auth } = getConfig();
-  if (!auth.includes(authorization)) {
+  if (!config.authorization.includes(authorization)) {
     throw new Error("Invalid authorization");
   }
   const authorized = await authMethods[authorization]({ req, body });

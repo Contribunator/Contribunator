@@ -3,16 +3,20 @@ import * as Yup from "yup";
 import type {
   Choice,
   Collection,
+  Config,
   ContributionOptions,
   Fields,
   NestedChoiceOptions,
   RegexValidation,
 } from "@/types";
 
-import { getConfig, getRepo, getContribution } from "@/lib/config";
+// TODO define common schema seperately
+// have the contribution be in its own sub-object
+import { getRepo, getContribution } from "@/lib/config";
 
 export default function generateSchema(
-  contribution: ContributionOptions
+  contribution: ContributionOptions,
+  config: Config
 ): Yup.ObjectSchema<any> {
   const buildSchema = (fields: Fields) => {
     const schema: any = {};
@@ -134,8 +138,6 @@ export default function generateSchema(
     });
     return schema;
   };
-
-  const config = getConfig();
 
   return Yup.object({
     // contribution specific schema

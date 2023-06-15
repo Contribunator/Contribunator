@@ -3,7 +3,7 @@ import { FaTwitter } from "react-icons/fa";
 import twitterText from "twitter-text";
 
 import type {
-  Contribution,
+  ContributionLoader,
   ContributionOptions,
   IframeProps,
   Text,
@@ -24,7 +24,9 @@ export type TweetConfigInput = Omit<ContributionOptions, "commit" | "form"> & {
   };
 };
 
-export default function tweetConfig(opts: TweetConfigInput): Contribution {
+export default function tweetConfig(
+  opts: TweetConfigInput
+): ContributionLoader {
   // TODO options for disallowing media etc.
   return contribution({
     title: "Generic Tweet",

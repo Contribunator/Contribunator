@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { BiListPlus } from "react-icons/bi";
 
-import { getConfig } from "@/lib/config";
+import config from "@/lib/config";
 
 import UserInfo from "@/components/common/userInfo";
 
 export default function LandingPage() {
-  const config = getConfig();
   return (
     <>
       <div className="cell cell-hero">

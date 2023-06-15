@@ -2,7 +2,7 @@ import { HiNewspaper } from "react-icons/hi";
 
 import timestamp from "@/lib/helpers/timestamp";
 
-import { Contribution, ContributionOptions, Form } from "@/types";
+import { ContributionLoader, ContributionOptions, Form } from "@/types";
 
 import contribution from "@/lib/contribution";
 
@@ -14,7 +14,7 @@ export type NewsConfig = Omit<ContributionOptions, "commit" | "form"> & {
 export default function news({
   collectionPath,
   ...opts
-}: NewsConfig): Contribution {
+}: NewsConfig): ContributionLoader {
   if (!collectionPath) {
     throw new Error("News config requires a collectionPath");
   }

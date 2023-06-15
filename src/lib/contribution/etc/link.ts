@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 
 import type {
-  Contribution,
+  ContributionLoader,
   ContributionOptions,
   Form,
   VisibleProps,
@@ -66,7 +66,7 @@ export type LinkConfig = Omit<ContributionOptions, "form" | "commit"> & {
 export default function link({
   categories,
   ...opts
-}: LinkConfig): Contribution {
+}: LinkConfig): ContributionLoader {
   if (!categories) {
     throw new Error("Link config requires categories");
   }

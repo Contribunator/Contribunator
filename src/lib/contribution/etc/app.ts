@@ -9,7 +9,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
-import type { Contribution, ContributionOptions, Form } from "@/types";
+import type { ContributionLoader, ContributionOptions, Form } from "@/types";
 
 import slugify from "@/lib/helpers/slugify";
 import timestamp from "@/lib/helpers/timestamp";
@@ -28,7 +28,7 @@ export default function app({
   relativeImagePath,
   absoluteImagePath,
   ...opts
-}: AppOptions): Contribution {
+}: AppOptions): ContributionLoader {
   if (!collectionPath) {
     throw new Error("App config requires a collectionPath");
   }

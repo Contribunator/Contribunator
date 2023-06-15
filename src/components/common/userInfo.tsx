@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-import { getConfig } from "@/lib/config";
+import config from "@/lib/config";
+
+const { authorization } = config;
 
 import useUser from "./useUser";
 import LoginButton from "./loginButton";
-
-const { authorization } = getConfig();
 
 export default function UserInfo() {
   if (!authorization.includes("github")) return null;

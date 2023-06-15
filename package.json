@@ -12,6 +12,7 @@
     "start:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next start # uses .env.test",
     "start:demo": "NEXT_PUBLIC_TESTING=DEMO NEXT_TELEMETRY_DISABLED=1 next start",
     "lint": "NEXT_TELEMETRY_DISABLED=1 next lint",
+    "prettier": "./node_modules/.bin/prettier -w .",
     "test:e2e": "npx playwright test"
   },
   "dependencies": {

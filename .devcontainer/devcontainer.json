@@ -7,11 +7,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
-		"dbaeumer.vscode-eslint",
-		"bradlc.vscode-tailwindcss",
-		"esbenp.prettier-vscode",
-		"ms-playwright.playwright"
-	]
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-playwright.playwright"
+      ]
     }
   },
   "portsAttributes": {
