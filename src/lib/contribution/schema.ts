@@ -139,6 +139,7 @@ export default function generateSchema(
     return schema;
   };
 
+  // TODO refactor to move `fields` into it's own sub-object to prevent collisions
   return Yup.object({
     // contribution specific schema
     ...buildSchema(contribution.form.fields),

@@ -64,17 +64,6 @@ if (e2e) {
       },
     },
   };
-} else if (dev) {
-  exported = {
-    title: "DEV C11R",
-    repos: {
-      Another: {
-        title: "Dev Repo",
-        description: "Test Description",
-        contributions,
-      },
-    },
-  };
 } else if (demo) {
   exported = {
     authorization: ["github", "captcha"],

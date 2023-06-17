@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "dev": "NEXT_PUBLIC_TESTING=DEV NEXT_TELEMETRY_DISABLED=1 next dev",
+    "dev": "NEXT_TELEMETRY_DISABLED=1 next dev",
     "dev:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next dev # uses .env.test",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
     "build:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next build",
