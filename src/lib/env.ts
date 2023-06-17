@@ -1,3 +1,5 @@
+// TODO use `zod`
+
 import type { Config } from "@/types";
 
 export const e2e = process.env.NEXT_PUBLIC_TESTING === "E2E";
@@ -16,6 +18,9 @@ export const apiKeys = process.env.API_KEYS?.split("|").reduce((o, item) => {
   const [name, value] = item.split(":");
   return { ...o, [value]: name };
 }, {});
+
+export const highlightProject = process.env
+  .NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID as string;
 
 // validate env vars, throws the build if any are missing
 function required(key: string) {
