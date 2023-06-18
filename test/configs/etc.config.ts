@@ -89,8 +89,7 @@ const config: UserConfig = {
       description: "Submit updates to the EthereumClassic.org website.",
       contributions: {
         dapp: app({
-          title: "Decentralized Apps and Protocols",
-          hidden: true,
+          title: "Application",
           description: "A dapp or protocol to appear in the services section.",
           relativeImagePath: "./images",
           absoluteImagePath: "content/services/apps/images",
@@ -104,7 +103,6 @@ const config: UserConfig = {
         }),
         link: link({
           title: "Service Link",
-          hidden: true,
           description:
             "An external link to appear in various parts of the website, such as Wallets, Exchanges, Social Channels, Mining Pools, etc.",
           keyMap: {

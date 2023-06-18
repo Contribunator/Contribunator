@@ -52,7 +52,7 @@ App Description`,
   type: games
   author: Joe Bloggs
   links:
-    - title: Launch App
+    - name: Launch App
       link: https://example.com
 - title: Existing App
   date: 2023-03-05
@@ -195,7 +195,7 @@ App Description`,
   testSuite: https://tests.link
   ipfsFrontend: https://ipfs.link
   links:
-    - title: Launch App
+    - name: Launch App
       link: https://example.com
     - name: https://link.name
       link: https://link.url
