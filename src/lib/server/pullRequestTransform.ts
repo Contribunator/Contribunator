@@ -65,7 +65,10 @@ export default async function pullRequestTransform({
             ...acc,
             [fileName]: YAML.stringify(yaml[fileName], {
               lineWidth: 0,
-              defaultStringType: "QUOTE_DOUBLE",
+              // TODO make configurable, inherit from source
+              // defaultKeyType: "PLAIN",
+              // defaultStringType: "QUOTE_DOUBLE",
+              // collectionStyle: "flow",
             }),
           }),
           {}
