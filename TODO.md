@@ -2,40 +2,53 @@
 
 Below are the upcoming features and improvements.
 
-- e2e twitter tests, skip screenshots in headless
-- OG Image
-- Fix titles like https://github.com/ethereumclassic/tweets-eth_classic/pull/105
-- Update docs with new config
-- Rehaul config to have better defaults and tweet config inheritance
-- Default tweet suggestion: do not start with `@`
+## Today
 
-### Tweets
+- Ready to deploy ETC Config w/ Apps, Twitter, Links
+- Update tests to remove etc specific config
+- update docs, use "nocode" somewhere
 
-- Suggested Hashtags / Emojis, etc.
+## Next
+
+- Proper UI for anon contribs, force sign in if only github enabled
+- Grab (YouTube) URL metadata / OG tags
+- Video contribution
 - Tweet Threads
+- Proper 404 page for missing routes
+- Single repo layout
 - Poll Tweets
 - Thread Tweets
-
-### Generic Contributions
-
-- Generic Typings and Config
-- Addition of other contribution types
-- Grab (YouTube) URL metadata / OG tags
-- 404 page for missing routes
-- More Tailwind colors
-
-## vNext
-
+- Add contributor name to ETC prs
+- refactor schema to move `fields` into it's own sub-object to prevent collisions
+- Cleanup, replace all `any` types
+- Create a kitchen sink and test it
+- UI Test for customTitle
+- Tests for regex validation
+- More API-only tests, with malicious, nested validation requests
+- Convert the has/hasNo back to regex now we don't need to serialize?
 - Improved error/conf feedback in the UI (not alert)
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
-- Option to add merge date
 - Addition of media, animation, GIFs, video
-- Get quoted tweet from API instead of iframe
 - Automation Integrations
-- Tests
+- CRUD
 
-## Perhaps
+## vNextNext
 
+- Option to add merge date
+- Appprovals UI
+- github.contributions.app, allow anyone to submit PR config, with form builder
+- OG Image
 - User access token refreshing
 - branch selection
 - AI to generate description/suggest improvement
+- Allow multiple repos, set up a public contribunator instance, with config updates
+- support private repos
+- Option to only allow maintainers or certain github accounts to make contribution based on repo
+
+## Form Input
+
+- Code
+- Radios
+- Generic Files
+- Checkbox
+- Collapse dropdown if sub-item not selected
