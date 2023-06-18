@@ -90,6 +90,7 @@ const config: UserConfig = {
       contributions: {
         dapp: app({
           title: "Decentralized Apps and Protocols",
+          hidden: true,
           description: "A dapp or protocol to appear in the services section.",
           relativeImagePath: "./images",
           absoluteImagePath: "content/services/apps/images",
@@ -103,6 +104,7 @@ const config: UserConfig = {
         }),
         link: link({
           title: "Service Link",
+          hidden: true,
           description:
             "An external link to appear in various parts of the website, such as Wallets, Exchanges, Social Channels, Mining Pools, etc.",
           categories: {

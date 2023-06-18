@@ -28,6 +28,7 @@ const contributions = {
   }),
   api: contribution({
     title: "Simple Test",
+    hidden: true,
     commit: async ({ body }: { body: { text: string } }) => ({
       files: { "test.md": body.text },
     }),
