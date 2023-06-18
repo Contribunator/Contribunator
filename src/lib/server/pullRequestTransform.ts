@@ -63,7 +63,7 @@ export default async function pullRequestTransform({
         Object.keys(yaml).reduce(
           (acc, fileName) => ({
             ...acc,
-            [fileName]: YAML.stringify(yaml[fileName], null, 2),
+            [fileName]: YAML.stringify(yaml[fileName], { lineWidth: 0 }),
           }),
           {}
         )),
