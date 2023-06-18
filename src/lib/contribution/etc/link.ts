@@ -21,11 +21,12 @@ import type {
 import contribution from "@/lib/contribution";
 
 type CatItem = {
-  title: string;
+  title?: string;
   sourcePath?: string;
   showIcons?: boolean;
   showDescription?: boolean;
   sourceKey?: string;
+  keyMap?: { [key: string]: string };
   [key: string]: CatItem | string | boolean | undefined;
 };
 
@@ -60,11 +61,15 @@ function getCatProp(keyToMatch: string, cat: string, categories: CatMap) {
 
 export type LinkConfig = Omit<ContributionOptions, "form" | "commit"> & {
   categories: CatMap;
+  keyMap?: { [key: string]: string };
   form?: Omit<Form, "fields">;
 };
 
+// TODO make this more configurable, default name, cat-specific keymap
+
 export default function link({
   categories,
+  keyMap = {},
   ...opts
 }: LinkConfig): ContributionLoader {
   if (!categories) {
@@ -88,19 +93,23 @@ export default function link({
       // TODO itemsKey into an option?
       const itemsKey = `items.${sourceKey}.items`;
       // upsert the existing object, sort by name
+      const oldLinks = _.get(links.parsed || {}, itemsKey, {});
+      const newLinks: any = {};
+
+      oldLinks[fields.name] = _.mapKeys(
+        fields,
+        (_v, key) => keyMap[key] || key
+      );
+
+      _.sortBy(Object.keys(oldLinks), (key) => key.toLowerCase()).forEach(
+        (key) => {
+          newLinks[key] = oldLinks[key];
+        }
+      );
+
       return {
         yaml: {
-          [links.path]: _.set(
-            links.parsed || {},
-            itemsKey,
-            _.sortBy(
-              [
-                _.mapKeys(fields, (_v, key) => `__${key}`),
-                ..._.get(links.parsed || {}, itemsKey, []),
-              ],
-              "__name"
-            )
-          ),
+          [links.path]: _.set(links.parsed || {}, itemsKey, newLinks),
         },
       };
     },

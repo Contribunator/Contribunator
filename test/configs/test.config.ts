@@ -19,6 +19,11 @@ const contributions = {
   }),
   link: link({
     categories: testLinkCategories,
+    keyMap: {
+      name: "__name",
+      link: "__link",
+      icon: "__icon",
+    },
   }),
   news: news({
     collectionPath: "test/data/news.yaml",

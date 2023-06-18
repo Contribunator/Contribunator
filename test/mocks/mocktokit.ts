@@ -91,107 +91,133 @@ class Mocktokit {
 items:              
   web:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   browsers:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   hardware:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   software:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   other:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Trust-Minimizing Exchanges:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Centralized Spot Markets:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Centralized Derivative Markets:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Cross-Chain Swap Exchanges:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   NFT Marketplaces:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Other:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Chat Rooms:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Development Chat:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Telegram Groups:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Forums:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Media:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Twitter Accounts:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   Regional Website:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   prices:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   processors:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   dex:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   endpoints:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   pools:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   explorers:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   monitors:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com
   repos:
     items:
-      - __name: Existing Test
+      Existing Test:
+        __name: Existing Test
         __link: https://example.com`
             ).toString("base64"),
           },

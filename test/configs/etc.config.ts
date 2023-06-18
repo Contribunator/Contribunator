@@ -107,6 +107,11 @@ const config: UserConfig = {
           hidden: true,
           description:
             "An external link to appear in various parts of the website, such as Wallets, Exchanges, Social Channels, Mining Pools, etc.",
+          keyMap: {
+            name: "__name",
+            link: "__link",
+            icon: "__icon",
+          },
           categories: {
             wallets: {
               title: "Wallet",
