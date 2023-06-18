@@ -32,12 +32,12 @@ config.repos = Object.entries(repos).reduce(
   (r, [name, repo]) => ({
     ...r,
     [name]: {
-      ...repo,
-      name,
       branchPrefix: config.branchPrefix,
       base: config.base,
       owner: config.owner,
       prPostfix: config.prPostfix,
+      ...repo,
+      name,
       githubUrl: `https://github.com/${config.owner}/${name}`,
       contributions: Object.entries(repo.contributions).reduce(
         (o, [key, value]) => ({ ...o, [key]: value(config) }),

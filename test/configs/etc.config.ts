@@ -44,7 +44,6 @@ const config: UserConfig = {
   description:
     "This website makes it easy to contribute content updates to Ethereum Classic Github repositories without needing to know how to make Pull Requests.",
   owner: "ethereumclassic",
-  base: "master",
   prPostfix:
     "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
   repos: {
@@ -87,6 +86,7 @@ const config: UserConfig = {
     "ethereumclassic.github.io": {
       title: "EthereumClassic.org Website",
       description: "Submit updates to the EthereumClassic.org website.",
+      base: "master",
       contributions: {
         dapp: app({
           title: "Application",
