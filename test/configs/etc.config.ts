@@ -99,7 +99,7 @@ const config: UserConfig = {
           title: "News Headline",
           description:
             "An external link to an article about ETC, which will appear in the news section and on the front page.",
-          collectionPath: "content/services/apps/apps.collection.yaml",
+          collectionPath: "content/news/links.collection.en.yaml",
         }),
         link: link({
           title: "Service Link",
