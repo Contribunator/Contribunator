@@ -1,13 +1,12 @@
+import type { UserConfig } from "@/types";
+
+import { demo, e2e } from "@/lib/env";
+
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
 import news from "@/lib/contribution/etc/news";
 import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
-
-import { APPS_COLLECTION, NEWS_COLLECTION } from "test/mocks/mocktokit";
-
-import type { UserConfig } from "@/types";
-import { demo, dev, e2e } from "@/lib/env";
 
 import testLinkCategories from "./link.categories";
 
@@ -16,14 +15,13 @@ const contributions = {
     description: "My App Description",
     relativeImagePath: "./images",
     absoluteImagePath: "content/services/apps/images",
-    // collectionPath: "content/services/apps/apps.collection.yaml",
-    collectionPath: APPS_COLLECTION,
+    collectionPath: "test/data/apps.yaml",
   }),
   link: link({
     categories: testLinkCategories,
   }),
   news: news({
-    collectionPath: NEWS_COLLECTION,
+    collectionPath: "test/data/news.yaml",
   }),
   tweet: tweet({
     description: "Here's my custom description",

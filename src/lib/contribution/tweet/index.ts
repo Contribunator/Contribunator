@@ -5,6 +5,7 @@ import twitterText from "twitter-text";
 import type {
   ContributionLoader,
   ContributionOptions,
+  Form,
   IframeProps,
   Text,
   VisibleProps,
@@ -17,20 +18,17 @@ import prMetadata from "./tweet.prMetadata";
 import commit from "./tweet.commit";
 
 export type TweetConfigInput = Omit<ContributionOptions, "commit" | "form"> & {
-  form?: {
+  form?: Partial<Omit<Form, "fields">> & {
     fields?: {
-      text?: Partial<Text>;
+      text?: Partial<Omit<Text, "type">>;
     };
   };
 };
 
-export default function tweetConfig(
-  opts: TweetConfigInput
-): ContributionLoader {
-  // TODO options for disallowing media etc.
+export default function tweet(opts: TweetConfigInput): ContributionLoader {
   return contribution({
     title: "Generic Tweet",
-    description: "Recreate Tweet with Generic",
+    description: "Submit a Tweet to be tweeted on this account if approved",
     icon: FaTwitter,
     color: "blue",
     ...opts,

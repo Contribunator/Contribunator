@@ -5,10 +5,6 @@ export const testPr = {
   title: "This is my test commit",
 };
 
-export const NEWS_COLLECTION = "test/data/news.yaml";
-export const APPS_COLLECTION = "test/data/apps.yaml";
-export const LINKS_DIR = "content/";
-
 class Mocktokit {
   constructor() {}
 
@@ -36,7 +32,7 @@ class Mocktokit {
   // test fetchFiles
   repos = {
     async getContent({ path }: { path: string }) {
-      if (path === NEWS_COLLECTION) {
+      if (path === "test/data/news.yaml") {
         return {
           data: {
             type: "file",
@@ -57,7 +53,7 @@ class Mocktokit {
         };
       }
 
-      if (path === APPS_COLLECTION) {
+      if (path === "test/data/apps.yaml") {
         return {
           data: {
             type: "file",
@@ -86,7 +82,7 @@ class Mocktokit {
         };
       }
 
-      if (path.startsWith(LINKS_DIR)) {
+      if (path.startsWith("content/")) {
         return {
           data: {
             type: "file",

@@ -1,4 +1,4 @@
-import { CatMap } from "@/lib/contribution/etc/link";
+import type { CatMap } from "@/lib/contribution/etc/link";
 
 const testLinkCategories: CatMap = {
   wallets: {
@@ -103,26 +103,11 @@ const testLinkCategories: CatMap = {
       sourcePath: "content/development/tooling/index.yaml",
       sourceKey: "dex",
     },
-    // TODO ?
-    // endpoint: {
-    //   showWebsite: true,
-    //   title: "RPC Endpoint",
-    //   sourcePath: "content/network/endpoints/index.yaml",
-    //   sourceKey: "endpoints",
-    // },
     pools: {
       title: "Mining Pool",
       sourcePath: "content/mining/pools/index.yaml",
       sourceKey: "pools",
     },
-    // explorers: {
-    //   title: "Blockchain Explorer",
-    //   sourcePath: "content/network/explorers/index.yaml",
-    //   sourceKey: "explorers",
-    //   keyMap: {
-    //     url: "etc",
-    //   },
-    // },
     monitors: {
       title: "Network Monitor",
       sourcePath: "content/network/monitors/index.yaml",
@@ -135,7 +120,6 @@ const testLinkCategories: CatMap = {
       sourceKey: "repos",
     },
   },
-  // TODO others with descriptions
 };
 
 export default testLinkCategories;

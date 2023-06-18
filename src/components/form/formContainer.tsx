@@ -18,7 +18,9 @@ export default function FormContainer({
         <h2 className="title">
           {contribution.form.title || contribution.title}
         </h2>
-        <div>{contribution.form.description || contribution.description}</div>
+        <div className="text-sm">
+          {contribution.form.description || contribution.description}
+        </div>
         <div className="text-sm">
           Submits a Pull Request to{" "}
           <Link
@@ -28,6 +30,7 @@ export default function FormContainer({
           >
             {repo.githubUrl}
           </Link>
+          .
         </div>
       </div>
       {children}

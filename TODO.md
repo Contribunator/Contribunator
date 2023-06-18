@@ -10,6 +10,7 @@ Below are the upcoming features and improvements.
 
 ## Next
 
+- Proper UI for anon contribs, force sign in if only github enabled
 - Grab (YouTube) URL metadata / OG tags
 - Video contribution
 - Tweet Threads
@@ -29,6 +30,7 @@ Below are the upcoming features and improvements.
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Addition of media, animation, GIFs, video
 - Automation Integrations
+- CRUD
 
 ## vNextNext
 
