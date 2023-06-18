@@ -67,7 +67,7 @@ export default function app({
       newApp = {
         ...newApp,
         ...rest,
-        links: [{ title: "Launch App", link: url }, ...links],
+        links: [{ name: "Launch App", link: url }, ...links],
       };
 
       // TODO option to pass image resizing / aspect ratio.

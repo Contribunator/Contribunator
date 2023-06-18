@@ -44,6 +44,7 @@ const config: UserConfig = {
   description:
     "This website makes it easy to contribute content updates to Ethereum Classic Github repositories without needing to know how to make Pull Requests.",
   owner: "ethereumclassic",
+  base: "master",
   prPostfix:
     "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
   repos: {
@@ -88,7 +89,7 @@ const config: UserConfig = {
       description: "Submit updates to the EthereumClassic.org website.",
       contributions: {
         dapp: app({
-          title: "Decentralized Apps and Protocols",
+          title: "Application",
           description: "A dapp or protocol to appear in the services section.",
           relativeImagePath: "./images",
           absoluteImagePath: "content/services/apps/images",
@@ -98,12 +99,17 @@ const config: UserConfig = {
           title: "News Headline",
           description:
             "An external link to an article about ETC, which will appear in the news section and on the front page.",
-          collectionPath: "content/services/apps/apps.collection.yaml",
+          collectionPath: "content/news/links.collection.en.yaml",
         }),
         link: link({
           title: "Service Link",
           description:
             "An external link to appear in various parts of the website, such as Wallets, Exchanges, Social Channels, Mining Pools, etc.",
+          keyMap: {
+            name: "__name",
+            link: "__link",
+            icon: "__icon",
+          },
           categories: {
             wallets: {
               title: "Wallet",

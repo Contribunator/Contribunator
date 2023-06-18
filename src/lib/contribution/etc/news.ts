@@ -41,9 +41,9 @@ export default function news({
     form: {
       ...opts.form,
       fields: {
-        name: {
+        title: {
           type: "text",
-          title: "Article Name",
+          title: "Article Title",
           placeholder: "e.g. Hard Fork Success!",
           validation: { required: true, min: 10, max: 50 },
         },

@@ -5,11 +5,11 @@ const test = formTest({ repo: "TEST", contribution: "news" });
 
 test("news submits basic", async ({ f }) => {
   await f.cannotSubmit([
-    "Article name is a required field",
+    "Article Title is a required field",
     "Article URL is a required field",
     "Tags is a required field",
   ]);
-  await f.setText("Article Name", "My Test Article");
+  await f.setText("Article Title", "My Test Article");
   await f.setText("Article URL", "https://example.com");
   await f.setText("Author Name", "Bobby Tables");
   await f.setText("Source Name", "New York Times");
@@ -25,7 +25,7 @@ test("news submits basic", async ({ f }) => {
       authorization: "anon",
       contribution: "news",
       link: "https://example.com",
-      name: "My Test Article",
+      title: "My Test Article",
       repo: "TEST",
       source: "New York Times",
       tags: ["development", "teams", "series"],
@@ -37,7 +37,7 @@ test("news submits basic", async ({ f }) => {
           {
             files: {
               "test/data/news.yaml": `- date: TIMESTAMP
-  name: My Test Article
+  title: My Test Article
   link: https://example.com
   author: Bobby Tables
   source: New York Times
@@ -71,7 +71,7 @@ test("news submits basic", async ({ f }) => {
         base: "test-base",
         body: `This PR adds a new News Item:
 
-## Article Name
+## Article Title
 My Test Article
 
 ## Article URL

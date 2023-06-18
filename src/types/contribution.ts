@@ -16,6 +16,7 @@ export type Contribution = {
   title: string;
   description: string;
   color: TailwindColor;
+  hidden?: boolean;
   form: Form;
   schema: any; // TODO
   commit: Commit;

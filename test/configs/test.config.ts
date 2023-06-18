@@ -19,6 +19,11 @@ const contributions = {
   }),
   link: link({
     categories: testLinkCategories,
+    keyMap: {
+      name: "__name",
+      link: "__link",
+      icon: "__icon",
+    },
   }),
   news: news({
     collectionPath: "test/data/news.yaml",
@@ -28,6 +33,7 @@ const contributions = {
   }),
   api: contribution({
     title: "Simple Test",
+    hidden: true,
     commit: async ({ body }: { body: { text: string } }) => ({
       files: { "test.md": body.text },
     }),
