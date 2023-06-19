@@ -79,6 +79,7 @@ export default function app({
       };
     },
     form: {
+      ...opts.form,
       fields: {
         type: {
           type: "choice",
