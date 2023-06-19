@@ -7,7 +7,7 @@
     @apply bg-base-200 w-full rounded-xl p-4 text-left;
   }
   .cell-hero {
-    @apply px-8 py-10 text-center;
+    @apply px-8 py-10 text-center space-y-8;
   }
   .title {
     @apply text-lg font-bold m-0;

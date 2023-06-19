@@ -1,4 +1,4 @@
-import { BiListPlus } from "react-icons/bi";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import Link from "next/link";
 
 import UserInfo from "@/components/common/userInfo";
@@ -17,8 +17,8 @@ export default async function ContributionLayout({ children }: Props) {
       <div className="divider"></div>
       {children}
       <Link className="btn gap-2" href="/contribute">
+        <HiOutlineArrowLeft className="h-4 w-4" />
         Contributions List
-        <BiListPlus className="h-5 w-5" />
       </Link>
     </FlexContainer>
   );
