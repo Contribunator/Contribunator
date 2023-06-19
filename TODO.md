@@ -2,17 +2,18 @@
 
 Below are the upcoming features and improvements.
 
-## Today
-
-- Ready to deploy ETC Config w/ Apps, Twitter, Links
-- Update tests to remove etc specific config
-- update docs, use "nocode" somewhere
-
 ## Next
 
+- Date option for news
+- update docs, use "nocode" somewhere
+
+## vLater
+
+- dynamically load configs / moctokit
+- kitchen sink: test empty tags
+- Test repo overrides
+- i18n support (ETC)
 - Proper UI for anon contribs, force sign in if only github enabled
-- Grab (YouTube) URL metadata / OG tags
-- Video contribution
 - Tweet Threads
 - Proper 404 page for missing routes
 - Single repo layout
@@ -31,9 +32,6 @@ Below are the upcoming features and improvements.
 - Addition of media, animation, GIFs, video
 - Automation Integrations
 - CRUD
-
-## vNextNext
-
 - Option to add merge date
 - Appprovals UI
 - github.contributions.app, allow anyone to submit PR config, with form builder
@@ -50,5 +48,6 @@ Below are the upcoming features and improvements.
 - Code
 - Radios
 - Generic Files
+- Date
 - Checkbox
 - Collapse dropdown if sub-item not selected

@@ -1,10 +1,12 @@
-// TODO use `zod`
+// TODO use yup to validate env vars
 
 import type { Config } from "@/types";
 
 export const e2e = process.env.NEXT_PUBLIC_TESTING === "E2E";
-export const dev = process.env.NEXT_PUBLIC_TESTING === "DEV";
 export const demo = process.env.NEXT_PUBLIC_TESTING === "DEMO";
+
+export const youtubeApi = process.env.YOUTUBE_API_KEY as string;
+
 export const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET as string;
 export const clientId = process.env.GITHUB_APP_CLIENT_ID as string;
 export const appId = parseInt(process.env.GITHUB_APP_ID as string);
