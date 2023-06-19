@@ -8,10 +8,10 @@ dayjs.extend(utc);
 export default function timestamp(
   format = "YYMMDD-HHmm",
   date?: string,
-  tag?: string
+  tagOrSkipTag?: string | boolean
 ) {
-  if (e2e) {
-    return tag ? tag : "TIMESTAMP";
+  if (e2e && tagOrSkipTag !== true) {
+    return tagOrSkipTag ? tagOrSkipTag : "TIMESTAMP";
   }
   const dayjsDate = date ? dayjs.utc(date) : dayjs.utc();
   return dayjsDate.format(format);
