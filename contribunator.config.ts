@@ -102,7 +102,6 @@ const config: UserConfig = {
           collectionPath: "content/services/apps/apps.collection.yaml",
         }),
         video: video({
-          hidden: true,
           title: "Video",
           description:
             "A YouTube video about ETC, which will appear in the videos section and on the front page.",
