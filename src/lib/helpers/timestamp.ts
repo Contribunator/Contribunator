@@ -5,9 +5,14 @@ import { e2e } from "@/lib/env";
 
 dayjs.extend(utc);
 
-export default function timestamp(format = "YYMMDD-HHmm") {
+export default function timestamp(
+  format = "YYMMDD-HHmm",
+  date?: string,
+  tag?: string
+) {
   if (e2e) {
-    return "TIMESTAMP";
+    return tag ? tag : "TIMESTAMP";
   }
-  return dayjs().utc().format(format);
+  const dayjsDate = date ? dayjs.utc(date) : dayjs.utc();
+  return dayjsDate.format(format);
 }

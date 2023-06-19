@@ -52,6 +52,24 @@ class Mocktokit {
           },
         };
       }
+      if (path === "test/data/videos.yaml") {
+        return {
+          data: {
+            type: "file",
+            content: Buffer.from(
+              `# Existing Test
+- title: "Test Video"
+  date: 2022-02-08
+  uploaded: 2022-02-08
+  youtube: o4n6pqRyA1c
+  tags: ["discussions", "explainers"]
+  author: Existing Author
+  authorYoutube: c/channel_name
+  description: my description here`
+            ).toString("base64"),
+          },
+        };
+      }
 
       if (path === "test/data/apps.yaml") {
         return {

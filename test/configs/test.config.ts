@@ -7,6 +7,7 @@ import tweet from "@/lib/contribution/tweet";
 import news from "@/lib/contribution/etc/news";
 import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
+import video from "@/lib/contribution/etc/video";
 
 import testLinkCategories from "./link.categories";
 
@@ -16,6 +17,9 @@ const contributions = {
     relativeImagePath: "./images",
     absoluteImagePath: "content/services/apps/images",
     collectionPath: "test/data/apps.yaml",
+  }),
+  video: video({
+    collectionPath: "test/data/videos.yaml",
   }),
   link: link({
     categories: testLinkCategories,
