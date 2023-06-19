@@ -28,11 +28,11 @@ export default function news({
     useFilesOnServer: {
       news: collectionPath,
     },
-    commit: async ({ files, fields }) => {
+    commit: async ({ files, fields: { date, ...fields } }) => {
       return {
         yaml: {
           [files.news.path]: [
-            { date: timestamp("YYYY-MM-DD"), ...fields },
+            { date: timestamp("YYYY-MM-DD", date, !!date), ...fields },
             ...(files.news.parsed || []),
           ],
         },
@@ -86,6 +86,14 @@ export default function news({
             philosophy: { title: "Philosophy" },
             series: { title: "Series" },
           },
+        },
+        date: {
+          type: "text",
+          input: "date",
+          clear: true,
+          title: "Published Date",
+          info: "Leave blank for today's date",
+          placeholder: "e.g. 2021-01-01",
         },
       },
     },

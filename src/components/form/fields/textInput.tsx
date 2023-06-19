@@ -1,4 +1,5 @@
 import { Field, FieldInputProps, FieldMetaProps, useField } from "formik";
+import { HiX } from "react-icons/hi";
 
 import FieldHeader from "../common/fieldHeader";
 import Iframe from "../common/iframe";
@@ -22,7 +23,6 @@ export type Props = {
   prefix?: string;
   name: string;
   type?: string;
-  as?: "input" | "textarea";
   info?: string;
   infoLink?: string;
   placeholder?: string;
@@ -30,13 +30,26 @@ export type Props = {
   iframe?: (props: IframeProps) => string | null;
   suggestions?: Suggestions;
   tags?: string[];
+  clear?: boolean;
+  as?: "input" | "textarea";
+  input?:
+    | "text"
+    | "number"
+    | "password"
+    | "date"
+    | "month"
+    | "week"
+    | "time"
+    | "datetime-local";
 };
 
 export default function TextInput({
   title,
   name,
   prefix,
+  clear = false,
   as = "input",
+  input,
   info,
   transform,
   iframe,
@@ -90,6 +103,7 @@ export default function TextInput({
               name={name}
               value={field.value || ""}
               as={as}
+              type={input}
               className={`w-full ${styles}`}
               placeholder={placeholder}
               {...(transform && {
@@ -99,6 +113,16 @@ export default function TextInput({
               })}
             />
           </div>
+          {clear && !!field.value && (
+            <div className="flex items-center ml-2">
+              <div
+                className="btn btn-error"
+                onClick={() => helpers.setValue(undefined)}
+              >
+                <HiX />
+              </div>
+            </div>
+          )}
         </div>
         {tags && tags.length > 0 && (
           <div className="text-left text-sm">
