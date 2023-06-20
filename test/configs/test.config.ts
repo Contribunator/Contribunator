@@ -57,7 +57,7 @@ let exported;
 
 if (e2e) {
   exported = {
-    authorization: ["github", "anon"],
+    authorization: ["github", "anon", "api"],
     title: "E2E C11R",
     description:
       "This is a test mode for end-to-end testing, using a Mock Github API",

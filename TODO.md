@@ -4,32 +4,30 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- Date option for news
+- refactor tests to only match unique fields
+- refactor schema to move `fields` into it's own sub-object to prevent collisions
+- Improved error/conf feedback in the UI (not alert)
+
+- Move ETC-only contributions/tests elsewhere
+- Create a kitchen sink and test it
+- kitchen sink: test empty tags, test hidden contribs
+- Test repo overrides
+- Tests for regex validation
+- More API-only tests, with malicious, nested validation requests
+- Test no-anon UI
+
+- Cleanup, replace all `any` types
 - update docs, use "nocode" somewhere
 
 ## Next
 
-- Create a kitchen sink and test it
-- kitchen sink: test empty tags, test hidden contribs
-- Test repo overrides
-- UI Test for customTitle
-- Tests for regex validation
-- More API-only tests, with malicious, nested validation requests
-- Proper UI for anon contribs, force sign in if only github enabled
-- refactor schema to move `fields` into it's own sub-object to prevent collisions
-- Cleanup, replace all `any` types
-- Proper 404 page for missing routes
-- Improved error/conf feedback in the UI (not alert)
-
-## Soon
-
+- i18n support (ETC)
 - Add contributor name to ETC prs
 - Single repo layout
 - Poll Tweets
 - Thread Tweets
 - Tweet Threads
-- i18n support (ETC)
-- Add tags to PR (e.g. Content)
+- Option to add tags to PR (e.g. Content, Bot)
 - User access token refreshing
 - Collapse dropdown if sub-item not selected
 

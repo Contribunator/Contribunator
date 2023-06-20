@@ -16,10 +16,12 @@ export const installationId = parseInt(
 export const privateKey = process.env.GITHUB_APP_PK as string;
 export const captchaKey = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY as string;
 export const captchaSecret = process.env.HCAPTCHA_SECRET as string;
-export const apiKeys = process.env.API_KEYS?.split("|").reduce((o, item) => {
-  const [name, value] = item.split(":");
-  return { ...o, [value]: name };
-}, {});
+export const apiKeys = (process.env.API_KEYS || "")
+  .split("|")
+  .reduce((o, item) => {
+    const [name, value] = item.split(":");
+    return { ...o, [value]: name };
+  }, {}) as Record<string, string>;
 
 export const highlightProject = process.env
   .NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID as string;
