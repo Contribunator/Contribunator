@@ -41,10 +41,7 @@ test("allows valid params", async ({ a }) => {
         body: `This PR adds a new Simple Test:
 
 ## Text
-test text
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+test text${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-simple-test",
         owner: "test-owner",
         repo: "TEST",
@@ -84,10 +81,7 @@ test("allows custom PR options", async ({ a }) => {
       },
       pr: {
         base: "test-base",
-        body: `test message
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `test message${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-test-title",
         owner: "test-owner",
         repo: "TEST",

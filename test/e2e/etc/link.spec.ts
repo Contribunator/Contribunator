@@ -187,10 +187,7 @@ wallets.web
 My Test Link
 
 ## URL
-https://example.link
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+https://example.link${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-link-my-test-link",
         owner: "test-owner",
         repo: "TEST",

@@ -33,10 +33,7 @@ test("tweet submits basic", async ({ f }) => {
       },
       pr: {
         base: "test-base",
-        body: `This Pull Request creates a new tweet.
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `This Pull Request creates a new tweet.${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-tweet-my-test-tweet",
         owner: "test-owner",
         repo: "TEST",
@@ -83,10 +80,7 @@ retweet: https://twitter.com/test/status/123
         base: "test-base",
         body: `This Pull Request creates a new retweet of https://twitter.com/test/status/123.
 
-There is no text in the tweet.
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+There is no text in the tweet.${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-retweet-test",
         owner: "test-owner",
         repo: "TEST",
@@ -141,10 +135,7 @@ Tweet Reply Here`,
       },
       pr: {
         base: "test-base",
-        body: `This Pull Request creates a new reply to https://twitter.com/test/status/456.
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `This Pull Request creates a new reply to https://twitter.com/test/status/456.${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-reply-test-tweet-reply-here",
         owner: "test-owner",
         repo: "TEST",
@@ -196,10 +187,7 @@ media:
         base: "test-base",
         body: `This Pull Request creates a new tweet with 1 image.
 
-There is no text in the tweet.
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+There is no text in the tweet.${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-tweet-with-media",
         owner: "test-owner",
         repo: "TEST",
@@ -301,10 +289,7 @@ Tweet Reply Here`,
       },
       pr: {
         base: "test-base",
-        body: `This Pull Request creates a new reply to https://twitter.com/test/status/456 with 4 images.
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `This Pull Request creates a new reply to https://twitter.com/test/status/456 with 4 images.${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-reply-test-with-media-tweet-reply-here",
         owner: "test-owner",
         repo: "TEST",

@@ -1,11 +1,11 @@
-import { Locator, expect, test } from "@playwright/test";
-import { PageFixture, PageFixtureProps } from "./page.fixture";
+import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
-export type FormFixtureProps = Omit<PageFixtureProps, "path"> & {
+type FormFixtureProps = {
   baseURL?: string;
   repo: string;
   contribution: string;
+  page: Page;
 };
 
 export default function formTest({
@@ -16,36 +16,43 @@ export default function formTest({
   contribution: string;
 }) {
   return test.extend<{ f: FormFixture }>({
-    f: async ({ page, baseURL, headless }, use) => {
+    f: async ({ page, baseURL }, use) => {
       const t = new FormFixture({
         page,
-        headless,
         baseURL,
         repo,
         contribution,
       });
-      await t.goto();
+      await t.init();
       await use(t);
     },
   });
 }
 
-export class FormFixture extends PageFixture {
+export class FormFixture {
+  readonly page: Page;
+  readonly path: string;
   private readonly submitUrl: string;
   private readonly submitButton: Locator;
+  // todo we can get this from the page?
+  readonly FOOTER = `
 
-  constructor({
-    repo,
-    contribution,
-    page,
-    baseURL,
-    headless,
-  }: FormFixtureProps) {
-    const path = `/contribute/${repo}/${contribution}`;
-    super({ page, path, headless });
+---
+*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`;
 
+  constructor({ repo, contribution, page, baseURL }: FormFixtureProps) {
+    this.page = page;
+    this.path = `/contribute/${repo}/${contribution}`;
     this.submitUrl = `${baseURL}/api/contribute`;
     this.submitButton = page.locator('button[type="submit"]');
+  }
+
+  async init() {
+    await this.page.goto(this.path);
+  }
+
+  async hasText(text: string) {
+    await expect(this.page.getByText(text)).toBeVisible();
   }
 
   async submit() {
@@ -153,8 +160,4 @@ export class FormFixture extends PageFixture {
       await input?.fill(alt);
     }
   }
-
-  // async clickAddItem(fieldTitle: string) {
-  //   // todo
-  // }
 }

@@ -52,10 +52,7 @@ test("video submits basic", async ({ f }) => {
       },
       pr: {
         base: "test-base",
-        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
         owner: "test-owner",
         repo: "TEST",
@@ -134,10 +131,7 @@ Description`,
       },
       pr: {
         base: "test-base",
-        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
         owner: "test-owner",
         repo: "TEST",
