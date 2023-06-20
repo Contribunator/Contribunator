@@ -1,5 +1,7 @@
 import type { CatMap } from "@/lib/contribution/etc/link";
 
+// TODO remove this
+
 const testLinkCategories: CatMap = {
   wallets: {
     title: "Wallet",

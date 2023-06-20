@@ -7,6 +7,11 @@ const test = base.extend<{ a: ApiFixture }>({
   },
 });
 
+const FOOTER = `
+
+---
+*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`;
+
 const baseReq = {
   authorization: "anon",
   repo: "TEST",
@@ -14,44 +19,43 @@ const baseReq = {
   text: "test text",
 };
 
-test("allows valid params", async ({ a }) => {
-  expect(await a.post(baseReq)).toEqual({
-    pr: {
-      number: 123,
-      title: "This is my test commit",
-      url: "https://github.com/repo/owner/pulls/123",
-    },
-    test: {
-      commit: {
-        branch: "test-branch-prefix/timestamp-add-simple-test",
-        changes: [
-          {
-            files: {
-              "test.md": "test text",
-            },
-            message: "Add Simple Test",
+const baseRes = {
+  pr: {
+    number: 123,
+    title: "This is my test commit",
+    url: "https://github.com/repo/owner/pulls/123",
+  },
+  test: {
+    commit: {
+      branch: "test-branch-prefix/timestamp-add-simple-test",
+      changes: [
+        {
+          files: {
+            "test.md": "test text",
           },
-        ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
-      },
-      pr: {
-        base: "test-base",
-        body: `This PR adds a new Simple Test:
+          message: "Add Simple Test",
+        },
+      ],
+      createBranch: true,
+      owner: "test-owner",
+      repo: "TEST",
+    },
+    pr: {
+      base: "test-base",
+      body: `This PR adds a new Simple Test:
 
 ## Text
-test text
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
-        head: "test-branch-prefix/timestamp-add-simple-test",
-        owner: "test-owner",
-        repo: "TEST",
-        title: "Add Simple Test",
-      },
+test text${FOOTER}`,
+      head: "test-branch-prefix/timestamp-add-simple-test",
+      owner: "test-owner",
+      repo: "TEST",
+      title: "Add Simple Test",
     },
-  });
+  },
+};
+
+test("allows valid params", async ({ a }) => {
+  expect(await a.post(baseReq)).toEqual(baseRes);
 });
 
 test("allows custom PR options", async ({ a }) => {
@@ -84,10 +88,7 @@ test("allows custom PR options", async ({ a }) => {
       },
       pr: {
         base: "test-base",
-        body: `test message
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+        body: `test message${FOOTER}`,
         head: "test-branch-prefix/timestamp-test-title",
         owner: "test-owner",
         repo: "TEST",
@@ -155,7 +156,18 @@ test("rejects invalid contribution type", async ({ a }) => {
   });
 });
 
-// TODO test auth methods
-// key is easy, figure out how to test github and captcha
+test("allows API usage", async ({ request }) => {
+  const data = { ...baseReq, authorization: "api" };
+  const headers = { "x-api-key": "def456" };
+  const res = await request.post("/api/contribute", { data, headers });
+  const json = await res.json();
+  expect(json).toEqual(baseRes);
+});
 
-// various generic requests
+test("prevents bad API usage", async ({ request }) => {
+  const data = { ...baseReq, authorization: "api" };
+  const headers = { "x-api-key": "blahblahblah" };
+  const res = await request.post("/api/contribute", { data, headers });
+  const json = await res.json();
+  expect(json).toEqual({ error: "Unauthorized" });
+});

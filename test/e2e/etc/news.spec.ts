@@ -69,10 +69,7 @@ My Test Article
 https://example.com
 
 ## Tags
-development
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+development${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
         repo: "TEST",
@@ -171,10 +168,7 @@ New York Times
 development, teams, series
 
 ## Published Date
-2021-01-23
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+2021-01-23${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
         repo: "TEST",

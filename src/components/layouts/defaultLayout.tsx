@@ -4,6 +4,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default async function NavigationLayout({ children }: Props) {
+export default function DefaultLayout({ children }: Props) {
   return <FlexContainer centered>{children}</FlexContainer>;
 }

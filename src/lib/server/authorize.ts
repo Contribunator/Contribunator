@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { GithubProfile } from "next-auth/providers/github";
 
 import { AuthType, Authorized } from "@/types";
-import { captchaSecret } from "@/lib/env";
+import { apiKeys, captchaSecret } from "@/lib/env";
 import config from "@/lib/config";
 
 type AuthFunction = ({
@@ -43,20 +43,19 @@ const authMethods: Record<string, AuthFunction> = {
       }
     }
   },
-  // TODO test this works
-  // api: async function ({ req }) {
-  //   const apiKey = req.headers.get("x-api-key");
-  //   const user = apiKey && apiKeys?.[apiKey];
-  //   if (user) {
-  //     console.log("authorized API key", user);
-  //     return {
-  //       type: "api",
-  //       user,
-  //     };
-  //   } else {
-  //     console.log("api key not found", apiKey?.slice(0, 3));
-  //   }
-  // },
+  api: async function ({ req }) {
+    const apiKey = req.headers.get("x-api-key");
+    const user = apiKey && apiKeys[apiKey];
+    if (user) {
+      console.log("authorized API key", user);
+      return {
+        type: "api",
+        user,
+      };
+    } else {
+      console.log("api key not found", apiKey?.slice(0, 3));
+    }
+  },
   anon: async function () {
     console.log("authorized anon");
     return { type: "anon" };

@@ -100,10 +100,7 @@ Multline
 App Description
 
 ## Author Name
-Joe Bloggs
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+Joe Bloggs${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-app-my-test-app",
         owner: "test-owner",
         repo: "TEST",
@@ -269,10 +266,7 @@ https://tests.link
 https://ipfs.link
 
 ## Other Links
-2 item(s)
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+2 item(s)${f.FOOTER}`,
         head: "test-branch-prefix/timestamp-add-app-my-test-app",
         owner: "test-owner",
         repo: "TEST",

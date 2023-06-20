@@ -86,7 +86,7 @@ export default function withFormik(Form: React.ComponentType<FormProps>) {
         {(formik) => (
           <form
             onSubmit={formik.handleSubmit}
-            className={`text-center space-y-6 bg-base-200 p-4 rounded-lg`}
+            className={`text-center space-y-6 bg-base-200 p-4 rounded-lg relative overflow-hidden`}
           >
             {pr && <Submitted pr={pr} />}
             {!pr && (
