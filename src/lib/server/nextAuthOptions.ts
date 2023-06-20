@@ -12,9 +12,8 @@ const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile }) {
-      // persist the access_token and user id to the token
+      // persist user login name
       if (account) {
-        token.accessToken = account.access_token;
         token.login = (profile as GithubProfile).login;
       }
       return token;

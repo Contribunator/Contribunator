@@ -14,11 +14,11 @@ type CommonFields = {
   description: string;
 };
 
-type RepoBase = Partial<InheritedProperties> & CommonFields;
+type RepoBase = InheritedProperties & CommonFields;
 
 export type ContributionLoader = (c: Config) => Contribution;
 
-type RepoConfig = RepoBase & {
+type RepoConfig = Partial<RepoBase> & {
   contributions: { [key: string]: ContributionLoader };
 };
 
