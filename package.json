@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "NEXT_TELEMETRY_DISABLED=1 next dev",
     "dev:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next dev # uses .env.test",
+    "dev:demo": "NEXT_PUBLIC_TESTING=DEMO NEXT_TELEMETRY_DISABLED=1 next dev # uses .env.test",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
     "build:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next build",
     "build:demo": "NEXT_PUBLIC_TESTING=DEMO NEXT_TELEMETRY_DISABLED=1 next build",

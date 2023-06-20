@@ -1,5 +1,4 @@
 import { createAppAuth } from "@octokit/auth-app";
-// TODO use octokit-plugin-create-pull-request, and fix ts-ignores
 // @ts-ignore
 import commitMultipleFiles from "octokit-commit-multiple-files";
 
@@ -66,7 +65,7 @@ export default async function createPullRequest({
     ],
   };
 
-  console.log("comitting", commit);
+  console.log("commit", JSON.stringify(commit, null, 2));
   await octokit.rest.repos.createOrUpdateFiles(commit);
 
   const pr = {
@@ -78,15 +77,8 @@ export default async function createPullRequest({
     body: prMessage,
   };
 
-  let prOctokit = octokit;
-
-  // create the PR as the user if they are logged in, otherwise as the app
-  if (githubUser) {
-    prOctokit = new Octokit({ auth: githubUser.accessToken });
-  }
-
-  console.log("pr", pr);
-  const { data } = await prOctokit.rest.pulls.create(pr);
+  console.log("pr", JSON.stringify(pr, null, 2));
+  const { data } = await octokit.rest.pulls.create(pr);
 
   return {
     pr: {
