@@ -40,7 +40,7 @@ const commonTweetOpts = {
 };
 
 const config: UserConfig = {
-  authorization: ["github", "captcha"],
+  authorization: ["github", "captcha", "api"],
   title: "Ethereum Classic Contributions",
   description:
     "This website makes it easy to contribute content updates to Ethereum Classic Github repositories without needing to know how to make Pull Requests.",
