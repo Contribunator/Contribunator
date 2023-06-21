@@ -15,7 +15,6 @@ async function getUserConfig() {
 // TODO optimize this so that we only initialize the required contributions?
 // TODO optimize client/server payloads
 const buildConfig = memoize(async function () {
-  console.log("building config");
   const { default: userConfig } = await getUserConfig();
   // build the config
   const { repos = {}, ...mainConfig } = userConfig;
