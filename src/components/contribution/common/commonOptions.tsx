@@ -1,5 +1,5 @@
 import TextInput from "../fields/textInput";
-import { BaseFormProps } from "../withFormik";
+import type { BaseFormProps } from "../formClient";
 
 export default function GenericOptions({ formik, config }: BaseFormProps) {
   const meta = formik.isValid

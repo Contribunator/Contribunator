@@ -11,6 +11,8 @@ import video from "@/lib/contribution/etc/video";
 
 import testLinkCategories from "./link.categories";
 
+// TODO split into files
+
 const contributions = {
   app: app({
     description: "My App Description",

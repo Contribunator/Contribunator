@@ -4,23 +4,22 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- refactor tests to only match unique fields
-- refactor schema to move `fields` into it's own sub-object to prevent collisions
-- Improved error/conf feedback in the UI (not alert)
-
-- Move ETC-only contributions/tests elsewhere
 - Create a kitchen sink and test it
+- Move ETC-only contributions/tests elsewhere
 - kitchen sink: test empty tags, test hidden contribs
-- Test repo overrides
-- Tests for regex validation
-- More API-only tests, with malicious, nested validation requests
-- Test no-anon UI
+
+  - Test repo overrides
+  - Tests for regex validation
+  - More API-only tests, with malicious, nested validation requests
+  - Test no-anon UI
 
 - Cleanup, replace all `any` types
 - update docs, use "nocode" somewhere
+- check if we need "Request user authorization (OAuth) during installation" (hint; we dont)
 
 ## Next
 
+- Better option for APIs / passing data to prMetadata
 - i18n support (ETC)
 - Add contributor name to ETC prs
 - Single repo layout
@@ -33,6 +32,8 @@ Below are the upcoming features and improvements.
 
 ## Later
 
+- Dynamic loading of configs from github
+- Improved error/conf feedback in the UI (not alert)
 - CRUD
 - OG Image
 - Convert the has/hasNo back to regex now we don't need to serialize?

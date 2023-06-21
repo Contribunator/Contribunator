@@ -65,7 +65,8 @@ export default async function createPullRequest({
     ],
   };
 
-  console.log("commit", JSON.stringify(commit, null, 2));
+  console.log("commit", commit);
+  console.log("files", files);
   await octokit.rest.repos.createOrUpdateFiles(commit);
 
   const pr = {
@@ -77,7 +78,7 @@ export default async function createPullRequest({
     body: prMessage,
   };
 
-  console.log("pr", JSON.stringify(pr, null, 2));
+  console.log("pr", pr);
   const { data } = await octokit.rest.pulls.create(pr);
 
   return {

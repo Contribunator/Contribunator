@@ -2,9 +2,8 @@ import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { GithubProfile } from "next-auth/providers/github";
 
-import { AuthType, Authorized } from "@/types";
+import { Authorized, ConfigWithContribution } from "@/types";
 import { apiKeys, captchaSecret } from "@/lib/env";
-import config from "@/lib/config";
 
 type AuthFunction = ({
   req,
@@ -62,16 +61,23 @@ const authMethods: Record<string, AuthFunction> = {
   },
 };
 
-export default async function authorize(
-  req: NextRequest,
-  { authorization, ...body }: { authorization: AuthType }
-): Promise<Authorized> {
-  if (!config.authorization.includes(authorization)) {
+type AuthProps = {
+  req: NextRequest;
+  body: any;
+  config: ConfigWithContribution;
+};
+
+export default async function authorize({
+  config,
+  req,
+  body,
+}: AuthProps): Promise<Authorized> {
+  if (!config.repo.authorization.includes(body.authorization)) {
     throw new Error("Invalid authorization");
   }
-  const authorized = await authMethods[authorization]({ req, body });
-  if (authorized) {
-    return authorized;
+  const authorized = await authMethods[body.authorization]({ req, body });
+  if (!authorized) {
+    throw new Error("Unauthorized");
   }
-  throw new Error("Unauthorized");
+  return authorized;
 }

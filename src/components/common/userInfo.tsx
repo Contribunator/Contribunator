@@ -1,19 +1,24 @@
 import Image from "next/image";
 
-import config from "@/lib/config";
-
-const { authorization } = config;
-
 import useUser from "./useUser";
 import LoginButton from "./loginButton";
+import { AuthType } from "@/types";
 
-export default function UserInfo() {
-  if (!authorization.includes("github")) return null;
+type Props = {
+  authorization: AuthType[];
+};
+
+export default function UserInfo(props: Props) {
+  // skip if no github auth
+  if (!props.authorization.includes("github")) {
+    return null;
+  }
+
   // @ts-expect-error Server Component
-  return <UserInfoInner />;
+  return <UserInfoInner {...props} />;
 }
 
-async function UserInfoInner() {
+async function UserInfoInner({ authorization }: Props) {
   const user = await useUser();
   const canAnon = authorization.find((item) =>
     ["anon", "captcha"].includes(item)

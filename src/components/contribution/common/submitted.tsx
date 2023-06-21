@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Route } from "next";
 import { HiOutlineEmojiHappy, HiExternalLink } from "react-icons/hi";
 
-import type { PrData } from "../withFormik";
+import type { PrData } from "../formClient";
 
 import SubmittedTestData from "./submittedTestData";
 

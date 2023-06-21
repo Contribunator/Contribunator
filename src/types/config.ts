@@ -1,53 +1,39 @@
-import type { Contribution, ContributionOptions } from "./contribution";
+import type { Contribution } from "./contribution";
 
 export type AuthType = "github" | "captcha" | "api" | "anon";
 
-type InheritedProperties = {
+export type Config = {
+  title: string;
+  description: string;
+  authorization: AuthType[];
   owner: string;
   base: string;
   branchPrefix: string;
   prPostfix: string;
+  repos: { [key: string]: Repo };
 };
 
-type CommonFields = {
-  title: string;
-  description: string;
-};
-
-type RepoBase = InheritedProperties & CommonFields;
-
-export type ContributionLoader = (c: Config) => Contribution;
-
-type RepoConfig = Partial<RepoBase> & {
-  contributions: { [key: string]: ContributionLoader };
-};
-
-export type RepoWithContributions = RepoBase & {
-  githubUrl: string;
+export type Repo = Omit<Config, "repos"> & {
   name: string;
+  githubUrl: string;
   contributions: { [key: string]: Contribution };
 };
 
-export type Repo = Omit<RepoWithContributions, "contributions">;
+export type ContributionLoader = (name: string, repo: Repo) => Contribution;
 
-export type ConfigBase = CommonFields &
-  InheritedProperties & {
-    authorization: AuthType[];
+export type UserConfig = Partial<Config> & {
+  repos?: {
+    [key: string]: Partial<Repo> & {
+      contributions: { [key: string]: ContributionLoader };
+    };
   };
-
-export type UserConfig = Partial<ConfigBase> & {
-  repos?: { [key: string]: RepoConfig };
 };
 
-export type Config = ConfigBase & {
-  repos: { [key: string]: RepoWithContributions };
-};
-
-export type ConfigWithRepo = Omit<Config, "repos"> & {
-  repo: RepoWithContributions;
-};
-
-export type ConfigWithContribution = Omit<ConfigWithRepo, "repo"> & {
-  contribution: Contribution;
+export type ConfigWithRepo = Config & {
   repo: Repo;
+};
+
+export type ConfigWithContribution = Config & {
+  repo: Repo;
+  contribution: Contribution;
 };

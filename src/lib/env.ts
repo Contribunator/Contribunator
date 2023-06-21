@@ -39,7 +39,7 @@ export function validate(config: Config) {
   ["GITHUB_APP_ID", "GITHUB_APP_INSTALLATION_ID", "GITHUB_APP_PK"].forEach(
     required
   );
-
+  // TODO loop over each repo validate its config
   if (config.authorization.includes("github")) {
     ["GITHUB_APP_CLIENT_SECRET", "GITHUB_APP_CLIENT_ID"].forEach(required);
   }
