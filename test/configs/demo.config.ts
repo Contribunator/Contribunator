@@ -21,9 +21,12 @@ const demoConfig: UserConfig = {
           },
           commit: async ({ body, files: { readme } }) => ({
             files: {
-              "README.md": `${readme.content}\n\n---\n\n${timestamp()}: ${
-                body.text
-              }`,
+              "README.md": `${readme.content}
+
+---
+
+${timestamp()}: ${body.text}
+`,
             },
           }),
           form: {
@@ -31,6 +34,7 @@ const demoConfig: UserConfig = {
               text: {
                 type: "text",
                 title: "Your message",
+                placeholder: "e.g. Hello, World!",
                 validation: { required: true },
               },
             },

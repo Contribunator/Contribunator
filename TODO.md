@@ -15,6 +15,7 @@ Below are the upcoming features and improvements.
 - Move ETC-only contributions/tests elsewhere
 - Cleanup, replace all `any` types
 - update docs, use "nocode" somewhere
+  - Add a note about enabled delete branches
   - update need to "Request user authorization (OAuth) during installation" (we dont)
 
 ## Next
