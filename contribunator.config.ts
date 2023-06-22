@@ -236,6 +236,7 @@ const config: UserConfig = {
                 sourceKey: "processors",
               },
               dex: {
+                showDescription: true,
                 title: "Development Experience",
                 sourcePath: "content/development/tooling/index.yaml",
                 sourceKey: "dex",
@@ -268,7 +269,7 @@ const config: UserConfig = {
               repo: {
                 showDescription: true,
                 title: "Git Repository",
-                sourcePath: "content/development/tooling/index.yaml",
+                sourcePath: "content/development/repositories/index.yaml",
                 sourceKey: "repos",
               },
             },
