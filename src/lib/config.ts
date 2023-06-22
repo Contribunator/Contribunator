@@ -1,36 +1,37 @@
-import { Config, ConfigWithContribution, ConfigWithRepo, Repo } from "@/types";
-
-import { demo, e2e, validate } from "./env";
+// TODO optimize this so that we only fetch required contributions?
+// TODO optimize client/server payloads
 
 import { memoize } from "lodash";
 
-async function getUserConfig() {
-  if (e2e) {
-    return import("@/../test/configs/test.config");
-  }
-  if (demo) {
-    return import("@/../test/configs/demo.config");
-  }
-  return import("@/../contribunator.config");
-}
+import {
+  Config,
+  ConfigWithContribution,
+  ConfigWithRepo,
+  Repo,
+  UserConfig,
+} from "@/types";
 
-// TODO optimize this so that we only fetch required contributions?
-// TODO optimize client/server payloads
-const buildConfig = memoize(async function () {
-  const { default: userConfig } = await getUserConfig();
-  // build the config
+import { demo, e2e, validate } from "./env";
+
+export const DEFAULTS: Config = {
+  authorization: ["github"],
+  title: "Contribunator",
+  description:
+    "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
+  owner: "Contribunator",
+  branchPrefix: "c11r/",
+  base: "main",
+  prPostfix:
+    "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
+  repos: {},
+};
+
+// exported for testing
+export function buildConfig(userConfig: UserConfig): Config {
   const { repos = {}, ...mainConfig } = userConfig;
 
   const config: Config = {
-    authorization: ["github"],
-    title: "Contribunator",
-    description:
-      "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
-    owner: "Contribunator",
-    branchPrefix: "c11r/",
-    base: "main",
-    prPostfix:
-      "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
+    ...DEFAULTS,
     ...mainConfig,
     repos: {},
   };
@@ -58,6 +59,22 @@ const buildConfig = memoize(async function () {
       config.repos[repoName] = repo;
     }
   );
+  return config;
+}
+
+async function getUserConfig() {
+  if (e2e) {
+    return import("@/../test/configs/test.config");
+  }
+  if (demo) {
+    return import("@/../test/configs/demo.config");
+  }
+  return import("@/../contribunator.config");
+}
+
+const memoizedConfig = memoize(async function () {
+  const { default: userConfig } = await getUserConfig();
+  const config = buildConfig(userConfig);
   validate(config);
   return config;
 });
@@ -69,7 +86,7 @@ async function getConfig(
   contribution: string
 ): Promise<ConfigWithContribution>;
 async function getConfig(repo?: string, contribution?: string) {
-  const config = await buildConfig();
+  const config = await memoizedConfig();
   if (repo) {
     if (!config.repos[repo]) throw new Error(`Repository ${repo} not found`);
     const configWithRepo: ConfigWithRepo = {

@@ -35,7 +35,7 @@ const testConfig: UserConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        test,
+        api: test,
         app: app({
           description: "My App Description",
           relativeImagePath: "./images",

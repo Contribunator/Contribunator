@@ -1,6 +1,8 @@
 import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
+import { DEFAULTS } from "@/lib/config";
+
 type FormFixtureProps = {
   baseURL?: string;
   repo: string;
@@ -32,13 +34,9 @@ export default function formTest({
 export class FormFixture {
   readonly page: Page;
   readonly path: string;
+  readonly FOOTER = DEFAULTS.prPostfix;
   private readonly submitUrl: string;
   private readonly submitButton: Locator;
-  // todo we can get this from the page?
-  readonly FOOTER = `
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`;
 
   constructor({ repo, contribution, page, baseURL }: FormFixtureProps) {
     this.page = page;
@@ -159,5 +157,10 @@ export class FormFixture {
       const input = await handle?.$("input");
       await input?.fill(alt);
     }
+  }
+
+  async signIn() {
+    await this.page.getByText("Sign in with Github").first().click();
+    await this.page.getByText("Sign in with Test Credentials").click();
   }
 }

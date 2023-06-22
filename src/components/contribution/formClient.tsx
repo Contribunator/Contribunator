@@ -73,7 +73,6 @@ function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
             if (!json.pr) {
               throw new Error("Unexpected response");
             }
-            console.log(json);
             setPr(json);
           } catch (error) {
             let message = "Unknown Error";

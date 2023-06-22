@@ -7,10 +7,8 @@ const test = base.extend<{ a: ApiFixture }>({
   },
 });
 
-const FOOTER = `
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`;
+import { DEFAULTS } from "@/lib/config";
+const { prPostfix } = DEFAULTS;
 
 const baseReq = {
   authorization: "anon",
@@ -45,7 +43,7 @@ const baseRes = {
       body: `This PR adds a new Contribution:
 
 ## Text
-test text${FOOTER}`,
+test text${prPostfix}`,
       head: "c11r/timestamp-add-contribution",
       owner: "test-owner",
       repo: "TEST",
@@ -88,7 +86,7 @@ test("allows custom PR options", async ({ a }) => {
       },
       pr: {
         base: "main",
-        body: `test message${FOOTER}`,
+        body: `test message${prPostfix}`,
         head: "c11r/timestamp-test-title",
         owner: "test-owner",
         repo: "TEST",
@@ -156,7 +154,7 @@ test("rejects invalid contribution type", async ({ a }) => {
   });
 });
 
-test("allows API usage", async ({ request }) => {
+test("allows API key usage", async ({ request }) => {
   const data = { ...baseReq, authorization: "api" };
   const headers = { "x-api-key": "def456" };
   const res = await request.post("/api/contribute", { data, headers });
@@ -164,8 +162,22 @@ test("allows API usage", async ({ request }) => {
   expect(json).toEqual(baseRes);
 });
 
-test("prevents bad API usage", async ({ request }) => {
-  const data = { ...baseReq, authorization: "api" };
+// submits valid api creds to a repo with API disabled
+test("rejects API key usage when disabled", async ({ request }) => {
+  const data = {
+    ...baseReq,
+    authorization: "api",
+    repo: "anon",
+    contribution: "test",
+  };
+  const headers = { "x-api-key": "def456" };
+  const res = await request.post("/api/contribute", { data, headers });
+  const json = await res.json();
+  expect(json).toEqual({ error: "Invalid authorization" });
+});
+
+test("rejects bad API key usage", async ({ request }) => {
+  const data = { ...baseReq, authorization: "github" };
   const headers = { "x-api-key": "blahblahblah" };
   const res = await request.post("/api/contribute", { data, headers });
   const json = await res.json();

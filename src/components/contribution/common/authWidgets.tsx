@@ -16,7 +16,7 @@ export default function AuthWidgets({ formik, config }: BaseFormProps) {
           </div>
           <div>
             {!config.repo.authorization.includes("github")
-              ? "This contribution can only be used with via an API"
+              ? "This contribution is only available via an API"
               : "You must sign in to submit this type of contribution"}
           </div>
         </div>

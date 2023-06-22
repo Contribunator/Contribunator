@@ -5,17 +5,26 @@ import type { Config } from "@/types";
 export const e2e = process.env.NEXT_PUBLIC_TESTING === "E2E";
 export const demo = process.env.NEXT_PUBLIC_TESTING === "DEMO";
 
+// TODO all secrets should be passed via the config file and validated at build time
+
+// TODO pass this into config instead of global env
 export const youtubeApi = process.env.YOUTUBE_API_KEY as string;
 
-export const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET as string;
-export const clientId = process.env.GITHUB_APP_CLIENT_ID as string;
+// GITHUB APP (REQUIRED)
+export const privateKey = process.env.GITHUB_APP_PK as string;
 export const appId = parseInt(process.env.GITHUB_APP_ID as string);
 export const installationId = parseInt(
   process.env.GITHUB_APP_INSTALLATION_ID as string
 );
-export const privateKey = process.env.GITHUB_APP_PK as string;
+
+export const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET as string;
+export const clientId = process.env.GITHUB_APP_CLIENT_ID as string;
+
+// CAPTCHA
 export const captchaKey = process.env.NEXT_PUBLIC_HCAPTCHA_SITEKEY as string;
 export const captchaSecret = process.env.HCAPTCHA_SECRET as string;
+
+// API
 export const apiKeys = (process.env.API_KEYS || "")
   .split("|")
   .reduce((o, item) => {
@@ -40,23 +49,25 @@ export function validate(config: Config) {
     required
   );
   // TODO loop over each repo validate its config
-  if (config.authorization.includes("github")) {
-    ["GITHUB_APP_CLIENT_SECRET", "GITHUB_APP_CLIENT_ID"].forEach(required);
-  }
-  if (config.authorization.includes("captcha")) {
-    ["NEXT_PUBLIC_HCAPTCHA_SITEKEY", "HCAPTCHA_SECRET"].forEach(required);
-  }
-  if (config.authorization.includes("api")) {
-    const pattern = new RegExp(
-      /^([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)(\|[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)*$/
-    );
-    if (
-      !process.env.API_KEYS ||
-      !pattern.test(process.env.API_KEYS as string)
-    ) {
-      throw new Error(
-        `Invalid API_KEYS env var. It must match the pattern API_KEYS=key1:abc123|key2:def456|key3:ghi789`
-      );
+  Object.values(config.repos).forEach(({ authorization }) => {
+    if (authorization.includes("github")) {
+      ["GITHUB_APP_CLIENT_SECRET", "GITHUB_APP_CLIENT_ID"].forEach(required);
     }
-  }
+    if (authorization.includes("captcha")) {
+      ["NEXT_PUBLIC_HCAPTCHA_SITEKEY", "HCAPTCHA_SECRET"].forEach(required);
+    }
+    if (authorization.includes("api")) {
+      const pattern = new RegExp(
+        /^([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)(\|[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)*$/
+      );
+      if (
+        !process.env.API_KEYS ||
+        !pattern.test(process.env.API_KEYS as string)
+      ) {
+        throw new Error(
+          `Invalid API_KEYS env var. It must match the pattern API_KEYS=key1:abc123|key2:def456|key3:ghi789`
+        );
+      }
+    }
+  });
 }

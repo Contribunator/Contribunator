@@ -6,23 +6,20 @@ Below are the upcoming features and improvements.
 
 - etc: double check links (repos)
 
-- test various auth states
-- Test no-anon UI
 - Test repo overrides
 - More API-only tests, with malicious, nested validation requests
-
+- have env vars be validated in config build step
 - Create a kitchen sink and test it
 - Tests for regex validation
-
 - kitchen sink: test empty tags, test hidden contribs
 - Move ETC-only contributions/tests elsewhere
-- Better option for APIs / passing data to prMetadata for PR messages
 - Cleanup, replace all `any` types
 - update docs, use "nocode" somewhere
-- check if we need "Request user authorization (OAuth) during installation" (hint; we dont)
+  - update need to "Request user authorization (OAuth) during installation" (we dont)
 
 ## Next
 
+- Way to pass fetched data to prMetadata for PR messages
 - i18n support (ETC)
 - Add contributor name to ETC prs
 - Single repo layout

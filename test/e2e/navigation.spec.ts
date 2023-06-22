@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { buildConfig } from "@/lib/config";
+import testConfig from "@/../test/configs/test.config";
 
-// TODO
+const { repos } = buildConfig(testConfig);
 
 test("landing page and contribution list", async ({ page }) => {
   await page.goto("/");
@@ -8,8 +10,10 @@ test("landing page and contribution list", async ({ page }) => {
   await expect(page.getByText("E2E C11R")).toBeVisible();
   await page.getByText("Contribute").click();
   await expect(page.getByText("Select a Contribution Type")).toBeVisible();
-  // for ensure we list all contributions
-  // TODO just use hard coded values instead of using config
+
+  // TODO check the list, and check for hidden items
+
+  // // for ensure we list all contributions
   // let first: any;
   // for (const repoName of Object.keys(config.repos || {})) {
   //   const { repo } = await getConfig(repoName);
