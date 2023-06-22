@@ -27,7 +27,7 @@ test("news submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-news-item-my-test-article",
+        branch: "c11r/timestamp-add-news-item-my-test-article",
         changes: [
           {
             files: {
@@ -59,7 +59,7 @@ test("news submits basic", async ({ f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds a new News Item:
 
 ## Article Title
@@ -70,7 +70,7 @@ https://example.com
 
 ## Tags
 development${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-news-item-my-test-article",
+        head: "c11r/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
         repo: "TEST",
         title: "Add News Item: My Test Article",
@@ -113,7 +113,7 @@ test("news submits full", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-news-item-my-test-article",
+        branch: "c11r/timestamp-add-news-item-my-test-article",
         changes: [
           {
             files: {
@@ -149,7 +149,7 @@ test("news submits full", async ({ f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds a new News Item:
 
 ## Article Title
@@ -169,7 +169,7 @@ development, teams, series
 
 ## Published Date
 2021-01-23${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-news-item-my-test-article",
+        head: "c11r/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
         repo: "TEST",
         title: "Add News Item: My Test Article",

@@ -1,11 +1,12 @@
-import Captcha from "./captcha";
-import type { BaseFormProps } from "../withFormik";
 import { HiExclamation } from "react-icons/hi";
+
+import type { BaseFormProps } from "../formClient";
+import Captcha from "./captcha";
 
 export default function AuthWidgets({ formik, config }: BaseFormProps) {
   if (
     formik.values.authorization === "anon" &&
-    !config.authorization.includes("anon")
+    !config.repo.authorization.includes("anon")
   ) {
     return (
       <div className="absolute inset-0 backdrop-blur-sm bg-base-100 bg-opacity-20 z-10 !m-0">
@@ -13,7 +14,11 @@ export default function AuthWidgets({ formik, config }: BaseFormProps) {
           <div className="text-3xl">
             <HiExclamation className="inline" />
           </div>
-          <div>You must sign in to submit this type of contribution</div>
+          <div>
+            {!config.repo.authorization.includes("github")
+              ? "This contribution is only available via an API"
+              : "You must sign in to submit this type of contribution"}
+          </div>
         </div>
       </div>
     );

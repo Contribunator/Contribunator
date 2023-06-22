@@ -3,7 +3,7 @@ import { BiGitPullRequest } from "react-icons/bi";
 import { HiExclamationCircle } from "react-icons/hi";
 import { ImSpinner2 } from "react-icons/im";
 
-import type { BaseFormProps } from "../withFormik";
+import type { BaseFormProps } from "../formClient";
 
 function Button({
   children,

@@ -1,5 +1,8 @@
 import { test, expect } from "@playwright/test";
-import config, { getRepo, getContribution } from "@/lib/config";
+import { buildConfig } from "@/lib/config";
+import testConfig from "@/../test/configs/test.config";
+
+const { repos } = buildConfig(testConfig);
 
 test("landing page and contribution list", async ({ page }) => {
   await page.goto("/");
@@ -8,23 +11,22 @@ test("landing page and contribution list", async ({ page }) => {
   await page.getByText("Contribute").click();
   await expect(page.getByText("Select a Contribution Type")).toBeVisible();
 
-  // for ensure we list all contributions
+  // TODO check the list, and check for hidden items
+
+  // // for ensure we list all contributions
   let first: any;
-  for (const repoName of Object.keys(config.repos || {})) {
-    const { repo } = getRepo(repoName);
+  for (const repo of Object.values(repos)) {
     const r = page.getByText(repo.title, { exact: true }).locator("..");
     await expect(r).toContainText(repo.description);
     await expect(r).toContainText(repo.githubUrl);
-    for (const contributionName of Object.keys(repo.contributions)) {
-      const { contribution } = getContribution(repoName, contributionName);
+    for (const contribution of Object.values(repo.contributions)) {
+      // hidden contributions should not be listed
       if (contribution.hidden) {
-        // hidden contributions should not be listed
         await expect(r).not.toContainText(contribution.title);
       } else {
-        first = first || {
-          repo,
-          contribution: { ...contribution, name: contributionName },
-        };
+        if (!first) {
+          first = { repo, contribution };
+        }
         const c = r
           .getByText(contribution.title, { exact: true })
           .locator("..");
@@ -32,7 +34,7 @@ test("landing page and contribution list", async ({ page }) => {
       }
     }
   }
-  // test the first link navigates properly
+  // // test the first link navigates properly
   expect(first).toBeDefined();
   await page
     .getByText(first.contribution.title, { exact: true })

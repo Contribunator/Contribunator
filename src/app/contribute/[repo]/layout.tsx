@@ -1,8 +1,9 @@
-import config from "@/lib/config";
+import getConfig from "@/lib/config";
 
 export const generateStaticParams =
   process.env.NODE_ENV !== "development"
     ? async () => {
+        const config = await getConfig();
         return Object.keys(config.repos).map((repo) => ({ repo }));
       }
     : undefined;

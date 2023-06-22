@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { HiHome } from "react-icons/hi";
 
-import config from "@/lib/config";
+import getConfig from "@/lib/config";
 
 import RepositoryDetails from "./repositoryDetails";
 
-export default function ContributionsPage() {
+export default async function ContributionsPage() {
+  const config = await getConfig();
   return (
     <>
       <h2 className="title">Select a Contribution Type</h2>

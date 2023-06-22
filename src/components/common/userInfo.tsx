@@ -1,25 +1,31 @@
 import Image from "next/image";
 
-import config from "@/lib/config";
-
-const { authorization } = config;
-
 import useUser from "./useUser";
 import LoginButton from "./loginButton";
+import { AuthType } from "@/types";
 
-export default function UserInfo() {
-  if (!authorization.includes("github")) return null;
+type Props = {
+  authorization: AuthType[];
+};
+
+export default function UserInfo(props: Props) {
+  // skip if no github auth
+  if (!props.authorization.includes("github")) {
+    return null;
+  }
+
   // @ts-expect-error Server Component
-  return <UserInfoInner />;
+  return <UserInfoInner {...props} />;
 }
 
-async function UserInfoInner() {
+async function UserInfoInner({ authorization }: Props) {
   const user = await useUser();
+  const canGithub = authorization.includes("github");
   const canAnon = authorization.find((item) =>
     ["anon", "captcha"].includes(item)
   );
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 justify-center">
       {!!user && (
         <>
           <span>
@@ -40,15 +46,14 @@ async function UserInfoInner() {
         <span>
           Contributing{" "}
           <div
-            className="tooltip tooltip-bottom tooltip-warning	before:mt-1 after:mt-1 cursor-pointer"
-            data-tip="You contributions will not be credited and you'll need to complete a CAPTCHA"
+            className="tooltip tooltip-bottom	before:mt-2 after:mt-2 cursor-pointer"
+            data-tip="To have your contributions credited, you can optionally sign in to Github."
           >
             <b>Anonymously</b>*
           </div>
         </span>
       )}
-
-      <LoginButton loggedIn={!!user} />
+      {canGithub && <LoginButton loggedIn={!!user} />}
     </div>
   );
 }

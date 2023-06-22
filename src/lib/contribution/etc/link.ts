@@ -84,7 +84,6 @@ export default function link({
     ...opts,
     useFilesOnServer({ category }: any) {
       const links = getCatProp("sourcePath", category, categories);
-      console.log("got links", links);
       if (!links) throw new Error("No sourcePath found for category", category);
       return { links };
     },

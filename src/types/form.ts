@@ -1,19 +1,19 @@
 import type { FormikContextType } from "formik";
 import type { Schema } from "yup";
 
-import type { Props as ChoiceInput } from "@/components/form/fields/choiceInput";
-import type { Props as CollectionInput } from "@/components/form/fields/collectionInput";
-import type { Props as ImageInput } from "@/components/form/fields/imageInput";
-import type { Props as ImagesInput } from "@/components/form/fields/imagesInput";
-import type { Props as InfoField } from "@/components/form/fields/infoField";
-import type { Props as TextInput } from "@/components/form/fields/textInput";
+import type { Props as ChoiceInput } from "@/components/contribution/fields/choiceInput";
+import type { Props as CollectionInput } from "@/components/contribution/fields/collectionInput";
+import type { Props as ImageInput } from "@/components/contribution/fields/imageInput";
+import type { Props as ImagesInput } from "@/components/contribution/fields/imagesInput";
+import type { Props as InfoField } from "@/components/contribution/fields/infoField";
+import type { Props as TextInput } from "@/components/contribution/fields/textInput";
 
-export type { NestedChoiceOptions } from "@/components/form/fields/choiceInput";
+export type { NestedChoiceOptions } from "@/components/contribution/fields/choiceInput";
 export type {
   IframeProps,
   Suggestion,
   Suggestions,
-} from "@/components/form/fields/textInput";
+} from "@/components/contribution/fields/textInput";
 
 export type Choice = { type: "choice" } & Omit<ChoiceInput, "name">;
 export type Collection = { type: "collection" } & Omit<CollectionInput, "name">;

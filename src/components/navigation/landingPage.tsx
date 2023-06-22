@@ -1,11 +1,12 @@
 import Link from "next/link";
 
-import config from "@/lib/config";
+import getConfig from "@/lib/config";
 
 import UserInfo from "@/components/common/userInfo";
 import { HiOutlineArrowRight } from "react-icons/hi";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const config = await getConfig();
   return (
     <>
       <div className="cell cell-hero">
@@ -16,9 +17,7 @@ export default function LandingPage() {
           <HiOutlineArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="flex justify-center">
-        <UserInfo />
-      </div>
+      <UserInfo authorization={config.authorization} />
     </>
   );
 }

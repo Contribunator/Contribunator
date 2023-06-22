@@ -26,9 +26,7 @@ function DropdownItems({
             {!option.options && (
               <a
                 onClick={() => handleChange(parentKey)}
-                className={`gap-2 ${
-                  isSelected ? "active hover:text-neutral" : ""
-                }`}
+                className={`gap-2 ${isSelected ? "active" : ""}`}
               >
                 {Icon && <Icon />}
                 {option.title}

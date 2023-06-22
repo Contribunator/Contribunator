@@ -3,20 +3,25 @@ import * as Yup from "yup";
 import type {
   Choice,
   Collection,
-  Config,
   ContributionOptions,
   Fields,
   NestedChoiceOptions,
   RegexValidation,
+  Repo,
 } from "@/types";
 
-// TODO define common schema seperately
-// have the contribution be in its own sub-object
-import { getRepo, getContribution } from "@/lib/config";
+export const RESERVED = [
+  "customTitle",
+  "customMessage",
+  "repo",
+  "contribution",
+  "authorization",
+  "captcha",
+];
 
 export default function generateSchema(
-  contribution: ContributionOptions,
-  config: Config
+  contribution: ContributionOptions & { name: string },
+  repo: Repo
 ): Yup.ObjectSchema<any> {
   const buildSchema = (fields: Fields) => {
     const schema: any = {};
@@ -139,33 +144,28 @@ export default function generateSchema(
     return schema;
   };
 
-  // TODO refactor to move `fields` into it's own sub-object to prevent collisions
+  Object.keys(contribution.form.fields).forEach((name) => {
+    if (RESERVED.includes(name)) {
+      throw new Error(`Field name "${name}" is reserved`);
+    }
+  });
+
   return Yup.object({
     // contribution specific schema
     ...buildSchema(contribution.form.fields),
     // common schema
     customTitle: Yup.string().max(100, "Title is too long"),
     customMessage: Yup.string(),
-    repo: Yup.string().test({
-      test(value) {
-        getRepo(value as string); // will throw if not found
-        return true;
-      },
-    }),
-    contribution: Yup.string().test({
-      test(value, ctx) {
-        getContribution(ctx.parent.repo, value as string); // will throw if not found
-        return true;
-      },
-    }),
+    repo: Yup.string().oneOf([repo.name]).required(),
+    contribution: Yup.string().oneOf([contribution.name]).required(),
     authorization: Yup.string()
-      .oneOf(config.authorization, "Invalid authorization")
+      .oneOf(repo.authorization, "Invalid authorization")
       .required(),
     captcha: Yup.string().when(["authorization"], {
       is: (authorization: string) => authorization === "captcha",
       then: (schema) => {
         let message = "Please complete the CAPTCHA check";
-        if (config.authorization.includes("github")) {
+        if (repo.authorization.includes("github")) {
           message += " or sign in with Github";
         }
         return schema.required(message);

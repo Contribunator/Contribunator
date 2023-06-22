@@ -29,7 +29,7 @@ test("link submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-link-my-test-link",
+        branch: "c11r/timestamp-add-link-my-test-link",
         changes: [
           {
             files: {
@@ -43,51 +43,6 @@ test("link submits basic", async ({ f }) => {
         __name: My Test Link
         __link: https://example.link
   browsers:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  hardware:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  software:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  other:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Trust-Minimizing Exchanges:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Centralized Spot Markets:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Centralized Derivative Markets:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Cross-Chain Swap Exchanges:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  NFT Marketplaces:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Other:
     items:
       Existing Test:
         __name: Existing Test
@@ -107,57 +62,7 @@ test("link submits basic", async ({ f }) => {
       Existing Test:
         __name: Existing Test
         __link: https://example.com
-  Forums:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Media:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Twitter Accounts:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Regional Website:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
   prices:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  processors:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  dex:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  endpoints:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  pools:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  explorers:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  monitors:
     items:
       Existing Test:
         __name: Existing Test
@@ -169,6 +74,7 @@ test("link submits basic", async ({ f }) => {
         __link: https://example.com
 `,
             },
+
             message: "Add Link: My Test Link",
           },
         ],
@@ -177,7 +83,7 @@ test("link submits basic", async ({ f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds a new Link:
 
 ## Category
@@ -188,7 +94,7 @@ My Test Link
 
 ## URL
 https://example.link${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-link-my-test-link",
+        head: "c11r/timestamp-add-link-my-test-link",
         owner: "test-owner",
         repo: "TEST",
         title: "Add Link: My Test Link",

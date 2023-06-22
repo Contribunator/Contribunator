@@ -21,7 +21,7 @@ test("video submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
+        branch: "c11r/timestamp-add-video-gcbv1vcn2te",
         changes: [
           {
             files: {
@@ -51,9 +51,9 @@ test("video submits basic", async ({ f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
+        head: "c11r/timestamp-add-video-gcbv1vcn2te",
         owner: "test-owner",
         repo: "TEST",
         title: "Add Video: GCBv1VCN2tE",
@@ -92,7 +92,7 @@ Description`,
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
+        branch: "c11r/timestamp-add-video-gcbv1vcn2te",
         changes: [
           {
             files: {
@@ -130,9 +130,9 @@ Description`,
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-video-gcbv1vcn2te",
+        head: "c11r/timestamp-add-video-gcbv1vcn2te",
         owner: "test-owner",
         repo: "TEST",
         title: "Add Video: GCBv1VCN2tE",

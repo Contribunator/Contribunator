@@ -7,10 +7,8 @@ const test = base.extend<{ a: ApiFixture }>({
   },
 });
 
-const FOOTER = `
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`;
+import { DEFAULTS } from "@/lib/config";
+const { prPostfix } = DEFAULTS;
 
 const baseReq = {
   authorization: "anon",
@@ -27,13 +25,13 @@ const baseRes = {
   },
   test: {
     commit: {
-      branch: "test-branch-prefix/timestamp-add-simple-test",
+      branch: "c11r/timestamp-add-contribution",
       changes: [
         {
           files: {
             "test.md": "test text",
           },
-          message: "Add Simple Test",
+          message: "Add Contribution",
         },
       ],
       createBranch: true,
@@ -41,15 +39,15 @@ const baseRes = {
       repo: "TEST",
     },
     pr: {
-      base: "test-base",
-      body: `This PR adds a new Simple Test:
+      base: "main",
+      body: `This PR adds a new Contribution:
 
 ## Text
-test text${FOOTER}`,
-      head: "test-branch-prefix/timestamp-add-simple-test",
+test text${prPostfix}`,
+      head: "c11r/timestamp-add-contribution",
       owner: "test-owner",
       repo: "TEST",
-      title: "Add Simple Test",
+      title: "Add Contribution",
     },
   },
 };
@@ -73,7 +71,7 @@ test("allows custom PR options", async ({ a }) => {
     },
     test: {
       commit: {
-        branch: "test-branch-prefix/timestamp-test-title",
+        branch: "c11r/timestamp-test-title",
         changes: [
           {
             files: {
@@ -87,9 +85,9 @@ test("allows custom PR options", async ({ a }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
-        body: `test message${FOOTER}`,
-        head: "test-branch-prefix/timestamp-test-title",
+        base: "main",
+        body: `test message${prPostfix}`,
+        head: "c11r/timestamp-test-title",
         owner: "test-owner",
         repo: "TEST",
         title: "test title",
@@ -156,7 +154,7 @@ test("rejects invalid contribution type", async ({ a }) => {
   });
 });
 
-test("allows API usage", async ({ request }) => {
+test("allows API key usage", async ({ request }) => {
   const data = { ...baseReq, authorization: "api" };
   const headers = { "x-api-key": "def456" };
   const res = await request.post("/api/contribute", { data, headers });
@@ -164,8 +162,22 @@ test("allows API usage", async ({ request }) => {
   expect(json).toEqual(baseRes);
 });
 
-test("prevents bad API usage", async ({ request }) => {
-  const data = { ...baseReq, authorization: "api" };
+// submits valid api creds to a repo with API disabled
+test("rejects API key usage when disabled", async ({ request }) => {
+  const data = {
+    ...baseReq,
+    authorization: "api",
+    repo: "anon",
+    contribution: "test",
+  };
+  const headers = { "x-api-key": "def456" };
+  const res = await request.post("/api/contribute", { data, headers });
+  const json = await res.json();
+  expect(json).toEqual({ error: "Invalid authorization" });
+});
+
+test("rejects bad API key usage", async ({ request }) => {
+  const data = { ...baseReq, authorization: "github" };
   const headers = { "x-api-key": "blahblahblah" };
   const res = await request.post("/api/contribute", { data, headers });
   const json = await res.json();

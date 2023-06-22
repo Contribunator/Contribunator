@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getContribution } from "@/lib/config";
+import getConfig from "@/lib/config";
 
 import createPR from "./pullRequestCreate";
 import transformPR from "./pullRequestTransform";
@@ -11,11 +11,15 @@ export default async function postContribution(req: NextRequest) {
     // parse body
     const body = await req.json();
 
-    // ensure the request is authorized, throw early if not
-    const authorized = await authorize(req, body);
+    // validate body basics
+    if (!body.repo) throw new Error("Repository name required");
+    if (!body.contribution) throw new Error("Contribution name required");
 
     // get the config and schema for contribution
-    const config = getContribution(body.repo, body.contribution);
+    const config = await getConfig(body.repo, body.contribution);
+
+    // ensure the request is authorized, throw early if not
+    const authorized = await authorize({ req, body, config });
 
     // validate the schema, returns an object we can trust
     const validated = await config.contribution.schema

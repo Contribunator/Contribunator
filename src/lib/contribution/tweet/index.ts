@@ -6,7 +6,6 @@ import type {
   ContributionLoader,
   ContributionOptions,
   Form,
-  IframeProps,
   Text,
   VisibleProps,
 } from "@/types";
@@ -27,7 +26,7 @@ export type TweetConfigInput = Omit<ContributionOptions, "commit" | "form"> & {
 
 export default function tweet(opts: TweetConfigInput): ContributionLoader {
   return contribution({
-    title: "Generic Tweet",
+    title: "Tweet",
     description: "Submit a Tweet to be tweeted on this account if approved",
     icon: FaTwitter,
     color: "blue",
@@ -55,8 +54,8 @@ export default function tweet(opts: TweetConfigInput): ContributionLoader {
           type: "text",
           title: "Quote URL",
           placeholder: "e.g. https://twitter.com/[user]/status/[id]",
-          transform: (value: string) => value.split("?")[0].trim(),
-          iframe: ({ field, meta }: IframeProps) => {
+          transform: (value) => value.split("?")[0].trim(),
+          iframe: ({ field, meta }) => {
             if (!field.value || meta.error) return null;
             const encodedUrl = encodeURIComponent(field.value);
             return `https://twitframe.com/show?url=${encodedUrl}`;

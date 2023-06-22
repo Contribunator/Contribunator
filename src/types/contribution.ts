@@ -15,6 +15,7 @@ export type PrMetadata = (body: any) => { title: string; message: string };
 export type Contribution = {
   title: string;
   description: string;
+  name: string;
   color: TailwindColor;
   hidden?: boolean;
   form: Form;
@@ -29,9 +30,12 @@ export type Contribution = {
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
-export type ContributionOptions = Optional<
-  Contribution,
-  "prMetadata" | "color" | "icon" | "title" | "description" | "schema"
+export type ContributionOptions = Omit<
+  Optional<
+    Contribution,
+    "prMetadata" | "color" | "icon" | "title" | "description" | "schema"
+  >,
+  "name"
 >;
 
 export type TailwindColor =
