@@ -3,6 +3,11 @@
 
 import { memoize } from "lodash";
 
+import userConfig from "@/../contribunator.config";
+
+// uncomment to enable hot reload during tests development
+// import "@/../test/configs/test.config";
+
 import {
   Config,
   ConfigWithContribution,
@@ -62,19 +67,19 @@ export function buildConfig(userConfig: UserConfig): Config {
   return config;
 }
 
-async function getUserConfig() {
+async function getAppConfig() {
   if (e2e) {
-    return import("@/../test/configs/test.config");
+    return (await import("@/../test/configs/test.config")).default;
   }
   if (demo) {
-    return import("@/../test/configs/demo.config");
+    return (await import("@/../test/configs/demo.config")).default;
   }
-  return import("@/../contribunator.config");
+  return userConfig;
 }
 
 const memoizedConfig = memoize(async function () {
-  const { default: userConfig } = await getUserConfig();
-  const config = buildConfig(userConfig);
+  const appConfig = await getAppConfig();
+  const config = buildConfig(appConfig);
   validate(config);
   return config;
 });

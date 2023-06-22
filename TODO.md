@@ -4,11 +4,12 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- kitchen sink: test empty tags, test hidden contribs
-- Create a kitchen sink and test it
-- Tests for regex validation
+- kitchen sink: test empty tags(?)
 - Cleanup, replace all `any` types
 - More API-only tests, with malicious, nested validation requests
+- only render iframe with valid url
+
+- tweet options tests
 
 - Move ETC-only contributions/tests elsewhere
 - etc: double check links (repos)
@@ -49,6 +50,7 @@ Below are the upcoming features and improvements.
 - Radios
 - Generic Files
 - Checkbox
+- Number
 
 ## Maybe
 

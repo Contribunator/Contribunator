@@ -26,7 +26,7 @@ export type TweetConfigInput = Omit<ContributionOptions, "commit" | "form"> & {
 
 export default function tweet(opts: TweetConfigInput): ContributionLoader {
   return contribution({
-    title: "Generic Tweet",
+    title: "Tweet",
     description: "Submit a Tweet to be tweeted on this account if approved",
     icon: FaTwitter,
     color: "blue",

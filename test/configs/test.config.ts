@@ -7,6 +7,8 @@ import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
+import * as fieldTests from "./fields";
+
 const testContribution: ContributionOptions = {
   commit: async ({ body }: { body: { text: string } }) => ({
     files: { "test.md": body.text },
@@ -29,14 +31,15 @@ const testConfig: UserConfig = {
   description:
     "This is a test mode for end-to-end testing, using a Mock Github API",
   owner: "test-owner",
-  // base: "main",
-  // branchPrefix: "test-branch-prefix/",
   repos: {
     TEST: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
         api: contribution({ ...testContribution, hidden: true }),
+        tweet: tweet({
+          description: "Here's my custom description",
+        }),
         app: app({
           description: "My App Description",
           relativeImagePath: "./images",
@@ -48,9 +51,6 @@ const testConfig: UserConfig = {
         }),
         news: news({
           collectionPath: "test/data/news.yaml",
-        }),
-        tweet: tweet({
-          description: "Here's my custom description",
         }),
         link: link({
           keyMap: {
@@ -104,6 +104,7 @@ const testConfig: UserConfig = {
             },
           },
         }),
+        ...fieldTests,
       },
     },
     overrides: {
