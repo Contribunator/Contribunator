@@ -21,7 +21,7 @@ const demoConfig: UserConfig = {
           },
           commit: async ({ body, files: { readme } }) => ({
             files: {
-              "README.md": `${readme.parsed}\n\n---\n\n${timestamp()}: ${
+              "README.md": `${readme.content}\n\n---\n\n${timestamp()}: ${
                 body.text
               }`,
             },
