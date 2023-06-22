@@ -6,6 +6,11 @@ import formTest from "@/../test/fixtures/form.fixture";
 const test = formTest({ repo: "TEST", contribution: "api" });
 
 test("basic submit", async ({ f }) => {
+  await f.hasText("Contribution");
+  await f.hasText("A Generic Contribution");
+  await f.hasText(
+    "Submits a Pull Request to https://github.com/test-owner/TEST."
+  );
   await f.cannotSubmit(["Text is a required field"]);
   await f.setText("Text", "My Text");
   expect(await f.submit()).toEqual({
@@ -72,6 +77,30 @@ test("custom message and title", async ({ page, f }) => {
         body: `My Custom Message${f.FOOTER}`,
         head: "c11r/timestamp-my-custom-title",
         title: "My Custom Title",
+      },
+    },
+  });
+});
+
+const overridesTest = formTest({ repo: "overrides", contribution: "test" });
+
+overridesTest("test repo/contribution overrides", async ({ f, page }) => {
+  await f.hasText("Override Contribution Title");
+  await f.hasText("Override Contribution Description");
+  await f.cannotSubmit(["Text is a required field"]);
+  await f.setText("Text", "My Text");
+  expect(await f.submit()).toMatchObject({
+    res: {
+      commit: {
+        branch: "prefix-override/timestamp-add-override-contribution-title",
+        owner: "owner-override",
+        repo: "overrides",
+      },
+      pr: {
+        base: "base-override",
+        head: "prefix-override/timestamp-add-override-contribution-title",
+        owner: "owner-override",
+        repo: "overrides",
       },
     },
   });

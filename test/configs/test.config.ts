@@ -1,4 +1,4 @@
-import type { UserConfig } from "@/types";
+import type { ContributionOptions, UserConfig } from "@/types";
 
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
@@ -7,7 +7,7 @@ import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
-const test = contribution({
+const testContribution: ContributionOptions = {
   commit: async ({ body }: { body: { text: string } }) => ({
     files: { "test.md": body.text },
   }),
@@ -20,7 +20,8 @@ const test = contribution({
       },
     },
   },
-});
+};
+const test = contribution(testContribution);
 
 const testConfig: UserConfig = {
   authorization: ["github", "anon", "api"],
@@ -35,7 +36,7 @@ const testConfig: UserConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        api: test,
+        api: contribution({ ...testContribution, hidden: true }),
         app: app({
           description: "My App Description",
           relativeImagePath: "./images",
@@ -108,11 +109,15 @@ const testConfig: UserConfig = {
     overrides: {
       title: "Title Override",
       description: "Description Override",
-      owner: "override-owner",
+      owner: "owner-override",
       branchPrefix: "prefix-override/",
-      base: "main",
+      base: "base-override",
       contributions: {
-        test,
+        test: contribution({
+          ...testContribution,
+          title: "Override Contribution Title",
+          description: "Override Contribution Description",
+        }),
       },
     },
     github: {

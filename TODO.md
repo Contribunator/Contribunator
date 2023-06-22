@@ -4,16 +4,16 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- etc: double check links (repos)
-
-- Test repo overrides
-- More API-only tests, with malicious, nested validation requests
-- have env vars be validated in config build step
+- kitchen sink: test empty tags, test hidden contribs
 - Create a kitchen sink and test it
 - Tests for regex validation
-- kitchen sink: test empty tags, test hidden contribs
-- Move ETC-only contributions/tests elsewhere
 - Cleanup, replace all `any` types
+- More API-only tests, with malicious, nested validation requests
+
+- Move ETC-only contributions/tests elsewhere
+- etc: double check links (repos)
+
+- have env vars be validated in config build step
 - update docs, use "nocode" somewhere
   - Add a note about enabled delete branches
   - update need to "Request user authorization (OAuth) during installation" (we dont)
