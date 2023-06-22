@@ -2,7 +2,7 @@
 
 export default function SubmittedTestData({
   pr: { body, title },
-  commit: { branch, changes },
+  commit: { branch, changes, author },
 }: any) {
   return (
     <>
@@ -15,24 +15,20 @@ export default function SubmittedTestData({
           <div className="font-bold">Branch: </div>
           {branch}
         </div>
+        {author && (
+          <div>
+            <div className="font-bold">Author: </div>
+            {`${author.name} <${author.email}>`}
+          </div>
+        )}
         <div>
           <div className="font-bold">PR Message:</div>
-          {body.split("\n").map((t: string) => (
-            <span key={t}>
-              {t}
-              <br />
-            </span>
-          ))}
+          {body}
         </div>
         {Object.entries(changes[0].files).map(([file, content]: any) => (
           <div key={file}>
             <div className="font-bold">{file}</div>
-            {content.split("\n").map((t: string) => (
-              <>
-                {t}
-                <br />
-              </>
-            ))}
+            {content}
           </div>
         ))}
       </pre>

@@ -14,7 +14,11 @@ export default function AuthWidgets({ formik, config }: BaseFormProps) {
           <div className="text-3xl">
             <HiExclamation className="inline" />
           </div>
-          <div>You must sign in to submit this type of contribution</div>
+          <div>
+            {!config.repo.authorization.includes("github")
+              ? "This contribution can only be used with via an API"
+              : "You must sign in to submit this type of contribution"}
+          </div>
         </div>
       </div>
     );

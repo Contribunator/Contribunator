@@ -4,15 +4,17 @@ import { demo, e2e, validate } from "./env";
 
 import { memoize } from "lodash";
 
-// TODO allow loading various different config files
 async function getUserConfig() {
-  if (e2e || demo) {
+  if (e2e) {
     return import("@/../test/configs/test.config");
+  }
+  if (demo) {
+    return import("@/../test/configs/demo.config");
   }
   return import("@/../contribunator.config");
 }
 
-// TODO optimize this so that we only initialize the required contributions?
+// TODO optimize this so that we only fetch required contributions?
 // TODO optimize client/server payloads
 const buildConfig = memoize(async function () {
   const { default: userConfig } = await getUserConfig();
@@ -68,7 +70,6 @@ async function getConfig(
 ): Promise<ConfigWithContribution>;
 async function getConfig(repo?: string, contribution?: string) {
   const config = await buildConfig();
-
   if (repo) {
     if (!config.repos[repo]) throw new Error(`Repository ${repo} not found`);
     const configWithRepo: ConfigWithRepo = {
@@ -90,4 +91,4 @@ async function getConfig(repo?: string, contribution?: string) {
   return config as Config;
 }
 
-export default getConfig;
+export default memoize(getConfig, (...args) => JSON.stringify(args));

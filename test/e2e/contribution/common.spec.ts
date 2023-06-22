@@ -17,13 +17,13 @@ test("basic submit", async ({ page, f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-simple-test",
+        branch: "c11r/timestamp-add-contribution",
         changes: [
           {
             files: {
               "test.md": "My Text",
             },
-            message: "Add Simple Test",
+            message: "Add Contribution",
           },
         ],
         createBranch: true,
@@ -31,15 +31,15 @@ test("basic submit", async ({ page, f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
-        body: `This PR adds a new Simple Test:
+        base: "main",
+        body: `This PR adds a new Contribution:
 
 ## Text
 My Text${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-simple-test",
+        head: "c11r/timestamp-add-contribution",
         owner: "test-owner",
         repo: "TEST",
-        title: "Add Simple Test",
+        title: "Add Contribution",
       },
     },
   });
@@ -58,7 +58,7 @@ test("custom message and title", async ({ page, f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-my-custom-title",
+        branch: "c11r/timestamp-my-custom-title",
         changes: [
           {
             files: {
@@ -70,7 +70,7 @@ test("custom message and title", async ({ page, f }) => {
       },
       pr: {
         body: `My Custom Message${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-my-custom-title",
+        head: "c11r/timestamp-my-custom-title",
         title: "My Custom Title",
       },
     },

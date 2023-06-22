@@ -18,7 +18,7 @@ export default function contribution(
       name,
       title: "Contribution",
       description: "A Generic Contribution",
-      color: "red" as TailwindColor,
+      color: "slate" as TailwindColor,
       icon: BiGitPullRequest,
       ...options,
     };

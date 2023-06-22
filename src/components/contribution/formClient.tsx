@@ -39,17 +39,12 @@ export type PrData = {
   test?: any;
 };
 
-export default async function FormClient({
-  repo,
-  contribution,
-  user,
-  files,
-}: PassedProps) {
+function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
   const [pr, setPr] = useState<PrData | null>(null);
-  const config = await getConfig(repo, contribution);
+
   // determine the auth UI based on use login status and config
   let authorization = "anon";
-  if (user) {
+  if (user && config.repo.authorization.includes("github")) {
     authorization = "github";
   } else if (config.repo.authorization.includes("captcha")) {
     authorization = "captcha";
@@ -59,7 +54,11 @@ export default async function FormClient({
     <Formik
       validateOnMount
       validationSchema={config.contribution.schema}
-      initialValues={{ repo, authorization, contribution }}
+      initialValues={{
+        authorization,
+        repo: config.repo.name,
+        contribution: config.contribution.name,
+      }}
       onSubmit={async (data: any) => {
         if (confirm("Are you sure you want to submit the form?")) {
           try {
@@ -74,6 +73,7 @@ export default async function FormClient({
             if (!json.pr) {
               throw new Error("Unexpected response");
             }
+            console.log(json);
             setPr(json);
           } catch (error) {
             let message = "Unknown Error";
@@ -102,4 +102,16 @@ export default async function FormClient({
       )}
     </Formik>
   );
+}
+
+export default async function FormClient({
+  repo,
+  contribution,
+  user,
+  files,
+}: PassedProps) {
+  // now we're client side, get the full config
+  const config = await getConfig(repo, contribution);
+  // encapsulate form state in it's own component
+  return <Form {...{ config, user }} />;
 }

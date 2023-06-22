@@ -17,9 +17,7 @@ export default async function LandingPage() {
           <HiOutlineArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="flex justify-center">
-        <UserInfo authorization={config.authorization} />
-      </div>
+      <UserInfo authorization={config.authorization} />
     </>
   );
 }

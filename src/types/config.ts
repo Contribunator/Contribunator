@@ -21,9 +21,9 @@ export type Repo = Omit<Config, "repos"> & {
 
 export type ContributionLoader = (name: string, repo: Repo) => Contribution;
 
-export type UserConfig = Partial<Config> & {
+export type UserConfig = Partial<Omit<Config, "repos">> & {
   repos?: {
-    [key: string]: Partial<Repo> & {
+    [key: string]: Partial<Omit<Repo, "contributions">> & {
       contributions: { [key: string]: ContributionLoader };
     };
   };

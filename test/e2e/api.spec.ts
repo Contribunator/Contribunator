@@ -27,13 +27,13 @@ const baseRes = {
   },
   test: {
     commit: {
-      branch: "test-branch-prefix/timestamp-add-simple-test",
+      branch: "c11r/timestamp-add-contribution",
       changes: [
         {
           files: {
             "test.md": "test text",
           },
-          message: "Add Simple Test",
+          message: "Add Contribution",
         },
       ],
       createBranch: true,
@@ -41,15 +41,15 @@ const baseRes = {
       repo: "TEST",
     },
     pr: {
-      base: "test-base",
-      body: `This PR adds a new Simple Test:
+      base: "main",
+      body: `This PR adds a new Contribution:
 
 ## Text
 test text${FOOTER}`,
-      head: "test-branch-prefix/timestamp-add-simple-test",
+      head: "c11r/timestamp-add-contribution",
       owner: "test-owner",
       repo: "TEST",
-      title: "Add Simple Test",
+      title: "Add Contribution",
     },
   },
 };
@@ -73,7 +73,7 @@ test("allows custom PR options", async ({ a }) => {
     },
     test: {
       commit: {
-        branch: "test-branch-prefix/timestamp-test-title",
+        branch: "c11r/timestamp-test-title",
         changes: [
           {
             files: {
@@ -87,9 +87,9 @@ test("allows custom PR options", async ({ a }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `test message${FOOTER}`,
-        head: "test-branch-prefix/timestamp-test-title",
+        head: "c11r/timestamp-test-title",
         owner: "test-owner",
         repo: "TEST",
         title: "test title",

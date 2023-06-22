@@ -117,51 +117,6 @@ items:
       Existing Test:
         __name: Existing Test
         __link: https://example.com
-  hardware:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  software:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  other:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Trust-Minimizing Exchanges:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Centralized Spot Markets:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Centralized Derivative Markets:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Cross-Chain Swap Exchanges:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  NFT Marketplaces:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Other:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
   Chat Rooms:
     items:
       Existing Test:
@@ -177,57 +132,7 @@ items:
       Existing Test:
         __name: Existing Test
         __link: https://example.com
-  Forums:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Media:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Twitter Accounts:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Regional Website:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
   prices:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  processors:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  dex:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  endpoints:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  pools:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  explorers:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  monitors:
     items:
       Existing Test:
         __name: Existing Test

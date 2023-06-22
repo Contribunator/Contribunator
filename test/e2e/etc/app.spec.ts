@@ -39,7 +39,7 @@ App Description`,
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-app-my-test-app",
+        branch: "c11r/timestamp-add-app-my-test-app",
         changes: [
           {
             files: {
@@ -82,7 +82,7 @@ App Description`,
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds a new App:
 
 ## App Category
@@ -101,7 +101,7 @@ App Description
 
 ## Author Name
 Joe Bloggs${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-app-my-test-app",
+        head: "c11r/timestamp-add-app-my-test-app",
         owner: "test-owner",
         repo: "TEST",
         title: "Add App: My Test App",
@@ -171,7 +171,7 @@ App Description`,
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-app-my-test-app",
+        branch: "c11r/timestamp-add-app-my-test-app",
         changes: [
           {
             files: {
@@ -227,7 +227,7 @@ App Description`,
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This PR adds a new App:
 
 ## App Category
@@ -267,7 +267,7 @@ https://ipfs.link
 
 ## Other Links
 2 item(s)${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-app-my-test-app",
+        head: "c11r/timestamp-add-app-my-test-app",
         owner: "test-owner",
         repo: "TEST",
         title: "Add App: My Test App",

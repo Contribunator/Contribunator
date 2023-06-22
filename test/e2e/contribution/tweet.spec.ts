@@ -18,7 +18,7 @@ test("tweet submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-tweet-my-test-tweet",
+        branch: "c11r/timestamp-add-tweet-my-test-tweet",
         changes: [
           {
             files: {
@@ -32,9 +32,9 @@ test("tweet submits basic", async ({ f }) => {
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This Pull Request creates a new tweet.${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-tweet-my-test-tweet",
+        head: "c11r/timestamp-add-tweet-my-test-tweet",
         owner: "test-owner",
         repo: "TEST",
         title: "Add tweet my test tweet",
@@ -61,7 +61,7 @@ test("tweet retweet", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-retweet-test",
+        branch: "c11r/timestamp-add-retweet-test",
         changes: [
           {
             files: {
@@ -77,11 +77,11 @@ retweet: https://twitter.com/test/status/123
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This Pull Request creates a new retweet of https://twitter.com/test/status/123.
 
 There is no text in the tweet.${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-retweet-test",
+        head: "c11r/timestamp-add-retweet-test",
         owner: "test-owner",
         repo: "TEST",
         title: "Add retweet test",
@@ -116,7 +116,7 @@ test("tweet reply", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-reply-test-tweet-reply-here",
+        branch: "c11r/timestamp-add-reply-test-tweet-reply-here",
         changes: [
           {
             files: {
@@ -134,9 +134,9 @@ Tweet Reply Here`,
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This Pull Request creates a new reply to https://twitter.com/test/status/456.${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-reply-test-tweet-reply-here",
+        head: "c11r/timestamp-add-reply-test-tweet-reply-here",
         owner: "test-owner",
         repo: "TEST",
         title: "Add reply test tweet reply here",
@@ -165,7 +165,7 @@ test("tweet image", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "test-branch-prefix/timestamp-add-tweet-with-media",
+        branch: "c11r/timestamp-add-tweet-with-media",
         changes: [
           {
             files: {
@@ -184,11 +184,11 @@ media:
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This Pull Request creates a new tweet with 1 image.
 
 There is no text in the tweet.${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-tweet-with-media",
+        head: "c11r/timestamp-add-tweet-with-media",
         owner: "test-owner",
         repo: "TEST",
         title: "Add tweet with media",
@@ -254,8 +254,7 @@ test("tweet reply with images and alts", async ({ f }) => {
     },
     res: {
       commit: {
-        branch:
-          "test-branch-prefix/timestamp-add-reply-test-with-media-tweet-reply-here",
+        branch: "c11r/timestamp-add-reply-test-with-media-tweet-reply-here",
         changes: [
           {
             files: {
@@ -288,9 +287,9 @@ Tweet Reply Here`,
         repo: "TEST",
       },
       pr: {
-        base: "test-base",
+        base: "main",
         body: `This Pull Request creates a new reply to https://twitter.com/test/status/456 with 4 images.${f.FOOTER}`,
-        head: "test-branch-prefix/timestamp-add-reply-test-with-media-tweet-reply-here",
+        head: "c11r/timestamp-add-reply-test-with-media-tweet-reply-here",
         owner: "test-owner",
         repo: "TEST",
         title: "Add reply test with media tweet reply here",

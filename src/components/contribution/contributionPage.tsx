@@ -36,10 +36,7 @@ export default async function FormPage({
 
   return (
     <>
-      <div className="flex justify-center">
-        <UserInfo authorization={config.repo.authorization} />
-      </div>
-      <div className="divider"></div>
+      <UserInfo authorization={config.repo.authorization} />
       <div className="space-y-2">
         <h2 className="title">
           {config.contribution.form.title || config.contribution.title}
