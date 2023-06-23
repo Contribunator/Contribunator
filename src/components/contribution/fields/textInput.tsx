@@ -116,6 +116,7 @@ export default function TextInput({
           {clear && !!field.value && (
             <div className="flex items-center ml-2">
               <div
+                title="Clear Field"
                 className="btn btn-error"
                 onClick={() => helpers.setValue(undefined)}
               >

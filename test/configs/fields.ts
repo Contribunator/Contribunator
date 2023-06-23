@@ -57,31 +57,6 @@ function fieldTest(title: string, fields: Fields) {
 */
 
 export const text = fieldTest("Text", {
-  textFull: {
-    type: "text",
-    title: "Text With Full Options",
-    prefix: "Prefix",
-    clear: true,
-    info: "Info here",
-    infoLink: "https://example.com",
-    placeholder: "Placeholder",
-    iframe: ({ field }) => field.value,
-    suggestions: [
-      {
-        hasNo: "https://",
-        message: "Try entering a URL",
-      },
-      {
-        hasNo: "hello",
-        message: "Say Hello!",
-      },
-      {
-        has: "hello",
-        message: "Don't say Hello!",
-      },
-    ],
-    tags: ["tag1", "tag2"],
-  },
   textBasic: {
     type: "text",
     title: "Basic Text",
@@ -131,6 +106,31 @@ export const text = fieldTest("Text", {
     type: "text",
     title: "Textarea",
     as: "textarea",
+  },
+  textUI: {
+    type: "text",
+    title: "Text with all UI options",
+    prefix: "Prefix",
+    clear: true,
+    info: "Info here",
+    infoLink: "https://example.com",
+    placeholder: "Placeholder",
+    iframe: ({ field }) => field.value,
+    suggestions: [
+      {
+        hasNo: "https://",
+        message: "Try entering a URL",
+      },
+      {
+        hasNo: "hello",
+        message: "Say Hello!",
+      },
+      {
+        has: "hello",
+        message: "Don't say Hello!",
+      },
+    ],
+    tags: ["tag1", "tag2"],
   },
 });
 

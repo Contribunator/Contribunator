@@ -7,13 +7,13 @@ Below are the upcoming features and improvements.
 - kitchen sink: test empty tags(?)
 - Cleanup, replace all `any` types
 - More API-only tests, with malicious, nested validation requests
-- only render iframe with valid url
 
 - tweet options tests
 
 - Move ETC-only contributions/tests elsewhere
 - etc: double check links (repos)
 
+- Way to pass fetched data to prMetadata for PR messages
 - have env vars be validated in config build step
 - update docs, use "nocode" somewhere
   - Add a note about enabled delete branches
@@ -21,7 +21,6 @@ Below are the upcoming features and improvements.
 
 ## Next
 
-- Way to pass fetched data to prMetadata for PR messages
 - i18n support (ETC)
 - Add contributor name to ETC prs
 - Single repo layout
@@ -34,7 +33,7 @@ Below are the upcoming features and improvements.
 
 ## Later
 
-- Dynamic loading of configs from github
+- Dynamic loading of configs from github?
 - Improved error/conf feedback in the UI (not alert)
 - CRUD
 - OG Image

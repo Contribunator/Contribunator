@@ -53,6 +53,10 @@ export class FormFixture {
     await expect(this.page.getByText(text, { exact: true })).toBeVisible();
   }
 
+  async hasNoText(text: string) {
+    await expect(this.page.getByText(text, { exact: true })).not.toBeVisible();
+  }
+
   async submit() {
     let req: any;
     let res: any;
