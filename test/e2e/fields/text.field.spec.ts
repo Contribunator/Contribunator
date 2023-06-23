@@ -3,7 +3,7 @@ import formTest from "@/../test/fixtures/form.fixture";
 
 const test = formTest({ repo: "fields", contribution: "text" });
 
-test("text field options", async ({ f }) => {
+test("text field", async ({ f }) => {
   // basic
   await f.setText("Basic Text", "Basic Text");
   // required

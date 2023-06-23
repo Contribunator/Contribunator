@@ -7,7 +7,7 @@ Below are the upcoming features and improvements.
 - kitchen sink: test empty tags(?)
 - Cleanup, replace all `any` types
 - More API-only tests, with malicious, nested validation requests
-
+- figure out how to have custom mocktokit responses for tests
 - tweet options tests
 
 - Move ETC-only contributions/tests elsewhere

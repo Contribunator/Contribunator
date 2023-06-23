@@ -7,7 +7,7 @@ import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
-import * as fieldTests from "./fields";
+import fieldTests from "./fields";
 
 const testContribution: ContributionOptions = {
   commit: async ({ body }: { body: { text: string } }) => ({

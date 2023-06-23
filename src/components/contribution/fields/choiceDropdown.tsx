@@ -1,6 +1,7 @@
 import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 
 import { ChoiceCompProps, NestedChoiceOptions } from "./choiceInput";
+import { ValidationTypes } from "@/types";
 
 function DropdownItems({
   parent,
