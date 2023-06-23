@@ -25,6 +25,8 @@ const testContribution: ContributionOptions = {
 };
 const test = contribution(testContribution);
 
+// TODO import the userCofnig so they can easily test their own write e2e tests
+
 const testConfig: UserConfig = {
   authorization: ["github", "anon", "api"],
   title: "E2E C11R",
@@ -104,8 +106,11 @@ const testConfig: UserConfig = {
             },
           },
         }),
-        ...fieldTests,
       },
+    },
+    fields: {
+      title: "Field Tests",
+      contributions: fieldTests,
     },
     overrides: {
       title: "Title Override",

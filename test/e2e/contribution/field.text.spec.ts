@@ -1,9 +1,9 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "text" });
+const test = formTest({ repo: "fields", contribution: "text" });
 
-test("text field submits", async ({ f }) => {
+test("text field options", async ({ f }) => {
   // basic
   await f.setText("Basic Text", "Basic Text");
   // required

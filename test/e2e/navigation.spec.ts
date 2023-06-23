@@ -11,9 +11,6 @@ test("landing page and contribution list", async ({ page }) => {
   await page.getByText("Contribute").click();
   await expect(page.getByText("Select a Contribution Type")).toBeVisible();
 
-  // TODO check the list, and check for hidden items
-
-  // // for ensure we list all contributions
   let first: any;
   for (const repo of Object.values(repos)) {
     const r = page.getByText(repo.title, { exact: true }).locator("..");
@@ -34,7 +31,7 @@ test("landing page and contribution list", async ({ page }) => {
       }
     }
   }
-  // // test the first link navigates properly
+  // test that the first link navigates properly
   expect(first).toBeDefined();
   await page
     .getByText(first.contribution.title, { exact: true })

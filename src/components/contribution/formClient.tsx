@@ -86,7 +86,7 @@ function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
       {(formik) => (
         <form
           onSubmit={formik.handleSubmit}
-          className={`text-center space-y-6 bg-base-200 p-4 rounded-lg relative overflow-hidden`}
+          className={`text-center space-y-6 bg-base-200 p-4 rounded-lg relative`}
         >
           {pr && <Submitted pr={pr} />}
           {!pr && (

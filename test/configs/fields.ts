@@ -1,9 +1,13 @@
 import contribution from "@/lib/contribution";
 import { ContributionOptions, Fields } from "@/types";
+import { BiCheck } from "react-icons/bi";
+import { FaBook, FaGithub, FaLink } from "react-icons/fa";
 
 function fieldTest(title: string, fields: Fields) {
   const fieldTestConfig: ContributionOptions = {
     title,
+    icon: BiCheck,
+    color: "lime",
     description: "Field Test",
     commit: async ({ fields }) => ({
       yaml: {
@@ -134,6 +138,62 @@ export const text = fieldTest("Text", {
   },
 });
 
+const flatOptions = {
+  javascript: {
+    title: "Javascript",
+  },
+  rust: {
+    title: "Rust",
+  },
+  python: {
+    title: "Python",
+  },
+};
+
+const categories = {
+  animals: {
+    title: "Animals",
+    options: {
+      cat: {
+        title: "Cat",
+      },
+      dog: {
+        title: "Dog",
+        options: {
+          pitbull: {
+            title: "Pit Bull",
+          },
+          poodle: {
+            title: "Poodle",
+          },
+        },
+      },
+      fish: {
+        title: "Fish",
+        options: {
+          goldfish: {
+            title: "Goldfish",
+          },
+          shark: {
+            title: "Shark",
+          },
+          koi: {
+            title: "Koi",
+          },
+        },
+      },
+    },
+  },
+  food: {
+    title: "Food",
+  },
+  music: {
+    title: "Music",
+  },
+};
+
+// TODO always show unset if not requried
+
 // Choice
 /*
   name: string;
@@ -144,6 +204,77 @@ export const text = fieldTest("Text", {
   options: NestedChoiceOptions;
   as?: "dropdown" | "buttons";
 */
+
+export const choice = fieldTest("Choice", {
+  choiceDropdown: {
+    type: "choice",
+    title: "Choice Dropdown",
+    options: flatOptions,
+  },
+  choiceDropdownUnset: {
+    type: "choice",
+    title: "Choice Dropdown with Unset",
+    unset: "I don't like programming",
+    options: flatOptions,
+  },
+  choiceDropdownUnsetSubs: {
+    type: "choice",
+    title: "Choice Dropdown with Unset and Subcategories",
+    unset: "Unset Field",
+    options: categories,
+  },
+  choiceDropdownMultiple: {
+    type: "choice",
+    multiple: true,
+    title: "Multiple Choice Dropdown",
+    options: flatOptions,
+  },
+  choiceButtons: {
+    type: "choice",
+    as: "buttons",
+    title: "Choice Buttons",
+    options: flatOptions,
+  },
+  icon: {
+    title: "Choice Buttons (Icons)",
+    type: "choice",
+    as: "buttons",
+    unset: "No Icon",
+    options: {
+      link: { icon: FaLink },
+      book: { icon: FaBook },
+      github: { icon: FaGithub },
+    },
+  },
+  choiceButtonsUnset: {
+    type: "choice",
+    as: "buttons",
+    title: "Choice Buttons with Unset",
+    unset: "Unset Field",
+    options: flatOptions,
+  },
+  choiceButtonsUnsetSubs: {
+    type: "choice",
+    as: "buttons",
+    title: "Choice Buttons with Unset and Subcategories",
+    unset: "Unset Field",
+    options: categories,
+  },
+  choiceButtonsMultiple: {
+    type: "choice",
+    as: "buttons",
+    multiple: true,
+    title: "Multiple Choice Buttons",
+    options: flatOptions,
+  },
+});
+
+export const info = fieldTest("Info", {
+  info: {
+    type: "info",
+    title: "This is an info field",
+  },
+});
 
 // Image
 /*
