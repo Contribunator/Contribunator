@@ -14,6 +14,8 @@ Below are the upcoming features and improvements.
 - Move ETC-only contributions/tests elsewhere
 - etc: double check links (repos)
 
+- Update commit to pass all details in an object for easy manipulation
+- Automatically create image filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages
 - have env vars be validated in config build step
 - update docs, use "nocode" somewhere
@@ -34,6 +36,7 @@ Below are the upcoming features and improvements.
 
 ## Later
 
+- Required ALT image field
 - Dynamic loading of configs from github?
 - Improved error/conf feedback in the UI (not alert)
 - CRUD

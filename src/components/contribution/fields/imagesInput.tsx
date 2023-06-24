@@ -41,6 +41,7 @@ export default function ImagesInput({
   });
 
   const itemsToShow = lastExisting + 1 < limit ? lastExisting + 1 : limit;
+  const limitReached = images.length >= itemsToShow;
 
   // calculate the filesize based on text length
   const remainingFileSizeLimit = totalFileSizeLimit
@@ -55,6 +56,7 @@ export default function ImagesInput({
 
   return (
     <div>
+      {limitReached && <FieldHeader title={title} />}
       <div className="space-y-4">
         {Array(itemsToShow)
           .fill(null)
@@ -69,7 +71,7 @@ export default function ImagesInput({
               handleRemove={() => {
                 const newValues = [...images];
                 newValues.splice(i, 1);
-                helpers.setValue(newValues);
+                helpers.setValue(newValues.length >= 1 ? newValues : undefined);
               }}
             />
           ))}

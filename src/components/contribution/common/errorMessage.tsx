@@ -15,7 +15,7 @@ export default function ErrorMessage({ error }: { error: MixedErrorMessage }) {
       }
     });
   } else if (typeof error === "object") {
-    errors.push(Object.values(error).join(","));
+    errors.push(Object.values(error).pop());
   }
   if (typeof error === "string" && error.length > 1) {
     errors.push(error);

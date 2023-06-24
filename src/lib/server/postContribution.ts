@@ -44,6 +44,7 @@ export default async function postContribution(req: NextRequest) {
       message = err.message;
     }
     // todo return correct error code
+    console.error(err || message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -82,7 +82,35 @@ export default function generateSchema(
       }
 
       if (["image", "images"].includes(type)) {
-        let image = Yup.object({
+        let data = Yup.string().test({
+          test(data = "", ctx) {
+            if (!data) {
+              return true;
+            }
+            if (
+              data.match(
+                /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+              )
+            ) {
+              return true;
+            }
+            return ctx.createError({
+              message: "Invalid image data",
+            });
+          },
+        });
+
+        // add required validation
+        if (field.validation?.required && type === "image") {
+          const reqText =
+            typeof field.validation.required === "string"
+              ? field.validation.required
+              : `${field.title || name} is a required field`;
+          data = data.required(reqText);
+        }
+
+        const image = Yup.object({
+          data,
           type: Yup.string()
             .oneOf(["png", "jpg", "jpeg"])
             .when("data", {
@@ -98,23 +126,6 @@ export default function generateSchema(
                 });
               }
               return true;
-            },
-          }),
-          data: Yup.string().test({
-            test(data = "", ctx) {
-              if (!data) {
-                return true;
-              }
-              if (
-                data.match(
-                  /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
-                )
-              ) {
-                return true;
-              }
-              return ctx.createError({
-                message: "Invalid image data",
-              });
             },
           }),
         });

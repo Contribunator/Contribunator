@@ -1,7 +1,43 @@
+import crypto from "crypto";
 import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
 import { DEFAULTS } from "@/lib/config";
+
+function trimImageData(str: string) {
+  let type = "blob";
+  if (str.startsWith("data:image")) {
+    type = str.split(",")[0];
+  }
+  const hash = crypto
+    .createHash("sha1")
+    .update(str)
+    .digest("base64")
+    .slice(0, 10);
+  return `${type},[${hash}]`;
+}
+
+const deepFormatImageData = (obj: any): any => {
+  if (typeof obj !== "object") {
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(deepFormatImageData);
+  }
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => {
+      if (
+        typeof value === "string" &&
+        (value.startsWith("data:image") ||
+          key.endsWith(".jpeg") ||
+          key.endsWith(".png"))
+      ) {
+        return [key, trimImageData(value)];
+      }
+      return [key, deepFormatImageData(value)];
+    })
+  );
+};
 
 type FormFixtureProps = {
   baseURL?: string;
@@ -87,30 +123,7 @@ export class FormFixture {
     await this.submitButton.click();
     await this.hasText(testPr.url);
 
-    // strip image data if it exists
-    const trimImageData = (obj: any): any => {
-      if (typeof obj !== "object" || obj === null) {
-        return obj;
-      }
-      if (Array.isArray(obj)) {
-        return obj.map(trimImageData);
-      }
-      return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => {
-          if (
-            typeof value === "string" &&
-            (value.startsWith("data:image") ||
-              key.endsWith(".jpeg") ||
-              key.endsWith(".png"))
-          ) {
-            return [key, value.slice(0, 30)];
-          }
-
-          return [key, trimImageData(value)];
-        })
-      );
-    };
-    return trimImageData({ req, res });
+    return deepFormatImageData({ req, res });
   }
 
   // asser that validation errors exist

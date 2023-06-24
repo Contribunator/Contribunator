@@ -183,10 +183,10 @@ export default function ImageInput({
                 )}
               </>
             )}
-            {showErrors && <FieldHeader error={meta.error} />}
           </div>
         </>
       )}
+      {showErrors && <FieldHeader error={meta.error} />}
     </div>
   );
 }

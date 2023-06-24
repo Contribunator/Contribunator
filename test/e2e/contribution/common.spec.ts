@@ -187,4 +187,12 @@ My Text
   });
 });
 
+// TODO test yup validation
 // TODO test field visibility
+/*
+  info: {
+    type: "info",
+    title:
+      "Info field here to test because it's too insignificant to test on its own",
+  },
+*/
