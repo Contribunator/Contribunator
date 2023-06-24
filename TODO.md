@@ -5,6 +5,7 @@ Below are the upcoming features and improvements.
 ## Now
 
 - kitchen sink: test empty tags(?)
+- refactor tests to use clickDropdownItem
 - Cleanup, replace all `any` types
 - More API-only tests, with malicious, nested validation requests
 - figure out how to have custom mocktokit responses for tests
@@ -53,6 +54,7 @@ Below are the upcoming features and improvements.
 
 ## Maybe
 
+- seperate form field tests individually
 - handle repo owner/repo/name conflicts, "slug" attribute?
 - Contribution-specific authorization
 - Allow multiple repos, set up a public contribunator instance, with config updates

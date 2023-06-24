@@ -137,11 +137,42 @@ export class FormFixture {
     await locator.blur();
   }
 
-  async clickButton(fieldTitle: string, name: string) {
-    await this.getByLabel(fieldTitle).getByText(name).first().click();
+  async clickButton(fieldTitle: string, items: string | string[]) {
+    if (typeof items === "string") {
+      items = [items];
+    }
+    const locator = this.getByLabel(fieldTitle);
+    for (const item of items) {
+      await locator.getByText(item, { exact: true }).first().click();
+    }
   }
 
-  // async clickDropdownItem(fieldTitle: string, item: string) {}
+  async clickDropdownItem(fieldTitle: string, items: string | string[]) {
+    if (typeof items === "string") {
+      items = [items];
+    }
+    const locator = await this.getByLabel(fieldTitle).locator(".dropdown");
+    await locator.click();
+    for (const item of items) {
+      await locator.getByText(item, { exact: true }).click();
+    }
+  }
+
+  async getValue(fieldTitle: string, type?: string) {
+    // todo if it's a dropdown
+    const locator = this.getByLabel(fieldTitle);
+    if (type === "dropdown") {
+      return await locator.locator(".dropdown > label").textContent();
+    }
+    if (type === "buttons") {
+      const selected = await locator.locator("[data-selected]");
+      // join text values
+      return await selected.evaluateAll((el) =>
+        el.map((e) => e.textContent).join(", ")
+      );
+    }
+    return await locator.locator("input").getAttribute("value");
+  }
 
   async uploadImage(fieldTitle: string, filename: string) {
     await this.getByLabel(fieldTitle)

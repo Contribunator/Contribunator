@@ -89,10 +89,9 @@ const choiceFieldTest: Fields = {
     unset: "I don't like programming",
     options: flatOptions,
   },
-  choiceDropdownUnsetSubs: {
+  choiceDropdownSubs: {
     type: "choice",
     title: "Dropdown Subs",
-    unset: "Unset Field",
     options: categories,
   },
   choiceDropdownMultiple: {

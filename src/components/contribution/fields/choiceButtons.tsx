@@ -17,6 +17,7 @@ function Unset({
   const color = value ? (inline ? "bg-white" : "btn-ghost") : "bg-base-300";
   return (
     <a
+      data-selected={!value ? true : undefined}
       className={`btn flex-1 ${color} ${inline ? "mr-2" : ""}`}
       onClick={() => {
         handleChange(undefined);
@@ -53,6 +54,7 @@ function Button({
     : "btn-ghost bg-base-100";
   return (
     <a
+      data-selected={isSelected && !hasChildren ? true : undefined}
       className={`flex-1 btn gap-2 ${color} ${className ? className : ""}`}
       onClick={onClick}
     >
