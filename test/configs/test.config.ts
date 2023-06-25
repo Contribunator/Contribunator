@@ -25,8 +25,6 @@ const testContribution: ContributionOptions = {
 };
 const test = contribution(testContribution);
 
-// TODO import the userCofnig so they can easily test their own write e2e tests
-
 const testConfig: UserConfig = {
   authorization: ["github", "anon", "api"],
   title: "E2E C11R",
@@ -47,13 +45,13 @@ const testConfig: UserConfig = {
           description: "My App Description",
           relativeImagePath: "./images",
           absoluteImagePath: "content/services/apps/images",
-          collectionPath: "test/data/apps.yaml",
+          collectionPath: "test/etc/apps.yaml",
         }),
         video: video({
-          collectionPath: "test/data/videos.yaml",
+          collectionPath: "test/etc/videos.yaml",
         }),
         news: news({
-          collectionPath: "test/data/news.yaml",
+          collectionPath: "test/etc/news.yaml",
         }),
         link: link({
           keyMap: {
@@ -64,7 +62,7 @@ const testConfig: UserConfig = {
           categories: {
             wallets: {
               title: "Wallet",
-              sourcePath: "content/services/wallets/index.yaml",
+              sourcePath: "test/etc/wallets.yaml",
               web: {
                 title: "Web Wallet",
                 sourceKey: "web",
@@ -77,7 +75,7 @@ const testConfig: UserConfig = {
             social: {
               showIcons: true,
               title: "Social Channels",
-              sourcePath: "content/community/channels/index.yaml",
+              sourcePath: "test/etc/channels.yaml",
               chatRooms: {
                 title: "General Chat Room",
                 sourceKey: "Chat Rooms",
@@ -95,13 +93,13 @@ const testConfig: UserConfig = {
               title: "Mining & Development",
               priceSource: {
                 title: "Price Source",
-                sourcePath: "content/development/tooling/index.yaml",
+                sourcePath: "test/etc/tooling.yaml",
                 sourceKey: "prices",
               },
               repo: {
                 showDescription: true,
                 title: "Git Repository",
-                sourcePath: "content/development/tooling/index.yaml",
+                sourcePath: "test/etc/tooling.yaml",
                 sourceKey: "repos",
               },
             },

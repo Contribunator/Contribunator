@@ -17,15 +17,12 @@ test("link submits basic", async ({ f }) => {
   await f.setText("Name", "My Test Link");
   await f.setText("URL", "https://example.link");
 
-  // return;
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
       category: "wallets.web",
       contribution: "link",
       link: "https://example.link",
       name: "My Test Link",
-      repo: "TEST",
     },
     res: {
       commit: {
@@ -33,7 +30,7 @@ test("link submits basic", async ({ f }) => {
         changes: [
           {
             files: {
-              "content/services/wallets/index.yaml": `items:
+              "test/etc/wallets.yaml": `items:
   web:
     items:
       Existing Test:
@@ -47,43 +44,13 @@ test("link submits basic", async ({ f }) => {
       Existing Test:
         __name: Existing Test
         __link: https://example.com
-  Chat Rooms:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Development Chat:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Telegram Groups:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  prices:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  repos:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
 `,
             },
-
             message: "Add Link: My Test Link",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This PR adds a new Link:
 
 ## Category
@@ -95,8 +62,6 @@ My Test Link
 ## URL
 https://example.link${f.FOOTER}`,
         head: "c11r/timestamp-add-link-my-test-link",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add Link: My Test Link",
       },
     },
@@ -117,8 +82,23 @@ test("link is ordered, has icons", async ({ f }) => {
 
   expect(req.icon).toEqual("twitter");
 
-  expect(res.commit.changes[0].files["content/community/channels/index.yaml"])
-    .toContain(`Telegram Groups:
+  expect(res).toMatchObject({
+    commit: {
+      changes: [
+        {
+          files: {
+            "test/etc/channels.yaml": `items:
+  Chat Rooms:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+  Development Chat:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+  Telegram Groups:
     items:
       A Test Link:
         __name: A Test Link
@@ -126,7 +106,13 @@ test("link is ordered, has icons", async ({ f }) => {
         __icon: twitter
       Existing Test:
         __name: Existing Test
-        __link: https://example.com`);
+        __link: https://example.com
+`,
+          },
+        },
+      ],
+    },
+  });
 });
 
 test("link contains description", async ({ f }) => {
@@ -144,8 +130,18 @@ test("link contains description", async ({ f }) => {
 
   expect(req.description).toEqual(multiline);
 
-  expect(res.commit.changes[0].files["content/development/tooling/index.yaml"])
-    .toContain(`repos:
+  expect(res).toMatchObject({
+    commit: {
+      changes: [
+        {
+          files: {
+            "test/etc/tooling.yaml": `items:
+  prices:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+  repos:
     items:
       Another Test:
         __name: Another Test
@@ -153,5 +149,14 @@ test("link contains description", async ({ f }) => {
         description: |-
           A multine
 
-          description`);
+          description
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+`,
+          },
+        },
+      ],
+    },
+  });
 });

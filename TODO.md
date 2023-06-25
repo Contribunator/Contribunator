@@ -4,17 +4,15 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- import all field tests into the demo for one giant form
-- More API-only tests, with malicious, nested validation requests
 - have env vars be validated in config build step
-
-- Mocktokit read test data from files for extensibility
-- Move ETC-only contributions/tests elsewhere?
-
+- optimize with dynamic imports everywhere, only load requested contribution(s) on page load
 - Automatically create image filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation
-- optimize with dynamic imports everywhere, only load requested contribution(s) on page load
+
+- More API-only tests, with malicious, nested validation requests
+- Move ETC-only contributions/tests elsewhere?
+
 - Option to request add tags and review for PRs
 
 ## Then Update Docs

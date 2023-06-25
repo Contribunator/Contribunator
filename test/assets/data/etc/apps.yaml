@@ -1,0 +1,18 @@
+- title: Existing App
+  date: 2023-03-05
+  image: ./some/image.png
+  author: Some Some AUthor
+  authorLink: https://github.com/link
+  verifiedContract: https://blockscout.com/etc/mainnet/address/
+  description: Test description
+  type: finance
+  links:
+    - name: Twitter
+      link: https://twitter.com/xxx
+      icon: twitter
+    - name: Telegram
+      link: https://t.me/xxx
+      icon: telegram
+    - name: Discord
+      link: https://discord.com/invite/xxx
+      icon: discord

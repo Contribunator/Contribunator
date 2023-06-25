@@ -43,7 +43,7 @@ App Description`,
         changes: [
           {
             files: {
-              "test/data/apps.yaml": `- date: TIMESTAMP
+              "test/etc/apps.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline
@@ -177,7 +177,7 @@ App Description`,
             files: {
               "content/services/apps/images/TIMESTAMP-my-test-app.png":
                 "blob,[8TpoEXPdsU]",
-              "test/data/apps.yaml": `- date: TIMESTAMP
+              "test/etc/apps.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline

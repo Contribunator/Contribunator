@@ -25,7 +25,7 @@ test("video submits basic", async ({ f }) => {
         changes: [
           {
             files: {
-              "test/data/videos.yaml": `- title: My Video Title
+              "test/etc/videos.yaml": `- title: My Video Title
   date: TIMESTAMP
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
@@ -96,7 +96,7 @@ Description`,
         changes: [
           {
             files: {
-              "test/data/videos.yaml": `- title: Custom Title
+              "test/etc/videos.yaml": `- title: Custom Title
   date: TIMESTAMP
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
