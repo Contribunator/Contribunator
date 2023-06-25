@@ -56,6 +56,10 @@ function getFancy(prefix: string): Fields {
 }
 
 const collectionFieldTest: Fields = {
+  infoCollection: {
+    type: "info",
+    title: "Collections allow you to group fields together and repeat them",
+  },
   collectionBasic: {
     type: "collection",
     title: "Basic Collection",
@@ -86,6 +90,10 @@ const collectionFieldTest: Fields = {
         validation: { required: true },
       },
     },
+  },
+  infoSubCollection: {
+    type: "info",
+    title: "Collections can have their own sub-collections",
   },
   subCollection: {
     type: "collection",

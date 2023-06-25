@@ -72,6 +72,10 @@ const categories = {
 */
 
 const choiceFieldTest: Fields = {
+  infoChoiceDropdown: {
+    type: "info",
+    title: "Dropdown Choice Fields",
+  },
   choiceDropdown: {
     type: "choice",
     title: "Dropdown",
@@ -99,6 +103,10 @@ const choiceFieldTest: Fields = {
     multiple: true,
     title: "Multi Dropdown",
     options: categories,
+  },
+  infoChoiceButtons: {
+    type: "info",
+    title: "Buttons Choice Fields",
   },
   choiceButtons: {
     type: "choice",

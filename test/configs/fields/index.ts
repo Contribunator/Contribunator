@@ -1,5 +1,6 @@
 import contribution from "@/lib/contribution";
-import { Fields, ContributionOptions, Commit } from "@/types";
+import { Fields, ContributionOptions } from "@/types";
+import { FaSink } from "react-icons/fa";
 import { BiCheck } from "react-icons/bi";
 import textFieldTest from "./text";
 import choiceFieldTest from "./choice";
@@ -39,12 +40,12 @@ const deepFormatImageData = (obj: any): any => {
   );
 };
 
-function fieldTest(props: any, fields: Fields) {
+function fieldTest(props: any, passedFields: Fields) {
   const fieldTestConfig: ContributionOptions = {
-    ...props,
     icon: BiCheck,
     color: "lime",
     description: "Field Test",
+    ...props,
     commit: async ({ fields }) => {
       // convert the images to a yaml file
       const images: any = {};
@@ -81,7 +82,9 @@ function fieldTest(props: any, fields: Fields) {
       };
     },
     form: {
-      fields,
+      fields: {
+        ...passedFields,
+      },
     },
   };
   return contribution(fieldTestConfig);
@@ -93,5 +96,20 @@ const fieldTests = {
   collection: fieldTest({ title: "Collection" }, collectionFieldTest),
   image: fieldTest({ title: "Image" }, imageFieldTest),
 };
+
+export const combined = fieldTest(
+  {
+    title: "Kitchen Sink",
+    description: "A demo of all the available field configurations",
+    color: "pink",
+    icon: FaSink,
+  },
+  {
+    ...textFieldTest,
+    ...choiceFieldTest,
+    ...imageFieldTest,
+    ...collectionFieldTest,
+  }
+);
 
 export default fieldTests;

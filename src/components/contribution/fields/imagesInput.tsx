@@ -8,14 +8,15 @@ import ImageInput, {
   MB,
   Image,
 } from "./imageInput";
+import { ValidationTypes } from "@/types";
 
 export type Props = ImageInputProps & {
-  limit?: number;
+  validation?: ValidationTypes;
   totalFileSizeLimit?: number;
 };
 
 export default function ImagesInput({
-  limit = 4,
+  validation,
   totalFileSizeLimit = defaultInfo.fileSizeLimit,
   fileSizeLimit = 0,
   ...props
@@ -26,6 +27,7 @@ export default function ImagesInput({
   };
   const [field, meta, helpers] = useField(name);
 
+  const limit = validation?.max || 4;
   const images: Image[] = field?.value || [];
 
   let totalFileSize = 0;

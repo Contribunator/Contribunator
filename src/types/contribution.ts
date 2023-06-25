@@ -10,6 +10,7 @@ export type UseFiles =
   | ((values: any) => { [key: string]: string });
 
 // TODO replace body with actual body
+// also include fetched data
 export type PrMetadata = (body: any) => { title: string; message: string };
 
 export type Contribution = {

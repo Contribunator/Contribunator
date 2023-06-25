@@ -54,7 +54,7 @@ export default function CollectionInput({
           info={info}
           infoLink={infoLink}
         />
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-6">
           {childFields.map((childField, i) => {
             const key = `${name}.${i}`;
             const currentValue = collection[i];

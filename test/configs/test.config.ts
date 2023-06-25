@@ -7,7 +7,7 @@ import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
-import fieldTests from "./fields";
+import fieldTests, { combined } from "./fields";
 
 const testContribution: ContributionOptions = {
   commit: async ({ body }: { body: { text: string } }) => ({
@@ -39,6 +39,7 @@ const testConfig: UserConfig = {
       description: "TEST REPO DESCRIPTION",
       contributions: {
         api: contribution({ ...testContribution, hidden: true }),
+        combined,
         tweet: tweet({
           description: "Here's my custom description",
         }),

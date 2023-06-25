@@ -4,28 +4,27 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- kitchen sink: test empty tags(?)
+- import all field tests into the demo for one giant form
 - More API-only tests, with malicious, nested validation requests
-- tweet options tests
-- remove image limit, use validation max
-- test reserved fields
+- have env vars be validated in config build step
+
+- Mocktokit read test data from files for extensibility
 - Move ETC-only contributions/tests elsewhere?
-- etc: double check links (repos)
-- merge images and collection logic
-- Update commit to pass all details in an object for easy manipulation
+
 - Automatically create image filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
-- Mocktokit read test data from files for extensibility
-- have env vars be validated in config build step
-- project structure, sandbox userland code (e.g. commit)
-- optimize with dynamic imports everywhere
+- Update commit to pass all details in an object for easy manipulation
+- optimize with dynamic imports everywhere, only load requested contribution(s) on page load
+- Option to request add tags and review for PRs
 
-- update docs, use "nocode" somewhere
-  - Add a note about enabled delete branches
-  - update need to "Request user authorization (OAuth) during installation" (we dont)
-  - don't need to out-out of refresh user access token
+## Then Update Docs
 
-## Next
+- use "nocode" somewhere
+- Add a note about enabled delete branches
+- update need to "Request user authorization (OAuth) during installation" (we dont)
+- don't need to out-out of refresh user access token
+
+## Next Features
 
 - i18n support (ETC)
 - Add contributor name to ETC prs
@@ -39,6 +38,7 @@ Below are the upcoming features and improvements.
 
 ## Later
 
+- merge images and collection logic
 - Required ALT image field
 - Dynamic loading of configs from github?
 - Improved error/conf feedback in the UI (not alert)
@@ -50,8 +50,6 @@ Below are the upcoming features and improvements.
 - Automation Integrations
 - Option to add merge date
 - dynamically load configs / moctokit
-- Appprovals UI
-- AI to generate description/suggest improvement
 - Code
 - Radios
 - Generic Files
@@ -68,3 +66,13 @@ Below are the upcoming features and improvements.
 - Option to only allow maintainers or certain github accounts to make contribution based on repo
 - support private repos
 - button for github repos to generate a form screenshot
+- project structure, sandbox userland code (e.g. commit)
+
+## Judgement Day
+
+- Appprovals UI
+
+## Rise of the Machines
+
+- AI to generate description/suggest improvement
+- API Keys

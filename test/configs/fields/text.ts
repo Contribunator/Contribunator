@@ -19,6 +19,10 @@ import { Fields } from "@/types";
 */
 
 const textFieldTest: Fields = {
+  infoText: {
+    type: "info",
+    title: "Text Fields",
+  },
   textBasic: {
     type: "text",
     title: "Basic Text",

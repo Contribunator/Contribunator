@@ -15,6 +15,10 @@ aspectRatio?: number;
 */
 
 const imageFieldTest: Fields = {
+  infoImage: {
+    type: "info",
+    title: "Single Image Upload",
+  },
   imageBasic: {
     type: "image",
     title: "Basic Image",
@@ -28,6 +32,10 @@ const imageFieldTest: Fields = {
     aspectRatio: 1,
     validation: { required: true },
   },
+  infoImages: {
+    type: "info",
+    title: "Multiple Images Upload (Limits total filesize)",
+  },
   imagesBasic: {
     type: "images",
     title: "Basic Images",
@@ -38,7 +46,6 @@ const imageFieldTest: Fields = {
     alt: "Alt text",
     info: "Info here",
     aspectRatio: 1,
-    limit: 3,
     totalFileSizeLimit: 1,
     validation: { required: true, min: 2, max: 3 },
   },
