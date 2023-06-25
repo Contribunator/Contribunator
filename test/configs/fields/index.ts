@@ -19,7 +19,27 @@ import collectionFieldTest from "./collection";
   yup?: Schema<any>;
 */
 
-function fieldTest(props: any, fields: Fields, commit?: Commit) {
+// TODO move this logic to the commit step
+// automatically detect and convert images
+
+const deepFormatImageData = (obj: any): any => {
+  if (typeof obj !== "object") {
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(deepFormatImageData);
+  }
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => {
+      if (typeof value === "string" && value.startsWith("data:image")) {
+        return [key, "[image data]"];
+      }
+      return [key, deepFormatImageData(value)];
+    })
+  );
+};
+
+function fieldTest(props: any, fields: Fields) {
   const fieldTestConfig: ContributionOptions = {
     ...props,
     icon: BiCheck,
@@ -28,25 +48,31 @@ function fieldTest(props: any, fields: Fields, commit?: Commit) {
     commit: async ({ fields }) => {
       // convert the images to a yaml file
       const images: any = {};
-      const file: any = {};
-      const setImage = (name: string, { data, alt, type }: any) => {
-        const fileName = `${name}.${type}`;
+      const file: any = deepFormatImageData(fields);
+      let imagesIndex = 0;
+      const setImage = (name: string, { data, type }: any) => {
+        imagesIndex += 1;
+        const fileName = `${imagesIndex}-${name}.${type}`;
         images[fileName] = data;
-        file[fileName] = { alt, type };
       };
-      Object.entries(fields).forEach(([name, field]) => {
-        if (!name.startsWith("image")) {
-          file[name] = field;
-          return;
-        }
-        if (Array.isArray(field)) {
-          Object.entries(field).forEach(([index, { data, alt, type }]) => {
-            setImage(`${name}-${index}`, { data, alt, type });
-          });
-        } else if (typeof field === "object") {
-          setImage(name, field);
-        }
-      });
+      const getImagesDeep = (obj: any, parent?: string) => {
+        Object.entries(obj).forEach(([name, field]) => {
+          if (!name.startsWith("image")) {
+            if (typeof field === "object") {
+              getImagesDeep(field, name);
+            }
+            return;
+          }
+          if (Array.isArray(field)) {
+            Object.entries(field).forEach(([index, { data, alt, type }]) => {
+              setImage(`${name}-${index}`, { data, alt, type });
+            });
+          } else if (typeof field === "object") {
+            setImage(name, field);
+          }
+        });
+      };
+      getImagesDeep(fields);
       return {
         images,
         yaml: {

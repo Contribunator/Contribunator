@@ -136,18 +136,25 @@ export class FormFixture {
     await expect(this.submitButton).toBeDisabled();
   }
 
-  getByLabel(fieldTitle: string) {
-    return this.page
+  getByLabel(fieldTitle: string, locator?: Locator) {
+    return (locator || this.page)
       .locator("label")
       .filter({ has: this.page.getByText(fieldTitle, { exact: true }) })
       .last()
       .locator("..");
   }
 
-  async setText(fieldTitle: string, text: string) {
-    const locator = await this.getByLabel(fieldTitle).getByRole("textbox");
+  async setText(fieldTitleOrLocator: string | Locator, text: string) {
+    const locator = (
+      typeof fieldTitleOrLocator === "string"
+        ? this.getByLabel(fieldTitleOrLocator)
+        : fieldTitleOrLocator
+    ).getByRole("textbox");
     await locator.fill(text);
-    await locator.blur();
+    // blur if possible for validation
+    if (await locator.isVisible()) {
+      await locator.blur();
+    }
   }
 
   async clickButton(fieldTitle: string, items: string | string[]) {
@@ -205,6 +212,27 @@ export class FormFixture {
       const input = await handle?.$("input");
       await input?.fill(alt);
     }
+  }
+
+  getCollection(fieldName: string, path: (string | number)[]) {
+    let locator = this.getByLabel(fieldName);
+    for (const p of path) {
+      if (typeof p === "string") {
+        locator = this.getByLabel(p, locator);
+      } else {
+        locator = locator.locator("> .flex > .collection").nth(p);
+      }
+    }
+    return locator;
+  }
+
+  async setCollectionText(
+    fieldName: string,
+    path: (string | number)[],
+    string: string
+  ) {
+    const locator = this.getCollection(fieldName, path);
+    await this.setText(locator, string);
   }
 
   async signIn() {

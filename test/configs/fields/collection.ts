@@ -49,6 +49,8 @@ function getFancy(prefix: string): Fields {
     images: {
       type: "images",
       title: `${prefix} Images`,
+      alt: true,
+      validation: { required: true },
     },
   };
 }
@@ -64,50 +66,30 @@ const collectionFieldTest: Fields = {
     title: "Required Collection with button",
     fields: basicFields,
     addButton: "Add a new item",
-    validation: {
-      required: true,
-    },
+    validation: { required: true },
   },
   collectionWithLimit: {
     type: "collection",
     title: "Collection with limit and min",
     fields: basicFields,
-    // TODO: allows blank after unsetting
     validation: { max: 3, min: 2 },
-    limit: 3,
   },
   collectionWithLimitButton: {
     type: "collection",
-    title: "Collection with button, limit and min",
-    fields: basicFields,
-    addButton: "Add a new item",
-    // TODO: allows blank after unsetting
-    validation: { max: 3, min: 2 },
-    limit: 3,
-  },
-  collectionAtLeast: {
-    type: "collection",
-    title: "Collection pre-showing items",
-    fields: basicFields,
-    showAtLeast: 3,
-  },
-  collectionAtLeastButton: {
-    type: "collection",
-    title: "Collection with button showing items",
-    fields: basicFields,
-    showAtLeast: 3,
+    title: "Collection with button, required limit and min",
     addButton: true,
-  },
-  collectionWithInfo: {
-    type: "collection",
-    title: "Collection with info",
-    fields: basicFields,
-    info: "Info here",
-    infoLink: "https://example.com",
+    validation: { required: true, max: 3, min: 2 },
+    fields: {
+      text: {
+        type: "text",
+        title: "Basic Required",
+        validation: { required: true },
+      },
+    },
   },
   subCollection: {
     type: "collection",
-    title: "Sub Collection",
+    title: "Sub Collection Basic",
     fields: {
       text: {
         type: "text",
@@ -128,11 +110,10 @@ const collectionFieldTest: Fields = {
   subCollectionPopulated: {
     type: "collection",
     title: "Required Sub Collection with all fields",
-    validation: {
-      min: 2,
-      required: true,
-    },
+    info: "Info here",
+    infoLink: "https://example.com",
     addButton: "Add Parent",
+    validation: { required: true },
     fields: {
       ...getFancy("Parent"),
       subCollection: {

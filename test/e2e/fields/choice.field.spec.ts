@@ -4,6 +4,7 @@ import formTest from "@/../test/fixtures/form.fixture";
 const test = formTest({ repo: "fields", contribution: "choice" });
 
 test("choice fields", async ({ f }) => {
+  // TODO move this into fixture
   async function expectText(field: string, text: string) {
     await expect(f.getByLabel(field)).toHaveText(text);
   }

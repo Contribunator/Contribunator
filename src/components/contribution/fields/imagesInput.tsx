@@ -71,7 +71,9 @@ export default function ImagesInput({
               handleRemove={() => {
                 const newValues = [...images];
                 newValues.splice(i, 1);
-                helpers.setValue(newValues.length >= 1 ? newValues : undefined);
+                helpers.setValue(
+                  newValues.length === 0 ? undefined : newValues
+                );
               }}
             />
           ))}

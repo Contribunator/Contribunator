@@ -178,8 +178,8 @@ export default function app({
         links: {
           title: "Other Links",
           type: "collection",
-          limit: 5,
           addButton: "Add another link",
+          validation: { max: 5 },
           fields: {
             name: {
               title: "Link Name",

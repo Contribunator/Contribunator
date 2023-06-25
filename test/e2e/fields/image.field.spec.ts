@@ -94,7 +94,7 @@ test("image field", async ({ f }) => {
     "kitten.jpg",
     "kitten with alt"
   );
-  // await f.uploadAndCrop("Images with full options (1 remaining)", "dice.png");
+
   await expect(f.getByLabel("Images with full options")).toHaveText(
     "Images with full options Remove Remove Remove"
   );
@@ -144,44 +144,46 @@ test("image field", async ({ f }) => {
           type: "jpeg",
         },
       ],
-      repo: "fields",
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-image",
         changes: [
           {
             files: {
-              "imageBasic.jpeg": "blob,[XjjDgGJlB7]",
-              "imageFull.jpeg": "blob,[XjjDgGJlB7]",
-              "imagesBasic-0.jpeg": "blob,[XjjDgGJlB7]",
-              "imagesBasic-1.png": "blob,[NMmsnTn0xi]",
-              "imagesBasic-2.png": "blob,[NMmsnTn0xi]",
-              "imagesBasic-3.jpeg": "blob,[XjjDgGJlB7]",
-              "imagesFull-0.png": "blob,[iiqSwrdoe1]",
-              "imagesFull-1.jpeg": "blob,[XjjDgGJlB7]",
-              "imagesFull-2.jpeg": "blob,[XjjDgGJlB7]",
-              "test.yaml": `imageBasic.jpeg:
+              "1-imageBasic.jpeg": "blob,[XjjDgGJlB7]",
+              "2-imageFull.jpeg": "blob,[XjjDgGJlB7]",
+              "3-imagesBasic-0.jpeg": "blob,[XjjDgGJlB7]",
+              "4-imagesBasic-1.png": "blob,[NMmsnTn0xi]",
+              "5-imagesBasic-2.png": "blob,[NMmsnTn0xi]",
+              "6-imagesBasic-3.jpeg": "blob,[XjjDgGJlB7]",
+              "7-imagesFull-0.png": "blob,[iiqSwrdoe1]",
+              "8-imagesFull-1.jpeg": "blob,[XjjDgGJlB7]",
+              "9-imagesFull-2.jpeg": "blob,[XjjDgGJlB7]",
+              "test.yaml": `imageBasic:
+  data: "[image data]"
   type: jpeg
-imageFull.jpeg:
+imageFull:
+  data: "[image data]"
+  type: jpeg
   alt: My alt text
-  type: jpeg
-imagesBasic-0.jpeg:
-  type: jpeg
-imagesBasic-1.png:
-  type: png
-imagesBasic-2.png:
-  type: png
-imagesBasic-3.jpeg:
-  type: jpeg
-imagesFull-0.png:
-  alt: Some Dice
-  type: png
-imagesFull-1.jpeg:
-  type: jpeg
-imagesFull-2.jpeg:
-  alt: kitten with alt
-  type: jpeg
+imagesBasic:
+  - data: "[image data]"
+    type: jpeg
+  - data: "[image data]"
+    type: png
+  - data: "[image data]"
+    type: png
+  - data: "[image data]"
+    type: jpeg
+imagesFull:
+  - data: "[image data]"
+    type: png
+    alt: Some Dice
+  - data: "[image data]"
+    type: jpeg
+  - data: "[image data]"
+    type: jpeg
+    alt: kitten with alt
 `,
             },
           },

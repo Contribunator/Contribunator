@@ -16,7 +16,7 @@ export default function FieldHeader({
 }) {
   if (!title && !error && !info) return null;
   return (
-    <label className="label" htmlFor={name}>
+    <label className="label space-x-6" htmlFor={name}>
       {title && <span className="label-text text-left">{title}</span>}
       {error ? (
         <ErrorMessage error={error} />

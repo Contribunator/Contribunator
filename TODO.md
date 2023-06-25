@@ -5,22 +5,25 @@ Below are the upcoming features and improvements.
 ## Now
 
 - kitchen sink: test empty tags(?)
-- refactor tests to use clickDropdownItem
-- Cleanup, replace all `any` types
 - More API-only tests, with malicious, nested validation requests
-- figure out how to have custom mocktokit responses for tests
 - tweet options tests
-
-- Move ETC-only contributions/tests elsewhere
+- remove image limit, use validation max
+- test reserved fields
+- Move ETC-only contributions/tests elsewhere?
 - etc: double check links (repos)
-
+- merge images and collection logic
 - Update commit to pass all details in an object for easy manipulation
 - Automatically create image filename (slugify etc.) and test
-- Way to pass fetched data to prMetadata for PR messages
+- Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
+- Mocktokit read test data from files for extensibility
 - have env vars be validated in config build step
+- project structure, sandbox userland code (e.g. commit)
+- optimize with dynamic imports everywhere
+
 - update docs, use "nocode" somewhere
   - Add a note about enabled delete branches
   - update need to "Request user authorization (OAuth) during installation" (we dont)
+  - don't need to out-out of refresh user access token
 
 ## Next
 
@@ -31,8 +34,8 @@ Below are the upcoming features and improvements.
 - Thread Tweets
 - Tweet Threads
 - Option to add tags to PR (e.g. Content, Bot)
-- User access token refreshing
 - Collapse dropdown if sub-item not selected
+- Cleanup, replace all `any` types
 
 ## Later
 
@@ -64,3 +67,4 @@ Below are the upcoming features and improvements.
 - github.contributions.app, allow anyone to submit PR config, with form builder
 - Option to only allow maintainers or certain github accounts to make contribution based on repo
 - support private repos
+- button for github repos to generate a form screenshot
