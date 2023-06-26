@@ -4,8 +4,9 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- have env vars be validated in config build step
 - optimize with dynamic imports everywhere, only load requested contribution(s) on page load
+- have env vars be validated in config build step
+
 - Automatically create image filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation

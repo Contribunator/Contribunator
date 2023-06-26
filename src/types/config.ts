@@ -1,4 +1,8 @@
-import type { Contribution } from "./contribution";
+import type {
+  Contribution,
+  ContributionConfig,
+  ContributionOptions,
+} from "./contribution";
 
 export type AuthType = "github" | "captcha" | "api" | "anon";
 
@@ -16,15 +20,13 @@ export type Config = {
 export type Repo = Omit<Config, "repos"> & {
   name: string;
   githubUrl: string;
-  contributions: { [key: string]: Contribution };
+  contributions: { [key: string]: ContributionConfig };
 };
-
-export type ContributionLoader = (name: string, repo: Repo) => Contribution;
 
 export type UserConfig = Partial<Omit<Config, "repos">> & {
   repos?: {
     [key: string]: Partial<Omit<Repo, "contributions">> & {
-      contributions: { [key: string]: ContributionLoader };
+      contributions: { [key: string]: ContributionOptions };
     };
   };
 };

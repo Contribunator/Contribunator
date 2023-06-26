@@ -1,9 +1,9 @@
-import { PrMetadata, ContributionOptions } from "@/types";
+import { PrMetadata, Contribution } from "@/types";
 
 export default function generatePrMetadata({
   title,
   form,
-}: ContributionOptions): PrMetadata {
+}: Omit<Contribution, "schema" | "prMetadata">): PrMetadata {
   const prMetadata: PrMetadata = (fields) => {
     const itemName = fields.title || fields.name;
     return {

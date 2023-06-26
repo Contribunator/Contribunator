@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import type {
   Choice,
   Collection,
+  Contribution,
   ContributionOptions,
   Fields,
   NestedChoiceOptions,
@@ -20,7 +21,7 @@ export const RESERVED = [
 ];
 
 export default function generateSchema(
-  contribution: ContributionOptions & { name: string },
+  contribution: Omit<Contribution, "schema" | "prMetadata">,
   repo: Repo
 ): Yup.ObjectSchema<any> {
   const buildSchema = (fields: Fields) => {

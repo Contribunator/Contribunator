@@ -16,28 +16,30 @@ const demoConfig: UserConfig = {
         simple: contribution({
           title: "A Simple Test",
           description: "Submit a message that will be appended to the readme.",
-          useFilesOnServer: {
-            readme: "README.md",
-          },
-          commit: async ({ body, files: { readme } }) => ({
-            files: {
-              "README.md": `${readme.content}
+          load: async () => ({
+            useFilesOnServer: {
+              readme: "README.md",
+            },
+            commit: async ({ body, files: { readme } }) => ({
+              files: {
+                "README.md": `${readme.content}
 ---
 
 ${timestamp()}: ${body.text}
 `,
-            },
-          }),
-          form: {
-            fields: {
-              text: {
-                type: "text",
-                title: "Your message",
-                placeholder: "e.g. Hello, World!",
-                validation: { required: true },
+              },
+            }),
+            form: {
+              fields: {
+                text: {
+                  type: "text",
+                  title: "Your message",
+                  placeholder: "e.g. Hello, World!",
+                  validation: { required: true },
+                },
               },
             },
-          },
+          }),
         }),
       },
     },

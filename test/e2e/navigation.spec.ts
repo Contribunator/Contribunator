@@ -2,9 +2,8 @@ import { test, expect } from "@playwright/test";
 import { buildConfig } from "@/lib/config";
 import testConfig from "@/../test/configs/test.config";
 
-const { repos } = buildConfig(testConfig);
-
 test("landing page and contribution list", async ({ page }) => {
+  const { repos } = await buildConfig(testConfig);
   await page.goto("/");
   await expect(page).toHaveTitle("E2E C11R");
   await expect(page.getByText("E2E C11R")).toBeVisible();
@@ -16,7 +15,8 @@ test("landing page and contribution list", async ({ page }) => {
     const r = page.getByText(repo.title, { exact: true }).locator("..");
     await expect(r).toContainText(repo.description);
     await expect(r).toContainText(repo.githubUrl);
-    for (const contribution of Object.values(repo.contributions)) {
+    for (const name of Object.keys(repo.contributions)) {
+      const contribution = { ...repo.contributions[name], name };
       // hidden contributions should not be listed
       if (contribution.hidden) {
         await expect(r).not.toContainText(contribution.title);

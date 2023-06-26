@@ -89,7 +89,6 @@ export default function CollectionInput({
                   <RemoveButton
                     className="btn-xs -top-6 right-2"
                     onClick={() => {
-                      console.log(collection);
                       const newValues = [...collection];
                       newValues.splice(i, 1);
                       helpers.setValue(

@@ -10,19 +10,22 @@ import video from "@/lib/contribution/etc/video";
 import fieldTests, { combined } from "./fields";
 
 const testContribution: ContributionOptions = {
-  commit: async ({ body }: { body: { text: string } }) => ({
-    files: { "test.md": body.text },
-  }),
-  form: {
-    fields: {
-      text: {
-        type: "text",
-        title: "Text",
-        validation: { required: true },
+  load: async () => ({
+    commit: async ({ body }: { body: { text: string } }) => ({
+      files: { "test.md": body.text },
+    }),
+    form: {
+      fields: {
+        text: {
+          type: "text",
+          title: "Text",
+          validation: { required: true },
+        },
       },
     },
-  },
+  }),
 };
+
 const test = contribution(testContribution);
 
 const testConfig: UserConfig = {
