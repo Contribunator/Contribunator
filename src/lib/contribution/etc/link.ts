@@ -1,4 +1,8 @@
-import _ from "lodash";
+import get from "lodash/get";
+import mapKeys from "lodash/mapKeys";
+import set from "lodash/set";
+import sortBy from "lodash/sortBy";
+
 import { HiLink } from "react-icons/hi";
 import {
   FaDiscord,
@@ -94,15 +98,15 @@ export default function link({
         // TODO itemsKey into an option?
         const itemsKey = `items.${sourceKey}.items`;
         // upsert the existing object, sort by name
-        const oldLinks = _.get(links.parsed || {}, itemsKey, {});
+        const oldLinks = get(links.parsed || {}, itemsKey, {});
         const newLinks: any = {};
 
-        oldLinks[fields.name] = _.mapKeys(
+        oldLinks[fields.name] = mapKeys(
           fields,
           (_v, key) => keyMap[key] || key
         );
 
-        _.sortBy(Object.keys(oldLinks), (key) => key.toLowerCase()).forEach(
+        sortBy(Object.keys(oldLinks), (key) => key.toLowerCase()).forEach(
           (key) => {
             newLinks[key] = oldLinks[key];
           }
@@ -110,7 +114,7 @@ export default function link({
 
         return {
           yaml: {
-            [links.path]: _.set(links.parsed || {}, itemsKey, newLinks),
+            [links.path]: set(links.parsed || {}, itemsKey, newLinks),
           },
         };
       },

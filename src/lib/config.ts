@@ -1,6 +1,6 @@
 // TODO optimize client/server payloads
 
-import { memoize } from "lodash";
+import memoize from "lodash/memoize";
 
 import userConfig from "@/../contribunator.config";
 

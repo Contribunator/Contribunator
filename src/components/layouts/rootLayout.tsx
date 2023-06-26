@@ -1,8 +1,8 @@
 import Footer from "@/components/common/footer";
 
 // @ts-ignore
-import { HighlightInit } from "@highlight-run/next/highlight-init";
-import { highlightProject } from "@/lib/env";
+// import { highlightProject } from "@/lib/env";
+// only load highlight if we need it
 
 export default function RootLayout({
   children,
@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      {highlightProject && (
+      {/* {highlightProject && (
         <HighlightInit
           projectId={highlightProject}
           tracingOrigins
@@ -21,7 +21,7 @@ export default function RootLayout({
             urlBlocklist: [],
           }}
         />
-      )}
+      )} */}
       <html lang="en">
         <body className="flex min-h-screen text-center items-center flex-col py-6">
           {children}

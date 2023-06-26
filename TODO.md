@@ -2,17 +2,17 @@
 
 Below are the upcoming features and improvements.
 
-## Now
+## Merge
 
-- optimize with dynamic imports everywhere, only load requested contribution(s) on page load
 - have env vars be validated in config build step
+- More API-only tests, with malicious, nested validation requests
+- Move ETC-only contributions/tests elsewhere?
+
+## Then
 
 - Automatically create image filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation
-
-- More API-only tests, with malicious, nested validation requests
-- Move ETC-only contributions/tests elsewhere?
 
 - Option to request add tags and review for PRs
 

@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import { ObjectSchema, array, object, string } from "yup";
 
 import type {
   Choice,
@@ -23,7 +23,7 @@ export const RESERVED = [
 export default function generateSchema(
   contribution: Omit<Contribution, "schema" | "prMetadata">,
   repo: Repo
-): Yup.ObjectSchema<any> {
+): ObjectSchema<any> {
   const buildSchema = (fields: Fields) => {
     const schema: any = {};
 
@@ -43,15 +43,15 @@ export default function generateSchema(
       // recursively build if we have a collection
       if (field.type === "collection") {
         // TODO, prepend field name to nested fields
-        schema[name] = Yup.array();
+        schema[name] = array();
         const subSchema = buildSchema((field as Collection).fields);
         // TODO api test empty arrays and require them
-        schema[name] = schema[name].of(Yup.object(subSchema));
+        schema[name] = schema[name].of(object(subSchema));
       }
 
       // otherwise generate the schema
       if (type === "text") {
-        schema[name] = Yup.string();
+        schema[name] = string();
       }
 
       if (type === "choice") {
@@ -74,16 +74,16 @@ export default function generateSchema(
         getOptions(choiceField.options);
 
         if (choiceField.multiple) {
-          schema[name] = Yup.array();
-          schema[name] = schema[name].of(Yup.string().oneOf(choices));
+          schema[name] = array();
+          schema[name] = schema[name].of(string().oneOf(choices));
         } else {
-          schema[name] = Yup.string();
+          schema[name] = string();
           schema[name] = schema[name].oneOf(choices);
         }
       }
 
       if (["image", "images"].includes(type)) {
-        let data = Yup.string().test({
+        let data = string().test({
           test(data = "", ctx) {
             if (!data) {
               return true;
@@ -110,16 +110,16 @@ export default function generateSchema(
           data = data.required(reqText);
         }
 
-        const image = Yup.object({
+        const image = object({
           data,
-          type: Yup.string()
+          type: string()
             .oneOf(["png", "jpg", "jpeg"])
             .when("data", {
               is: (data: string) => !!data,
               then: (schema) => schema.required(),
             }),
-          alt: Yup.string().max(999),
-          editing: Yup.string().test({
+          alt: string().max(999),
+          editing: string().test({
             test(data = "", ctx) {
               if (data) {
                 return ctx.createError({
@@ -131,7 +131,7 @@ export default function generateSchema(
           }),
         });
         if (type === "images") {
-          schema[name] = Yup.array().of(image);
+          schema[name] = array().of(image);
         } else {
           schema[name] = image;
         }
@@ -162,18 +162,18 @@ export default function generateSchema(
     }
   });
 
-  return Yup.object({
+  return object({
     // contribution specific schema
     ...buildSchema(contribution.form.fields),
     // common schema
-    customTitle: Yup.string().max(100, "Title is too long"),
-    customMessage: Yup.string(),
-    repo: Yup.string().oneOf([repo.name]).required(),
-    contribution: Yup.string().oneOf([contribution.name]).required(),
-    authorization: Yup.string()
+    customTitle: string().max(100, "Title is too long"),
+    customMessage: string(),
+    repo: string().oneOf([repo.name]).required(),
+    contribution: string().oneOf([contribution.name]).required(),
+    authorization: string()
       .oneOf(repo.authorization, "Invalid authorization")
       .required(),
-    captcha: Yup.string().when(["authorization"], {
+    captcha: string().when(["authorization"], {
       is: (authorization: string) => authorization === "captcha",
       then: (schema) => {
         let message = "Please complete the CAPTCHA check";
