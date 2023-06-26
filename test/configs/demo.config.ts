@@ -2,6 +2,7 @@ import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
 import timestamp from "@/lib/helpers/timestamp";
 import { UserConfig } from "@/types";
+import { combined } from "./fields";
 
 const demoConfig: UserConfig = {
   authorization: ["github", "captcha"],
@@ -10,6 +11,7 @@ const demoConfig: UserConfig = {
       title: "Sample Repo",
       description: "A demo repository to test out Contribunator",
       contributions: {
+        combined,
         tweet: tweet({
           description: "Here's my custom description",
         }),

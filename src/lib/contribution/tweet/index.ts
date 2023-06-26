@@ -19,11 +19,8 @@ export default function tweet(opts: TweetConfigInput): ContributionConfig {
     icon: FaTwitter,
     color: "blue",
     ...opts,
-    // Check this works clientside
     load: async () => {
-      console.log("loading tweet");
-      const tweet = await import("./tweet.loader");
-      return tweet.default(opts);
+      return (await import("./tweet.loader")).default(opts);
     },
   });
 }
