@@ -1,8 +1,4 @@
-// TODO optimize client/server payloads
-
 import memoize from "lodash/memoize";
-
-import userConfig from "@/../contribunator.config";
 
 // uncomment to enable hot reload during tests development
 // import "@/../test/configs/test.config";
@@ -14,8 +10,7 @@ import {
   UserConfig,
 } from "@/types";
 
-// TODO validation
-import { demo, e2e, validate } from "./env";
+import { demo, e2e, isServer } from "@/lib/env";
 
 export const DEFAULTS: Config = {
   authorization: ["github"],
@@ -30,31 +25,23 @@ export const DEFAULTS: Config = {
   repos: {},
 };
 
-async function getUserConfig() {
+async function resolveConfig() {
   if (e2e) {
-    return (await import("../../test/configs/test.config")).default;
+    return (await import("@/../test/configs/test.config")).default;
+  } else if (demo) {
+    return (await import("@/../test/configs/demo.config")).default;
   }
-  if (demo) {
-    return (await import("../../test/configs/demo.config")).default;
-  }
-  return userConfig;
+  return (await import("@/../contribunator.config")).default;
 }
 
-// exported for testing
-export async function buildConfig(
-  userConfig: UserConfig,
-  repoName?: string,
-  contributionName?: string
-) {
+// inherit and decorate the repo configs, exported for testing
+export function buildConfig(userConfig: UserConfig): Config {
   const { repos = {}, ...mainConfig } = userConfig;
-
   const config: any = {
     ...DEFAULTS,
     ...mainConfig,
     repos: {},
   };
-
-  // inherit and decorate the repo configs
   Object.entries(repos).forEach(([name, repo]) => {
     const merged = { ...config, ...repo };
     config.repos[name] = {
@@ -63,7 +50,27 @@ export async function buildConfig(
       githubUrl: `https://github.com/${merged.owner}/${name}`,
     };
   });
+  return config;
+}
 
+const getUserConfig = memoize(async function () {
+  const userConfig = await resolveConfig();
+  const config = buildConfig(userConfig);
+  if (isServer) {
+    (await import("@/lib/env.server")).validateEnv(config);
+  }
+  return config;
+});
+
+async function getConfig(): Promise<Config>;
+async function getConfig(repo: string): Promise<ConfigWithRepo>;
+async function getConfig(
+  repo: string,
+  contribution: string
+): Promise<ConfigWithContribution>;
+async function getConfig(repoName?: string, contributionName?: string) {
+  // get the resolved and transformed conffig
+  const config = await getUserConfig();
   // that's all we need if no repo is passed
   if (!repoName) {
     return config as Config;
@@ -86,21 +93,6 @@ export async function buildConfig(
   const { load } = repo.contributions[contributionName];
   const contribution = await load(contributionName, repo);
   return { ...config, repo, contribution } as ConfigWithContribution;
-}
-
-async function getConfig(): Promise<Config>;
-async function getConfig(repo: string): Promise<ConfigWithRepo>;
-async function getConfig(
-  repo: string,
-  contribution: string
-): Promise<ConfigWithContribution>;
-async function getConfig(repoName?: string, contributionName?: string) {
-  // todo option to pass config for testing
-  const userConfig = await getUserConfig();
-  return buildConfig(userConfig, repoName, contributionName);
-  // validate - todo this should be done each step instead of at the end
-  // validate(config);
-  // return config;
 }
 
 export default memoize(getConfig, (...args) => JSON.stringify(args));

@@ -2,32 +2,33 @@ import Link from "next/link";
 import { Route } from "next";
 import Image from "next/image";
 
-const sha = process.env.VERCEL_GIT_COMMIT_SHA;
+const buildSha = process.env.VERCEL_GIT_COMMIT_SHA;
 const githubSource =
   process.env.NEXT_PUBLIC_GITHUB_SOURCE ||
   "https://github.com/Contribunator/Contribunator";
-const githubLink = (
-  sha ? `${githubSource}/commit/${sha}` : githubSource
-) as Route;
 
-const teamName = process.env.NEXT_PUBLIC_VERCEL_OSS_TEAM;
-const vercelLink =
-  `https://vercel.com?utm_source=${teamName}&utm_campaign=oss` as Route;
+export const githubLink = buildSha
+  ? `${githubSource}/commit/${buildSha}`
+  : githubSource;
+
+const vercelTeam = process.env.NEXT_PUBLIC_VERCEL_OSS_TEAM;
+export const vercelLink =
+  vercelTeam && `https://vercel.com?utm_source=${vercelTeam}&utm_campaign=oss`;
 
 export default function Footer() {
   return (
     <div className="flex flex-col space-y-6 pt-10">
       <Link
-        href={githubLink}
+        href={githubLink as Route}
         target="_blank"
         className="mt-10 text-xs font-mono text-base-300"
       >
         Contribunator@
         {process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 6) || "local"}
       </Link>
-      {teamName && (
+      {vercelLink && (
         <Link
-          href={vercelLink}
+          href={vercelLink as Route}
           target="_blank"
           className="opacity-40 hover:opacity-100"
         >

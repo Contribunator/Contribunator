@@ -4,17 +4,12 @@ Below are the upcoming features and improvements.
 
 ## Merge
 
-- have env vars be validated in config build step
 - More API-only tests, with malicious, nested validation requests
-- Move ETC-only contributions/tests elsewhere?
-
-## Then
-
-- Automatically create image filename (slugify etc.) and test
+- Automatically pull out any images, generate filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation
-
-- Option to request add tags and review for PRs
+- Update Videos to have better PR names
+- Move ETC-only contributions/tests elsewhere?
 
 ## Then Update Docs
 
@@ -25,47 +20,48 @@ Below are the upcoming features and improvements.
 
 ## Next Features
 
+- Option to request add tags and review for PRs
 - i18n support (ETC)
 - Add contributor name to ETC prs
 - Single repo layout
 - Poll Tweets
 - Thread Tweets
 - Tweet Threads
-- Option to add tags to PR (e.g. Content, Bot)
 - Collapse dropdown if sub-item not selected
 - Cleanup, replace all `any` types
 
 ## Later
 
+### Chores
+
 - merge images and collection logic
-- Required ALT image field
-- Dynamic loading of configs from github?
 - Improved error/conf feedback in the UI (not alert)
-- CRUD
 - OG Image
 - Convert the has/hasNo back to regex now we don't need to serialize?
-- Checkbox to Star Repo `starRepoForAuthenticatedUser`
+- Separate serer and client side code? (commit, `fetchOnServer`, etc.)
+
+### Features
+
 - Addition of media, animation, GIFs, video
-- Automation Integrations
-- Option to add merge date
-- dynamically load configs / moctokit
-- Code
-- Radios
-- Generic Files
-- Checkbox
-- Number
+- Dynamic loading of configs from github?
+- Themes picker, daisy-ui compatible, and rounded etc.
+- Required ALT image field
+- Checkbox to Star Repo `starRepoForAuthenticatedUser`
+- Option to add merge schedule date
+- Code, Radios, Checkbox, Number (range)
+- CRUD
 
-## Maybe
+## v1
 
-- seperate form field tests individually
 - handle repo owner/repo/name conflicts, "slug" attribute?
 - Contribution-specific authorization
 - Allow multiple repos, set up a public contribunator instance, with config updates
 - github.contributions.app, allow anyone to submit PR config, with form builder
 - Option to only allow maintainers or certain github accounts to make contribution based on repo
 - support private repos
-- button for github repos to generate a form screenshot
 - project structure, sandbox userland code (e.g. commit)
+
+- button for github repos to generate a form screenshot
 
 ## Judgement Day
 
@@ -74,4 +70,5 @@ Below are the upcoming features and improvements.
 ## Rise of the Machines
 
 - AI to generate description/suggest improvement
+- AI to generate PRs on a schedule based on past PRs
 - API Keys

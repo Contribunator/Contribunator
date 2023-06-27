@@ -1,4 +1,4 @@
-import { e2e, youtubeApi } from "@/lib/env";
+import { e2e } from "@/lib/env";
 
 type YoutubeVideo = {
   title: string;
@@ -20,7 +20,8 @@ export default async function fetchYoutubeVideo(
       publishedAt: "2021-01-01T00:00:00Z",
     };
   }
-  if (!youtubeApi) {
+  // TODO move this to fetchData
+  if (!process.env.YOUTUBE_API_KEY) {
     throw new Error("YOUTUBE_API_KEY not set");
   }
   const res = await fetch(
