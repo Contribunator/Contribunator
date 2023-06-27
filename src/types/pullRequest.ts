@@ -18,6 +18,19 @@ export type FetchedFile = {
 
 export type FetchedFiles = { [name: string]: FetchedFile };
 
+export type ExtractedImagesFlat = {
+  [key: string]: string;
+};
+
+export type ExtractedImagesDeep = {
+  [key: string]: ExtractedImagesDeep | { [key: string]: string };
+};
+
+export type ExtractedImages = {
+  flat: ExtractedImagesFlat;
+  deep: ExtractedImagesDeep;
+};
+
 export type PRTransformInputs = {
   body: any;
   config: ConfigWithContribution;
@@ -31,6 +44,10 @@ export type TransformedPR = {
 };
 
 export type CommitInputs = {
+  images: ExtractedImages;
+  title: string;
+  message: string;
+  branch: string;
   config: ConfigWithContribution;
   body: any;
   fields: any;

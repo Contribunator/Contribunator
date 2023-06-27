@@ -50,7 +50,7 @@ export default function CollectionInput({
         <FieldHeader
           name={name}
           title={title && `${title}${remaining}`}
-          error={typeof meta.error === "string" && meta.error}
+          error={meta.error}
           info={info}
           infoLink={infoLink}
         />

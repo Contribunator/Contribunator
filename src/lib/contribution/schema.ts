@@ -4,7 +4,6 @@ import type {
   Choice,
   Collection,
   Contribution,
-  ContributionOptions,
   Fields,
   NestedChoiceOptions,
   RegexValidation,
@@ -28,6 +27,8 @@ export default function generateSchema(
     const schema: any = {};
 
     Object.entries(fields).forEach(([name, field]) => {
+      const title = field.title || name;
+
       const { type, validation = {} } = field;
 
       // skip generation if not an input field
@@ -42,11 +43,18 @@ export default function generateSchema(
 
       // recursively build if we have a collection
       if (field.type === "collection") {
-        // TODO, prepend field name to nested fields
         schema[name] = array();
         const subSchema = buildSchema((field as Collection).fields);
-        // TODO api test empty arrays and require them
-        schema[name] = schema[name].of(object(subSchema));
+        schema[name] = schema[name]
+          .of(
+            object(subSchema)
+              .test({
+                message: `${title} has an empty item`,
+                test: (data) => Object.keys(data).length > 0,
+              })
+              .noUnknown(`${title} has an invalid field`)
+          )
+          .min(1, `${title} must not be empty`);
       }
 
       // otherwise generate the schema
@@ -106,7 +114,7 @@ export default function generateSchema(
           const reqText =
             typeof field.validation.required === "string"
               ? field.validation.required
-              : `${field.title || name} is a required field`;
+              : `${title} is a required field`;
           data = data.required(reqText);
         }
 

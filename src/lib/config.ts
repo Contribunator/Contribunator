@@ -3,7 +3,7 @@ import memoize from "lodash/memoize";
 // uncomment to enable hot reload during tests development
 // import "@/../test/configs/test.config";
 
-import {
+import type {
   Config,
   ConfigWithContribution,
   ConfigWithRepo,

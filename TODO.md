@@ -4,11 +4,13 @@ Below are the upcoming features and improvements.
 
 ## Merge
 
-- More API-only tests, with malicious, nested validation requests
-- Automatically pull out any images, generate filename (slugify etc.) and test
 - Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation
+- Refactor commits to use new `fetchDataOnServer` and extracted images
 - Update Videos to have better PR names
+- Rename "Fields" to "Data" for parsed field data.
+
+- Test demo/etc works with new env vars
 - Move ETC-only contributions/tests elsewhere?
 
 ## Then Update Docs

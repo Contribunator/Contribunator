@@ -147,7 +147,7 @@ test("app submits full", async ({ f }) => {
 
 App Description`,
       image: {
-        data: "data:image/png;base64,[x7hJS3EdHn]",
+        data: "data:image/png;base64,iVBORw...",
         type: "png",
       },
       ipfsFrontend: "https://ipfs.link",
@@ -176,7 +176,7 @@ App Description`,
           {
             files: {
               "content/services/apps/images/TIMESTAMP-my-test-app.png":
-                "blob,[8TpoEXPdsU]",
+                "[converted:png:iVBORw]",
               "test/etc/apps.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-

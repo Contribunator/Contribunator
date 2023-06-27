@@ -1,43 +1,8 @@
-import crypto from "crypto";
 import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
 import { DEFAULTS } from "@/lib/config";
-
-function trimImageData(str: string) {
-  let type = "blob";
-  if (str.startsWith("data:image")) {
-    type = str.split(",")[0];
-  }
-  const hash = crypto
-    .createHash("sha1")
-    .update(str)
-    .digest("base64")
-    .slice(0, 10);
-  return `${type},[${hash}]`;
-}
-
-const deepFormatImageData = (obj: any): any => {
-  if (typeof obj !== "object") {
-    return obj;
-  }
-  if (Array.isArray(obj)) {
-    return obj.map(deepFormatImageData);
-  }
-  return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => {
-      if (
-        typeof value === "string" &&
-        (value.startsWith("data:image") ||
-          key.endsWith(".jpeg") ||
-          key.endsWith(".png"))
-      ) {
-        return [key, trimImageData(value)];
-      }
-      return [key, deepFormatImageData(value)];
-    })
-  );
-};
+import { deepTrimImageData } from "./deepTrimImageData";
 
 type FormFixtureProps = {
   baseURL?: string;
@@ -123,7 +88,7 @@ export class FormFixture {
     await this.submitButton.click();
     await this.hasText(testPr.url);
 
-    return deepFormatImageData({ req, res });
+    return { req: deepTrimImageData(req), res };
   }
 
   // asser that validation errors exist

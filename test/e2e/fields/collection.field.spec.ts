@@ -33,7 +33,7 @@ test("collection field", async ({ f }) => {
   );
   await f.getByLabel(rcwb).getByText("Add a new item").click();
   await expect(f.getByLabel(rcwb)).toHaveText(
-    `${rcwb}Basic Text RemoveBasic Text Remove`
+    `${rcwb}${rcwb} has an empty itemBasic Text RemoveBasic Text Remove`
   );
   await f.setCollectionText(rcwb, [1, "Basic Text"], "Hello World 3");
   await expect(f.getByLabel(rcwb)).toHaveText(
@@ -76,7 +76,7 @@ test("collection field", async ({ f }) => {
 
   await f.getByLabel(`${cwblm} (2 remaining)`).getByText("Add item").click();
   await expect(f.getByLabel(`${cwblm} (1 remaining)`)).toHaveText(
-    `${cwblm} (1 remaining)Basic Required RemoveBasic RequiredBasic Required is a required field Remove`
+    `${cwblm} (1 remaining)Basic Required is a required fieldBasic Required RemoveBasic RequiredBasic Required is a required field Remove`
   );
   await f.setCollectionText(
     `${cwblm} (1 remaining)`,
@@ -89,7 +89,7 @@ test("collection field", async ({ f }) => {
   await f.getByLabel(`${cwblm} (1 remaining)`).getByText("Add item").click();
 
   await expect(f.getByLabel(`${cwblm} (0 remaining)`)).toHaveText(
-    `${cwblm} (0 remaining)Basic Required RemoveBasic Required RemoveBasic RequiredBasic Required is a required field Remove`
+    `${cwblm} (0 remaining)Basic Required is a required fieldBasic Required RemoveBasic Required RemoveBasic RequiredBasic Required is a required field Remove`
   );
   await f.setCollectionText(
     `${cwblm} (0 remaining)`,
@@ -132,12 +132,12 @@ test("collection field", async ({ f }) => {
   const scpsc = "Sub Collection";
 
   await expect(f.getByLabel(scp)).toHaveText(
-    `${scp}${scp} is a required fieldParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent ImagePNG or JPEG, up to 4.3MBParent Images (4 remaining)PNG or JPEG, up to 4.3MB${scpsc}Sub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB`
+    `Required Sub Collection with all fieldsRequired Sub Collection with all fields is a required fieldParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent ImagePNG or JPEG, up to 4.3MBParent Images (4 remaining)PNG or JPEG, up to 4.3MBSub CollectionSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB`
   );
   await f.setText("Parent Title", "title of parent");
   // once this is edited, the required image field error will appear
   await expect(f.getByLabel(scp)).toHaveText(
-    `${scp}Info hereParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent ImagePNG or JPEG, up to 4.3MBParent Images (4 remaining)PNG or JPEG, up to 4.3MBParent Images is a required field${scpsc}${scpsc} is a required fieldSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB RemoveAdd Parent`
+    `Required Sub Collection with all fieldsSub Collection is a required fieldParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent ImagePNG or JPEG, up to 4.3MBParent Images (4 remaining)PNG or JPEG, up to 4.3MBParent Images is a required fieldSub CollectionSub Collection is a required fieldSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB RemoveAdd Parent`
   );
   await f.clickButton("Parent Color", "Parent Red");
   await f.uploadAndCrop("Parent Image", "kitten.jpg");
@@ -152,20 +152,20 @@ test("collection field", async ({ f }) => {
     "A Kitten"
   );
   await expect(f.getByLabel(scp)).toHaveText(
-    `${scp}Info hereParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MB${scpsc}${scpsc} is a required fieldSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB RemoveAdd Parent`
+    `Required Sub Collection with all fieldsSub Collection is a required fieldParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MBSub CollectionSub Collection is a required fieldSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MB RemoveAdd Parent`
   );
   // now do the same for sub
   await f.setText("Sub Title", "title of sub");
   // the sub validation should appear
   await expect(f.getByLabel(scp)).toHaveText(
-    `${scp}Info hereParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MB${scpsc}Sub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MBSub Images is a required field RemoveAdd Sub RemoveAdd Parent`
+    `Required Sub Collection with all fieldsSub Images is a required fieldParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MBSub CollectionSub Images is a required fieldSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub ImagePNG or JPEG, up to 4.3MBSub Images (4 remaining)PNG or JPEG, up to 4.3MBSub Images is a required field RemoveAdd Sub RemoveAdd Parent`
   );
   await f.clickButton("Sub Color", "Sub Green");
   await f.uploadAndCrop("Sub Image", "dice.png");
   await f.uploadAndCrop("Sub Images (4 remaining)", "kitten.jpg", "Sub Kitten");
   await f.uploadAndCrop("Sub Images (3 remaining)", "dice.png", "Sub dice");
   await expect(f.getByLabel(scp)).toHaveText(
-    `${scp}Info hereParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MB${scpsc}Sub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub Image Remove Remove RemoveSub Images (2 remaining)PNG or JPEG, up to 4MB RemoveAdd Sub RemoveAdd Parent`
+    `Required Sub Collection with all fieldsInfo hereParent TitleParent ColorNo SelectionParent BlueParent RedParent GreenParent Image Remove Remove RemoveParent Images (2 remaining)PNG or JPEG, up to 4MBSub CollectionSub TitleSub ColorNo SelectionSub BlueSub RedSub GreenSub Image Remove Remove RemoveSub Images (2 remaining)PNG or JPEG, up to 4MB RemoveAdd Sub RemoveAdd Parent`
   );
 
   expect(await f.submit()).toMatchObject({
@@ -227,18 +227,18 @@ test("collection field", async ({ f }) => {
         {
           choice: "red",
           image: {
-            data: "data:image/jpeg;base64,[vM7xIELqet]",
+            data: "data:image/jpeg;base64,/9j/4A...",
             type: "jpeg",
           },
           images: [
             {
               alt: "Some cool dice",
-              data: "data:image/png;base64,[KncJzlfHSB]",
+              data: "data:image/png;base64,iVBORw...",
               type: "png",
             },
             {
               alt: "A Kitten",
-              data: "data:image/jpeg;base64,[vM7xIELqet]",
+              data: "data:image/jpeg;base64,/9j/4A...",
               type: "jpeg",
             },
           ],
@@ -246,18 +246,18 @@ test("collection field", async ({ f }) => {
             {
               choice: "green",
               image: {
-                data: "data:image/png;base64,[KncJzlfHSB]",
+                data: "data:image/png;base64,iVBORw...",
                 type: "png",
               },
               images: [
                 {
                   alt: "Sub Kitten",
-                  data: "data:image/jpeg;base64,[vM7xIELqet]",
+                  data: "data:image/jpeg;base64,/9j/4A...",
                   type: "jpeg",
                 },
                 {
                   alt: "Sub dice",
-                  data: "data:image/png;base64,[KncJzlfHSB]",
+                  data: "data:image/png;base64,iVBORw...",
                   type: "png",
                 },
               ],
@@ -273,12 +273,6 @@ test("collection field", async ({ f }) => {
         changes: [
           {
             files: {
-              "1-image.jpeg": "blob,[XjjDgGJlB7]",
-              "2-images-0.png": "blob,[NMmsnTn0xi]",
-              "3-images-1.jpeg": "blob,[XjjDgGJlB7]",
-              "4-image.png": "blob,[NMmsnTn0xi]",
-              "5-images-0.jpeg": "blob,[XjjDgGJlB7]",
-              "6-images-1.png": "blob,[NMmsnTn0xi]",
               "test.yaml": `collectionBasic:
   - text: Hello World Again
 collectionWithButton:
@@ -303,29 +297,41 @@ subCollectionPopulated:
   - text: title of parent
     choice: red
     image:
-      data: "[image data]"
+      data: data:image/jpeg;base64,/9j/4A...
       type: jpeg
     images:
-      - data: "[image data]"
+      - data: data:image/png;base64,iVBORw...
         type: png
         alt: Some cool dice
-      - data: "[image data]"
+      - data: data:image/jpeg;base64,/9j/4A...
         type: jpeg
         alt: A Kitten
     subCollection:
       - text: title of sub
         choice: green
         image:
-          data: "[image data]"
+          data: data:image/png;base64,iVBORw...
           type: png
         images:
-          - data: "[image data]"
+          - data: data:image/jpeg;base64,/9j/4A...
             type: jpeg
             alt: Sub Kitten
-          - data: "[image data]"
+          - data: data:image/png;base64,iVBORw...
             type: png
             alt: Sub dice
 `,
+              "timestamp-collection-required-sub-collection-with-all-fields-0-parent-image.jpeg":
+                "[converted:jpeg:/9j/4A]",
+              "timestamp-collection-required-sub-collection-with-all-fields-0-parent-images-0-some-cool-dice.png":
+                "[converted:png:iVBORw]",
+              "timestamp-collection-required-sub-collection-with-all-fields-0-parent-images-1-a-kitten.jpeg":
+                "[converted:jpeg:/9j/4A]",
+              "timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-image.png":
+                "[converted:png:iVBORw]",
+              "timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-images-0-sub-kitten.jpeg":
+                "[converted:jpeg:/9j/4A]",
+              "timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-images-1-sub-dice.png":
+                "[converted:png:iVBORw]",
             },
           },
         ],

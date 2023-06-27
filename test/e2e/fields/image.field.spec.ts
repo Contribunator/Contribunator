@@ -98,49 +98,48 @@ test("image field", async ({ f }) => {
   await expect(f.getByLabel("Images with full options")).toHaveText(
     "Images with full options Remove Remove Remove"
   );
-
   expect(await f.submit()).toMatchObject({
     req: {
       imageBasic: {
-        data: "data:image/jpeg;base64,[vM7xIELqet]",
+        data: "data:image/jpeg;base64,/9j/4A...",
         type: "jpeg",
       },
       imageFull: {
         alt: "My alt text",
-        data: "data:image/jpeg;base64,[vM7xIELqet]",
+        data: "data:image/jpeg;base64,/9j/4A...",
         type: "jpeg",
       },
       imagesBasic: [
         {
-          data: "data:image/jpeg;base64,[vM7xIELqet]",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
         {
-          data: "data:image/png;base64,[KncJzlfHSB]",
+          data: "data:image/png;base64,iVBORw...",
           type: "png",
         },
         {
-          data: "data:image/png;base64,[KncJzlfHSB]",
+          data: "data:image/png;base64,iVBORw...",
           type: "png",
         },
         {
-          data: "data:image/jpeg;base64,[vM7xIELqet]",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
       ],
       imagesFull: [
         {
           alt: "Some Dice",
-          data: "data:image/png;base64,[tYxXRKftKi]",
+          data: "data:image/png;base64,iVBORw...",
           type: "png",
         },
         {
-          data: "data:image/jpeg;base64,[vM7xIELqet]",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
         {
           alt: "kitten with alt",
-          data: "data:image/jpeg;base64,[vM7xIELqet]",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
       ],
@@ -150,41 +149,45 @@ test("image field", async ({ f }) => {
         changes: [
           {
             files: {
-              "1-imageBasic.jpeg": "blob,[XjjDgGJlB7]",
-              "2-imageFull.jpeg": "blob,[XjjDgGJlB7]",
-              "3-imagesBasic-0.jpeg": "blob,[XjjDgGJlB7]",
-              "4-imagesBasic-1.png": "blob,[NMmsnTn0xi]",
-              "5-imagesBasic-2.png": "blob,[NMmsnTn0xi]",
-              "6-imagesBasic-3.jpeg": "blob,[XjjDgGJlB7]",
-              "7-imagesFull-0.png": "blob,[iiqSwrdoe1]",
-              "8-imagesFull-1.jpeg": "blob,[XjjDgGJlB7]",
-              "9-imagesFull-2.jpeg": "blob,[XjjDgGJlB7]",
               "test.yaml": `imageBasic:
-  data: "[image data]"
+  data: data:image/jpeg;base64,/9j/4A...
   type: jpeg
 imageFull:
-  data: "[image data]"
+  data: data:image/jpeg;base64,/9j/4A...
   type: jpeg
   alt: My alt text
 imagesBasic:
-  - data: "[image data]"
+  - data: data:image/jpeg;base64,/9j/4A...
     type: jpeg
-  - data: "[image data]"
+  - data: data:image/png;base64,iVBORw...
     type: png
-  - data: "[image data]"
+  - data: data:image/png;base64,iVBORw...
     type: png
-  - data: "[image data]"
+  - data: data:image/jpeg;base64,/9j/4A...
     type: jpeg
 imagesFull:
-  - data: "[image data]"
+  - data: data:image/png;base64,iVBORw...
     type: png
     alt: Some Dice
-  - data: "[image data]"
+  - data: data:image/jpeg;base64,/9j/4A...
     type: jpeg
-  - data: "[image data]"
+  - data: data:image/jpeg;base64,/9j/4A...
     type: jpeg
     alt: kitten with alt
 `,
+              "timestamp-image-basic-image.jpeg": "[converted:jpeg:/9j/4A]",
+              "timestamp-image-basic-images-0.jpeg": "[converted:jpeg:/9j/4A]",
+              "timestamp-image-basic-images-1.png": "[converted:png:iVBORw]",
+              "timestamp-image-basic-images-2.png": "[converted:png:iVBORw]",
+              "timestamp-image-basic-images-3.jpeg": "[converted:jpeg:/9j/4A]",
+              "timestamp-image-image-with-full-options-my-alt-text.jpeg":
+                "[converted:jpeg:/9j/4A]",
+              "timestamp-image-images-with-full-options-0-some-dice.png":
+                "[converted:png:iVBORw]",
+              "timestamp-image-images-with-full-options-1.jpeg":
+                "[converted:jpeg:/9j/4A]",
+              "timestamp-image-images-with-full-options-2-kitten-with-alt.jpeg":
+                "[converted:jpeg:/9j/4A]",
             },
           },
         ],

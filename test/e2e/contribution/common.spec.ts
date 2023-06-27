@@ -26,7 +26,7 @@ test("basic submit", async ({ f }) => {
         changes: [
           {
             files: {
-              "test.md": "My Text",
+              "test.md": '{"text":"My Text"}',
             },
             message: "Add Contribution",
           },
@@ -66,9 +66,6 @@ test("custom message and title", async ({ page, f }) => {
         branch: "c11r/timestamp-my-custom-title",
         changes: [
           {
-            files: {
-              "test.md": "Text Body",
-            },
             message: "My Custom Title",
           },
         ],
@@ -160,7 +157,7 @@ anonTest("anon-only form ignores github creds", async ({ f, page }) => {
         changes: [
           {
             files: {
-              "test.md": "My Text",
+              "test.md": '{"text":"My Text"}',
             },
             message: "Add Contribution",
           },
@@ -174,10 +171,7 @@ anonTest("anon-only form ignores github creds", async ({ f, page }) => {
         body: `This PR adds a new Contribution:
 
 ## Text
-My Text
-
----
-*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*`,
+My Text${f.FOOTER}`,
         head: "c11r/timestamp-add-contribution",
         owner: "test-owner",
         repo: "anon",

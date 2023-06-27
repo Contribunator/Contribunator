@@ -1,4 +1,8 @@
-import type { ContributionOptions, UserConfig } from "@/types";
+import type {
+  ContributionLoaded,
+  ContributionOptions,
+  UserConfig,
+} from "@/types";
 
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
@@ -9,21 +13,22 @@ import video from "@/lib/contribution/etc/video";
 
 import fieldTests, { combined } from "./fields";
 
-const testContribution: ContributionOptions = {
-  load: async () => ({
-    commit: async ({ body }: { body: { text: string } }) => ({
-      files: { "test.md": body.text },
-    }),
-    form: {
-      fields: {
-        text: {
-          type: "text",
-          title: "Text",
-          validation: { required: true },
-        },
+const testContributionLoaded: ContributionLoaded = {
+  commit: async ({ fields }) => ({
+    files: { "test.md": JSON.stringify(fields) },
+  }),
+  form: {
+    fields: {
+      text: {
+        type: "text",
+        title: "Text",
+        validation: { required: true },
       },
     },
-  }),
+  },
+};
+const testContribution: ContributionOptions = {
+  load: async () => testContributionLoaded,
 };
 
 const test = contribution(testContribution);
@@ -39,7 +44,28 @@ const testConfig: UserConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        api: contribution({ ...testContribution, hidden: true }),
+        api: contribution({
+          hidden: true,
+          load: async () => ({
+            ...testContributionLoaded,
+            form: {
+              fields: {
+                ...testContributionLoaded.form.fields,
+                collection: {
+                  type: "collection",
+                  title: "Test Collection",
+                  addButton: true,
+                  fields: {
+                    text: {
+                      type: "text",
+                      title: "Sub Text",
+                    },
+                  },
+                },
+              },
+            },
+          }),
+        }),
         combined,
         tweet: tweet({
           description: "Here's my custom description",
