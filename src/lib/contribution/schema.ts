@@ -191,5 +191,5 @@ export default function generateSchema(
         return schema.required(message);
       },
     }),
-  });
+  }).noUnknown("Unexpected field in request body");
 }

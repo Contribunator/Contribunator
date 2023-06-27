@@ -31,7 +31,7 @@ export type CreatePullRequestOutputs = {
   title: string;
 };
 
-export default async function createPullRequest({
+export default async function submitPullRequest({
   authorized,
   config: { repo },
   transformed: { files, title, branch, message },

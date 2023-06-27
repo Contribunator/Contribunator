@@ -13,7 +13,7 @@ import slugify from "@/lib/helpers/slugify";
 
 type ExtractImagesProps = {
   timestamp: string;
-  fields: any; // todo rename
+  data: any;
   config: ConfigWithContribution;
 };
 
@@ -54,7 +54,7 @@ type Path = (string | number)[];
 
 export default function extractImages({
   timestamp,
-  fields,
+  data,
   config,
 }: ExtractImagesProps): ExtractedImages {
   // we can query the contribution to get the field name
@@ -85,6 +85,6 @@ export default function extractImages({
       );
     }
   };
-  getImagesDeep(fields);
+  getImagesDeep(data);
   return { deep, flat };
 }

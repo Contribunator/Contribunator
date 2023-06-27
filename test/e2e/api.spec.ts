@@ -1,56 +1,17 @@
 import { test as base, expect } from "@playwright/test";
-import { ApiFixture } from "@/../test/fixtures/api.fixture";
+
+import {
+  ApiFixture,
+  baseReq,
+  baseRes,
+  prPostfix,
+} from "@/../test/fixtures/api.fixture";
 
 const test = base.extend<{ a: ApiFixture }>({
   a: ({ request }, use) => {
     use(new ApiFixture(request));
   },
 });
-
-import { DEFAULTS } from "@/lib/config";
-const { prPostfix } = DEFAULTS;
-
-const baseReq = {
-  authorization: "anon",
-  repo: "TEST",
-  contribution: "api",
-  text: "test text",
-};
-
-const baseRes = {
-  pr: {
-    number: 123,
-    title: "This is my test commit",
-    url: "https://github.com/repo/owner/pulls/123",
-  },
-  test: {
-    commit: {
-      branch: "c11r/timestamp-add-contribution",
-      changes: [
-        {
-          files: {
-            "test.md": '{"text":"test text"}',
-          },
-          message: "Add Contribution",
-        },
-      ],
-      createBranch: true,
-      owner: "test-owner",
-      repo: "TEST",
-    },
-    pr: {
-      base: "main",
-      body: `This PR adds a new Contribution:
-
-## Text
-test text${prPostfix}`,
-      head: "c11r/timestamp-add-contribution",
-      owner: "test-owner",
-      repo: "TEST",
-      title: "Add Contribution",
-    },
-  },
-};
 
 test("allows valid params", async ({ a }) => {
   expect(await a.post(baseReq)).toEqual(baseRes);

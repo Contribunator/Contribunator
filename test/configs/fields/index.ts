@@ -30,11 +30,11 @@ function fieldTest(props: any, passedFields: Fields) {
     description: "Field Test",
     ...props,
     load: async () => ({
-      commit: async ({ fields, images: { flat } }) => {
+      commit: async ({ data, images: { flat } }) => {
         return {
           images: flat,
           yaml: {
-            "test.yaml": deepTrimImageData(fields),
+            "test.yaml": deepTrimImageData(data),
           },
         };
       },

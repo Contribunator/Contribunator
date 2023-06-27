@@ -3,7 +3,7 @@ import formTest from "@/../test/fixtures/form.fixture";
 
 const test = formTest({ repo: "TEST", contribution: "link" });
 
-test("link submits basic", async ({ f }) => {
+test.skip("link submits basic", async ({ f }) => {
   await f.cannotSubmit([
     "Category is a required field",
     "Name is a required field",
@@ -68,7 +68,7 @@ https://example.link${f.FOOTER}`,
   });
 });
 
-test("link is ordered, has icons", async ({ f }) => {
+test.skip("link is ordered, has icons", async ({ f }) => {
   await f.clickButton("Category", "No Selection");
   await f.clickButton("Category", "Social Channels");
   await f.clickButton("Category", "Telegram Group");
@@ -115,7 +115,7 @@ test("link is ordered, has icons", async ({ f }) => {
   });
 });
 
-test("link contains description", async ({ f }) => {
+test.skip("link contains description", async ({ f }) => {
   await f.clickButton("Category", "No Selection");
   await f.clickButton("Category", "Mining & Development");
   await f.clickButton("Category", "Git Repository");

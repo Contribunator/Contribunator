@@ -30,13 +30,13 @@ export default function video({
       useFilesOnServer: {
         videos: collectionPath,
       },
-      prMetadata: ({ youtube }) => ({
+      prMetadata: ({ data: { youtube } }) => ({
         title: `Add Video: ${youtube}`,
         message: `This PR adds the video https://www.youtube.com/watch?v=${youtube}`,
       }),
       commit: async ({
         files,
-        fields: { title, tags, description, youtube },
+        data: { title, tags, description, youtube },
       }) => {
         const yt = await fetchYoutubeVideo(youtube);
         const video = {

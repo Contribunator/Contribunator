@@ -1,6 +1,12 @@
 import type { IconType } from "react-icons";
 
-import { Commit } from "./pullRequest";
+import {
+  Commit,
+  FetchData,
+  FetchFiles,
+  FetchedData,
+  PrMetadata,
+} from "./pullRequest";
 import { Form } from "./form";
 import { Repo } from "./config";
 
@@ -8,10 +14,11 @@ export type Icon = IconType;
 
 export type UseFiles =
   | { [key: string]: string }
-  | ((values: any) => { [key: string]: string });
+  | ((props: FetchFiles) => {
+      [key: string]: string;
+    });
 
-// TODO replace body with actual body
-// also include fetched data
+export type UseData = (props: FetchData) => Promise<FetchedData>;
 
 export type ContributionMeta = {
   title: string;
@@ -22,8 +29,6 @@ export type ContributionMeta = {
   icon: IconType;
 };
 
-export type PrMetadata = (body: any) => { title: string; message: string };
-
 export type ContributionLoaded = {
   form: Form;
   commit: Commit;
@@ -31,6 +36,9 @@ export type ContributionLoaded = {
   useFiles?: UseFiles; // server and client
   useFilesOnClient?: UseFiles; // client only
   useFilesOnServer?: UseFiles; // server only
+  useData?: UseData;
+  useDataOnServer?: UseData;
+  useDataOnClient?: UseData;
 };
 
 export type Contribution = ContributionMeta &

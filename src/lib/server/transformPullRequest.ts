@@ -9,55 +9,57 @@ import slugify from "@/lib/helpers/slugify";
 import fetchFiles from "./fetchFiles";
 import convertImages from "./convertImages";
 import extractImages from "./extractImage";
+import { destructureMeta } from "../helpers/destructureMeta";
+import fetchData from "./fetchData";
 
-export default async function pullRequestTransform({
+export default async function transformPullRquest({
   body,
   config,
 }: PRTransformInputs): Promise<TransformedPR> {
-  const { commit: getCommit } = config.contribution;
+  const { contribution } = config;
 
-  if (!getCommit) {
+  if (!contribution.commit) {
     throw new Error("Contribution has no commit method defined!");
   }
 
   const timestamp = getTimestamp();
 
   // destructure fields
-  const {
-    authorization,
-    customTitle,
-    customMessage,
-    captcha,
-    repo,
-    contribution,
-    ...fields
-  } = body;
-
-  // extract and transform the image data
-
-  // todo fetchData
-  // TODO we should pass in the fetched data to prMetadata
-
+  const { data, meta } = destructureMeta(body);
+  // fetchData
+  const fetched = await fetchData({ config, data, meta });
   // todo fetchFiles
-  const files = await fetchFiles({ config, body });
+  const files = await fetchFiles({ config, data, meta, fetched });
+  // extract images from form
+  const images = extractImages({ timestamp, data, config });
+  // generate metadata
+  const prMetadata = contribution.prMetadata({
+    config,
+    data,
+    fetched,
+    files,
+    images,
+    meta,
+    timestamp,
+  });
 
-  const images = extractImages({ timestamp, fields, config });
-
-  const prMetadata = config.contribution.prMetadata(body);
-  const title = body.customTitle || prMetadata.title;
-  const message = body.customMessage || prMetadata.message;
+  // override metadata if custom values set
+  const title = meta.customTitle || prMetadata.title;
+  const message = meta.customMessage || prMetadata.message;
   const branch = slugify(`${timestamp} ${title}`);
 
-  const commit = await getCommit({
-    images,
+  // pass all available data for user to play with
+  const commit = await contribution.commit({
     branch,
-    message,
-    title,
     config,
-    body,
-    fields,
-    timestamp,
+    data,
+    fetched,
     files,
+    images,
+    message,
+    meta,
+    timestamp,
+    title,
   });
 
   const transformed: TransformedPR = {

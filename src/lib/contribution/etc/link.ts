@@ -93,7 +93,7 @@ export default function link({
           throw new Error("No sourcePath found for category", category);
         return { links };
       },
-      commit: async ({ files: { links }, fields: { category, ...fields } }) => {
+      commit: async ({ files: { links }, data: { category, ...data } }) => {
         const sourceKey = getCatProp("sourceKey", category, categories);
         // TODO itemsKey into an option?
         const itemsKey = `items.${sourceKey}.items`;
@@ -101,10 +101,7 @@ export default function link({
         const oldLinks = get(links.parsed || {}, itemsKey, {});
         const newLinks: any = {};
 
-        oldLinks[fields.name] = mapKeys(
-          fields,
-          (_v, key) => keyMap[key] || key
-        );
+        oldLinks[data.name] = mapKeys(data, (_v, key) => keyMap[key] || key);
 
         sortBy(Object.keys(oldLinks), (key) => key.toLowerCase()).forEach(
           (key) => {

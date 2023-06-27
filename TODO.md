@@ -4,14 +4,13 @@ Below are the upcoming features and improvements.
 
 ## Merge
 
-- Way to pass fetched data to prMetadata for PR messages (use `fetchDataOnServer`)
 - Update commit to pass all details in an object for easy manipulation
 - Refactor commits to use new `fetchDataOnServer` and extracted images
 - Update Videos to have better PR names
-- Rename "Fields" to "Data" for parsed field data.
 
 - Test demo/etc works with new env vars
 - Move ETC-only contributions/tests elsewhere?
+- Refactor tests
 
 ## Then Update Docs
 
@@ -22,6 +21,7 @@ Below are the upcoming features and improvements.
 
 ## Next Features
 
+- prMetadata recursively
 - Option to request add tags and review for PRs
 - i18n support (ETC)
 - Add contributor name to ETC prs
@@ -31,6 +31,7 @@ Below are the upcoming features and improvements.
 - Tweet Threads
 - Collapse dropdown if sub-item not selected
 - Cleanup, replace all `any` types
+- Option to disable customTitle/message
 
 ## Later
 

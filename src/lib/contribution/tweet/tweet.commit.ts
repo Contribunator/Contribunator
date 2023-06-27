@@ -8,21 +8,22 @@ type Image = {
   type: string;
 };
 
-const tweetCommit: Commit = async ({ fields, timestamp }) => {
-  const { title } = prMetadata(fields);
+const tweetCommit: Commit = async (props) => {
+  const { data, timestamp } = props;
+  const { title } = prMetadata(props);
   const media: { [key: string]: string } = {};
-  const hasQuote = fields.quoteType && fields.quoteUrl;
-  const hasMedia = fields.media && fields.media.length > 0;
+  const hasQuote = data.quoteType && data.quoteUrl;
+  const hasMedia = data.media && data.media.length > 0;
   let transformed = "";
   // HEADER START: todo add other types
   if (hasQuote || hasMedia) {
     transformed += `---\n`;
     if (hasQuote) {
-      transformed += `${fields.quoteType}: ${fields.quoteUrl}\n`;
+      transformed += `${data.quoteType}: ${data.quoteUrl}\n`;
     }
     if (hasMedia) {
       transformed += `media:
-${fields.media
+${data.media
   .map(({ data, alt = "", type }: Image, i: number) => {
     const fileName = slugify(`${timestamp} ${title} ${alt}`, {
       append: i, // does not append if i is 0
@@ -41,8 +42,8 @@ ${fields.media
     transformed += `---\n\n`;
   }
   // HEADER END
-  if (fields.text) {
-    transformed += fields.text;
+  if (data.text) {
+    transformed += data.text;
   }
 
   const tweetFileName = slugify(`${timestamp} ${title}`);

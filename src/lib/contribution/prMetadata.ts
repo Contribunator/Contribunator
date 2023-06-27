@@ -4,8 +4,8 @@ export default function generatePrMetadata({
   title,
   form,
 }: Omit<Contribution, "schema" | "prMetadata">): PrMetadata {
-  const prMetadata: PrMetadata = (fields) => {
-    const itemName = fields.title || fields.name;
+  const prMetadata: PrMetadata = ({ data }) => {
+    const itemName = data.title || data.name;
     return {
       title: `Add ${title}${itemName ? `: ${itemName}` : ""}`,
       message: `This PR adds a new ${title}:
@@ -13,7 +13,7 @@ export default function generatePrMetadata({
 ${Object.entries(form.fields)
   .map(([key, field]) => {
     const { title = key } = field;
-    const value = fields[key];
+    const value = data[key];
 
     if (!value) {
       return null;

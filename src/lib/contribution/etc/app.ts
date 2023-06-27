@@ -49,8 +49,8 @@ export default function app({
       useFilesOnServer: {
         apps: collectionPath,
       },
-      commit: async ({ files, timestamp: t, fields }) => {
-        const { image, url, title, description, links = [], ...rest } = fields;
+      commit: async ({ files, timestamp: t, data }) => {
+        const { image, url, title, description, links = [], ...rest } = data;
 
         let newApp: any = {
           date: timestamp("YYYY-MM-DD"),

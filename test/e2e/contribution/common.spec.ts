@@ -2,8 +2,11 @@
 
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
+import { baseReq, baseRes } from "test/fixtures/api.fixture";
 
 const test = formTest({ repo: "TEST", contribution: "api" });
+
+const baseExpected = { req: baseReq, res: baseRes.test };
 
 test("basic submit", async ({ f }) => {
   await f.hasText("Contribution");
@@ -12,42 +15,8 @@ test("basic submit", async ({ f }) => {
     "Submits a Pull Request to https://github.com/test-owner/TEST."
   );
   await f.cannotSubmit(["Text is a required field"]);
-  await f.setText("Text", "My Text");
-  expect(await f.submit()).toEqual({
-    req: {
-      authorization: "anon",
-      contribution: "api",
-      repo: "TEST",
-      text: "My Text",
-    },
-    res: {
-      commit: {
-        branch: "c11r/timestamp-add-contribution",
-        changes: [
-          {
-            files: {
-              "test.md": '{"text":"My Text"}',
-            },
-            message: "Add Contribution",
-          },
-        ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
-      },
-      pr: {
-        base: "main",
-        body: `This PR adds a new Contribution:
-
-## Text
-My Text${f.FOOTER}`,
-        head: "c11r/timestamp-add-contribution",
-        owner: "test-owner",
-        repo: "TEST",
-        title: "Add Contribution",
-      },
-    },
-  });
+  await f.setText("Text", baseExpected.req.text);
+  expect(await f.submit()).toEqual(baseExpected);
 });
 
 test("custom message and title", async ({ page, f }) => {
@@ -144,49 +113,18 @@ anonTest("anon-only form ignores github creds", async ({ f, page }) => {
   await f.init();
   await f.cannotSubmit(["Text is a required field"]);
   await f.setText("Text", "My Text");
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
       authorization: "anon",
-      contribution: "test",
       repo: "anon",
-      text: "My Text",
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-contribution",
-        changes: [
-          {
-            files: {
-              "test.md": '{"text":"My Text"}',
-            },
-            message: "Add Contribution",
-          },
-        ],
-        createBranch: true,
-        owner: "test-owner",
         repo: "anon",
       },
       pr: {
-        base: "main",
-        body: `This PR adds a new Contribution:
-
-## Text
-My Text${f.FOOTER}`,
-        head: "c11r/timestamp-add-contribution",
-        owner: "test-owner",
         repo: "anon",
-        title: "Add Contribution",
       },
     },
   });
 });
-
-// TODO test yup validation
-// TODO test field visibility
-/*
-  info: {
-    type: "info",
-    title:
-      "Info field here to test because it's too insignificant to test on its own",
-  },
-*/

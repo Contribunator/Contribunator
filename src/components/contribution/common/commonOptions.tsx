@@ -1,9 +1,14 @@
+import { destructureMeta } from "@/lib/helpers/destructureMeta";
 import TextInput from "../fields/textInput";
 import type { BaseFormProps } from "../formClient";
 
 export default function CommonOptions({ formik, config }: BaseFormProps) {
+  // to do pass fetched files here?
   const meta = formik.isValid
-    ? config.contribution.prMetadata(formik.values)
+    ? config.contribution.prMetadata({
+        ...destructureMeta(formik.values),
+        config,
+      })
     : {
         title: "",
         message: "",

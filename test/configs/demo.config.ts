@@ -1,7 +1,8 @@
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
-import timestamp from "@/lib/helpers/timestamp";
-import { UserConfig } from "@/types";
+
+import type { UserConfig } from "@/types";
+
 import { combined } from "./fields";
 
 const demoConfig: UserConfig = {
@@ -22,12 +23,12 @@ const demoConfig: UserConfig = {
             useFilesOnServer: {
               readme: "README.md",
             },
-            commit: async ({ body, files: { readme } }) => ({
+            commit: async ({ data, timestamp, files: { readme } }) => ({
               files: {
                 "README.md": `${readme.content}
 ---
 
-${timestamp()}: ${body.text}
+${timestamp}: ${data.text}
 `,
               },
             }),

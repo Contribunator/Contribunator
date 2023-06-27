@@ -14,9 +14,35 @@ import video from "@/lib/contribution/etc/video";
 import fieldTests, { combined } from "./fields";
 
 const testContributionLoaded: ContributionLoaded = {
-  commit: async ({ fields }) => ({
-    files: { "test.md": JSON.stringify(fields) },
+  commit: async ({ data, fetched, files }) => ({
+    files: {
+      "test.md": JSON.stringify(data),
+    },
+    yaml: {
+      "test.yaml": {
+        data,
+        fetched,
+        yaml: files.testYaml.parsed,
+        md: files.testMd.content,
+      },
+    },
+    json: {
+      "test.json": {
+        data,
+        fetched,
+        json: files.testJson.parsed,
+        md: files.testMd.content,
+      },
+    },
   }),
+  useFiles: () => ({ testMd: "test/test.md" }),
+  useFilesOnServer: {
+    testYaml: "test/test.yaml",
+    testJson: "test/test.json",
+  },
+  useDataOnServer: async (props) => {
+    return { test: "data" };
+  },
   form: {
     fields: {
       text: {

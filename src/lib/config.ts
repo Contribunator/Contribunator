@@ -3,6 +3,8 @@ import memoize from "lodash/memoize";
 // uncomment to enable hot reload during tests development
 // import "@/../test/configs/test.config";
 
+// TODO move defaults and buildConfig so they can be test without the rest of the config
+
 import type {
   Config,
   ConfigWithContribution,

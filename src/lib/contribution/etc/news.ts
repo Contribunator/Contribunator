@@ -29,11 +29,11 @@ export default function news({
       useFilesOnServer: {
         news: collectionPath,
       },
-      commit: async ({ files, fields: { date, ...fields } }) => {
+      commit: async ({ files, data: { date, ...data } }) => {
         return {
           yaml: {
             [files.news.path]: [
-              { date: timestamp("YYYY-MM-DD", date, !!date), ...fields },
+              { date: timestamp("YYYY-MM-DD", date, !!date), ...data },
               ...(files.news.parsed || []),
             ],
           },

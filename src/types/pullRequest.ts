@@ -5,6 +5,32 @@ export type Authorized = {
   [key: string]: any;
 };
 
+// todo
+export type Data = any;
+export type Body = any;
+
+export type Meta = {
+  authorization: AuthType[];
+  customTitle?: string;
+  customMessage?: string;
+  captcha?: string;
+  repo: string;
+  contribution: string;
+};
+
+export type FetchData = {
+  config: ConfigWithContribution;
+  meta: Meta;
+  data: Data;
+};
+
+export type FetchFiles = {
+  config: ConfigWithContribution;
+  meta: Meta;
+  data: Data;
+  fetched: FetchedData;
+};
+
 export type FetchedFile = {
   name: string;
   path: string;
@@ -15,8 +41,8 @@ export type FetchedFile = {
   content?: string;
   parsed?: any;
 };
-
 export type FetchedFiles = { [name: string]: FetchedFile };
+export type FetchedData = any;
 
 export type ExtractedImagesFlat = {
   [key: string]: string;
@@ -31,8 +57,19 @@ export type ExtractedImages = {
   deep: ExtractedImagesDeep;
 };
 
+// this also runs on client so don't require all fields
+export type PrMetadata = (props: {
+  meta: Meta;
+  data: Data;
+  config: ConfigWithContribution;
+  images?: ExtractedImages;
+  files?: FetchedFiles;
+  timestamp?: string;
+  fetched?: FetchedData;
+}) => { title: string; message: string };
+
 export type PRTransformInputs = {
-  body: any;
+  body: Body;
   config: ConfigWithContribution;
 };
 
@@ -49,10 +86,11 @@ export type CommitInputs = {
   message: string;
   branch: string;
   config: ConfigWithContribution;
-  body: any;
-  fields: any;
+  meta: Meta;
+  data: Data;
   timestamp: string;
   files: FetchedFiles;
+  fetched: FetchedData;
 };
 
 export type Commit = (inputs: CommitInputs) => Promise<CommitOutputs>;
