@@ -106,11 +106,12 @@ export default function TextInput({
               type={input}
               className={`w-full ${styles}`}
               placeholder={placeholder}
-              {...(transform && {
-                onChange: (e: { target: { value: string } }) => {
-                  helpers.setValue(transform(e.target.value));
-                },
-              })}
+              onChange={({
+                target: { value },
+              }: React.ChangeEvent<HTMLInputElement>) => {
+                const val = transform ? transform(value) : value;
+                helpers.setValue(val === "" ? undefined : val);
+              }}
             />
           </div>
           {clear && !!field.value && (
