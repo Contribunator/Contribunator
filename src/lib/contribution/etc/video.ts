@@ -1,11 +1,10 @@
 import { HiVideoCamera } from "react-icons/hi";
 
+import type { ContributionConfig, ContributionMeta, Form } from "@/types";
+
+import { demo, e2e } from "@/lib/env";
 import timestamp from "@/lib/helpers/timestamp";
-
-import { ContributionConfig, ContributionMeta, Form } from "@/types";
-
 import contribution from "@/lib/contribution";
-import fetchYoutubeVideo from "@/lib/server/fetchYoutubeVideo";
 
 export type NewsConfig = Partial<ContributionMeta> & {
   collectionPath: string;
@@ -30,15 +29,56 @@ export default function video({
       useFilesOnServer: {
         videos: collectionPath,
       },
-      prMetadata: ({ data: { youtube } }) => ({
-        title: `Add Video: ${youtube}`,
-        message: `This PR adds the video https://www.youtube.com/watch?v=${youtube}`,
-      }),
+      useDataOnServer: async ({ data: { youtube } }) => {
+        if (e2e || demo) {
+          return {
+            yt: {
+              title: "E2E Test Video Title",
+              description: "E2E Test Video Description",
+              channelId: "CHANNEL_ID",
+              channelTitle: "E2E Test Video Author",
+              publishedAt: "2021-01-01T00:00:00Z",
+            },
+          };
+        }
+        if (!process.env.YOUTUBE_API_KEY) {
+          throw new Error("YOUTUBE_API_KEY not set");
+        }
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${youtube}&key=${process.env.YOUTUBE_API_KEY}`
+        );
+        const data = await res.json();
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+        return { yt: data.items[0].snippet };
+      },
+      prMetadata: (props) => {
+        const {
+          data: { youtube, title },
+          fetched: { yt = {} } = {},
+        } = props;
+        const missingTitle = "[video title]";
+        const missingAuthor = "[author]";
+        const vAuthor = yt.channelTitle || missingAuthor;
+        const vTitle = title || yt.title || missingTitle;
+        return {
+          title: `Add Video: ${vAuthor} - ${vTitle
+            .split(" ")
+            .slice(0, 6)
+            .join(" ")}`,
+          message: `This PR adds the video [${
+            title || yt.title || missingTitle
+          }](https://www.youtube.com/watch?v=${youtube}) by [${vAuthor}](https://www.youtube.com/channel/${
+            yt.channelId
+          }).`,
+        };
+      },
       commit: async ({
         files,
         data: { title, tags, description, youtube },
+        fetched: { yt },
       }) => {
-        const yt = await fetchYoutubeVideo(youtube);
         const video = {
           title: title || yt.title,
           date: timestamp("YYYY-MM-DD"),

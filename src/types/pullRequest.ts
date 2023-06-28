@@ -47,6 +47,7 @@ export type FetchedData = any;
 export type ExtractedImagesFlat = {
   [key: string]: string;
 };
+
 export type ExtractedImages = {
   images: ExtractedImagesFlat;
   data: Data;

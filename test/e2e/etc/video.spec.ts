@@ -21,16 +21,16 @@ test("video submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-video-gcbv1vcn2te",
+        branch: "c11r/timestamp-add-video-e2e-test-video-author-e2e-test-video",
         changes: [
           {
             files: {
-              "test/etc/videos.yaml": `- title: My Video Title
+              "test/etc/videos.yaml": `- title: E2E Test Video Title
   date: TIMESTAMP
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
   authorYoutube: channel/CHANNEL_ID
-  author: My Channel Title
+  author: E2E Test Video Author
 - title: Test Video
   date: 2022-02-08
   uploaded: 2022-02-08
@@ -43,7 +43,7 @@ test("video submits basic", async ({ f }) => {
   description: my description here
 `,
             },
-            message: "Add Video: GCBv1VCN2tE",
+            message: "Add Video: E2E Test Video Author - E2E Test Video Title",
           },
         ],
         createBranch: true,
@@ -52,11 +52,11 @@ test("video submits basic", async ({ f }) => {
       },
       pr: {
         base: "main",
-        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
-        head: "c11r/timestamp-add-video-gcbv1vcn2te",
+        body: `This PR adds the video [E2E Test Video Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
+        head: "c11r/timestamp-add-video-e2e-test-video-author-e2e-test-video",
         owner: "test-owner",
         repo: "TEST",
-        title: "Add Video: GCBv1VCN2tE",
+        title: "Add Video: E2E Test Video Author - E2E Test Video Title",
       },
     },
   });
@@ -92,7 +92,7 @@ Description`,
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-video-gcbv1vcn2te",
+        branch: "c11r/timestamp-add-video-e2e-test-video-author-custom-title",
         changes: [
           {
             files: {
@@ -101,7 +101,7 @@ Description`,
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
   authorYoutube: channel/CHANNEL_ID
-  author: My Channel Title
+  author: E2E Test Video Author
   tags:
     - explainers
     - tutorials
@@ -122,7 +122,7 @@ Description`,
   description: my description here
 `,
             },
-            message: "Add Video: GCBv1VCN2tE",
+            message: "Add Video: E2E Test Video Author - Custom Title",
           },
         ],
         createBranch: true,
@@ -131,11 +131,11 @@ Description`,
       },
       pr: {
         base: "main",
-        body: `This PR adds the video https://www.youtube.com/watch?v=GCBv1VCN2tE${f.FOOTER}`,
-        head: "c11r/timestamp-add-video-gcbv1vcn2te",
+        body: `This PR adds the video [Custom Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
+        head: "c11r/timestamp-add-video-e2e-test-video-author-custom-title",
         owner: "test-owner",
         repo: "TEST",
-        title: "Add Video: GCBv1VCN2tE",
+        title: "Add Video: E2E Test Video Author - Custom Title",
       },
     },
   });
