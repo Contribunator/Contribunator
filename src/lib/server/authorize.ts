@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { GithubProfile } from "next-auth/providers/github";
 
 import { Authorized, ConfigWithContribution } from "@/types";
-import { apiKeys, captchaSecret } from "@/lib/env";
+import { auth } from "@/lib/env.server";
 
 type AuthFunction = ({
   req,
@@ -27,7 +27,7 @@ const authMethods: Record<string, AuthFunction> = {
   },
   captcha: async function ({ body }) {
     if (body.captcha) {
-      const url = `https://hcaptcha.com/siteverify?secret=${captchaSecret}&response=${body.captcha}`;
+      const url = `https://hcaptcha.com/siteverify?secret=${auth.captcha.secret}&response=${body.captcha}`;
       const response = await fetch(url, {
         method: "POST",
       });
@@ -44,7 +44,7 @@ const authMethods: Record<string, AuthFunction> = {
   },
   api: async function ({ req }) {
     const apiKey = req.headers.get("x-api-key");
-    const user = apiKey && apiKeys[apiKey];
+    const user = apiKey && auth.api.keys?.[apiKey];
     if (user) {
       console.log("authorized API key", user);
       return {

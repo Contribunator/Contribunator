@@ -1,9 +1,9 @@
-import * as Yup from "yup";
+import { ObjectSchema, array, object, string } from "yup";
 
 import type {
   Choice,
   Collection,
-  ContributionOptions,
+  Contribution,
   Fields,
   NestedChoiceOptions,
   RegexValidation,
@@ -20,13 +20,15 @@ export const RESERVED = [
 ];
 
 export default function generateSchema(
-  contribution: ContributionOptions & { name: string },
+  contribution: Omit<Contribution, "schema" | "prMetadata">,
   repo: Repo
-): Yup.ObjectSchema<any> {
+): ObjectSchema<any> {
   const buildSchema = (fields: Fields) => {
     const schema: any = {};
 
     Object.entries(fields).forEach(([name, field]) => {
+      const title = field.title || name;
+
       const { type, validation = {} } = field;
 
       // skip generation if not an input field
@@ -41,16 +43,23 @@ export default function generateSchema(
 
       // recursively build if we have a collection
       if (field.type === "collection") {
-        // TODO, prepend field name to nested fields
-        schema[name] = Yup.array();
+        schema[name] = array();
         const subSchema = buildSchema((field as Collection).fields);
-        // TODO api test empty arrays and require them
-        schema[name] = schema[name].of(Yup.object(subSchema));
+        schema[name] = schema[name]
+          .of(
+            object(subSchema)
+              .test({
+                message: `${title} has an empty item`,
+                test: (data) => Object.keys(data).length > 0,
+              })
+              .noUnknown(`${title} has an invalid field`)
+          )
+          .min(1, `${title} must not be empty`);
       }
 
       // otherwise generate the schema
       if (type === "text") {
-        schema[name] = Yup.string();
+        schema[name] = string();
       }
 
       if (type === "choice") {
@@ -73,24 +82,52 @@ export default function generateSchema(
         getOptions(choiceField.options);
 
         if (choiceField.multiple) {
-          schema[name] = Yup.array();
-          schema[name] = schema[name].of(Yup.string().oneOf(choices));
+          schema[name] = array();
+          schema[name] = schema[name].of(string().oneOf(choices));
         } else {
-          schema[name] = Yup.string();
+          schema[name] = string();
           schema[name] = schema[name].oneOf(choices);
         }
       }
 
       if (["image", "images"].includes(type)) {
-        let image = Yup.object({
-          type: Yup.string()
+        let data = string().test({
+          test(data = "", ctx) {
+            if (!data) {
+              return true;
+            }
+            if (
+              data.match(
+                /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+              )
+            ) {
+              return true;
+            }
+            return ctx.createError({
+              message: "Invalid image data",
+            });
+          },
+        });
+
+        // add required validation
+        if (field.validation?.required && type === "image") {
+          const reqText =
+            typeof field.validation.required === "string"
+              ? field.validation.required
+              : `${title} is a required field`;
+          data = data.required(reqText);
+        }
+
+        const image = object({
+          data,
+          type: string()
             .oneOf(["png", "jpg", "jpeg"])
             .when("data", {
               is: (data: string) => !!data,
               then: (schema) => schema.required(),
             }),
-          alt: Yup.string().max(999),
-          editing: Yup.string().test({
+          alt: string().max(999),
+          editing: string().test({
             test(data = "", ctx) {
               if (data) {
                 return ctx.createError({
@@ -100,26 +137,9 @@ export default function generateSchema(
               return true;
             },
           }),
-          data: Yup.string().test({
-            test(data = "", ctx) {
-              if (!data) {
-                return true;
-              }
-              if (
-                data.match(
-                  /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
-                )
-              ) {
-                return true;
-              }
-              return ctx.createError({
-                message: "Invalid image data",
-              });
-            },
-          }),
         });
         if (type === "images") {
-          schema[name] = Yup.array().of(image);
+          schema[name] = array().of(image);
         } else {
           schema[name] = image;
         }
@@ -150,18 +170,18 @@ export default function generateSchema(
     }
   });
 
-  return Yup.object({
+  return object({
     // contribution specific schema
     ...buildSchema(contribution.form.fields),
     // common schema
-    customTitle: Yup.string().max(100, "Title is too long"),
-    customMessage: Yup.string(),
-    repo: Yup.string().oneOf([repo.name]).required(),
-    contribution: Yup.string().oneOf([contribution.name]).required(),
-    authorization: Yup.string()
+    customTitle: string().max(100, "Title is too long"),
+    customMessage: string(),
+    repo: string().oneOf([repo.name]).required(),
+    contribution: string().oneOf([contribution.name]).required(),
+    authorization: string()
       .oneOf(repo.authorization, "Invalid authorization")
       .required(),
-    captcha: Yup.string().when(["authorization"], {
+    captcha: string().when(["authorization"], {
       is: (authorization: string) => authorization === "captcha",
       then: (schema) => {
         let message = "Please complete the CAPTCHA check";
@@ -171,5 +191,5 @@ export default function generateSchema(
         return schema.required(message);
       },
     }),
-  });
+  }).noUnknown("Unexpected field in request body");
 }

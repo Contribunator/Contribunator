@@ -1,0 +1,16 @@
+items:
+  Chat Rooms:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+  Development Chat:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com
+  Telegram Groups:
+    items:
+      Existing Test:
+        __name: Existing Test
+        __link: https://example.com

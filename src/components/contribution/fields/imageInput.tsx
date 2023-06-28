@@ -1,14 +1,13 @@
-import { useRef } from "react";
+import dynamic from "next/dynamic";
 import { useField } from "formik";
-import Cropper, { ReactCropperElement } from "react-cropper";
-import "cropperjs/dist/cropper.css";
-
-import { HiCheckCircle } from "react-icons/hi";
 
 import FieldHeader from "../common/fieldHeader";
 import RemoveButton from "../common/removeButton";
 
 import TextInput from "./textInput";
+import { useEffect } from "react";
+
+const EditImage = dynamic(() => import("./imageEdit"));
 
 export type Props = {
   fileSizeLimit?: number;
@@ -32,42 +31,6 @@ export const defaultInfo = {
   info: "PNG or JPEG",
   fileSizeLimit: 4.3,
 };
-
-function EditImage({
-  image,
-  handleData,
-  aspectRatio,
-}: {
-  image: Image;
-  handleData: (data: string) => void;
-  aspectRatio?: number;
-}) {
-  const cropperRef = useRef<ReactCropperElement>(null);
-  return (
-    <div className="relative">
-      <Cropper
-        src={image.editing}
-        style={{ height: 400, width: "100%" }}
-        autoCropArea={1}
-        aspectRatio={aspectRatio}
-        ref={cropperRef}
-      />
-      <div
-        className="btn absolute bottom-2 left-2 btn-success gap-2"
-        onClick={() => {
-          if (!cropperRef.current) return;
-          const cropper = cropperRef.current.cropper;
-          const imageType = image.type === "png" ? "image/png" : "image/jpeg";
-          const imageData = cropper.getCroppedCanvas().toDataURL(imageType);
-          handleData(imageData);
-        }}
-      >
-        <HiCheckCircle />
-        Confirm Crop
-      </div>
-    </div>
-  );
-}
 
 function ImageSelect({
   handleSet,
@@ -117,6 +80,11 @@ export default function ImageInput({
   handleRemove,
   showErrors = true,
 }: Props & { showErrors?: boolean; handleRemove?: () => void }) {
+  // preload the image edit component on the client
+  useEffect(() => {
+    import("./imageEdit");
+  }, []);
+
   const [field, meta, helpers] = useField(name);
   const image = field.value || {};
   return (
@@ -183,10 +151,10 @@ export default function ImageInput({
                 )}
               </>
             )}
-            {showErrors && <FieldHeader error={meta.error} />}
           </div>
         </>
       )}
+      {showErrors && <FieldHeader error={meta.error} />}
     </div>
   );
 }

@@ -18,15 +18,47 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     // styled: true,
-    themes: ["emerald"],
+    // TODO pull in from contribunator config
+    themes: [
+      // "light",
+      // "dark",
+      // "cupcake",
+      // "bumblebee",
+      "emerald",
+      // "corporate",
+      // "synthwave",
+      // "retro",
+      // "cyberpunk",
+      // "valentine",
+      // "halloween",
+      // "garden",
+      // "forest",
+      // "aqua",
+      // "lofi",
+      // "pastel",
+      // "fantasy",
+      // "wireframe",
+      // "black",
+      // "luxury",
+      // "dracula",
+      // "cmyk",
+      // "autumn",
+      // "business",
+      // "acid",
+      // "lemonade",
+      // "night",
+      // "coffee",
+      // "winter",
+    ],
+    // shortlist: fantasy
     // base: true,
     // utils: true,
-    // logs: true,
+    logs: false,
     // rtl: false,
     // prefix: "",
     // darkTheme: "dark",
   },
-  // TODO generate this
+  // Used for (dynamic) button colors
   safelist: [
     {
       pattern:

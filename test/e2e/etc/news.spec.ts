@@ -31,7 +31,7 @@ test("news submits basic", async ({ f }) => {
         changes: [
           {
             files: {
-              "test/data/news.yaml": `- date: TIMESTAMP
+              "test/etc/news.yaml": `- date: TIMESTAMP
   title: My Test Article
   link: https://example.com
   tags:
@@ -117,7 +117,7 @@ test("news submits full", async ({ f }) => {
         changes: [
           {
             files: {
-              "test/data/news.yaml": `- date: 2021-01-23
+              "test/etc/news.yaml": `- date: 2021-01-23
   title: My Test Article
   link: https://example.com
   author: Bobby Tables

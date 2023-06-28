@@ -1,7 +1,9 @@
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
-import timestamp from "@/lib/helpers/timestamp";
-import { UserConfig } from "@/types";
+
+import type { UserConfig } from "@/types";
+
+import e2eConfig from "./test.config";
 
 const demoConfig: UserConfig = {
   authorization: ["github", "captcha"],
@@ -10,34 +12,37 @@ const demoConfig: UserConfig = {
       title: "Sample Repo",
       description: "A demo repository to test out Contribunator",
       contributions: {
-        tweet: tweet({
-          description: "Here's my custom description",
-        }),
         simple: contribution({
           title: "A Simple Test",
           description: "Submit a message that will be appended to the readme.",
-          useFilesOnServer: {
-            readme: "README.md",
-          },
-          commit: async ({ body, files: { readme } }) => ({
-            files: {
-              "README.md": `${readme.content}
+          load: async () => ({
+            useFilesOnServer: {
+              readme: "README.md",
+            },
+            commit: async ({ data, timestamp, files: { readme } }) => ({
+              files: {
+                "README.md": `${readme.content}
 ---
 
-${timestamp()}: ${body.text}
+${timestamp}: ${data.text}
 `,
-            },
-          }),
-          form: {
-            fields: {
-              text: {
-                type: "text",
-                title: "Your message",
-                placeholder: "e.g. Hello, World!",
-                validation: { required: true },
+              },
+            }),
+            form: {
+              fields: {
+                text: {
+                  type: "text",
+                  title: "Your message",
+                  placeholder: "e.g. Hello, World!",
+                  validation: { required: true },
+                },
               },
             },
-          },
+          }),
+        }),
+        ...e2eConfig.repos?.TEST.contributions,
+        tweet: tweet({
+          description: "Submits a twitter-together compatible tweet PR",
         }),
       },
     },

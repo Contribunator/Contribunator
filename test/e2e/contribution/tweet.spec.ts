@@ -157,7 +157,7 @@ test("tweet image", async ({ f }) => {
       contribution: "tweet",
       media: [
         {
-          data: "data:image/jpeg;base64,/9j/4AA",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
       ],
@@ -170,7 +170,7 @@ test("tweet image", async ({ f }) => {
           {
             files: {
               "media/timestamp-add-tweet-with-media.jpeg":
-                "/9j/2wBDAAYEBQYFBAYGBQYHBwYICh",
+                "[converted:jpeg:/9j/4A]",
               "tweets/timestamp-add-tweet-with-media.tweet": `---
 media:
   - file: timestamp-add-tweet-with-media.jpeg
@@ -230,20 +230,20 @@ test("tweet reply with images and alts", async ({ f }) => {
       media: [
         {
           alt: "My Kitten",
-          data: "data:image/jpeg;base64,/9j/4AA",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
         {
           alt: "Some Dice",
-          data: "data:image/png;base64,iVBORw0K",
+          data: "data:image/png;base64,iVBORw...",
           type: "png",
         },
         {
-          data: "data:image/jpeg;base64,/9j/4AA",
+          data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
         {
-          data: "data:image/png;base64,iVBORw0K",
+          data: "data:image/png;base64,iVBORw...",
           type: "png",
         },
       ],
@@ -259,13 +259,13 @@ test("tweet reply with images and alts", async ({ f }) => {
           {
             files: {
               "media/timestamp-add-reply-test-with-media-tweet-reply-here-2.jpeg":
-                "/9j/2wBDAAYEBQYFBAYGBQYHBwYICh",
+                "[converted:jpeg:/9j/4A]",
               "media/timestamp-add-reply-test-with-media-tweet-reply-here-3.png":
-                "iVBORw0KGgoAAAANSUhEUgAAAyAAAA",
+                "[converted:png:iVBORw]",
               "media/timestamp-add-reply-test-with-media-tweet-reply-here-my.jpeg":
-                "/9j/2wBDAAYEBQYFBAYGBQYHBwYICh",
+                "[converted:jpeg:/9j/4A]",
               "media/timestamp-add-reply-test-with-media-tweet-reply-here-some-1.png":
-                "iVBORw0KGgoAAAANSUhEUgAAAyAAAA",
+                "[converted:png:iVBORw]",
               "tweets/timestamp-add-reply-test-with-media-tweet-reply-here.tweet": `---
 reply: https://twitter.com/test/status/456
 media:

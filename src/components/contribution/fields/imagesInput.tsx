@@ -8,14 +8,15 @@ import ImageInput, {
   MB,
   Image,
 } from "./imageInput";
+import { ValidationTypes } from "@/types";
 
 export type Props = ImageInputProps & {
-  limit?: number;
+  validation?: ValidationTypes;
   totalFileSizeLimit?: number;
 };
 
 export default function ImagesInput({
-  limit = 4,
+  validation,
   totalFileSizeLimit = defaultInfo.fileSizeLimit,
   fileSizeLimit = 0,
   ...props
@@ -26,6 +27,7 @@ export default function ImagesInput({
   };
   const [field, meta, helpers] = useField(name);
 
+  const limit = validation?.max || 4;
   const images: Image[] = field?.value || [];
 
   let totalFileSize = 0;
@@ -41,6 +43,7 @@ export default function ImagesInput({
   });
 
   const itemsToShow = lastExisting + 1 < limit ? lastExisting + 1 : limit;
+  const limitReached = images.length >= itemsToShow;
 
   // calculate the filesize based on text length
   const remainingFileSizeLimit = totalFileSizeLimit
@@ -55,6 +58,7 @@ export default function ImagesInput({
 
   return (
     <div>
+      {limitReached && <FieldHeader title={title} />}
       <div className="space-y-4">
         {Array(itemsToShow)
           .fill(null)
@@ -69,7 +73,9 @@ export default function ImagesInput({
               handleRemove={() => {
                 const newValues = [...images];
                 newValues.splice(i, 1);
-                helpers.setValue(newValues);
+                helpers.setValue(
+                  newValues.length === 0 ? undefined : newValues
+                );
               }}
             />
           ))}

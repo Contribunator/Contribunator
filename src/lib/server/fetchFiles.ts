@@ -2,17 +2,15 @@ import YAML from "yaml";
 
 import Octokit from "./octokit";
 
-import { ConfigWithContribution, FetchedFile, FetchedFiles } from "@/types";
+import { FetchFiles, FetchedFile, FetchedFiles } from "@/types";
 
 const octokit = new Octokit();
 
 export default async function fetchFiles(
-  {
-    config: { owner, repo, contribution },
-    body,
-  }: { config: ConfigWithContribution; body: any },
+  props: FetchFiles,
   isClient: boolean = false
 ): Promise<FetchedFiles> {
+  const { owner, repo, contribution } = props.config;
   const { useFiles, useFilesOnClient, useFilesOnServer } = contribution;
 
   let usedFiles: { [key: string]: string } = {};
@@ -21,7 +19,7 @@ export default async function fetchFiles(
   [useFiles, isClient ? useFilesOnClient : useFilesOnServer].forEach(
     (filesConfig) => {
       if (typeof filesConfig === "function") {
-        usedFiles = { ...usedFiles, ...filesConfig(body) };
+        usedFiles = { ...usedFiles, ...filesConfig(props) };
       } else {
         usedFiles = { ...usedFiles, ...filesConfig };
       }

@@ -1,6 +1,6 @@
 export default function slugify(
   str: string,
-  opts?: { append?: string | number; slice?: number; join?: string }
+  opts?: { append?: string | number | false; slice?: number; join?: string }
 ) {
   const { append, slice, join } = { slice: 10, join: "-", ...opts };
 

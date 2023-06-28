@@ -8,7 +8,7 @@ import type {
   Authorized,
 } from "@/types";
 
-import { appId, e2e, installationId, privateKey } from "../env";
+import { e2e, githubApp } from "@/lib/env.server";
 
 import Octokit from "./octokit";
 
@@ -16,11 +16,7 @@ const OctokitPlugin = Octokit.plugin(commitMultipleFiles);
 
 const octokit = new OctokitPlugin({
   authStrategy: createAppAuth,
-  auth: {
-    appId,
-    installationId,
-    privateKey,
-  },
+  auth: githubApp,
 });
 
 export type CreatePullRequestInputs = {
@@ -35,7 +31,7 @@ export type CreatePullRequestOutputs = {
   title: string;
 };
 
-export default async function createPullRequest({
+export default async function submitPullRequest({
   authorized,
   config: { repo },
   transformed: { files, title, branch, message },

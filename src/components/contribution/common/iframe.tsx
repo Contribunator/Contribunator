@@ -1,8 +1,7 @@
 import { e2e } from "@/lib/env";
 
 export default function Iframe({ url }: { url?: string }) {
-  // TODO replace with a call to the twitter API
-  if (!url) {
+  if (!url || !/^(https?):\/\/[^\s/$.?#].[^\s]*$/i.test(url)) {
     return null;
   }
 

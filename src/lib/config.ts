@@ -1,22 +1,18 @@
-// TODO optimize this so that we only fetch required contributions?
-// TODO optimize client/server payloads
-
-import { memoize } from "lodash";
-
-import userConfig from "@/../contribunator.config";
+import memoize from "lodash/memoize";
 
 // uncomment to enable hot reload during tests development
 // import "@/../test/configs/test.config";
 
-import {
+// TODO move defaults and buildConfig so they can be test without the rest of the config
+
+import type {
   Config,
   ConfigWithContribution,
   ConfigWithRepo,
-  Repo,
   UserConfig,
 } from "@/types";
 
-import { demo, e2e, validate } from "./env";
+import { demo, e2e, isServer } from "@/lib/env";
 
 export const DEFAULTS: Config = {
   authorization: ["github"],
@@ -31,56 +27,40 @@ export const DEFAULTS: Config = {
   repos: {},
 };
 
-// exported for testing
+async function resolveConfig() {
+  if (e2e) {
+    return (await import("@/../test/configs/test.config")).default;
+  } else if (demo) {
+    return (await import("@/../test/configs/demo.config")).default;
+  }
+  return (await import("@/../contribunator.config")).default;
+}
+
+// inherit and decorate the repo configs, exported for testing
 export function buildConfig(userConfig: UserConfig): Config {
   const { repos = {}, ...mainConfig } = userConfig;
-
-  const config: Config = {
+  const config: any = {
     ...DEFAULTS,
     ...mainConfig,
     repos: {},
   };
-  // populate repos
-  Object.entries(repos).forEach(
-    ([repoName, { contributions, ...repoConfig }]) => {
-      const { repos, ...inheritedConfig } = config;
-      const merged = { ...inheritedConfig, ...repoConfig };
-      const repo: Repo = {
-        ...merged,
-        name: repoName,
-        githubUrl: `https://github.com/${merged.owner}/${repoName}`,
-        contributions: {},
-      };
-      // populate repo's contributions (pass repo config for schema init)
-      Object.entries(contributions).forEach(
-        ([contributionName, contribution]) => {
-          // initialize the contribution; builds schema, etc.
-          repo.contributions[contributionName] = contribution(
-            contributionName,
-            repo
-          );
-        }
-      );
-      config.repos[repoName] = repo;
-    }
-  );
+  Object.entries(repos).forEach(([name, repo]) => {
+    const merged = { ...config, ...repo };
+    config.repos[name] = {
+      ...merged,
+      name,
+      githubUrl: `https://github.com/${merged.owner}/${name}`,
+    };
+  });
   return config;
 }
 
-async function getAppConfig() {
-  if (e2e) {
-    return (await import("@/../test/configs/test.config")).default;
+const getUserConfig = memoize(async function () {
+  const userConfig = await resolveConfig();
+  const config = buildConfig(userConfig);
+  if (isServer) {
+    (await import("@/lib/env.server")).validateEnv(config);
   }
-  if (demo) {
-    return (await import("@/../test/configs/demo.config")).default;
-  }
-  return userConfig;
-}
-
-const memoizedConfig = memoize(async function () {
-  const appConfig = await getAppConfig();
-  const config = buildConfig(appConfig);
-  validate(config);
   return config;
 });
 
@@ -90,27 +70,31 @@ async function getConfig(
   repo: string,
   contribution: string
 ): Promise<ConfigWithContribution>;
-async function getConfig(repo?: string, contribution?: string) {
-  const config = await memoizedConfig();
-  if (repo) {
-    if (!config.repos[repo]) throw new Error(`Repository ${repo} not found`);
-    const configWithRepo: ConfigWithRepo = {
-      ...config,
-      repo: config.repos[repo],
-    };
-    if (contribution) {
-      if (!configWithRepo.repo.contributions[contribution]) {
-        throw new Error(`Contribution ${contribution} not found`);
-      }
-      const configWithContribution: ConfigWithContribution = {
-        ...configWithRepo,
-        contribution: configWithRepo.repo.contributions[contribution],
-      };
-      return configWithContribution;
-    }
-    return configWithRepo;
+async function getConfig(repoName?: string, contributionName?: string) {
+  // get the resolved and transformed conffig
+  const config = await getUserConfig();
+  // that's all we need if no repo is passed
+  if (!repoName) {
+    return config as Config;
   }
-  return config as Config;
+  // check we have the repo
+  if (!config.repos[repoName])
+    throw new Error(`Repository ${repoName} not found`);
+  // pass the repo
+  const repo = config.repos[repoName];
+  // this is all we need to do if no contribution is passed
+  if (!contributionName) {
+    return { ...config, repo } as ConfigWithRepo;
+  }
+
+  // check we have the contribution
+  if (!repo.contributions[contributionName]) {
+    throw new Error(`Contribution ${contributionName} not found`);
+  }
+  // load the contribution
+  const { load } = repo.contributions[contributionName];
+  const contribution = await load(contributionName, repo);
+  return { ...config, repo, contribution } as ConfigWithContribution;
 }
 
 export default memoize(getConfig, (...args) => JSON.stringify(args));

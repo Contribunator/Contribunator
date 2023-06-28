@@ -43,7 +43,7 @@ App Description`,
         changes: [
           {
             files: {
-              "test/data/apps.yaml": `- date: TIMESTAMP
+              "test/etc/apps.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline
@@ -125,7 +125,7 @@ test("app submits full", async ({ f }) => {
   await f.setText("Link Name", "https://link.name");
   await f.setText("Link URL", "https://link.url");
 
-  await f.clickButton("Other Links (4 remaining)", "Add Another Link");
+  await f.clickButton("Other Links (4 remaining)", "Add another link");
 
   await f.setText("Link Name", "https://link2.name");
   await f.setText("Link URL", "https://link2.url");
@@ -147,7 +147,7 @@ test("app submits full", async ({ f }) => {
 
 App Description`,
       image: {
-        data: "data:image/png;base64,iVBORw0K",
+        data: "data:image/png;base64,iVBORw...",
         type: "png",
       },
       ipfsFrontend: "https://ipfs.link",
@@ -176,8 +176,8 @@ App Description`,
           {
             files: {
               "content/services/apps/images/TIMESTAMP-my-test-app.png":
-                "iVBORw0KGgoAAAANSUhEUgAAAG8AAA",
-              "test/data/apps.yaml": `- date: TIMESTAMP
+                "[converted:png:iVBORw]",
+              "test/etc/apps.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline

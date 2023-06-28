@@ -1,4 +1,8 @@
-import type { ContributionOptions, UserConfig } from "@/types";
+import type {
+  ContributionLoaded,
+  ContributionOptions,
+  UserConfig,
+} from "@/types";
 
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
@@ -7,12 +11,38 @@ import link from "@/lib/contribution/etc/link";
 import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
-import * as fieldTests from "./fields";
+import fieldTests, { combined } from "./fields";
 
-const testContribution: ContributionOptions = {
-  commit: async ({ body }: { body: { text: string } }) => ({
-    files: { "test.md": body.text },
+const testContributionLoaded: ContributionLoaded = {
+  commit: async ({ data, fetched, files }) => ({
+    files: {
+      "test.md": JSON.stringify(data),
+    },
+    yaml: {
+      "test.yaml": {
+        data,
+        fetched,
+        yaml: files.testYaml.parsed,
+        md: files.testMd.content,
+      },
+    },
+    json: {
+      "test.json": {
+        data,
+        fetched,
+        json: files.testJson.parsed,
+        md: files.testMd.content,
+      },
+    },
   }),
+  useFiles: () => ({ testMd: "test/test.md" }),
+  useFilesOnServer: {
+    testYaml: "test/test.yaml",
+    testJson: "test/test.json",
+  },
+  useDataOnServer: async (props) => {
+    return { test: "data" };
+  },
   form: {
     fields: {
       text: {
@@ -23,6 +53,10 @@ const testContribution: ContributionOptions = {
     },
   },
 };
+const testContribution: ContributionOptions = {
+  load: async () => testContributionLoaded,
+};
+
 const test = contribution(testContribution);
 
 const testConfig: UserConfig = {
@@ -36,7 +70,29 @@ const testConfig: UserConfig = {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       contributions: {
-        api: contribution({ ...testContribution, hidden: true }),
+        api: contribution({
+          hidden: true,
+          load: async () => ({
+            ...testContributionLoaded,
+            form: {
+              fields: {
+                ...testContributionLoaded.form.fields,
+                collection: {
+                  type: "collection",
+                  title: "Test Collection",
+                  addButton: true,
+                  fields: {
+                    text: {
+                      type: "text",
+                      title: "Sub Text",
+                    },
+                  },
+                },
+              },
+            },
+          }),
+        }),
+        combined,
         tweet: tweet({
           description: "Here's my custom description",
         }),
@@ -44,13 +100,13 @@ const testConfig: UserConfig = {
           description: "My App Description",
           relativeImagePath: "./images",
           absoluteImagePath: "content/services/apps/images",
-          collectionPath: "test/data/apps.yaml",
+          collectionPath: "test/etc/apps.yaml",
         }),
         video: video({
-          collectionPath: "test/data/videos.yaml",
+          collectionPath: "test/etc/videos.yaml",
         }),
         news: news({
-          collectionPath: "test/data/news.yaml",
+          collectionPath: "test/etc/news.yaml",
         }),
         link: link({
           keyMap: {
@@ -61,7 +117,7 @@ const testConfig: UserConfig = {
           categories: {
             wallets: {
               title: "Wallet",
-              sourcePath: "content/services/wallets/index.yaml",
+              sourcePath: "test/etc/wallets.yaml",
               web: {
                 title: "Web Wallet",
                 sourceKey: "web",
@@ -74,7 +130,7 @@ const testConfig: UserConfig = {
             social: {
               showIcons: true,
               title: "Social Channels",
-              sourcePath: "content/community/channels/index.yaml",
+              sourcePath: "test/etc/channels.yaml",
               chatRooms: {
                 title: "General Chat Room",
                 sourceKey: "Chat Rooms",
@@ -92,20 +148,23 @@ const testConfig: UserConfig = {
               title: "Mining & Development",
               priceSource: {
                 title: "Price Source",
-                sourcePath: "content/development/tooling/index.yaml",
+                sourcePath: "test/etc/tooling.yaml",
                 sourceKey: "prices",
               },
               repo: {
                 showDescription: true,
                 title: "Git Repository",
-                sourcePath: "content/development/tooling/index.yaml",
+                sourcePath: "test/etc/tooling.yaml",
                 sourceKey: "repos",
               },
             },
           },
         }),
-        ...fieldTests,
       },
+    },
+    fields: {
+      title: "Field Tests",
+      contributions: fieldTests,
     },
     overrides: {
       title: "Title Override",

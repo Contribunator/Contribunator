@@ -2,6 +2,7 @@ import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
 import { DEFAULTS } from "@/lib/config";
+import { deepTrimImageData } from "./deepTrimImageData";
 
 type FormFixtureProps = {
   baseURL?: string;
@@ -53,6 +54,10 @@ export class FormFixture {
     await expect(this.page.getByText(text, { exact: true })).toBeVisible();
   }
 
+  async hasNoText(text: string) {
+    await expect(this.page.getByText(text, { exact: true })).not.toBeVisible();
+  }
+
   async submit() {
     let req: any;
     let res: any;
@@ -83,30 +88,7 @@ export class FormFixture {
     await this.submitButton.click();
     await this.hasText(testPr.url);
 
-    // strip image data if it exists
-    const trimImageData = (obj: any): any => {
-      if (typeof obj !== "object" || obj === null) {
-        return obj;
-      }
-      if (Array.isArray(obj)) {
-        return obj.map(trimImageData);
-      }
-      return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => {
-          if (
-            typeof value === "string" &&
-            (value.startsWith("data:image") ||
-              key.endsWith(".jpeg") ||
-              key.endsWith(".png"))
-          ) {
-            return [key, value.slice(0, 30)];
-          }
-
-          return [key, trimImageData(value)];
-        })
-      );
-    };
-    return trimImageData({ req, res });
+    return { req: deepTrimImageData(req), res };
   }
 
   // asser that validation errors exist
@@ -119,25 +101,63 @@ export class FormFixture {
     await expect(this.submitButton).toBeDisabled();
   }
 
-  getByLabel(fieldTitle: string) {
-    return this.page
+  getByLabel(fieldTitle: string, locator?: Locator) {
+    return (locator || this.page)
       .locator("label")
       .filter({ has: this.page.getByText(fieldTitle, { exact: true }) })
       .last()
       .locator("..");
   }
 
-  async setText(fieldTitle: string, text: string) {
-    const locator = await this.getByLabel(fieldTitle).getByRole("textbox");
+  async setText(fieldTitleOrLocator: string | Locator, text: string) {
+    const locator = (
+      typeof fieldTitleOrLocator === "string"
+        ? this.getByLabel(fieldTitleOrLocator)
+        : fieldTitleOrLocator
+    ).getByRole("textbox");
     await locator.fill(text);
-    await locator.blur();
+    // blur if possible for validation
+    if (await locator.isVisible()) {
+      await locator.blur();
+    }
   }
 
-  async clickButton(fieldTitle: string, name: string) {
-    await this.getByLabel(fieldTitle).getByText(name).first().click();
+  async clickButton(fieldTitle: string, items: string | string[]) {
+    if (typeof items === "string") {
+      items = [items];
+    }
+    const locator = this.getByLabel(fieldTitle);
+    for (const item of items) {
+      await locator.getByText(item, { exact: true }).first().click();
+    }
   }
 
-  // async clickDropdownItem(fieldTitle: string, item: string) {}
+  async clickDropdownItem(fieldTitle: string, items: string | string[]) {
+    if (typeof items === "string") {
+      items = [items];
+    }
+    const locator = await this.getByLabel(fieldTitle).locator(".dropdown");
+    await locator.click();
+    for (const item of items) {
+      await locator.getByText(item, { exact: true }).click();
+    }
+  }
+
+  async getValue(fieldTitle: string, type?: string) {
+    // todo if it's a dropdown
+    const locator = this.getByLabel(fieldTitle);
+    if (type === "dropdown") {
+      return await locator.locator(".dropdown > label").textContent();
+    }
+    if (type === "buttons") {
+      const selected = await locator.locator("[data-selected]");
+      // join text values
+      return await selected.evaluateAll((el) =>
+        el.map((e) => e.textContent).join(", ")
+      );
+    }
+    return await locator.locator("input").getAttribute("value");
+  }
 
   async uploadImage(fieldTitle: string, filename: string) {
     await this.getByLabel(fieldTitle)
@@ -157,6 +177,27 @@ export class FormFixture {
       const input = await handle?.$("input");
       await input?.fill(alt);
     }
+  }
+
+  getCollection(fieldName: string, path: (string | number)[]) {
+    let locator = this.getByLabel(fieldName);
+    for (const p of path) {
+      if (typeof p === "string") {
+        locator = this.getByLabel(p, locator);
+      } else {
+        locator = locator.locator("> .flex > .collection").nth(p);
+      }
+    }
+    return locator;
+  }
+
+  async setCollectionText(
+    fieldName: string,
+    path: (string | number)[],
+    string: string
+  ) {
+    const locator = this.getCollection(fieldName, path);
+    await this.setText(locator, string);
   }
 
   async signIn() {

@@ -16,13 +16,15 @@ export default function FieldHeader({
 }) {
   if (!title && !error && !info) return null;
   return (
-    <label className="label" htmlFor={name}>
-      {title && <span className="label-text text-left">{title}</span>}
+    <label className="label space-x-6 font-bold" htmlFor={name}>
+      {title && (
+        <span className="label-text text-left opacity-60">{title}</span>
+      )}
       {error ? (
         <ErrorMessage error={error} />
       ) : (
         info && (
-          <span className="label-text-alt text-right">
+          <span className="label-text-alt text-right opacity-60">
             {!infoLink && info}
             {!!infoLink && (
               <a

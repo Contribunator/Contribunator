@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import { e2e } from "@/lib/env";
 
 type Images = { [fileName: string]: string };
 
@@ -8,8 +9,15 @@ export default async function convertImages(images: Images): Promise<Images> {
   await Promise.all(
     Object.keys(images).map(async (fileName) => {
       try {
-        const start = new Date().getTime();
         const fileType = fileName.split(".").pop() as "png" | "jpg";
+        // in e2e mode, skip this and return testable data
+        if (e2e) {
+          converted[fileName] = `[converted:${fileType}:${images[fileName]
+            .split(",")[1]
+            .slice(0, 6)}]`;
+          return;
+        }
+        const start = new Date().getTime();
         const buffer = Buffer.from(images[fileName].split(",")[1], "base64");
         // TODO make max width configurable
         const convertedBuf = await sharp(buffer)

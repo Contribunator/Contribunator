@@ -1,42 +1,61 @@
 import type { IconType } from "react-icons";
 
-import { Commit } from "./pullRequest";
+import {
+  Commit,
+  FetchData,
+  FetchFiles,
+  FetchedData,
+  PrMetadata,
+} from "./pullRequest";
 import { Form } from "./form";
+import { Repo } from "./config";
 
 export type Icon = IconType;
 
 export type UseFiles =
   | { [key: string]: string }
-  | ((values: any) => { [key: string]: string });
+  | ((props: FetchFiles) => {
+      [key: string]: string;
+    });
 
-// TODO replace body with actual body
-export type PrMetadata = (body: any) => { title: string; message: string };
+export type UseData = (props: FetchData) => Promise<FetchedData>;
 
-export type Contribution = {
+export type ContributionMeta = {
   title: string;
   description: string;
-  name: string;
+  name?: string;
   color: TailwindColor;
   hidden?: boolean;
-  form: Form;
-  schema: any; // TODO
-  commit: Commit;
-  prMetadata: PrMetadata;
   icon: IconType;
+};
+
+export type ContributionLoaded = {
+  form: Form;
+  commit: Commit;
+  prMetadata?: PrMetadata;
   useFiles?: UseFiles; // server and client
   useFilesOnClient?: UseFiles; // client only
   useFilesOnServer?: UseFiles; // server only
+  useData?: UseData;
+  useDataOnServer?: UseData;
+  useDataOnClient?: UseData;
 };
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+export type Contribution = ContributionMeta &
+  Omit<ContributionLoaded, "prMetadata"> & {
+    prMetadata: PrMetadata;
+    schema: any; // TODO // generated
+  };
 
-export type ContributionOptions = Omit<
-  Optional<
-    Contribution,
-    "prMetadata" | "color" | "icon" | "title" | "description" | "schema"
-  >,
-  "name"
->;
+// resolved config
+export type ContributionConfig = ContributionMeta & {
+  load: (name: string, repoConfig: Repo) => Promise<Contribution>;
+};
+
+// passed options
+export type ContributionOptions = Partial<ContributionMeta> & {
+  load: (name: string, repoConfig: Repo) => Promise<ContributionLoaded>;
+};
 
 export type TailwindColor =
   | "slate"

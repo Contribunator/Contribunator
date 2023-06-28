@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import getConfig from "@/lib/config";
 
-import createPR from "./pullRequestCreate";
-import transformPR from "./pullRequestTransform";
+import submitPullRequest from "./submitPullRequest";
+import transformPullRequest from "./transformPullRequest";
 import authorize from "./authorize";
 
 export default async function postContribution(req: NextRequest) {
@@ -22,15 +22,15 @@ export default async function postContribution(req: NextRequest) {
     const authorized = await authorize({ req, body, config });
 
     // validate the schema, returns an object we can trust
-    const validated = await config.contribution.schema
-      .noUnknown("Unexpected field in request body")
-      .validate(body, { strict: true });
+    const validated = await config.contribution.schema.validate(body, {
+      strict: true,
+    });
 
     // transform a PR
-    const transformed = await transformPR({ body: validated, config });
+    const transformed = await transformPullRequest({ body: validated, config });
 
     // create the PR
-    const data = await createPR({
+    const data = await submitPullRequest({
       transformed,
       authorized,
       config,
@@ -44,6 +44,7 @@ export default async function postContribution(req: NextRequest) {
       message = err.message;
     }
     // todo return correct error code
+    console.error(err || message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

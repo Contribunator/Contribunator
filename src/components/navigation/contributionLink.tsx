@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { Repo, Contribution } from "@/types";
+import { Repo, ContributionMeta } from "@/types";
 
 const ContributionLink = ({
   name,
   contribution: { icon: Icon, title, description, color },
   repo,
 }: {
-  contribution: Contribution;
+  contribution: ContributionMeta;
   repo: Repo;
   name: string;
 }) => {

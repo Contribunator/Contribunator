@@ -2,18 +2,15 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider, { GithubProfile } from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { clientId, clientSecret, e2e } from "@/lib/env";
+import { e2e, auth } from "@/lib/env.server";
+
+// TODO only enable if config has it enabled
 
 const nextAuthOptions: NextAuthOptions = {
   theme: {
     colorScheme: "light",
   },
-  providers: [
-    GithubProvider({
-      clientId,
-      clientSecret,
-    }),
-  ],
+  providers: [GithubProvider(auth.github)],
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {

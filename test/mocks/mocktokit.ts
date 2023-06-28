@@ -1,4 +1,7 @@
 // TODO test with genreated title
+import fs from "fs/promises";
+import { join } from "path";
+
 export const testPr = {
   url: "https://github.com/repo/owner/pulls/123",
   number: 123,
@@ -32,122 +35,28 @@ class Mocktokit {
   // test fetchFiles
   repos = {
     async getContent({ path }: { path: string }) {
-      if (path === "test/data/news.yaml") {
+      try {
+        // reject strings that don't start with test
+        if (!path.startsWith("test/")) {
+          throw new Error("Warning: Not requesting test data");
+        }
+        // read data from test/data
+        const fileName = join(
+          process.cwd(),
+          "test/assets/data",
+          path.replace("test/", "")
+        );
+        const data = await fs.readFile(fileName, { encoding: "utf8" });
         return {
           data: {
             type: "file",
-            content: Buffer.from(
-              `# Existing Test
-- date: 2023-02-01
-  link: https://example.com/
-  title: "Test news item"
-  tags: ["announcement"]
-- date: 2022-09-08
-  link: https://test.com/
-  author: Autho Test
-  source: Source Test
-  title: "This is some weird title."
-  tags: ["food", "information"] `
-            ).toString("base64"),
+            content: Buffer.from(data).toString("base64"),
           },
         };
+      } catch (e) {
+        console.log(e);
+        return { status: 404 };
       }
-      if (path === "test/data/videos.yaml") {
-        return {
-          data: {
-            type: "file",
-            content: Buffer.from(
-              `# Existing Test
-- title: "Test Video"
-  date: 2022-02-08
-  uploaded: 2022-02-08
-  youtube: o4n6pqRyA1c
-  tags: ["discussions", "explainers"]
-  author: Existing Author
-  authorYoutube: c/channel_name
-  description: my description here`
-            ).toString("base64"),
-          },
-        };
-      }
-
-      if (path === "test/data/apps.yaml") {
-        return {
-          data: {
-            type: "file",
-            content: Buffer.from(
-              `# Existing Test
-- title: Existing App
-  date: 2023-03-05
-  image: ./some/image.png
-  author: Some Some AUthor
-  authorLink: https://github.com/link
-  verifiedContract: https://blockscout.com/etc/mainnet/address/
-  description: Test description
-  type: finance
-  links:
-    - name: Twitter
-      link: https://twitter.com/xxx
-      icon: twitter
-    - name: Telegram
-      link: https://t.me/xxx
-      icon: telegram
-    - name: Discord
-      link: https://discord.com/invite/xxx
-      icon: discord`
-            ).toString("base64"),
-          },
-        };
-      }
-
-      if (path.startsWith("content/")) {
-        return {
-          data: {
-            type: "file",
-            content: Buffer.from(
-              `# Existing Test
-items:              
-  web:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  browsers:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Chat Rooms:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Development Chat:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  Telegram Groups:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  prices:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
-  repos:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com`
-            ).toString("base64"),
-          },
-        };
-      }
-
-      return { status: 404 };
     },
   };
 }

@@ -14,9 +14,9 @@ const baseURL = `http://localhost:${PORT}`;
 const config: PlaywrightTestConfig = {
   // Timeout per test
   timeout: 30 * 1000,
-  // expect: {
-  //   timeout: 1000,
-  // },
+  expect: {
+    timeout: 3000,
+  },
   // Test directory
   testDir: path.join(__dirname, "test/e2e"),
   // snapshots

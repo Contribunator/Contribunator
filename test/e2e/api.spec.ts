@@ -1,5 +1,11 @@
 import { test as base, expect } from "@playwright/test";
-import { ApiFixture } from "@/../test/fixtures/api.fixture";
+
+import {
+  ApiFixture,
+  baseReq,
+  baseRes,
+  prPostfix,
+} from "@/../test/fixtures/api.fixture";
 
 const test = base.extend<{ a: ApiFixture }>({
   a: ({ request }, use) => {
@@ -7,53 +13,23 @@ const test = base.extend<{ a: ApiFixture }>({
   },
 });
 
-import { DEFAULTS } from "@/lib/config";
-const { prPostfix } = DEFAULTS;
-
-const baseReq = {
-  authorization: "anon",
-  repo: "TEST",
-  contribution: "api",
-  text: "test text",
-};
-
-const baseRes = {
-  pr: {
-    number: 123,
-    title: "This is my test commit",
-    url: "https://github.com/repo/owner/pulls/123",
-  },
-  test: {
-    commit: {
-      branch: "c11r/timestamp-add-contribution",
-      changes: [
-        {
-          files: {
-            "test.md": "test text",
-          },
-          message: "Add Contribution",
-        },
-      ],
-      createBranch: true,
-      owner: "test-owner",
-      repo: "TEST",
-    },
-    pr: {
-      base: "main",
-      body: `This PR adds a new Contribution:
-
-## Text
-test text${prPostfix}`,
-      head: "c11r/timestamp-add-contribution",
-      owner: "test-owner",
-      repo: "TEST",
-      title: "Add Contribution",
-    },
-  },
-};
-
 test("allows valid params", async ({ a }) => {
   expect(await a.post(baseReq)).toEqual(baseRes);
+  expect(
+    await a.post({ ...baseReq, collection: [{ text: "hello" }] })
+  ).toMatchObject({
+    test: {
+      commit: {
+        changes: [
+          {
+            files: {
+              "test.md": '{"text":"test text","collection":[{"text":"hello"}]}',
+            },
+          },
+        ],
+      },
+    },
+  });
 });
 
 test("allows custom PR options", async ({ a }) => {
@@ -63,33 +39,19 @@ test("allows custom PR options", async ({ a }) => {
       customMessage: "test message",
       customTitle: "test title",
     })
-  ).toEqual({
-    pr: {
-      number: 123,
-      title: "This is my test commit",
-      url: "https://github.com/repo/owner/pulls/123",
-    },
+  ).toMatchObject({
     test: {
       commit: {
         branch: "c11r/timestamp-test-title",
         changes: [
           {
-            files: {
-              "test.md": "test text",
-            },
             message: "test title",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `test message${prPostfix}`,
         head: "c11r/timestamp-test-title",
-        owner: "test-owner",
-        repo: "TEST",
         title: "test title",
       },
     },
@@ -100,13 +62,63 @@ test("disallows fields outside of schema", async ({ a }) => {
   expect(await a.post({ ...baseReq, blah: "something" })).toEqual({
     error: "Unexpected field in request body",
   });
+  expect(await a.post({ ...baseReq, blah: null })).toEqual({
+    error: "Unexpected field in request body",
+  });
+  expect(await a.post({ ...baseReq, blah: {} })).toEqual({
+    error: "Unexpected field in request body",
+  });
+  expect(await a.post({ ...baseReq, blah: [] })).toEqual({
+    error: "Unexpected field in request body",
+  });
   expect(await a.post({ ...baseReq, nested: { thing: "yo" } })).toEqual({
     error: "Unexpected field in request body",
   });
-  // await a.expect({ text: "test", notInSchema: "test" }, { error });
-  // await a.expect({ text: "test", nested: { item: "test" } }, { error });
-  // TODO also test this for collections
-  // TODO fix the validation extra keys in collections
+  // collection extra fields
+  expect(
+    await a.post({
+      ...baseReq,
+      collection: [{ text: "hello", somethingElse: "wat" }],
+    })
+  ).toEqual({
+    error: "Test Collection has an invalid field",
+  });
+
+  expect(
+    await a.post({
+      ...baseReq,
+      collection: [{ text: "hello", nested: { thing: "wat" } }],
+    })
+  ).toEqual({
+    error: "Test Collection has an invalid field",
+  });
+
+  expect(
+    await a.post({
+      ...baseReq,
+      collection: [],
+    })
+  ).toEqual({
+    error: "Test Collection must not be empty",
+  });
+
+  expect(
+    await a.post({
+      ...baseReq,
+      collection: [{}],
+    })
+  ).toEqual({
+    error: "Test Collection has an empty item",
+  });
+
+  expect(
+    await a.post({
+      ...baseReq,
+      collection: [{}, {}],
+    })
+  ).toEqual({
+    error: "Test Collection has an empty item",
+  });
 });
 
 test("rejects long titles", async ({ a }) => {

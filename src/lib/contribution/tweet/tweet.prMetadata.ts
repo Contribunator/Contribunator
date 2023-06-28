@@ -2,32 +2,32 @@ import slugify from "@/lib/helpers/slugify";
 
 import type { PrMetadata } from "@/types";
 
-const tweetPrMetadata: PrMetadata = (body) => {
+const tweetPrMetadata: PrMetadata = ({ data }) => {
   // todo poll, etc.
-  const mediaCount = body.media && body.media.filter((m: string) => m).length;
+  const mediaCount = data.media && data.media.filter((m: string) => m).length;
 
-  let title = body.quoteType || "tweet";
+  let title = data.quoteType || "tweet";
 
-  if (body.quoteType && body.quoteUrl) {
-    title += " " + body.quoteUrl.split("/")[3];
+  if (data.quoteType && data.quoteUrl) {
+    title += " " + data.quoteUrl.split("/")[3];
   }
 
   if (mediaCount) {
     title += " with media";
   }
 
-  if (body.text) {
-    title += " " + body.text;
+  if (data.text) {
+    title += " " + data.text;
   }
 
   title = "Add " + slugify(title, { join: " ", slice: 10 });
 
   let message = "This Pull Request creates a new";
 
-  if (body.quoteType && body.quoteUrl) {
-    message += ` ${body.quoteType} ${
-      body.quoteType === "retweet" ? "of" : "to"
-    } ${body.quoteUrl}`;
+  if (data.quoteType && data.quoteUrl) {
+    message += ` ${data.quoteType} ${
+      data.quoteType === "retweet" ? "of" : "to"
+    } ${data.quoteUrl}`;
   } else {
     message += " tweet";
   }
@@ -38,7 +38,7 @@ const tweetPrMetadata: PrMetadata = (body) => {
 
   message += ".";
 
-  if (!body.text) {
+  if (!data.text) {
     message += `\n\nThere is no text in the tweet.`;
   }
 
