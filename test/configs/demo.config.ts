@@ -3,7 +3,7 @@ import tweet from "@/lib/contribution/tweet";
 
 import type { UserConfig } from "@/types";
 
-import { combined } from "./fields";
+import e2eConfig from "./test.config";
 
 const demoConfig: UserConfig = {
   authorization: ["github", "captcha"],
@@ -12,10 +12,6 @@ const demoConfig: UserConfig = {
       title: "Sample Repo",
       description: "A demo repository to test out Contribunator",
       contributions: {
-        combined,
-        tweet: tweet({
-          description: "Here's my custom description",
-        }),
         simple: contribution({
           title: "A Simple Test",
           description: "Submit a message that will be appended to the readme.",
@@ -43,6 +39,10 @@ ${timestamp}: ${data.text}
               },
             },
           }),
+        }),
+        ...e2eConfig.repos?.TEST.contributions,
+        tweet: tweet({
+          description: "Submits a twitter-together compatible tweet PR",
         }),
       },
     },

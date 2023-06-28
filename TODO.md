@@ -4,7 +4,6 @@ Below are the upcoming features and improvements.
 
 ## Merge
 
-- Update Videos to have better PR names
 - Test demo/etc works with new env vars
 
 ## Then Update Docs
