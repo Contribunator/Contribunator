@@ -70,7 +70,7 @@ export default function video({
           message: `This PR adds the video [${
             title || yt.title || missingTitle
           }](https://www.youtube.com/watch?v=${youtube}) by [${vAuthor}](https://www.youtube.com/channel/${
-            yt.channelId
+            yt.channelId || "CHANNEL_ID"
           }).`,
         };
       },
