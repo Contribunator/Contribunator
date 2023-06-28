@@ -49,22 +49,22 @@ export default function app({
       useFilesOnServer: {
         apps: collectionPath,
       },
-      commit: async ({ files, timestamp: t, data }) => {
-        const { image, url, title, description, links = [], ...rest } = data;
-
+      commit: async ({
+        files,
+        timestamp: t,
+        data: { image, url, title, description, links = [], ...rest },
+      }) => {
         let newApp: any = {
           date: timestamp("YYYY-MM-DD"),
           title,
           description,
         };
-
-        const images: { [key: string]: string } = {};
+        const images: any = {};
         if (image) {
           const imageName = `${t}-${slugify(title)}.${image.type}`;
           images[`${absoluteImagePath}/${imageName}`] = image.data;
           newApp.image = `${relativeImagePath}/${imageName}`;
         }
-
         newApp = {
           ...newApp,
           ...rest,

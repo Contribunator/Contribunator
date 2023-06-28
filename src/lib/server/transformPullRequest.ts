@@ -17,72 +17,47 @@ export default async function transformPullRquest({
   config,
 }: PRTransformInputs): Promise<TransformedPR> {
   const { contribution } = config;
-
   if (!contribution.commit) {
     throw new Error("Contribution has no commit method defined!");
   }
-
+  // generate a common timestamp
   const timestamp = getTimestamp();
-
-  // destructure fields
-  const { data, meta } = destructureMeta(body);
+  // group common fields
+  const common = { ...destructureMeta(body), config, timestamp };
   // fetchData
-  const fetched = await fetchData({ config, data, meta });
+  const fetched = await fetchData(common);
   // todo fetchFiles
-  const files = await fetchFiles({ config, data, meta, fetched });
-  // extract images from form
-  const images = extractImages({ timestamp, data, config });
+  const files = await fetchFiles({ ...common, fetched });
+  // extract images from form, decorates data with image filenames
+  const { images, data } = extractImages(common);
+  // group for reuse
+  const prData = { ...common, fetched, files, images, data, timestamp };
   // generate metadata
-  const prMetadata = contribution.prMetadata({
-    config,
-    data,
-    fetched,
-    files,
-    images,
-    meta,
-    timestamp,
-  });
-
+  const prMetadata = contribution.prMetadata(prData);
   // override metadata if custom values set
-  const title = meta.customTitle || prMetadata.title;
-  const message = meta.customMessage || prMetadata.message;
+  const title = common.meta.customTitle || prMetadata.title;
+  const message = common.meta.customMessage || prMetadata.message;
   const branch = slugify(`${timestamp} ${title}`);
-
+  const meta = { title, message, branch };
   // pass all available data for user to play with
-  const commit = await contribution.commit({
-    branch,
-    config,
-    data,
-    fetched,
-    files,
-    images,
-    message,
-    meta,
-    timestamp,
-    title,
-  });
-
-  const transformed: TransformedPR = {
-    title,
-    message,
-    branch,
-    files: {},
-  };
-
+  const commit = await contribution.commit({ ...prData, ...meta });
+  // build the PR object
+  const transformed: TransformedPR = { ...meta, files: {} };
+  // add passed files
   if (files) {
     transformed.files = {
       ...transformed.files,
       ...commit.files,
     };
   }
-
+  // convert passed images
   if (commit.images) {
     transformed.files = {
       ...transformed.files,
       ...(await convertImages(commit.images)),
     };
   }
-
+  // stringify passed json
   if (commit.json) {
     transformed.files = {
       ...transformed.files,
@@ -95,7 +70,7 @@ export default async function transformPullRquest({
       ),
     };
   }
-
+  // stringify passed yaml
   if (commit.yaml) {
     transformed.files = {
       ...transformed.files,
@@ -108,6 +83,6 @@ export default async function transformPullRquest({
       ),
     };
   }
-
+  // voila
   return transformed;
 }

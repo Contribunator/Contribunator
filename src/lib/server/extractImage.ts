@@ -5,7 +5,6 @@ import type {
   ConfigWithContribution,
   Contribution,
   ExtractedImages,
-  ExtractedImagesDeep,
   ExtractedImagesFlat,
 } from "@/types";
 
@@ -59,8 +58,7 @@ export default function extractImages({
 }: ExtractImagesProps): ExtractedImages {
   // we can query the contribution to get the field name
   const { contribution } = config;
-  const flat: ExtractedImagesFlat = {};
-  const deep: ExtractedImagesDeep = {};
+  const images: ExtractedImagesFlat = {};
   const getImagesDeep = (obj: any, path: Path = []) => {
     if (typeof obj === "object") {
       // iterate over arrays
@@ -74,9 +72,9 @@ export default function extractImages({
         ["png", "jpg", "jpeg"].includes(obj.type) &&
         obj?.data.startsWith("data:image/")
       ) {
-        const name = getImageName(obj, path, contribution, timestamp);
-        flat[name] = obj.data;
-        set(deep, path, obj.data);
+        const fileName = getImageName(obj, path, contribution, timestamp);
+        images[fileName] = obj.data;
+        set(data, path, { ...obj, fileName });
         return;
       }
       // otherwise let's go deeper!
@@ -86,5 +84,5 @@ export default function extractImages({
     }
   };
   getImagesDeep(data);
-  return { deep, flat };
+  return { data, images };
 }

@@ -87,7 +87,7 @@ export default function link({
     color: "yellow",
     ...opts,
     load: async () => ({
-      useFilesOnServer({ category }: any) {
+      useFilesOnServer({ data: { category } }) {
         const links = getCatProp("sourcePath", category, categories);
         if (!links)
           throw new Error("No sourcePath found for category", category);

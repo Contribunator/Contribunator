@@ -4,13 +4,8 @@ Below are the upcoming features and improvements.
 
 ## Merge
 
-- Update commit to pass all details in an object for easy manipulation
-- Refactor commits to use new `fetchDataOnServer` and extracted images
 - Update Videos to have better PR names
-
 - Test demo/etc works with new env vars
-- Move ETC-only contributions/tests elsewhere?
-- Refactor tests
 
 ## Then Update Docs
 
@@ -37,6 +32,8 @@ Below are the upcoming features and improvements.
 
 ### Chores
 
+- Refactor tests
+- Move ETC-only contributions/tests elsewhere?
 - merge images and collection logic
 - Improved error/conf feedback in the UI (not alert)
 - OG Image

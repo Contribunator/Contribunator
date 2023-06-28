@@ -47,14 +47,9 @@ export type FetchedData = any;
 export type ExtractedImagesFlat = {
   [key: string]: string;
 };
-
-export type ExtractedImagesDeep = {
-  [key: string]: ExtractedImagesDeep | { [key: string]: string };
-};
-
 export type ExtractedImages = {
-  flat: ExtractedImagesFlat;
-  deep: ExtractedImagesDeep;
+  images: ExtractedImagesFlat;
+  data: Data;
 };
 
 // this also runs on client so don't require all fields
@@ -62,7 +57,7 @@ export type PrMetadata = (props: {
   meta: Meta;
   data: Data;
   config: ConfigWithContribution;
-  images?: ExtractedImages;
+  images?: ExtractedImagesFlat;
   files?: FetchedFiles;
   timestamp?: string;
   fetched?: FetchedData;
@@ -81,7 +76,7 @@ export type TransformedPR = {
 };
 
 export type CommitInputs = {
-  images: ExtractedImages;
+  images: ExtractedImagesFlat;
   title: string;
   message: string;
   branch: string;

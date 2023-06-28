@@ -149,32 +149,6 @@ test("image field", async ({ f }) => {
         changes: [
           {
             files: {
-              "test.yaml": `imageBasic:
-  data: data:image/jpeg;base64,/9j/4A...
-  type: jpeg
-imageFull:
-  data: data:image/jpeg;base64,/9j/4A...
-  type: jpeg
-  alt: My alt text
-imagesBasic:
-  - data: data:image/jpeg;base64,/9j/4A...
-    type: jpeg
-  - data: data:image/png;base64,iVBORw...
-    type: png
-  - data: data:image/png;base64,iVBORw...
-    type: png
-  - data: data:image/jpeg;base64,/9j/4A...
-    type: jpeg
-imagesFull:
-  - data: data:image/png;base64,iVBORw...
-    type: png
-    alt: Some Dice
-  - data: data:image/jpeg;base64,/9j/4A...
-    type: jpeg
-  - data: data:image/jpeg;base64,/9j/4A...
-    type: jpeg
-    alt: kitten with alt
-`,
               "timestamp-image-basic-image.jpeg": "[converted:jpeg:/9j/4A]",
               "timestamp-image-basic-images-0.jpeg": "[converted:jpeg:/9j/4A]",
               "timestamp-image-basic-images-1.png": "[converted:png:iVBORw]",
@@ -188,6 +162,41 @@ imagesFull:
                 "[converted:jpeg:/9j/4A]",
               "timestamp-image-images-with-full-options-2-kitten-with-alt.jpeg":
                 "[converted:jpeg:/9j/4A]",
+              "test.yaml": `imageBasic:
+  data: data:image/jpeg;base64,/9j/4A...
+  type: jpeg
+  fileName: timestamp-image-basic-image.jpeg
+imageFull:
+  data: data:image/jpeg;base64,/9j/4A...
+  type: jpeg
+  alt: My alt text
+  fileName: timestamp-image-image-with-full-options-my-alt-text.jpeg
+imagesBasic:
+  - data: data:image/jpeg;base64,/9j/4A...
+    type: jpeg
+    fileName: timestamp-image-basic-images-0.jpeg
+  - data: data:image/png;base64,iVBORw...
+    type: png
+    fileName: timestamp-image-basic-images-1.png
+  - data: data:image/png;base64,iVBORw...
+    type: png
+    fileName: timestamp-image-basic-images-2.png
+  - data: data:image/jpeg;base64,/9j/4A...
+    type: jpeg
+    fileName: timestamp-image-basic-images-3.jpeg
+imagesFull:
+  - data: data:image/png;base64,iVBORw...
+    type: png
+    alt: Some Dice
+    fileName: timestamp-image-images-with-full-options-0-some-dice.png
+  - data: data:image/jpeg;base64,/9j/4A...
+    type: jpeg
+    fileName: timestamp-image-images-with-full-options-1.jpeg
+  - data: data:image/jpeg;base64,/9j/4A...
+    type: jpeg
+    alt: kitten with alt
+    fileName: timestamp-image-images-with-full-options-2-kitten-with-alt.jpeg
+`,
             },
           },
         ],

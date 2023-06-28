@@ -299,26 +299,32 @@ subCollectionPopulated:
     image:
       data: data:image/jpeg;base64,/9j/4A...
       type: jpeg
+      fileName: timestamp-collection-required-sub-collection-with-all-fields-0-parent-image.jpeg
     images:
       - data: data:image/png;base64,iVBORw...
         type: png
         alt: Some cool dice
+        fileName: timestamp-collection-required-sub-collection-with-all-fields-0-parent-images-0-some-cool-dice.png
       - data: data:image/jpeg;base64,/9j/4A...
         type: jpeg
         alt: A Kitten
+        fileName: timestamp-collection-required-sub-collection-with-all-fields-0-parent-images-1-a-kitten.jpeg
     subCollection:
       - text: title of sub
         choice: green
         image:
           data: data:image/png;base64,iVBORw...
           type: png
+          fileName: timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-image.png
         images:
           - data: data:image/jpeg;base64,/9j/4A...
             type: jpeg
             alt: Sub Kitten
+            fileName: timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-images-0-sub-kitten.jpeg
           - data: data:image/png;base64,iVBORw...
             type: png
             alt: Sub dice
+            fileName: timestamp-collection-required-sub-collection-with-all-fields-0-sub-collection-0-sub-images-1-sub-dice.png
 `,
               "timestamp-collection-required-sub-collection-with-all-fields-0-parent-image.jpeg":
                 "[converted:jpeg:/9j/4A]",

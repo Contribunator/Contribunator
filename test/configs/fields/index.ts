@@ -30,9 +30,11 @@ function fieldTest(props: any, passedFields: Fields) {
     description: "Field Test",
     ...props,
     load: async () => ({
-      commit: async ({ data, images: { flat } }) => {
+      commit: async ({ data, images }) => {
+        console.log("got images", images);
+        // throw new Error("not implemented");
         return {
-          images: flat,
+          images,
           yaml: {
             "test.yaml": deepTrimImageData(data),
           },
