@@ -4,6 +4,7 @@ import { GithubProfile } from "next-auth/providers/github";
 
 import { Authorized, ConfigWithContribution } from "@/types";
 import { auth } from "@/lib/env.server";
+import log from "@/lib/log";
 
 type AuthFunction = ({
   req,
@@ -18,7 +19,7 @@ const authMethods: Record<string, AuthFunction> = {
     // TODO, get a new oauth token with octokit
     const token = (await getToken({ req })) as GithubProfile;
     if (token) {
-      console.log("authorized github user", token.login);
+      log.info({ msg: "authorized github user", login: token.login });
       return {
         type: "github",
         token,
@@ -33,12 +34,12 @@ const authMethods: Record<string, AuthFunction> = {
       });
       const data = await response.json();
       if (data.success) {
-        console.log("authorized captcha");
+        log.info({ msg: "authorized captcha" });
         return {
           type: "captcha",
         };
       } else {
-        console.log("captcha failed", data);
+        log.warn({ msg: "captcha failed", data });
       }
     }
   },
@@ -46,17 +47,17 @@ const authMethods: Record<string, AuthFunction> = {
     const apiKey = req.headers.get("x-api-key");
     const user = apiKey && auth.api.keys?.[apiKey];
     if (user) {
-      console.log("authorized API key", user);
+      log.info({ msg: "authorized API key", user });
       return {
         type: "api",
         user,
       };
     } else {
-      console.log("api key not found", apiKey?.slice(0, 3));
+      log.warn({ msg: "api key not found", key: apiKey?.slice(0, 3) });
     }
   },
   anon: async function () {
-    console.log("authorized anon");
+    log.info({ msg: "authorized anon" });
     return { type: "anon" };
   },
 };

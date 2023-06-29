@@ -1,5 +1,6 @@
 import sharp from "sharp";
 import { e2e } from "@/lib/env";
+import log from "@/lib/log";
 
 type Images = { [fileName: string]: string };
 
@@ -26,9 +27,9 @@ export default async function convertImages(images: Images): Promise<Images> {
           .toBuffer();
         converted[fileName] = convertedBuf.toString("base64");
         const taken = new Date().getTime() - start;
-        console.log(`converted in ${taken}ms ${fileName}`);
+        log.info(`converted in ${taken}ms ${fileName}`);
       } catch (e) {
-        console.log("Errorr converting", fileName);
+        log.error("Errorr converting", fileName);
         throw e;
       }
     })

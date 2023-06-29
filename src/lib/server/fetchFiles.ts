@@ -3,6 +3,7 @@ import YAML from "yaml";
 import Octokit from "./octokit";
 
 import { FetchFiles, FetchedFile, FetchedFiles } from "@/types";
+import log from "@/lib/log";
 
 const octokit = new Octokit();
 
@@ -80,7 +81,7 @@ export default async function fetchFiles(
           // TODO we need to detect if there's a 404 error
           // or a rate limit error or something else
           // TODO handle API rate lmiting and other errors
-          console.log(e);
+          log.warn(e);
           if (e.status === 404) {
             return { ...file, exists: false };
           }

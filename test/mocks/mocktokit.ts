@@ -1,6 +1,8 @@
 // TODO test with genreated title
-import fs from "fs/promises";
 import { join } from "path";
+import fs from "fs/promises";
+
+import log from "@/lib/log";
 
 export const testPr = {
   url: "https://github.com/repo/owner/pulls/123",
@@ -31,13 +33,13 @@ class Mocktokit {
       },
       requestReviewers: async ({ reviewers, team_reviewers }: any) => {
         // noop
-        console.log({ reviewers, team_reviewers });
+        log.info({ reviewers, team_reviewers });
       },
     },
     issues: {
       addLabels: async ({ labels }: any) => {
         // noop
-        console.log({ labels });
+        log.info({ labels });
       },
     },
   };
@@ -64,7 +66,7 @@ class Mocktokit {
           },
         };
       } catch (e) {
-        console.log(e);
+        log.warn(e);
         return { status: 404 };
       }
     },

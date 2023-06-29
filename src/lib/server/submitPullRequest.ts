@@ -10,6 +10,8 @@ import type {
 
 import { e2e, githubApp } from "@/lib/env.server";
 
+import log from "@/lib/log";
+
 import Octokit from "./octokit";
 
 const OctokitPlugin = Octokit.plugin(commitMultipleFiles);
@@ -61,8 +63,8 @@ export default async function submitPullRequest({
     ],
   };
 
-  console.log("commit", commit);
-  console.log("files", files);
+  log.info({ commit });
+  log.info({ files });
   await octokit.rest.repos.createOrUpdateFiles(commit);
 
   const pr = {
@@ -74,7 +76,7 @@ export default async function submitPullRequest({
     body: prMessage,
   };
 
-  console.log("pr", pr);
+  log.info({ pr });
   const { data } = await octokit.rest.pulls.create(pr);
 
   // add tags and reviwer status
