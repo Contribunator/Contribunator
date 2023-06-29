@@ -14,6 +14,11 @@ export type Config = {
   base: string;
   branchPrefix: string;
   prPostfix: string;
+  addLabels?: string[];
+  requestReviewers?: {
+    users?: string[];
+    teams?: string[];
+  };
   repos: { [key: string]: Repo };
 };
 

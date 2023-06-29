@@ -29,6 +29,16 @@ class Mocktokit {
           },
         };
       },
+      requestReviewers: async ({ reviewers, team_reviewers }: any) => {
+        // noop
+        console.log({ reviewers, team_reviewers });
+      },
+    },
+    issues: {
+      addLabels: async ({ labels }: any) => {
+        // noop
+        console.log({ labels });
+      },
     },
   };
 

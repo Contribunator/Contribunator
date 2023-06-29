@@ -11,6 +11,10 @@ const demoConfig: UserConfig = {
     Sample: {
       title: "Sample Repo",
       description: "A demo repository to test out Contribunator",
+      addLabels: ["c11r"],
+      requestReviewers: {
+        users: ["IstoraMandiri"],
+      },
       contributions: {
         simple: contribution({
           title: "A Simple Test",
