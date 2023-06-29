@@ -204,7 +204,16 @@ const testConfig: UserConfig = {
     tweets: {
       title: "Tweet Configs",
       contributions: {
-        tweet: tweet(),
+        tweet: tweet({
+          form: {
+            fields: {
+              text: {
+                placeholder: "This is my test placeholder!",
+                tags: ["test", "tags"],
+              },
+            },
+          },
+        }),
         tweetTextRequired: tweet({
           title: "Retweet Text Required",
           options: {

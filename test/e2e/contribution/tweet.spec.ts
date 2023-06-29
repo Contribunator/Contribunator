@@ -4,7 +4,6 @@ import formTest from "@/../test/fixtures/form.fixture";
 const test = formTest({ repo: "tweets", contribution: "tweet" });
 
 test("tweet submits basic", async ({ f }) => {
-  // return;
   await f.cannotSubmit(["Required unless retweeting or uploading images"]);
 
   await f.setText("Tweet Text", "My Test Tweet");
@@ -36,7 +35,6 @@ test("tweet submits basic", async ({ f }) => {
 });
 
 test("tweet retweet", async ({ f }) => {
-  // return;
   await f.clickButton("Quote Type", "Retweet");
 
   await f.cannotSubmit(["Required retweet URL"]);
@@ -73,8 +71,9 @@ There is no text in the tweet.${f.FOOTER}`,
   });
 });
 
+// TODO test overrides, tags...
+
 test("tweet reply", async ({ f }) => {
-  // return;
   await f.clickButton("Quote Type", "Reply");
 
   await f.cannotSubmit([
@@ -120,7 +119,6 @@ Tweet Reply Here`,
 });
 
 test("tweet image", async ({ f }) => {
-  // return;
   await f.cannotSubmit(["Required unless retweeting or uploading images"]);
 
   await f.uploadAndCrop("Upload Images (4 remaining)", "kitten.jpg");
@@ -163,7 +161,6 @@ There is no text in the tweet.${f.FOOTER}`,
 });
 
 test("tweet reply with images and alts", async ({ f }) => {
-  // return;
   await f.cannotSubmit(["Required unless retweeting or uploading images"]);
 
   await f.clickButton("Quote Type", "Reply");
