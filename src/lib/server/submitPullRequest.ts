@@ -91,14 +91,12 @@ export default async function submitPullRequest({
         owner: repo.owner,
         repo: repo.name,
         pull_number: data.number,
-        reviewers: {
-          ...(repo.requestReviewers.teams && {
-            team_reviewers: repo.requestReviewers.teams,
-          }),
-          ...(repo.requestReviewers.users && {
-            reviewers: repo.requestReviewers.users,
-          }),
-        },
+        ...(repo.requestReviewers.teams && {
+          team_reviewers: repo.requestReviewers.teams,
+        }),
+        ...(repo.requestReviewers.users && {
+          reviewers: repo.requestReviewers.users,
+        }),
       }),
   ]);
 
