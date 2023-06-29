@@ -14,6 +14,7 @@ const demoConfig: UserConfig = {
       addLabels: ["c11r"],
       requestReviewers: {
         users: ["IstoraMandiri"],
+        teams: ["contribunators"],
       },
       contributions: {
         simple: contribution({
