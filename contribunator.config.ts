@@ -7,6 +7,10 @@ import tweet from "@/lib/contribution/tweet";
 import { UserConfig } from "@/types";
 
 const commonTweetOpts = {
+  addLabels: ["c11r"],
+  requestReviewers: {
+    teams: ["tweeters"],
+  },
   options: {
     retweetTextRequired: true,
   },
@@ -53,6 +57,8 @@ const config: UserConfig = {
   repos: {
     "tweets-eth_classic": {
       title: "@eth_classic Tweets",
+      addLabels: commonTweetOpts.addLabels,
+      requestReviewers: commonTweetOpts.requestReviewers,
       description: commonTweetOpts.classic,
       contributions: {
         tweet: tweet({
@@ -72,6 +78,8 @@ const config: UserConfig = {
     },
     "tweets-etc_network": {
       title: "@ETC_Network Tweets",
+      addLabels: commonTweetOpts.addLabels,
+      requestReviewers: commonTweetOpts.requestReviewers,
       description: commonTweetOpts.network,
       contributions: {
         tweet: tweet({
@@ -91,6 +99,10 @@ const config: UserConfig = {
     },
     "ethereumclassic.github.io": {
       title: "EthereumClassic.org Website",
+      // addLabels: ["c11r"],
+      // requestReviewers: {
+      //   teams: ["website"],
+      // },
       description: "Submit updates to the EthereumClassic.org website.",
       base: "master",
       contributions: {
