@@ -13,6 +13,7 @@
     "start": "NEXT_TELEMETRY_DISABLED=1 next start",
     "start:e2e": "NODE_ENV=test NEXT_TELEMETRY_DISABLED=1 next start # uses .env.test",
     "start:demo": "NEXT_PUBLIC_TESTING=DEMO NEXT_TELEMETRY_DISABLED=1 next start",
+    "ci": "start-server-and-test start:e2e http://localhost:3000 test:e2e",
     "lint": "NEXT_TELEMETRY_DISABLED=1 next lint",
     "prettier": "./node_modules/.bin/prettier -w .",
     "test:e2e": "npx playwright test"
@@ -56,6 +57,7 @@
     "@types/twitter-text": "^3.1.5",
     "eslint": "8.39.0",
     "eslint-config-next": "^13.4.4",
-    "eslint-config-prettier": "^8.8.0"
+    "eslint-config-prettier": "^8.8.0",
+    "start-server-and-test": "^2.0.0"
   }
 }

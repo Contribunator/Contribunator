@@ -31,7 +31,6 @@ function fieldTest(props: any, passedFields: Fields) {
     ...props,
     load: async () => ({
       commit: async ({ data, images }) => {
-        console.log("got images", images);
         // throw new Error("not implemented");
         return {
           images,

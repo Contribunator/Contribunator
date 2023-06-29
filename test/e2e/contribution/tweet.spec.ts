@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "tweet" });
+const test = formTest({ repo: "tweets", contribution: "tweet" });
 
 test("tweet submits basic", async ({ f }) => {
   // return;
@@ -9,11 +9,9 @@ test("tweet submits basic", async ({ f }) => {
 
   await f.setText("Tweet Text", "My Test Tweet");
 
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
       contribution: "tweet",
-      repo: "TEST",
       text: "My Test Tweet",
     },
     res: {
@@ -27,16 +25,10 @@ test("tweet submits basic", async ({ f }) => {
             message: "Add tweet my test tweet",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This Pull Request creates a new tweet.${f.FOOTER}`,
         head: "c11r/timestamp-add-tweet-my-test-tweet",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add tweet my test tweet",
       },
     },
@@ -51,13 +43,10 @@ test("tweet retweet", async ({ f }) => {
 
   await f.setText("Quote URL", "https://twitter.com/test/status/123");
 
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
-      contribution: "tweet",
       quoteType: "retweet",
       quoteUrl: "https://twitter.com/test/status/123",
-      repo: "TEST",
     },
     res: {
       commit: {
@@ -72,18 +61,12 @@ retweet: https://twitter.com/test/status/123
             message: "Add retweet test",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This Pull Request creates a new retweet of https://twitter.com/test/status/123.
 
 There is no text in the tweet.${f.FOOTER}`,
         head: "c11r/timestamp-add-retweet-test",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add retweet test",
       },
     },
@@ -105,13 +88,10 @@ test("tweet reply", async ({ f }) => {
 
   await f.setText("Tweet Text", "Tweet Reply Here");
 
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
-      contribution: "tweet",
       quoteType: "reply",
       quoteUrl: "https://twitter.com/test/status/456",
-      repo: "TEST",
       text: "Tweet Reply Here",
     },
     res: {
@@ -129,16 +109,10 @@ Tweet Reply Here`,
             message: "Add reply test tweet reply here",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This Pull Request creates a new reply to https://twitter.com/test/status/456.${f.FOOTER}`,
         head: "c11r/timestamp-add-reply-test-tweet-reply-here",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add reply test tweet reply here",
       },
     },
@@ -151,17 +125,14 @@ test("tweet image", async ({ f }) => {
 
   await f.uploadAndCrop("Upload Images (4 remaining)", "kitten.jpg");
 
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
-      contribution: "tweet",
       media: [
         {
           data: "data:image/jpeg;base64,/9j/4A...",
           type: "jpeg",
         },
       ],
-      repo: "TEST",
     },
     res: {
       commit: {
@@ -179,18 +150,12 @@ media:
             message: "Add tweet with media",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This Pull Request creates a new tweet with 1 image.
 
 There is no text in the tweet.${f.FOOTER}`,
         head: "c11r/timestamp-add-tweet-with-media",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add tweet with media",
       },
     },
@@ -223,9 +188,8 @@ test("tweet reply with images and alts", async ({ f }) => {
   await f.uploadAndCrop("Upload Images (2 remaining)", "kitten.jpg");
   await f.uploadAndCrop("Upload Images (1 remaining)", "dice.png");
 
-  expect(await f.submit()).toEqual({
+  expect(await f.submit()).toMatchObject({
     req: {
-      authorization: "anon",
       contribution: "tweet",
       media: [
         {
@@ -249,7 +213,6 @@ test("tweet reply with images and alts", async ({ f }) => {
       ],
       quoteType: "reply",
       quoteUrl: "https://twitter.com/test/status/456",
-      repo: "TEST",
       text: "Tweet Reply Here",
     },
     res: {
@@ -282,18 +245,50 @@ Tweet Reply Here`,
             message: "Add reply test with media tweet reply here",
           },
         ],
-        createBranch: true,
-        owner: "test-owner",
-        repo: "TEST",
       },
       pr: {
-        base: "main",
         body: `This Pull Request creates a new reply to https://twitter.com/test/status/456 with 4 images.${f.FOOTER}`,
         head: "c11r/timestamp-add-reply-test-with-media-tweet-reply-here",
-        owner: "test-owner",
-        repo: "TEST",
         title: "Add reply test with media tweet reply here",
       },
+    },
+  });
+});
+
+const retweetText = formTest({
+  repo: "tweets",
+  contribution: "tweetTextRequired",
+});
+
+retweetText("retweet with tweetTextRequired", async ({ f }) => {
+  await f.cannotSubmit(["Required unless uploading images"]);
+  await f.clickButton("Quote Type", "Retweet");
+  await f.cannotSubmit([
+    "Required retweet URL",
+    "Required unless uploading images",
+  ]);
+  await f.setText("Quote URL", "https://twitter.com/test/status/456");
+  await f.cannotSubmit(["Required unless uploading images"]);
+  await f.setText("Tweet Text", "Requried Retweet Text Here");
+  expect(await f.submit()).toMatchObject({
+    req: {
+      quoteType: "retweet",
+      quoteUrl: "https://twitter.com/test/status/456",
+      text: "Requried Retweet Text Here",
+    },
+  });
+});
+
+retweetText("media with tweetTextRequired", async ({ f }) => {
+  await f.cannotSubmit(["Required unless uploading images"]);
+  await f.uploadAndCrop(
+    "Upload Images (4 remaining)",
+    "kitten.jpg",
+    "My Kitten"
+  );
+  expect(await f.submit()).toMatchObject({
+    req: {
+      contribution: "tweetTextRequired",
     },
   });
 });

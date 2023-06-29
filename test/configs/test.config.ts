@@ -201,6 +201,18 @@ const testConfig: UserConfig = {
         test,
       },
     },
+    tweets: {
+      title: "Tweet Configs",
+      contributions: {
+        tweet: tweet(),
+        tweetTextRequired: tweet({
+          title: "Retweet Text Required",
+          options: {
+            retweetTextRequired: true,
+          },
+        }),
+      },
+    },
   },
 };
 
