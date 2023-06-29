@@ -84,7 +84,7 @@ export default async function submitPullRequest({
         owner: repo.owner,
         repo: repo.name,
         issue_number: data.number,
-        labels: repo.addLabels.map((name) => ({ name })),
+        labels: repo.addLabels,
       }),
     (repo.requestReviewers?.teams || repo.requestReviewers?.users) &&
       octokit.rest.pulls.requestReviewers({
