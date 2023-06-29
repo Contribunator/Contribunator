@@ -9,13 +9,22 @@ import commit from "./tweet.commit";
 import { TweetConfigInput } from ".";
 
 export default function tweetConfig(
-  opts: TweetConfigInput
+  props: TweetConfigInput = {}
 ): ContributionLoaded {
+  const { options = {} } = props;
+  const {
+    placeholder = "Enter tweet text here",
+    retweetTextRequired = false,
+    // TODO
+    // media = true,
+    // retweet = true,
+    // reply = true,
+  } = options;
+
   return {
     prMetadata,
     commit,
     form: {
-      ...opts.form,
       fields: {
         quoteType: {
           type: "choice",
@@ -78,10 +87,9 @@ export default function tweetConfig(
           type: "text",
           as: "textarea",
           title: "Tweet Text",
-          placeholder: "Enter tweet text here",
+          placeholder,
           suggestions: suggestions(),
           tags: ["👀", "😂", "✨", "🔥", "💪", "#twitter", "#memes", "#love"],
-          ...opts.form?.fields?.text,
           validation: {
             yup: string()
               .test({
@@ -105,14 +113,22 @@ export default function tweetConfig(
               })
               .when(["media", "quoteType"], {
                 is: (media: string[], quoteType: string) => {
-                  return (
-                    quoteType !== "retweet" &&
-                    (media || []).filter((m) => m).length === 0
-                  );
+                  if (quoteType === "retweet" && retweetTextRequired) {
+                    return true;
+                  }
+                  if (quoteType === "reply") {
+                    return true;
+                  }
+                  if (!quoteType && !media) {
+                    return true;
+                  }
+                  return false;
                 },
                 then: (schema) =>
                   schema.required(
-                    "Required unless retweeting or uploading images"
+                    retweetTextRequired
+                      ? "Required unless uploading images"
+                      : "Required unless retweeting or uploading images"
                   ),
               }),
           },
