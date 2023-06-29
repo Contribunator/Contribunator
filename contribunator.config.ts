@@ -9,7 +9,7 @@ import { UserConfig } from "@/types";
 const commonTweetOpts = {
   addLabels: ["c11r"],
   requestReviewers: {
-    teams: ["tweeters"],
+    teams: ["ethereumclassic/tweeters"],
   },
   options: {
     retweetTextRequired: true,
