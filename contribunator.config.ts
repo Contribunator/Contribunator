@@ -7,6 +7,9 @@ import tweet from "@/lib/contribution/tweet";
 import { UserConfig } from "@/types";
 
 const commonTweetOpts = {
+  options: {
+    retweetTextRequired: true,
+  },
   placeholder:
     "e.g. Decentralized, Immutable, Unstoppable!\n\n$ETC #EthereumClassic #ClassicIsComing 🍀",
   tags: [
@@ -54,6 +57,7 @@ const config: UserConfig = {
       contributions: {
         tweet: tweet({
           title: "Suggest a Tweet for @eth_classic",
+          options: commonTweetOpts.options,
           form: {
             description: `${commonTweetOpts.classic} ${commonTweetOpts.description}`,
             fields: {
@@ -72,6 +76,7 @@ const config: UserConfig = {
       contributions: {
         tweet: tweet({
           title: "Suggest a Tweet for @ETC_Network",
+          options: commonTweetOpts.options,
           form: {
             description: `${commonTweetOpts.network} ${commonTweetOpts.description}`,
             fields: {
