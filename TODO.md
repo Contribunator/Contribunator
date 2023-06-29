@@ -8,11 +8,10 @@ Below are the upcoming features and improvements.
 - Add a note about enabled delete branches
 - update need to "Request user authorization (OAuth) during installation" (we dont)
 - don't need to out-out of refresh user access token
-- Set up CI on github
+- Disable logs in CI
 
 ## Priority
 
-- Option to request add tags and review for PRs
 - Options for twitter
 
   - Retweet enable/disable

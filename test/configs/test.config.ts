@@ -69,6 +69,11 @@ const testConfig: UserConfig = {
     TEST: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
+      addLabels: ["test-tag"],
+      requestReviewers: {
+        users: ["test-user"],
+        teams: ["test-team"],
+      },
       contributions: {
         api: contribution({
           hidden: true,

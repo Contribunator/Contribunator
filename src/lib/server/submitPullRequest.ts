@@ -77,6 +77,31 @@ export default async function submitPullRequest({
   console.log("pr", pr);
   const { data } = await octokit.rest.pulls.create(pr);
 
+  // add tags and reviwer status
+  await Promise.all([
+    repo.addLabels &&
+      octokit.rest.issues.addLabels({
+        owner: repo.owner,
+        repo: repo.name,
+        issue_number: data.number,
+        labels: repo.addLabels.map((name) => ({ name })),
+      }),
+    (repo.requestReviewers?.teams || repo.requestReviewers?.users) &&
+      octokit.rest.pulls.requestReviewers({
+        owner: repo.owner,
+        repo: repo.name,
+        pull_number: data.number,
+        reviewers: {
+          ...(repo.requestReviewers.teams && {
+            team_reviewers: repo.requestReviewers.teams,
+          }),
+          ...(repo.requestReviewers.users && {
+            reviewers: repo.requestReviewers.users,
+          }),
+        },
+      }),
+  ]);
+
   return {
     pr: {
       url: data.html_url,
