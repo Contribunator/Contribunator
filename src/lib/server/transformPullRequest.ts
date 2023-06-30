@@ -29,6 +29,7 @@ export default async function transformPullRquest({
   // todo fetchFiles
   const files = await fetchFiles({ ...common, fetched });
   // create a nicely merged object for user
+  // this implicitly overrides data to order it correctly
   const decorated = decorateFormData(common);
   // group for reuse
   const prData = { ...common, ...decorated, fetched, files, timestamp };

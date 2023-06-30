@@ -6,17 +6,15 @@ import { decorateFormData } from "@/lib/helpers/decorateFormData";
 export default function CommonOptions({ formik, config }: BaseFormProps) {
   // to do pass fetched files here?
   let metadata = { title: "", message: "" };
-  // TODO we definitely don't want to bother running this if it's hidden
   if (formik.isValid) {
-    const { data, meta } = destructureMeta(formik.values);
-    if (Object.keys(data).length > 0) {
-      // todo this is quite expensive, should we debounce or something?
-      const { formData } = decorateFormData({ data, config });
+    const destructured = destructureMeta(formik.values);
+    // todo could be expensive, should we debounce or something?
+    // TODO we definitely don't want to bother running this the advanced options is hidden
+    if (Object.keys(destructured.data).length > 0) {
       metadata = config.contribution.prMetadata({
-        data,
-        meta,
+        ...destructured,
+        ...decorateFormData({ ...destructured, config }),
         config,
-        formData,
       });
     }
   }

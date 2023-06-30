@@ -327,77 +327,77 @@ subCollectionPopulated:
       pr: {
         body: `This PR adds a new Collection:
 
-### Basic Collection > 1 > Basic Text
+### Basic Collection [1] Basic Text
 Hello World Again
 
-### Required Collection with button > 1 > Basic Text
+### Required Collection with button [1] Basic Text
 Hello World 2
 
-### Required Collection with button > 2 > Basic Text
+### Required Collection with button [2] Basic Text
 Hello World 3
 
-### Collection with limit and min > 1 > Basic Text
+### Collection with limit and min [1] Basic Text
 Uno
 
-### Collection with limit and min > 2 > Basic Text
+### Collection with limit and min [2] Basic Text
 Dos
 
-### Collection with limit and min > 3 > Basic Text
+### Collection with limit and min [3] Basic Text
 Tres
 
-### Collection with button, required limit and min > 1 > Basic Required
+### Collection with button, required limit and min [1] Basic Required
 One
 
-### Collection with button, required limit and min > 2 > Basic Required
+### Collection with button, required limit and min [2] Basic Required
 Three
 
-### Sub Collection Basic > 1 > Basic Text
+### Sub Collection Basic [1] Basic Text
 Sub Text 1
 
-#### Sub Collection Basic > 1 > Sub Collection > 1 > Sub Text
+#### Sub Collection Basic [1] Sub Collection [1] Sub Text
 Sub Sub Text 1
 
-#### Sub Collection Basic > 1 > Sub Collection > 2 > Sub Text
+#### Sub Collection Basic [1] Sub Collection [2] Sub Text
 Sub Sub Text 2
 
-### Sub Collection Basic > 2 > Basic Text
+### Sub Collection Basic [2] Basic Text
 Sub Text 2
 
-#### Sub Collection Basic > 2 > Sub Collection > 1 > Sub Text
+#### Sub Collection Basic [2] Sub Collection [1] Sub Text
 Sub Sub Text 4
 
-### Required Sub Collection with all fields > 1 > Parent Title
+### Required Sub Collection with all fields [1] Parent Title
 title of parent
 
-### Required Sub Collection with all fields > 1 > Parent Color
+### Required Sub Collection with all fields [1] Parent Color
 Parent Red
 
-### Required Sub Collection with all fields > 1 > Parent Image
-![](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-parent-image.jpeg)
+### Required Sub Collection with all fields [1] Parent Image
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-image.jpeg)
 
-### Required Sub Collection with all fields > 1 > Parent Images > 1
-![Some cool dice](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-parent-images-1-some-cool-dice.png)
+### Required Sub Collection with all fields [1] Parent Images [1]
+![Some cool dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-images-1-some-cool-dice.png)
 *Some cool dice*
 
-### Required Sub Collection with all fields > 1 > Parent Images > 2
-![A Kitten](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-parent-images-2-a-kitten.jpeg)
+### Required Sub Collection with all fields [1] Parent Images [2]
+![A Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-images-2-a-kitten.jpeg)
 *A Kitten*
 
-#### Required Sub Collection with all fields > 1 > Sub Collection > 1 > Sub Title
+#### Required Sub Collection with all fields [1] Sub Collection [1] Sub Title
 title of sub
 
-#### Required Sub Collection with all fields > 1 > Sub Collection > 1 > Sub Color
+#### Required Sub Collection with all fields [1] Sub Collection [1] Sub Color
 Sub Green
 
-#### Required Sub Collection with all fields > 1 > Sub Collection > 1 > Sub Image
-![](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-image.png)
+#### Required Sub Collection with all fields [1] Sub Collection [1] Sub Image
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-image.png)
 
-#### Required Sub Collection with all fields > 1 > Sub Collection > 1 > Sub Images > 1
-![Sub Kitten](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-1-sub-kitten.jpeg)
+#### Required Sub Collection with all fields [1] Sub Collection [1] Sub Images [1]
+![Sub Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-1-sub-kitten.jpeg)
 *Sub Kitten*
 
-#### Required Sub Collection with all fields > 1 > Sub Collection > 1 > Sub Images > 2
-![Sub dice](https://raw.githubusercontent.com/test-owner/fields/[COMMIT_SHA]/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-2-sub-dice.png)
+#### Required Sub Collection with all fields [1] Sub Collection [1] Sub Images [2]
+![Sub dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-2-sub-dice.png)
 *Sub dice*${f.FOOTER}`,
       },
     },

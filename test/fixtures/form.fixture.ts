@@ -1,7 +1,7 @@
 import { Page, Locator, expect, test } from "@playwright/test";
 import { testPr } from "test/mocks/mocktokit";
 
-import { DEFAULTS } from "@/lib/config";
+import { DEFAULTS } from "@/lib/constants";
 import { deepTrimImageData } from "./deepTrimImageData";
 
 type FormFixtureProps = {

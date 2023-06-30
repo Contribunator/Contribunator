@@ -1,5 +1,6 @@
 import {
   ConfigWithContribution,
+  Data,
   ExtractedImagesFlat,
   FormData,
   FormDataItem,
@@ -15,7 +16,7 @@ type Path = (string | number)[];
 
 type DecorateFormDataProps = {
   timestamp?: string;
-  data: any;
+  data: Data;
   config: ConfigWithContribution;
 };
 
@@ -24,16 +25,21 @@ export function decorateFormData({
   data,
   timestamp = getTimestamp(),
 }: DecorateFormDataProps) {
+  // todo also ensure the data is ordered
+  // in the future we can apply transformations to the data here
+
   const images: ExtractedImagesFlat = {};
   const formData: FormData = {};
+  const niceData: Data = {};
+
   const decorateDeep = (val: any, path: Path = []) => {
     // make sure populate formData to match the order of the form field
-    const orderedIterate = (field = formData) => {
-      const target = Object.keys(field);
-      const sortedKeys = Object.keys(val).sort(
-        (a, b) => target.indexOf(a) - target.indexOf(b)
-      );
-      sortedKeys.forEach((key) => decorateDeep(val[key], [...path, key]));
+    const orderedIterate = (field = contribution.form.fields) => {
+      const sorted: string[] = [];
+      Object.keys(field).forEach((key) => {
+        if (val[key]) sorted.push(key);
+      });
+      sorted.forEach((key) => decorateDeep(val[key], [...path, key]));
     };
     // skip matching if we're at the object root
     if (path.length === 0) {
@@ -80,9 +86,12 @@ export function decorateFormData({
     if (["image", "images"].includes(field.type)) {
       const { data: imageData, ...rest } = val;
       item.fileName =
-        slugify(`${timestamp} ${fullTitle} ${val.alt || ""}`, {
-          slice: Infinity,
-        }) + `.${val.type}`;
+        slugify(
+          `${timestamp} ${contribution.title} ${fullTitle} ${val.alt || ""}`,
+          {
+            slice: Infinity,
+          }
+        ) + `.${val.type}`;
       item.filePath = `${contribution.imagePath}${item.fileName}`;
       const githubPrefix = `https://raw.githubusercontent.com/${repo.owner}/${repo.name}/${COMMIT_REPLACE_SHA}/`;
       item.markdown = `![${rest.alt || ""}](${githubPrefix}${item.filePath})${
@@ -107,11 +116,11 @@ export function decorateFormData({
         .join(", ");
     }
 
-    // update the formData object
     set(formData, path, item);
+    set(niceData, path, val);
   };
 
   decorateDeep(data);
 
-  return { images, formData };
+  return { images, formData, data: niceData };
 }

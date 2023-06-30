@@ -28,7 +28,6 @@ const prMetadata: PrMetadata = ({
     contribution: { title },
   },
 }) => {
-  console.log(formData);
   const itemName = formData.title?.data || formData.name?.data;
   return {
     title: `Add ${title}${itemName ? `: ${itemName}` : ""}`,

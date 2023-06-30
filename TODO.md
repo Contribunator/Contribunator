@@ -10,7 +10,8 @@ Below are the upcoming features and improvements.
 - Improved error/conf feedback in the UI (not alert)
 - Collapse dropdown if sub-item not selected
 - ensure all reserved `field`s etc are reserved deeply
-- getDateStamp / getTimeStamp
+- getDateStamp / getTimeStampTitle
+- Unique branch names for each PR / Commit to prevent https://github.com/Contribunator/Sample/pull/40/files
 
 ### ETC Cleanup
 
@@ -29,6 +30,7 @@ Below are the upcoming features and improvements.
 - merge images and collection logic
 - Convert the has/hasNo back to regex now we don't need to serialize?
 - Separate serer and client side code? (commit, `fetchOnServer`, etc.)
+- Modularize field types
 
 ### Update Docs
 
