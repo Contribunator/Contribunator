@@ -27,11 +27,25 @@ export function decorateFormData({
   const images: ExtractedImagesFlat = {};
   const formData: FormData = {};
   const decorateDeep = (val: any, path: Path = []) => {
-    // iterate if we're an array
-    if (Array.isArray(val) && typeof val[0] === "object") {
-      val.forEach((item, i) => decorateDeep(item, [...path, i]));
+    // make sure populate formData to match the order of the form field
+    const orderedIterate = (field = formData) => {
+      const target = Object.keys(field);
+      const sortedKeys = Object.keys(val).sort(
+        (a, b) => target.indexOf(a) - target.indexOf(b)
+      );
+      sortedKeys.forEach((key) => decorateDeep(val[key], [...path, key]));
+    };
+    // skip matching if we're at the object root
+    if (path.length === 0) {
+      orderedIterate();
       return;
     }
+    // iterate sequentially over object arrays
+    if (Array.isArray(val) && typeof val[0] === "object") {
+      Object.values(val).forEach((item, i) => decorateDeep(item, [...path, i]));
+      return;
+    }
+
     // match fields
     const iterator = typeof path[path.length - 1] === "number";
     // create a query path to get from form definition
@@ -41,10 +55,10 @@ export function decorateFormData({
 
     // traverse the path and get parent field titles
     const field = get(contribution.form.fields, query);
-    // go deeper if we're an object
-    if (!field || field.type === "collection") {
-      // looks like we got ourselves a collection
-      Object.keys(val).forEach((key) => decorateDeep(val[key], [...path, key]));
+
+    // go deeper if we're a collection
+    if (field.type === "collection") {
+      orderedIterate(field.fields);
       return;
     }
 
@@ -52,14 +66,14 @@ export function decorateFormData({
     const fullTitle = path
       .map((p, i) => {
         if (typeof p === "number") {
-          return p + 1;
+          return `[${p + 1}]`;
         } else {
           const parent = get(contribution.form.fields, query.slice(0, i + 1));
           return parent?.title || p;
         }
       })
       .filter((p) => p) // remove empty items
-      .join(" > ");
+      .join(" ");
 
     const item: FormDataItem = { field, fullTitle };
 
@@ -77,7 +91,7 @@ export function decorateFormData({
       images[item.filePath] = imageData;
       item.data = rest;
     } else {
-      // we don't need to modify the data of other fields
+      // copy the data of all other fields
       item.data = val;
     }
 
