@@ -1,6 +1,6 @@
 import { HiNewspaper } from "react-icons/hi";
 
-import timestamp from "@/lib/helpers/timestamp";
+import getTimestamp from "@/lib/helpers/timestamp";
 
 import { ContributionConfig, ContributionMeta, Form } from "@/types";
 
@@ -33,7 +33,7 @@ export default function news({
         return {
           yaml: {
             [files.news.path]: [
-              { date: timestamp("YYYY-MM-DD", date, !!date), ...data },
+              { date: getTimestamp("YYYY-MM-DD", date, !!date), ...data },
               ...(files.news.parsed || []),
             ],
           },

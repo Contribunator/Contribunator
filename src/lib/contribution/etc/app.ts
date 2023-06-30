@@ -12,7 +12,7 @@ import {
 import type { ContributionConfig, ContributionMeta, Form } from "@/types";
 
 import slugify from "@/lib/helpers/slugify";
-import timestamp from "@/lib/helpers/timestamp";
+import getTimestamp from "@/lib/helpers/timestamp";
 
 import contribution from "@/lib/contribution";
 
@@ -51,17 +51,18 @@ export default function app({
       },
       commit: async ({
         files,
-        timestamp: t,
+        timestamp,
         data: { image, url, title, description, links = [], ...rest },
       }) => {
         let newApp: any = {
-          date: timestamp("YYYY-MM-DD"),
+          date: getTimestamp("YYYY-MM-DD"),
           title,
           description,
         };
+        // TODO refactor with new images api
         const images: any = {};
         if (image) {
-          const imageName = `${t}-${slugify(title)}.${image.type}`;
+          const imageName = `${timestamp}-${slugify(title)}.${image.type}`;
           images[`${absoluteImagePath}/${imageName}`] = image.data;
           newApp.image = `${relativeImagePath}/${imageName}`;
         }

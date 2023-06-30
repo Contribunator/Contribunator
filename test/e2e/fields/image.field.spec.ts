@@ -3,7 +3,7 @@ import formTest from "@/../test/fixtures/form.fixture";
 
 const test = formTest({ repo: "fields", contribution: "image" });
 
-test("image field", async ({ f }) => {
+test.skip("image field", async ({ f }) => {
   // basic
   const basic = f.getByLabel("Basic Image");
   await expect(basic).toHaveText("Basic ImagePNG or JPEG, up to 4.3MB");

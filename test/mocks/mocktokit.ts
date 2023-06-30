@@ -17,7 +17,13 @@ class Mocktokit {
   rest = {
     repos: {
       createOrUpdateFiles: async () => {
-        // noop
+        return {
+          commits: [
+            {
+              sha: "REPLACED_SHA",
+            },
+          ],
+        };
       },
     },
     pulls: {
@@ -33,13 +39,13 @@ class Mocktokit {
       },
       requestReviewers: async ({ reviewers, team_reviewers }: any) => {
         // noop
-        log.info({ reviewers, team_reviewers });
+        // log.info({ reviewers, team_reviewers });
       },
     },
     issues: {
       addLabels: async ({ labels }: any) => {
         // noop
-        log.info({ labels });
+        // log.info({ labels });
       },
     },
   };

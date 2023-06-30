@@ -250,46 +250,46 @@ choiceButtonsMultipleSubs:
         body: `This PR adds a new Choice:
 
 ## Dropdown
-javascript
+Javascript
 
 ## Dropdown Required
-rust
+Rust
 
 ## Dropdown Custom Unset
-rust
+Rust
 
 ## Dropdown Subs
-animals.dog.poodle
+Poodle
 
 ## Multi Dropdown
-animals.dog.poodle, food
+Poodle, Food
 
 ## Buttons
-javascript
+Javascript
 
 ## Buttons Inline
-javascript
+Javascript
 
 ## Buttons Required
-rust
+Rust
 
 ## Icon Buttons
 book
 
 ## Sub Buttons
-animals.dog.poodle
+Poodle
 
 ## Required Sub Buttons
-animals.dog.poodle
+Poodle
 
 ## Multi Buttons
-javascript, python
+Javascript, Python
 
 ## Multi Buttons Required
-javascript, rust, ruby
+Javascript, Rust, Ruby
 
 ## Multi Sub Buttons
-music, animals.cat, food${f.FOOTER}`,
+Music, Cat, Food${f.FOOTER}`,
       },
     },
   });

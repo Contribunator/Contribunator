@@ -11,6 +11,7 @@ import type {
 import { e2e, githubApp } from "@/lib/env.server";
 
 import log from "@/lib/log";
+import { COMMIT_REPLACE_SHA } from "@/lib/constants";
 
 import Octokit from "./octokit";
 
@@ -41,8 +42,8 @@ export default async function submitPullRequest({
   pr: CreatePullRequestOutputs;
   test: any; // for testing
 }> {
-  const prMessage = `${message}${repo.prPostfix}`;
   const githubUser = authorized.type === "github" ? authorized.token : null;
+  // TODO pass in base branch
   const commit = {
     repo: repo.name,
     owner: repo.owner,
@@ -64,8 +65,11 @@ export default async function submitPullRequest({
   };
 
   log.info({ commit });
-  log.info({ files });
-  await octokit.rest.repos.createOrUpdateFiles(commit);
+  const { commits } = await octokit.rest.repos.createOrUpdateFiles(commit);
+
+  // get the commit sha and replace it in the PR body
+  // so that images can be displayed
+  const prMessage = message.split(COMMIT_REPLACE_SHA).join(commits[0].sha);
 
   const pr = {
     base: repo.base,
@@ -73,7 +77,7 @@ export default async function submitPullRequest({
     repo: repo.name,
     head: commit.branch,
     owner: repo.owner,
-    body: prMessage,
+    body: `${prMessage}${repo.prPostfix}`,
   };
 
   log.info({ pr });

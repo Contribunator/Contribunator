@@ -1,46 +1,41 @@
-import { PrMetadata, Contribution } from "@/types";
+import { PrMetadata, FormDataItem } from "@/types";
 
-export default function generatePrMetadata({
-  title,
-  form,
-}: Omit<Contribution, "schema" | "prMetadata">): PrMetadata {
-  const prMetadata: PrMetadata = ({ data }) => {
-    const itemName = data.title || data.name;
-    return {
-      title: `Add ${title}${itemName ? `: ${itemName}` : ""}`,
-      message: `This PR adds a new ${title}:
-
-${Object.entries(form.fields)
-  .map(([key, field]) => {
-    const { title = key } = field;
-    const value = data[key];
-
-    if (!value) {
-      return null;
-    }
-
-    let valueString = value;
-    if (Array.isArray(value)) {
-      if (typeof value[0] === "string") {
-        valueString = value.join(", ");
-      } else {
-        valueString = valueString.length + " item(s)";
+function deepReport(formData: FormDataItem): string {
+  let r = "";
+  const report = (fields: FormDataItem, depth = 2) => {
+    Object.values(fields).forEach((item) => {
+      // we only deal with objects here
+      if (typeof item !== "object") {
+        return;
       }
-    } else if (typeof value === "object") {
-      valueString = "✔";
-    }
-    if (typeof value === "boolean") {
-      valueString = value ? "✔" : "❌";
-    }
-    if (valueString.length > 250) {
-      valueString = valueString.slice(0, 250) + "... [trimmed]";
-    }
-
-    return `## ${title}\n${valueString}`;
-  })
-  .filter((i) => i)
-  .join("\n\n")}`,
-    };
+      if (item.field) {
+        // render the field to markdown
+        const heading = "#".repeat(depth < 6 ? depth : 6);
+        const str = item.markdown || item.data;
+        r += `${heading} ${item.fullTitle}\n${str}\n\n`;
+      } else {
+        report(item, depth + 0.5);
+      }
+    });
   };
-  return prMetadata;
+  report(formData);
+  return r.trim();
 }
+
+const prMetadata: PrMetadata = ({
+  formData,
+  config: {
+    contribution: { title },
+  },
+}) => {
+  console.log(formData);
+  const itemName = formData.title?.data || formData.name?.data;
+  return {
+    title: `Add ${title}${itemName ? `: ${itemName}` : ""}`,
+    message: `This PR adds a new ${title}:
+
+${deepReport(formData)}`,
+  };
+};
+
+export default prMetadata;

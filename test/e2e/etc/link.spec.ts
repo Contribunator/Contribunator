@@ -54,7 +54,7 @@ test("link submits basic", async ({ f }) => {
         body: `This PR adds a new Link:
 
 ## Category
-wallets.web
+Web Wallet
 
 ## Name
 My Test Link

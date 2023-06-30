@@ -8,9 +8,9 @@ import slugify from "@/lib/helpers/slugify";
 
 import fetchFiles from "./fetchFiles";
 import convertImages from "./convertImages";
-import extractImages from "./extractImage";
 import { destructureMeta } from "../helpers/destructureMeta";
 import fetchData from "./fetchData";
+import { decorateFormData } from "../helpers/decorateFormData";
 
 export default async function transformPullRquest({
   body,
@@ -28,10 +28,10 @@ export default async function transformPullRquest({
   const fetched = await fetchData(common);
   // todo fetchFiles
   const files = await fetchFiles({ ...common, fetched });
-  // extract images from form, decorates data with image filenames
-  const { images, data } = extractImages(common);
+  // create a nicely merged object for user
+  const decorated = decorateFormData(common);
   // group for reuse
-  const prData = { ...common, fetched, files, images, data, timestamp };
+  const prData = { ...common, ...decorated, fetched, files, timestamp };
   // generate metadata
   const prMetadata = contribution.prMetadata(prData);
   // override metadata if custom values set

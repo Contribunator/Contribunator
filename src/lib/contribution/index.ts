@@ -34,6 +34,8 @@ export default function contribution({
     load: async (name: string, repoConfig: Repo) => {
       // todo pass the whole config?
       const config = {
+        prMetadata,
+        imagePath: "media/",
         ...contributionConfig,
         ...(await load(name, repoConfig)),
         name,
@@ -41,7 +43,6 @@ export default function contribution({
       return {
         ...config,
         schema: generateSchema(config, repoConfig),
-        prMetadata: config.prMetadata || prMetadata(config),
       };
     },
   };

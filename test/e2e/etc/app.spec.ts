@@ -231,7 +231,7 @@ App Description`,
         body: `This PR adds a new App:
 
 ## App Category
-games
+Games
 
 ## App Name
 My Test App

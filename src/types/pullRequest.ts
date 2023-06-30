@@ -1,4 +1,5 @@
 import { AuthType, ConfigWithContribution } from "./config";
+import { Field } from "./form";
 
 export type Authorized = {
   type: AuthType;
@@ -8,6 +9,22 @@ export type Authorized = {
 // todo
 export type Data = any;
 export type Body = any;
+// a merged version of the data and the form
+
+export type FormDataItem =
+  | {
+      data?: any;
+      field?: Field;
+      fullTitle?: string;
+      fileName?: string;
+      filePath?: string;
+      markdown?: string;
+    }
+  | { [key: string]: FormDataItem | FormDataItem[] };
+
+export type FormData = {
+  [key: string]: FormDataItem;
+};
 
 export type Meta = {
   authorization: AuthType[];
@@ -58,6 +75,7 @@ export type PrMetadata = (props: {
   meta: Meta;
   data: Data;
   config: ConfigWithContribution;
+  formData: FormData;
   images?: ExtractedImagesFlat;
   files?: FetchedFiles;
   timestamp?: string;
@@ -80,6 +98,7 @@ export type CommitInputs = {
   images: ExtractedImagesFlat;
   title: string;
   message: string;
+  formData: FormData;
   branch: string;
   config: ConfigWithContribution;
   meta: Meta;

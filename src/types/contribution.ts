@@ -32,6 +32,7 @@ export type ContributionMeta = {
 export type ContributionLoaded = {
   form: Form;
   commit: Commit;
+  imagePath?: string;
   prMetadata?: PrMetadata;
   useFiles?: UseFiles; // server and client
   useFilesOnClient?: UseFiles; // client only

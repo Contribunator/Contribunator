@@ -2,20 +2,25 @@
 
 Below are the upcoming features and improvements.
 
+## Now
+
+- Fix report ordering to match form
+- Update test w/ images and report generation
+- OG Image
+- Improved error/conf feedback in the UI (not alert)
+- Collapse dropdown if sub-item not selected
+- ensure all reserved `field`s etc are reserved deeply
+- getDateStamp / getTimeStamp
+
 ### ETC Cleanup
 
 - Addition of generic uploads; media, animation, GIFs, video via LFS
 - i18n support (ETC)
 - Merge form config like twitter for all contributions, standardize contributions
-- prMetadata recursively for collections
-- Add contributor name to ETC prs
+- Add contributor name to prs
 - Move ETC-only contributions/tests elsewhere?
 
 ### Polish
-
-- Improved error/conf feedback in the UI (not alert)
-- Collapse dropdown if sub-item not selected
-- OG Image
 
 ### Code QUality
 
@@ -47,6 +52,7 @@ Below are the upcoming features and improvements.
 - Required ALT image field
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge schedule date
+- field specific image paths
 
 ## Contribunator v1
 
