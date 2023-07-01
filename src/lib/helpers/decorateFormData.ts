@@ -85,17 +85,14 @@ export function decorateFormData({
 
     if (["image", "images"].includes(field.type)) {
       const { data: imageData, ...rest } = val;
-      item.fileName =
-        slugify(
-          `${timestamp} ${contribution.title} ${fullTitle} ${val.alt || ""}`,
-          {
-            slice: Infinity,
-          }
-        ) + `.${val.type}`;
+      const title = contribution.imageName
+        ? contribution.imageName({ data })
+        : `${contribution.title} ${fullTitle} ${val.alt || ""}`;
+      item.fileName = `${timestamp}-${slugify(title, false)}.${val.type}`;
       item.filePath = `${contribution.imagePath}${item.fileName}`;
       const githubPrefix = `https://raw.githubusercontent.com/${repo.owner}/${repo.name}/${COMMIT_REPLACE_SHA}/`;
-      item.markdown = `![${rest.alt || ""}](${githubPrefix}${item.filePath})${
-        rest.alt ? `\n*${rest.alt}*` : ""
+      item.markdown = `![${val.alt || ""}](${githubPrefix}${item.filePath})${
+        val.alt ? `\n*${val.alt}*` : ""
       }`;
       images[item.filePath] = imageData;
       item.data = rest;

@@ -245,7 +245,7 @@ Multline
 App Description
 
 ## App Icon
-![](https://raw.githubusercontent.com/test-owner/TEST/REPLACED_SHA/media/timestamp-app-icon.png)
+![](https://raw.githubusercontent.com/test-owner/TEST/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
 
 ## Author Name
 Joe Bloggs

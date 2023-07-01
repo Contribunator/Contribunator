@@ -4,14 +4,15 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- Fix report ordering to match form
-- Update test w/ images and report generation
 - OG Image
 - Improved error/conf feedback in the UI (not alert)
 - Collapse dropdown if sub-item not selected
 - ensure all reserved `field`s etc are reserved deeply
 - getDateStamp / getTimeStampTitle
 - Unique branch names for each PR / Commit to prevent https://github.com/Contribunator/Sample/pull/40/files
+- Clearer usage of timestamp / branch prefix
+- Better typing in decorated form data
+- etc up date Trailing slashes
 
 ### ETC Cleanup
 
@@ -20,6 +21,7 @@ Below are the upcoming features and improvements.
 - Merge form config like twitter for all contributions, standardize contributions
 - Add contributor name to prs
 - Move ETC-only contributions/tests elsewhere?
+- Refactor to use images api
 
 ### Polish
 

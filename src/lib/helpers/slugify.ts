@@ -1,8 +1,20 @@
 export default function slugify(
   str: string,
-  opts?: { append?: string | number | false; slice?: number; join?: string }
+  opts?:
+    | { append?: string | number | false; slice?: number; join?: string }
+    | false
 ) {
-  const { append, slice, join } = { slice: 10, join: "-", ...opts };
+  let slice = 10;
+  let join = "-";
+  let append: string | number | false = false;
+
+  if (opts === false) {
+    slice = Infinity;
+  } else if (opts && typeof opts === "object") {
+    slice = opts.slice || slice;
+    join = opts.join || join;
+    append = opts.append || append;
+  }
 
   const slugified = str
     .trim()

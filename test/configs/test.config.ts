@@ -103,8 +103,8 @@ const testConfig: UserConfig = {
         }),
         app: app({
           description: "My App Description",
-          relativeImagePath: "./images",
-          absoluteImagePath: "content/services/apps/images",
+          relativeImagePath: "./images/",
+          absoluteImagePath: "content/services/apps/images/",
           collectionPath: "test/etc/apps.yaml",
         }),
         video: video({

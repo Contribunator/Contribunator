@@ -373,14 +373,14 @@ title of parent
 Parent Red
 
 ### Required Sub Collection with all fields [1] Parent Image
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-image.jpeg)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-parent-image.jpeg)
 
 ### Required Sub Collection with all fields [1] Parent Images [1]
-![Some cool dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-images-1-some-cool-dice.png)
+![Some cool dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-parent-images-1-some-cool-dice.png)
 *Some cool dice*
 
 ### Required Sub Collection with all fields [1] Parent Images [2]
-![A Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-parent-images-2-a-kitten.jpeg)
+![A Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-parent-images-2-a-kitten.jpeg)
 *A Kitten*
 
 #### Required Sub Collection with all fields [1] Sub Collection [1] Sub Title
@@ -390,14 +390,14 @@ title of sub
 Sub Green
 
 #### Required Sub Collection with all fields [1] Sub Collection [1] Sub Image
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-image.png)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-sub-collection-1-sub-image.png)
 
 #### Required Sub Collection with all fields [1] Sub Collection [1] Sub Images [1]
-![Sub Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-1-sub-kitten.jpeg)
+![Sub Kitten](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-1-sub-kitten.jpeg)
 *Sub Kitten*
 
 #### Required Sub Collection with all fields [1] Sub Collection [1] Sub Images [2]
-![Sub dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-2-sub-dice.png)
+![Sub dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-collection-required-sub-collection-with-all-fields-1-sub-collection-1-sub-images-2-sub-dice.png)
 *Sub dice*${f.FOOTER}`,
       },
     },

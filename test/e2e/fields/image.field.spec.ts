@@ -150,23 +150,23 @@ test("image field", async ({ f }) => {
         changes: [
           {
             files: {
-              "media/timestamp-image-basic-image.jpeg":
+              "media/TIMESTAMP-image-basic-image.jpeg":
                 "[converted:jpeg:/9j/4A]",
-              "media/timestamp-image-basic-images-1.jpeg":
+              "media/TIMESTAMP-image-basic-images-1.jpeg":
                 "[converted:jpeg:/9j/4A]",
-              "media/timestamp-image-basic-images-2.png":
+              "media/TIMESTAMP-image-basic-images-2.png":
                 "[converted:png:iVBORw]",
-              "media/timestamp-image-basic-images-3.png":
+              "media/TIMESTAMP-image-basic-images-3.png":
                 "[converted:png:iVBORw]",
-              "media/timestamp-image-basic-images-4.jpeg":
+              "media/TIMESTAMP-image-basic-images-4.jpeg":
                 "[converted:jpeg:/9j/4A]",
-              "media/timestamp-image-image-with-full-options-my-alt-text.jpeg":
+              "media/TIMESTAMP-image-image-with-full-options-my-alt-text.jpeg":
                 "[converted:jpeg:/9j/4A]",
-              "media/timestamp-image-images-with-full-options-1-some-dice.png":
+              "media/TIMESTAMP-image-images-with-full-options-1-some-dice.png":
                 "[converted:png:iVBORw]",
-              "media/timestamp-image-images-with-full-options-2.jpeg":
+              "media/TIMESTAMP-image-images-with-full-options-2.jpeg":
                 "[converted:jpeg:/9j/4A]",
-              "media/timestamp-image-images-with-full-options-3-kitten-with-alt.jpeg":
+              "media/TIMESTAMP-image-images-with-full-options-3-kitten-with-alt.jpeg":
                 "[converted:jpeg:/9j/4A]",
               "test.yaml": `imageBasic:
   data: data:image/jpeg;base64,/9j/4A...
@@ -202,33 +202,33 @@ imagesFull:
         body: `This PR adds a new Image:
 
 ## Basic Image
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-basic-image.jpeg)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-image.jpeg)
 
 ## Image with full options
-![My alt text](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-image-with-full-options-my-alt-text.jpeg)
+![My alt text](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-image-with-full-options-my-alt-text.jpeg)
 *My alt text*
 
 ## Basic Images [1]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-basic-images-1.jpeg)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-1.jpeg)
 
 ## Basic Images [2]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-basic-images-2.png)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-2.png)
 
 ## Basic Images [3]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-basic-images-3.png)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-3.png)
 
 ## Basic Images [4]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-basic-images-4.jpeg)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-4.jpeg)
 
 ## Images with full options [1]
-![Some Dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-images-with-full-options-1-some-dice.png)
+![Some Dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-1-some-dice.png)
 *Some Dice*
 
 ## Images with full options [2]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-images-with-full-options-2.jpeg)
+![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-2.jpeg)
 
 ## Images with full options [3]
-![kitten with alt](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/timestamp-image-images-with-full-options-3-kitten-with-alt.jpeg)
+![kitten with alt](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-3-kitten-with-alt.jpeg)
 *kitten with alt*${f.FOOTER}`,
       },
     },
