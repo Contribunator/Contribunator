@@ -1,4 +1,4 @@
-import getTimestamp from "@/lib/helpers/timestamp";
+import { getTimeStamp } from "@/lib/helpers/timestamp";
 
 import YAML from "yaml";
 
@@ -21,7 +21,7 @@ export default async function transformPullRquest({
     throw new Error("Contribution has no commit method defined!");
   }
   // generate a common timestamp
-  const timestamp = getTimestamp();
+  const timestamp = getTimeStamp();
   // group common fields
   const common = { ...destructureMeta(body), config, timestamp };
   // fetchData

@@ -9,7 +9,7 @@ import {
 import set from "lodash/set";
 import get from "lodash/get";
 import slugify from "./slugify";
-import getTimestamp from "./timestamp";
+import { getTimeStamp } from "./timestamp";
 import { COMMIT_REPLACE_SHA } from "../constants";
 
 type Path = (string | number)[];
@@ -23,7 +23,7 @@ type DecorateFormDataProps = {
 export function decorateFormData({
   config: { contribution, repo },
   data,
-  timestamp = getTimestamp(),
+  timestamp = getTimeStamp(), // only used to render preview
 }: DecorateFormDataProps) {
   // todo also ensure the data is ordered
   // in the future we can apply transformations to the data here
