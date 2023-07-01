@@ -4,19 +4,12 @@ Below are the upcoming features and improvements.
 
 ## Now
 
-- Clearer usage of timestamp / branch prefix
-
 - Improved error/conf feedback in the UI (not alert)
-- Collapse dropdown if sub-item not selected
-
-- Unique branch names for each PR / Commit to prevent https://github.com/Contribunator/Sample/pull/40/files
-
-- ensure all reserved `field`s etc are reserved deeply
-
 - OG Image
 
 ### ETC Cleanup
 
+- Remove base configs, they are generated now
 - Test video with no tags
 - Addition of generic uploads; media, animation, GIFs, video via LFS
 - i18n support (ETC)
@@ -25,14 +18,16 @@ Below are the upcoming features and improvements.
 - Move ETC-only contributions/tests elsewhere?
 - Refactor to use images api
 
-### Code QUality
+### Code Quality / Polish
 
+- test it works with `field`, `fields` fields and other fuckery
 - Better typing in decorated form data
 - Cleanup, replace all `any` types
 - Refactor tests
 - Convert the has/hasNo back to regex now we don't need to serialize?
 - Separate serer and client side code? (commit, `fetchOnServer`, etc.)
 - Modularize field types
+- Collapse dropdown if sub-item not selected
 
 ### Update Docs
 

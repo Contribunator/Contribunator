@@ -13,11 +13,8 @@ const baseURL = `http://localhost:${PORT}`;
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
-  // Timeout per test
-  timeout: 30 * 1000,
-  expect: {
-    timeout: 3000,
-  },
+  timeout: 10 * 1000, // waitFor timeout
+  expect: { timeout: 3000 },
   // Test directory
   testDir: path.join(__dirname, "test/e2e"),
   // snapshots
