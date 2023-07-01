@@ -114,8 +114,8 @@ const config: UserConfig = {
             description:
               "Complete this form to add your dapp or protocol to EthereumClassic.org. Your submission will be reviwed and, if approved, added to the Apps and Procotols section.",
           },
-          relativeImagePath: "./images",
-          absoluteImagePath: "content/services/apps/images",
+          relativeImagePath: "./images/",
+          absoluteImagePath: "content/services/apps/images/",
           collectionPath: "content/services/apps/apps.collection.yaml",
         }),
         video: video({
