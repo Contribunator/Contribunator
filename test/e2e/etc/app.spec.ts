@@ -86,7 +86,7 @@ App Description`,
         body: `This PR adds a new App:
 
 ## App Category
-games
+Games
 
 ## App Name
 My Test App
@@ -231,7 +231,7 @@ App Description`,
         body: `This PR adds a new App:
 
 ## App Category
-games
+Games
 
 ## App Name
 My Test App
@@ -245,7 +245,7 @@ Multline
 App Description
 
 ## App Icon
-✔
+![](https://raw.githubusercontent.com/test-owner/TEST/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
 
 ## Author Name
 Joe Bloggs
@@ -265,8 +265,20 @@ https://tests.link
 ## IPFS Frontend
 https://ipfs.link
 
-## Other Links
-2 item(s)${f.FOOTER}`,
+### Other Links [1] Link Name
+https://link.name
+
+### Other Links [1] Link URL
+https://link.url
+
+### Other Links [2] Link Name
+https://link2.name
+
+### Other Links [2] Link URL
+https://link2.url
+
+### Other Links [2] Link Icon
+book${f.FOOTER}`,
         head: "c11r/timestamp-add-app-my-test-app",
         owner: "test-owner",
         repo: "TEST",

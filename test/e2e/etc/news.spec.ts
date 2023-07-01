@@ -69,7 +69,7 @@ My Test Article
 https://example.com
 
 ## Tags
-development${f.FOOTER}`,
+Development${f.FOOTER}`,
         head: "c11r/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
         repo: "TEST",
@@ -165,7 +165,7 @@ Bobby Tables
 New York Times
 
 ## Tags
-development, teams, series
+Development, Teams, Series
 
 ## Published Date
 2021-01-23${f.FOOTER}`,

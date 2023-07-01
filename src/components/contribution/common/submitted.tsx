@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Route } from "next";
-import { HiOutlineEmojiHappy, HiExternalLink } from "react-icons/hi";
+import { HiExternalLink } from "react-icons/hi";
+import { BsEmojiSunglasses } from "react-icons/bs";
 
 import type { PrData } from "../formClient";
 
@@ -10,7 +11,7 @@ export default function Submitted({ pr: { pr, test } }: { pr: PrData }) {
   return (
     <div className="flex flex-col py-6 space-y-6">
       <div className="flex justify-center">
-        <HiOutlineEmojiHappy className="text-6xl" />
+        <BsEmojiSunglasses className="text-6xl" />
       </div>
       <h3 className="title">Congrats, your Pull Request was created!</h3>
       <Link className="link-hover" href={pr.url as Route} target="_blank">

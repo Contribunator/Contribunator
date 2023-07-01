@@ -20,7 +20,7 @@ const tweetPrMetadata: PrMetadata = ({ data }) => {
     title += " " + data.text;
   }
 
-  title = "Add " + slugify(title, { join: " ", slice: 10 });
+  title = "Add " + slugify(title, { join: " " });
 
   let message = "This Pull Request creates a new";
 

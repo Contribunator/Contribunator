@@ -1,10 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { buildConfig } from "@/lib/config";
+
+import buildConfig from "@/lib/helpers/buildConfig";
 import testConfig from "@/../test/configs/test.config";
 
 test("landing page and contribution list", async ({ page }) => {
   const { repos } = await buildConfig(testConfig);
   await page.goto("/");
+  // TODo replace with config title etc
   await expect(page).toHaveTitle("E2E C11R");
   await expect(page.getByText("E2E C11R")).toBeVisible();
   await page.getByText("Contribute").click();

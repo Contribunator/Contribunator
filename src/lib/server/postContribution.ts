@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import getConfig from "@/lib/config";
+import log from "@/lib/log";
 
 import submitPullRequest from "./submitPullRequest";
 import transformPullRequest from "./transformPullRequest";
@@ -44,7 +45,7 @@ export default async function postContribution(req: NextRequest) {
       message = err.message;
     }
     // todo return correct error code
-    console.error(err || message);
+    log.error(err || message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

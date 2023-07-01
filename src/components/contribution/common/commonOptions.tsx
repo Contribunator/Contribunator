@@ -1,18 +1,23 @@
 import { destructureMeta } from "@/lib/helpers/destructureMeta";
 import TextInput from "../fields/textInput";
 import type { BaseFormProps } from "../formClient";
+import { decorateFormData } from "@/lib/helpers/decorateFormData";
 
 export default function CommonOptions({ formik, config }: BaseFormProps) {
   // to do pass fetched files here?
-  const meta = formik.isValid
-    ? config.contribution.prMetadata({
-        ...destructureMeta(formik.values),
+  let metadata = { title: "", message: "" };
+  if (formik.isValid) {
+    const destructured = destructureMeta(formik.values);
+    // todo could be expensive, should we debounce or something?
+    // TODO we definitely don't want to bother running this the advanced options is hidden
+    if (Object.keys(destructured.data).length > 0) {
+      metadata = config.contribution.prMetadata({
+        ...destructured,
+        ...decorateFormData({ ...destructured, config }),
         config,
-      })
-    : {
-        title: "",
-        message: "",
-      };
+      });
+    }
+  }
   return (
     <>
       <div className="collapse collapse-arrow rounded-md bg-base-100 bg-opacity-50">
@@ -25,12 +30,12 @@ export default function CommonOptions({ formik, config }: BaseFormProps) {
             title="Custom Pull Request Title"
             info="Special characters will be removed"
             name="customTitle"
-            placeholder={meta.title}
+            placeholder={metadata.title}
           />
           <TextInput
             title="Custom Pull Request Message"
             name="customMessage"
-            placeholder={meta.message}
+            placeholder={metadata.message}
             as="textarea"
           />
         </div>

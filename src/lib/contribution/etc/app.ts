@@ -11,8 +11,7 @@ import {
 
 import type { ContributionConfig, ContributionMeta, Form } from "@/types";
 
-import slugify from "@/lib/helpers/slugify";
-import timestamp from "@/lib/helpers/timestamp";
+import getTimestamp from "@/lib/helpers/timestamp";
 
 import contribution from "@/lib/contribution";
 
@@ -46,36 +45,34 @@ export default function app({
     color: "purple",
     ...opts,
     load: async () => ({
+      imagePath: absoluteImagePath,
+      imageName: ({ data: { title } }) => title,
       useFilesOnServer: {
         apps: collectionPath,
       },
       commit: async ({
         files,
-        timestamp: t,
-        data: { image, url, title, description, links = [], ...rest },
+        images,
+        data: { url, title, description, image: _i, links = [], ...rest },
+        formData: { image },
       }) => {
-        let newApp: any = {
-          date: timestamp("YYYY-MM-DD"),
-          title,
-          description,
-        };
-        const images: any = {};
-        if (image) {
-          const imageName = `${t}-${slugify(title)}.${image.type}`;
-          images[`${absoluteImagePath}/${imageName}`] = image.data;
-          newApp.image = `${relativeImagePath}/${imageName}`;
-        }
-        newApp = {
-          ...newApp,
-          ...rest,
-          links: [{ name: "Launch App", link: url }, ...links],
-        };
-
         // TODO option to pass image resizing / aspect ratio.
         return {
           images,
           yaml: {
-            [files.apps.path]: [newApp, ...(files.apps.parsed || [])],
+            [files.apps.path]: [
+              {
+                date: getTimestamp("YYYY-MM-DD"),
+                title,
+                description,
+                ...(image && {
+                  image: `${relativeImagePath}${image.fileName}`,
+                }),
+                ...rest,
+                links: [{ name: "Launch App", link: url }, ...links],
+              },
+              ...(files.apps.parsed || []),
+            ],
           },
         };
       },

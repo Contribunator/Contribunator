@@ -68,14 +68,14 @@ export default function TextInput({
     .join(" ");
 
   const currentSuggestions =
-    meta.value &&
+    field.value &&
     suggestions
       ?.filter(({ has, hasNo }) => {
         if (!has && !hasNo) {
           return true;
         }
-        const hasMatch = !has || new RegExp(has, "gu").test(meta.value);
-        const hasNoMatch = !hasNo || !new RegExp(hasNo, "gu").test(meta.value);
+        const hasMatch = !has || new RegExp(has, "gu").test(field.value);
+        const hasNoMatch = !hasNo || !new RegExp(hasNo, "gu").test(field.value);
         return hasMatch && hasNoMatch;
       })
       .map(({ message }) => message);
@@ -106,6 +106,11 @@ export default function TextInput({
               type={input}
               className={`w-full ${styles}`}
               placeholder={placeholder}
+              onBlur={() => {
+                if (field.value) {
+                  helpers.setValue(field.value.trim());
+                }
+              }}
               onChange={({
                 target: { value },
               }: React.ChangeEvent<HTMLInputElement>) => {

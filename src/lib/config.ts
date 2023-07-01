@@ -1,31 +1,12 @@
 import memoize from "lodash/memoize";
 
 // uncomment to enable hot reload during tests development
-import "@/../test/configs/test.config";
+// import "@/../test/configs/test.config";
 
-// TODO move defaults and buildConfig so they can be test without the rest of the config
-
-import type {
-  Config,
-  ConfigWithContribution,
-  ConfigWithRepo,
-  UserConfig,
-} from "@/types";
+import type { Config, ConfigWithContribution, ConfigWithRepo } from "@/types";
 
 import { demo, e2e, isServer } from "@/lib/env";
-
-export const DEFAULTS: Config = {
-  authorization: ["github"],
-  title: "Contribunator",
-  description:
-    "Effortlessly contribute to GitHub! No coding or GitHub experience needed. Simply fill out a form, submit, and you're done. Contributing has never been easier!",
-  owner: "Contribunator",
-  branchPrefix: "c11r/",
-  base: "main",
-  prPostfix:
-    "\n\n---\n*Created using [Contribunator Bot](https://github.com/Contribunator/Contribunator)*",
-  repos: {},
-};
+import buildConfig from "@/lib/helpers/buildConfig";
 
 async function resolveConfig() {
   if (e2e) {
@@ -34,25 +15,6 @@ async function resolveConfig() {
     return (await import("@/../test/configs/demo.config")).default;
   }
   return (await import("@/../contribunator.config")).default;
-}
-
-// inherit and decorate the repo configs, exported for testing
-export function buildConfig(userConfig: UserConfig): Config {
-  const { repos = {}, ...mainConfig } = userConfig;
-  const config: any = {
-    ...DEFAULTS,
-    ...mainConfig,
-    repos: {},
-  };
-  Object.entries(repos).forEach(([name, repo]) => {
-    const merged = { ...config, ...repo };
-    config.repos[name] = {
-      ...merged,
-      name,
-      githubUrl: `https://github.com/${merged.owner}/${name}`,
-    };
-  });
-  return config;
 }
 
 const getUserConfig = memoize(async function () {
@@ -92,6 +54,7 @@ async function getConfig(repoName?: string, contributionName?: string) {
     throw new Error(`Contribution ${contributionName} not found`);
   }
   // load the contribution
+  // TODO we should memomize this instead of the whole function?
   const { load } = repo.contributions[contributionName];
   const contribution = await load(contributionName, repo);
   return { ...config, repo, contribution } as ConfigWithContribution;

@@ -4,6 +4,7 @@ import tweet from "@/lib/contribution/tweet";
 import type { UserConfig } from "@/types";
 
 import e2eConfig from "./test.config";
+import { HiPhotograph } from "react-icons/hi";
 
 const demoConfig: UserConfig = {
   authorization: ["github", "captcha"],
@@ -14,6 +15,7 @@ const demoConfig: UserConfig = {
       addLabels: ["c11r"],
       requestReviewers: {
         users: ["IstoraMandiri"],
+        teams: ["contribunators"],
       },
       contributions: {
         simple: contribution({
@@ -44,6 +46,25 @@ ${timestamp}: ${data.text}
             },
           }),
         }),
+        image: contribution({
+          title: "A Simple Image Upload",
+          description: "Demos adding images to the repo.",
+          icon: HiPhotograph,
+          load: async () => ({
+            imagePath: "images/",
+            commit: async ({ images }) => ({ images }),
+            form: {
+              fields: {
+                image: {
+                  type: "images",
+                  title: "Image",
+                  validation: { required: true },
+                },
+              },
+            },
+          }),
+        }),
+
         ...e2eConfig.repos?.TEST.contributions,
         tweet: tweet({
           description: "Submits a twitter-together compatible tweet PR",

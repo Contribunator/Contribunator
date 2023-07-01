@@ -1,6 +1,6 @@
 import { APIRequestContext } from "@playwright/test";
 
-import { DEFAULTS } from "@/lib/config";
+import { DEFAULTS } from "@/lib/constants";
 
 const { prPostfix } = DEFAULTS;
 

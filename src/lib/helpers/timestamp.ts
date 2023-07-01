@@ -5,7 +5,7 @@ import { e2e } from "@/lib/env";
 
 dayjs.extend(utc);
 
-export default function timestamp(
+export default function getTimestamp(
   format = "YYMMDD-HHmm",
   date?: string,
   tagOrSkipTag?: string | boolean
