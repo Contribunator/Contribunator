@@ -2,11 +2,6 @@
 
 Below are the upcoming features and improvements.
 
-## Now
-
-- Improved error/conf feedback in the UI (not alert)
-- OG Image
-
 ### ETC Cleanup
 
 - Remove base configs, they are generated now
@@ -17,6 +12,7 @@ Below are the upcoming features and improvements.
 - Add contributor name to prs
 - Move ETC-only contributions/tests elsewhere?
 - Refactor to use images api
+- unset description if empty
 
 ### Code Quality / Polish
 
@@ -55,6 +51,7 @@ Below are the upcoming features and improvements.
 
 ## Contribunator v1
 
+- OG Image
 - button for github repos to generate a form screenshot
 - Dynamic loading of configs from github via yaml
 - Themes picker, daisy-ui compatible, and rounded etc.

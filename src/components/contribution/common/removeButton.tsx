@@ -8,10 +8,7 @@ export default function RemoveButton({
   onClick?: () => void;
 }) {
   return (
-    <div
-      className={`btn btn-error absolute z-10 gap-2 ${className}`}
-      {...props}
-    >
+    <div className={`btn btn-error absolute z-10 ${className}`} {...props}>
       <HiXCircle /> Remove
     </div>
   );

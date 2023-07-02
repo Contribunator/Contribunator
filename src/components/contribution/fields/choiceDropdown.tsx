@@ -78,7 +78,7 @@ export default function ChoiceDropdown({
     <div className="flex items-center space-x-2">
       <div className="dropdown">
         {/* displayed when selecting */}
-        <label tabIndex={0} className="btn btn-neutral gap-2">
+        <label tabIndex={0} className="btn btn-neutral">
           {selectedOptions || unset || "No Selection"}
           <HiChevronDown className="w-5 h-5" />
         </label>

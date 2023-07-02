@@ -24,7 +24,7 @@ export default function EditImage({
         ref={cropperRef}
       />
       <div
-        className="btn absolute bottom-2 left-2 btn-success gap-2"
+        className="btn absolute bottom-2 left-2 btn-success"
         onClick={() => {
           if (!cropperRef.current) return;
           const cropper = cropperRef.current.cropper;

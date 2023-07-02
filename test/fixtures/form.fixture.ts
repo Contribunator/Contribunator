@@ -80,12 +80,17 @@ export class FormFixture {
       await route.fulfill({ json: { pr: json.pr } });
     });
 
-    this.page.once("dialog", (dialog) => dialog.accept());
-
     // wait for the submit button to be enabled
     await expect(this.submitButton).toBeEnabled();
     // await this.screenshot("form-completed");
     await this.submitButton.click();
+
+    // click the confirmation button
+    await this.page
+      .locator("#confirmation_modal")
+      .getByRole("button", { name: "Confirm", exact: true })
+      .click();
+
     await this.hasText(testPr.url);
 
     return { req: deepTrimImageData(req), res };

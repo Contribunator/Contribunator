@@ -15,6 +15,8 @@ export type FormDataItem =
   | {
       data?: any;
       field?: Field;
+      name?: string;
+      path?: string;
       fullTitle?: string;
       fileName?: string;
       filePath?: string;

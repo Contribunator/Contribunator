@@ -29,7 +29,7 @@ export default function FieldHeader({
             {!!infoLink && (
               <a
                 target="_blank"
-                className="flex gap-2 hover:underline items-center"
+                className="flex hover:underline items-center"
                 href={infoLink}
               >
                 {info}

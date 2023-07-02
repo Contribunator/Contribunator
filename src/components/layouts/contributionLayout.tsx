@@ -11,7 +11,7 @@ export default async function ContributionLayout({ children }: Props) {
   return (
     <FlexContainer>
       {children}
-      <Link className="btn gap-2" href="/contribute">
+      <Link className="btn" href="/contribute">
         <HiOutlineArrowLeft className="h-4 w-4" />
         Contributions List
       </Link>

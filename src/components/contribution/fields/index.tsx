@@ -1,9 +1,9 @@
 import type { Field as BaseField, Fields } from "@/types";
 import { useFormikContext } from "formik";
 
-// import dynamic from "next/dynamic";
 // this causes weird page loading issues
 // instead, load heavy libraries within the component (e.g. image)
+// import dynamic from "next/dynamic";
 // const components = {
 //   text: dynamic(() => import("./textInput")),
 //   choice: dynamic(() => import("./choiceInput")),

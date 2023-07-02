@@ -81,10 +81,15 @@ export function decorateFormData({
       .filter((p) => p) // remove empty items
       .join(" ");
 
-    const item: FormDataItem = { field, fullTitle };
+    const item: FormDataItem = {
+      field,
+      fullTitle,
+      name: query[query.length - 1],
+      path: path.join("."),
+      data: val,
+    };
 
     if (["image", "images"].includes(field.type)) {
-      const { data: imageData, ...rest } = val;
       const title = contribution.imageName
         ? contribution.imageName({ data })
         : `${contribution.title} ${fullTitle} ${val.alt || ""}`;
@@ -94,11 +99,7 @@ export function decorateFormData({
       item.markdown = `![${val.alt || ""}](${githubPrefix}${item.filePath})${
         val.alt ? `\n*${val.alt}*` : ""
       }`;
-      images[item.filePath] = imageData;
-      item.data = rest;
-    } else {
-      // copy the data of all other fields
-      item.data = val;
+      images[item.filePath] = val.data;
     }
 
     if (field.type === "choice") {

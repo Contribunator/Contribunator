@@ -8,7 +8,7 @@ export type Props = {
 
 export default function InfoField({ title, icon }: Props) {
   return (
-    <div className="flex text-secondary pt-6 first:pt-2 items-center justify-center gap-2 font-bold text-sm">
+    <div className="flex text-secondary pt-6 first:pt-2 items-center justify-center font-bold text-sm">
       <div>{icon && <HiOutlineInformationCircle className="h-5 w-5" />}</div>
       <div className="text-left">{title}</div>
     </div>
