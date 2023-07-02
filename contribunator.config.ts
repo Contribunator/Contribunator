@@ -104,7 +104,6 @@ const config: UserConfig = {
         teams: ["website"],
       },
       description: "Submit updates to the EthereumClassic.org website.",
-      base: "master",
       contributions: {
         dapp: app({
           title: "Application",
