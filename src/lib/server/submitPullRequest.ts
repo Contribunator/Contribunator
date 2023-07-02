@@ -80,7 +80,7 @@ export default async function submitPullRequest({
   const prMessage = message.split(COMMIT_REPLACE_SHA).join(commits[0].sha);
 
   const pr = {
-    base,
+    base: base || repo.base,
     title,
     repo: repo.name,
     head: commit.branch,
