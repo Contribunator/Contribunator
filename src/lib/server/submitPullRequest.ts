@@ -52,7 +52,7 @@ export default async function submitPullRequest({
     repo: repo.name,
     owner: repo.owner,
     base: repo.base,
-    forkFromBaseBranch: repo.base ? true : undefined,
+    forkFromBaseBranch: !repo.base,
     branch: `${repo.branchPrefix}${branch}${uid}`,
     createBranch: true,
     ...(githubUser && {
