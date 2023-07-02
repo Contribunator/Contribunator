@@ -3,7 +3,7 @@ import { HiVideoCamera } from "react-icons/hi";
 import type { ContributionConfig, ContributionMeta, Form } from "@/types";
 
 import { demo, e2e } from "@/lib/env";
-import getTimestamp from "@/lib/helpers/timestamp";
+import { getDateStamp } from "@/lib/helpers/timestamp";
 import contribution from "@/lib/contribution";
 
 export type NewsConfig = Partial<ContributionMeta> & {
@@ -81,8 +81,8 @@ export default function video({
       }) => {
         const video = {
           title: title || yt.title,
-          date: getTimestamp("YYYY-MM-DD"),
-          uploaded: getTimestamp("YYYY-MM-DD", yt.publishedAt, "PUBLISHED"),
+          date: getDateStamp(),
+          uploaded: getDateStamp(yt.publishedAt, "PUBLISHED"),
           youtube,
           authorYoutube: `channel/${yt.channelId}`,
           author: yt.channelTitle,

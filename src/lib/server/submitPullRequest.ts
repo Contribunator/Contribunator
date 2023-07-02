@@ -1,4 +1,7 @@
 import { createAppAuth } from "@octokit/auth-app";
+
+import crypto from "crypto";
+
 // @ts-ignore
 import commitMultipleFiles from "octokit-commit-multiple-files";
 
@@ -43,11 +46,14 @@ export default async function submitPullRequest({
   test: any; // for testing
 }> {
   const githubUser = authorized.type === "github" ? authorized.token : null;
-  // TODO pass in base branch
+  // prevent branch name creation conflicts
+  const uid = e2e ? "" : `-${crypto.randomBytes(3).toString("hex")}`;
   const commit = {
     repo: repo.name,
     owner: repo.owner,
-    branch: `${repo.branchPrefix}${branch}`,
+    base: repo.base,
+    forkFromBaseBranch: repo.base ? true : undefined,
+    branch: `${repo.branchPrefix}${branch}${uid}`,
     createBranch: true,
     ...(githubUser && {
       author: {
@@ -65,14 +71,16 @@ export default async function submitPullRequest({
   };
 
   log.info({ commit });
-  const { commits } = await octokit.rest.repos.createOrUpdateFiles(commit);
+  const { commits, base } = await octokit.rest.repos.createOrUpdateFiles(
+    commit
+  );
 
   // get the commit sha and replace it in the PR body
   // so that images can be displayed
   const prMessage = message.split(COMMIT_REPLACE_SHA).join(commits[0].sha);
 
   const pr = {
-    base: repo.base,
+    base,
     title,
     repo: repo.name,
     head: commit.branch,

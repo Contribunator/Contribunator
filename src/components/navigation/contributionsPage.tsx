@@ -15,7 +15,7 @@ export default async function ContributionsPage() {
           <RepositoryDetails key={repo.name} repo={repo} />
         ))}
       </div>
-      <Link href="/" className="btn gap-2">
+      <Link href="/" className="btn">
         <HiHome />
         Home
       </Link>

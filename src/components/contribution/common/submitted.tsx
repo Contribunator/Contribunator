@@ -3,11 +3,14 @@ import { Route } from "next";
 import { HiExternalLink } from "react-icons/hi";
 import { BsEmojiSunglasses } from "react-icons/bs";
 
-import type { PrData } from "../formClient";
+import type { SubmitState } from "../formClient";
 
 import SubmittedTestData from "./submittedTestData";
 
-export default function Submitted({ pr: { pr, test } }: { pr: PrData }) {
+export default function Submitted({
+  pr,
+  test,
+}: Pick<Required<SubmitState>, "pr" | "test">) {
   return (
     <div className="flex flex-col py-6 space-y-6">
       <div className="flex justify-center">
@@ -25,12 +28,13 @@ export default function Submitted({ pr: { pr, test } }: { pr: PrData }) {
         <Link
           href={pr.url as Route}
           target="_blank"
-          className="btn btn-success btn-lg gap-2"
+          className="btn btn-success btn-lg"
         >
           View PR on Github
           <HiExternalLink />
         </Link>
       </div>
+      {/* TODO: Create Another Contribution */}
       {test && <SubmittedTestData {...test} />}
     </div>
   );

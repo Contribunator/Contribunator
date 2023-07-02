@@ -11,7 +11,7 @@ import {
 
 import type { ContributionConfig, ContributionMeta, Form } from "@/types";
 
-import getTimestamp from "@/lib/helpers/timestamp";
+import { getDateStamp } from "@/lib/helpers/timestamp";
 
 import contribution from "@/lib/contribution";
 
@@ -62,7 +62,7 @@ export default function app({
           yaml: {
             [files.apps.path]: [
               {
-                date: getTimestamp("YYYY-MM-DD"),
+                date: getDateStamp(),
                 title,
                 description,
                 ...(image && {

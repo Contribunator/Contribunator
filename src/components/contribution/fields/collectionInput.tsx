@@ -65,7 +65,7 @@ export default function CollectionInput({
               return (
                 <div
                   key={key}
-                  className="btn gap-2 bg-white"
+                  className="btn bg-white"
                   onClick={() => {
                     helpers.setValue([...collection, {}]);
                   }}

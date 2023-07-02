@@ -11,7 +11,7 @@ export default function LandingPage() {
         <h1 className="title">Page Not Found</h1>
         <p>Sorry, the resource you are looking for does not exist.</p>
       </div>
-      <Link href="/" className="btn btn-accent gap-2">
+      <Link href="/" className="btn btn-accent">
         Go Home
         <HiHome className="h-4 w-4" />
       </Link>

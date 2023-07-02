@@ -5,7 +5,7 @@ import { e2e } from "@/lib/env";
 
 dayjs.extend(utc);
 
-export default function getTimestamp(
+export function getTimeStamp(
   format = "YYMMDD-HHmm",
   date?: string,
   tagOrSkipTag?: string | boolean
@@ -15,4 +15,8 @@ export default function getTimestamp(
   }
   const dayjsDate = date ? dayjs.utc(date) : dayjs.utc();
   return dayjsDate.format(format);
+}
+
+export function getDateStamp(date?: string, tagOrSkipTag?: string | boolean) {
+  return getTimeStamp("YYYY-MM-DD", date, tagOrSkipTag);
 }

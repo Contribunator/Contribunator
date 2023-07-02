@@ -16,8 +16,9 @@ class Mocktokit {
   // test pullRequestHandler
   rest = {
     repos: {
-      createOrUpdateFiles: async () => {
+      createOrUpdateFiles: async ({ base }: any) => {
         return {
+          base: base || "main",
           commits: [
             {
               sha: "REPLACED_SHA",

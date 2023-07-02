@@ -55,7 +55,7 @@ function Button({
   return (
     <a
       data-selected={isSelected && !hasChildren ? true : undefined}
-      className={`flex-1 btn gap-2 ${color} ${className ? className : ""}`}
+      className={`flex-1 btn ${color} ${className ? className : ""}`}
       onClick={onClick}
     >
       {Icon && <Icon />}

@@ -11,7 +11,7 @@ export type Config = {
   description: string;
   authorization: AuthType[];
   owner: string;
-  base: string;
+  base?: string;
   branchPrefix: string;
   prPostfix: string;
   addLabels?: string[];

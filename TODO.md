@@ -2,37 +2,28 @@
 
 Below are the upcoming features and improvements.
 
-## Now
-
-- OG Image
-- Improved error/conf feedback in the UI (not alert)
-- Collapse dropdown if sub-item not selected
-- ensure all reserved `field`s etc are reserved deeply
-- getDateStamp / getTimeStampTitle
-- Unique branch names for each PR / Commit to prevent https://github.com/Contribunator/Sample/pull/40/files
-- Clearer usage of timestamp / branch prefix
-- Better typing in decorated form data
-- etc up date Trailing slashes
-
 ### ETC Cleanup
 
+- Remove base configs, they are generated now
+- Test video with no tags
 - Addition of generic uploads; media, animation, GIFs, video via LFS
 - i18n support (ETC)
 - Merge form config like twitter for all contributions, standardize contributions
 - Add contributor name to prs
 - Move ETC-only contributions/tests elsewhere?
 - Refactor to use images api
+- unset description if empty
 
-### Polish
+### Code Quality / Polish
 
-### Code QUality
-
+- test it works with `field`, `fields` fields and other fuckery
+- Better typing in decorated form data
 - Cleanup, replace all `any` types
 - Refactor tests
-- merge images and collection logic
 - Convert the has/hasNo back to regex now we don't need to serialize?
 - Separate serer and client side code? (commit, `fetchOnServer`, etc.)
 - Modularize field types
+- Collapse dropdown if sub-item not selected
 
 ### Update Docs
 
@@ -60,6 +51,7 @@ Below are the upcoming features and improvements.
 
 ## Contribunator v1
 
+- OG Image
 - button for github repos to generate a form screenshot
 - Dynamic loading of configs from github via yaml
 - Themes picker, daisy-ui compatible, and rounded etc.
