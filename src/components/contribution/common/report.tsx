@@ -18,7 +18,9 @@ function ReportCell({ fields }: { fields: FormDataItem }) {
                   {item.data.alt && <div>{item.data.alt}</div>}
                 </div>
               ) : (
-                <div>{item.markdown || item.data}</div>
+                <div className="whitespace-pre-wrap">
+                  {item.markdown || item.data}
+                </div>
               )}
             </div>
           );

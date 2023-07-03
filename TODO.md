@@ -4,19 +4,11 @@ Below are the upcoming features and improvements.
 
 ### ETC Cleanup
 
-- Test that base still works if it's passed
-- Render spaces in report
-- Remove base configs, they are generated now
-- Test video with no tags
-- Addition of generic uploads; media, animation, GIFs, video via LFS
 - i18n support (ETC)
 - Merge form config like twitter for all contributions, standardize contributions
 - Add contributor name to prs
 - Move ETC-only contributions/tests elsewhere?
-- Refactor to use images api
-- unset description if empty
-- have the bot clean up old branches
-- nicer logtail output (make sure it logs everything)
+- ETC-config specific tests, Test video with no tags
 
 ### Code Quality / Polish
 
@@ -45,6 +37,9 @@ Below are the upcoming features and improvements.
 
 ### General Features
 
+- nicer logtail output (make sure it logs everything) pending cfworker
+- Addition of generic uploads; media, animation, GIFs, video via LFS
+- merge trigger actions (delete the merged branch)
 - Option to disable customTitle/message
 - Contribution-specific labels
 - Code, Radios, Checkbox, Number (range)

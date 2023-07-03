@@ -27,6 +27,8 @@ export default async function postContribution(req: NextRequest) {
       strict: true,
     });
 
+    console.info({ authorized, config: validated });
+
     // transform a PR
     const transformed = await transformPullRequest({ body: validated, config });
 
