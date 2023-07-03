@@ -4,6 +4,8 @@ Below are the upcoming features and improvements.
 
 ### ETC Cleanup
 
+- Test that base still works if it's passed
+- Render spaces in report
 - Remove base configs, they are generated now
 - Test video with no tags
 - Addition of generic uploads; media, animation, GIFs, video via LFS
@@ -13,6 +15,8 @@ Below are the upcoming features and improvements.
 - Move ETC-only contributions/tests elsewhere?
 - Refactor to use images api
 - unset description if empty
+- have the bot clean up old branches
+- nicer logtail output (make sure it logs everything)
 
 ### Code Quality / Polish
 
