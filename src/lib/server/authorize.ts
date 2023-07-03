@@ -19,7 +19,7 @@ const authMethods: Record<string, AuthFunction> = {
     // TODO, get a new oauth token with octokit
     const token = (await getToken({ req })) as GithubProfile;
     if (token) {
-      log.info({ msg: "authorized github user", login: token.login });
+      log.info("authorized github user", { login: token.login });
       return {
         type: "github",
         token,
@@ -34,12 +34,12 @@ const authMethods: Record<string, AuthFunction> = {
       });
       const data = await response.json();
       if (data.success) {
-        log.info({ msg: "authorized captcha" });
+        log.info("authorized captcha");
         return {
           type: "captcha",
         };
       } else {
-        log.warn({ msg: "captcha failed", data });
+        log.warn("captcha failed");
       }
     }
   },
@@ -47,17 +47,17 @@ const authMethods: Record<string, AuthFunction> = {
     const apiKey = req.headers.get("x-api-key");
     const user = apiKey && auth.api.keys?.[apiKey];
     if (user) {
-      log.info({ msg: "authorized API key", user });
+      log.info("authorized API key", { user });
       return {
         type: "api",
         user,
       };
     } else {
-      log.warn({ msg: "api key not found", key: apiKey?.slice(0, 3) });
+      log.warn("api key not found", { key: apiKey?.slice(0, 3) });
     }
   },
   anon: async function () {
-    log.info({ msg: "authorized anon" });
+    log.info("authorized anon");
     return { type: "anon" };
   },
 };

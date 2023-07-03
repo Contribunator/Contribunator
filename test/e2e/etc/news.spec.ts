@@ -57,6 +57,7 @@ test("news submits basic", async ({ f }) => {
         createBranch: true,
         owner: "test-owner",
         repo: "TEST",
+        base: "main",
       },
       pr: {
         base: "main",
@@ -147,6 +148,7 @@ test("news submits full", async ({ f }) => {
         createBranch: true,
         owner: "test-owner",
         repo: "TEST",
+        base: "main",
       },
       pr: {
         base: "main",

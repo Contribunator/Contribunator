@@ -1,9 +1,3 @@
-/** @type {import('next').NextConfig} */
-
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
 const nextConfig = {
   experimental: {
     appDir: true,
@@ -14,4 +8,14 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+function getConfig() {
+  if (process.env.ANALYZE === "true") {
+    return require("@next/bundle-analyzer")({ enabled: true })(nextConfig);
+  }
+  if (process.env.LOGTAIL_SOURCE_TOKEN) {
+    return require("@logtail/next").withLogtail(nextConfig);
+  }
+  return nextConfig;
+}
+
+module.exports = getConfig();

@@ -1,17 +1,17 @@
 import pino from "pino";
+import { log as logtail } from "@logtail/next";
 
 function getLogger() {
-  // TODO enable once logtail in workers is working
-  // if (process.env.LOGTAIL_SOURCE_TOKEN) {
-  //   return pino(
-  //     pino.transport({
-  //       target: "@logtail/pino",
-  //       options: { sourceToken: process.env.LOGTAIL_SOURCE_TOKEN },
-  //     })
-  //   );
-  // }
+  if (process.env.LOGTAIL_SOURCE_TOKEN) {
+    return logtail;
+  }
   return pino({
     level: process.env.CI ? "silent" : "trace",
+    hooks: {
+      logMethod(args, method) {
+        method.apply(this, [{ msg: args[0], ...args[1] }]);
+      },
+    },
   });
 }
 

@@ -54,6 +54,7 @@ md: |
       createBranch: true,
       owner: "test-owner",
       repo: "TEST",
+      base: "main",
     },
     pr: {
       base: "main",

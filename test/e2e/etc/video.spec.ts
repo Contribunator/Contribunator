@@ -49,6 +49,7 @@ test("video submits basic", async ({ f }) => {
         createBranch: true,
         owner: "test-owner",
         repo: "TEST",
+        base: "main",
       },
       pr: {
         base: "main",
@@ -128,6 +129,7 @@ Description`,
         createBranch: true,
         owner: "test-owner",
         repo: "TEST",
+        base: "main",
       },
       pr: {
         base: "main",
