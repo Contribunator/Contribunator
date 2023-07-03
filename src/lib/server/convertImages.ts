@@ -29,7 +29,7 @@ export default async function convertImages(images: Images): Promise<Images> {
         const taken = new Date().getTime() - start;
         log.info(`converted in ${taken}ms ${fileName}`);
       } catch (e) {
-        log.error("Errorr converting", fileName);
+        log.error("Errorr converting", { fileName });
         throw e;
       }
     })

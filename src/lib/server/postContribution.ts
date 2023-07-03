@@ -27,7 +27,7 @@ export default async function postContribution(req: NextRequest) {
       strict: true,
     });
 
-    console.info({ authorized, config: validated });
+    log.info("post contribution", { authorized, config: validated });
 
     // transform a PR
     const transformed = await transformPullRequest({ body: validated, config });
@@ -47,7 +47,7 @@ export default async function postContribution(req: NextRequest) {
       message = err.message;
     }
     // todo return correct error code
-    log.error(err || message);
+    log.error(message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

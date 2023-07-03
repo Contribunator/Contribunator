@@ -80,7 +80,7 @@ export default async function submitPullRequest({
     ],
   };
 
-  log.info({ commit });
+  log.info("commit", { commit });
   const { commits } = await octokit.rest.repos.createOrUpdateFiles(commit);
 
   // get the commit sha and replace it in the PR body
@@ -96,7 +96,7 @@ export default async function submitPullRequest({
     body: `${prMessage}${repo.prPostfix}`,
   };
 
-  log.info({ pr, commit });
+  log.info("pr", { pr });
   const { data } = await octokit.rest.pulls.create(pr);
 
   // add tags and reviwer status

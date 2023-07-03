@@ -80,7 +80,7 @@ class Mocktokit {
           },
         };
       } catch (e) {
-        log.warn(e);
+        log.warn("404", e as Error);
         return { status: 404 };
       }
     },
