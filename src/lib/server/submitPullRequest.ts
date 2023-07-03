@@ -48,11 +48,21 @@ export default async function submitPullRequest({
   const githubUser = authorized.type === "github" ? authorized.token : null;
   // prevent branch name creation conflicts
   const uid = e2e ? "" : `-${crypto.randomBytes(3).toString("hex")}`;
+
+  // get the base if it's not set
+  const base =
+    repo.base ||
+    (
+      await octokit.rest.repos.get({
+        owner: repo.owner,
+        repo: repo.name,
+      })
+    ).data.default_branch;
+
   const commit = {
+    base,
     repo: repo.name,
     owner: repo.owner,
-    base: repo.base,
-    forkFromBaseBranch: !repo.base,
     branch: `${repo.branchPrefix}${branch}${uid}`,
     createBranch: true,
     ...(githubUser && {
@@ -71,9 +81,7 @@ export default async function submitPullRequest({
   };
 
   log.info({ commit });
-  const { commits, base } = await octokit.rest.repos.createOrUpdateFiles(
-    commit
-  );
+  const { commits } = await octokit.rest.repos.createOrUpdateFiles(commit);
 
   // get the commit sha and replace it in the PR body
   // so that images can be displayed
@@ -88,7 +96,7 @@ export default async function submitPullRequest({
     body: `${prMessage}${repo.prPostfix}`,
   };
 
-  log.info({ pr });
+  log.info({ pr, commit });
   const { data } = await octokit.rest.pulls.create(pr);
 
   // add tags and reviwer status

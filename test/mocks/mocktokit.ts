@@ -16,6 +16,13 @@ class Mocktokit {
   // test pullRequestHandler
   rest = {
     repos: {
+      get: async ({}) => {
+        return {
+          data: {
+            default_branch: "main",
+          },
+        };
+      },
       createOrUpdateFiles: async ({ base }: any) => {
         return {
           base: base || "main",
