@@ -35,7 +35,7 @@
     "lodash": "^4.17.21",
     "next": "^13.4.4",
     "next-auth": "^4.22.1",
-    "octokit-commit-multiple-files": "git://github.com/IstoraMandiri/octokit-commit-multiple-files.git#0b40c7759e4405985031cd2683bcc5b9a87796fc",
+    "octokit-commit-multiple-files": "^4.3.0",
     "pino": "^8.14.1",
     "postcss": "8.4.23",
     "prettier": "^2.8.8",
