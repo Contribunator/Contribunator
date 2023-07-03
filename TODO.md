@@ -43,7 +43,7 @@ Below are the upcoming features and improvements.
 - Option to disable customTitle/message
 - Contribution-specific labels
 - Code, Radios, Checkbox, Number (range)
-- Required ALT image field
+- Required ALT image field option
 - Checkbox to Star Repo `starRepoForAuthenticatedUser`
 - Option to add merge schedule date
 - field specific image paths
