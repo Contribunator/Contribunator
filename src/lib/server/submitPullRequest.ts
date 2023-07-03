@@ -88,7 +88,7 @@ export default async function submitPullRequest({
     body: `${prMessage}${repo.prPostfix}`,
   };
 
-  log.info({ pr });
+  log.info({ pr, commit });
   const { data } = await octokit.rest.pulls.create(pr);
 
   // add tags and reviwer status
