@@ -10,13 +10,15 @@ const PORT = process.env.PORT || 3000;
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = `http://localhost:${PORT}`;
 
+// option to use contributions dir for tests
+
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   timeout: 10 * 1000, // waitFor timeout
   expect: { timeout: 3000 },
   // Test directory
-  testDir: path.join(__dirname, "test/e2e"),
+  // testDir: path.join(__dirname, "test/e2e"),
   // snapshots
   snapshotDir: path.join(__dirname, "screenshots"),
   snapshotPathTemplate: "{snapshotDir}/{testName}-{arg}{ext}",

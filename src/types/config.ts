@@ -31,7 +31,7 @@ export type Repo = Omit<Config, "repos"> & {
 export type UserConfig = Partial<Omit<Config, "repos">> & {
   repos?: {
     [key: string]: Partial<Omit<Repo, "contributions">> & {
-      contributions: { [key: string]: ContributionOptions };
+      contributions: { [key: string]: ContributionConfig };
     };
   };
 };

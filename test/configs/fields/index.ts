@@ -29,22 +29,20 @@ function fieldTest(props: any, passedFields: Fields) {
     color: "lime",
     description: "Field Test",
     ...props,
-    load: async () => ({
-      commit: async ({ data, images }) => {
-        // throw new Error("not implemented");
-        return {
-          images,
-          yaml: {
-            "test.yaml": deepTrimImageData(data),
-          },
-        };
-      },
-      form: {
-        fields: {
-          ...passedFields,
+    commit: async ({ data, images }) => {
+      // throw new Error("not implemented");
+      return {
+        images,
+        yaml: {
+          "test.yaml": deepTrimImageData(data),
         },
+      };
+    },
+    form: {
+      fields: {
+        ...passedFields,
       },
-    }),
+    },
   };
   return contribution(fieldTestConfig);
 }

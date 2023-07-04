@@ -1,6 +1,8 @@
 import pino from "pino";
 import { log as logtail } from "@logtail/next";
 
+// TODO filter out captcha, image data
+
 function getLogger() {
   if (process.env.LOGTAIL_SOURCE_TOKEN) {
     return logtail;

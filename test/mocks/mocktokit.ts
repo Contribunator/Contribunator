@@ -1,8 +1,5 @@
-// TODO test with genreated title
 import { join } from "path";
 import fs from "fs/promises";
-
-import log from "@/lib/log";
 
 export const testPr = {
   url: "https://github.com/repo/owner/pulls/123",
@@ -61,17 +58,17 @@ class Mocktokit {
   // test fetchFiles
   repos = {
     async getContent({ path }: { path: string }) {
+      // return 404s
+      if (path.split("/").pop()?.split(".")[0] === "404") {
+        return { status: 404 };
+      }
+      // core tests are prefixed with _E2E_/, otherwise assume usertest
+      const relPath = path.startsWith("_E2E_/")
+        ? `test/assets/data/${path.replace("_E2E_/", "")}`
+        : `contributions/test/data/${path}`;
+
+      const fileName = join(process.cwd(), relPath);
       try {
-        // reject strings that don't start with test
-        if (!path.startsWith("test/")) {
-          throw new Error("Warning: Not requesting test data");
-        }
-        // read data from test/data
-        const fileName = join(
-          process.cwd(),
-          "test/assets/data",
-          path.replace("test/", "")
-        );
         const data = await fs.readFile(fileName, { encoding: "utf8" });
         return {
           data: {
@@ -80,8 +77,7 @@ class Mocktokit {
           },
         };
       } catch (e) {
-        log.warn("404", e as Error);
-        return { status: 404 };
+        throw Error(`Test data not found [${path} -> ${fileName}]`);
       }
     },
   };

@@ -9,6 +9,7 @@ import {
 } from "./pullRequest";
 import { Form } from "./form";
 import { Repo } from "./config";
+import { DeepPartial } from ".";
 
 export type Icon = IconType;
 
@@ -23,10 +24,15 @@ export type UseData = (props: FetchData) => Promise<FetchedData>;
 export type ContributionMeta = {
   title: string;
   description: string;
-  name?: string;
   color: TailwindColor;
-  hidden?: boolean;
   icon: IconType;
+  hidden?: boolean;
+};
+
+export type FormOverrides = DeepPartial<Form>;
+
+export type ContributionCommonOptions = Partial<ContributionMeta> & {
+  form?: FormOverrides | (() => Promise<FormOverrides>);
 };
 
 export type ContributionLoaded = {
@@ -45,6 +51,7 @@ export type ContributionLoaded = {
 
 export type Contribution = ContributionMeta &
   Omit<ContributionLoaded, "prMetadata"> & {
+    name: string;
     prMetadata: PrMetadata;
     schema: any; // TODO // generated
   };
@@ -54,10 +61,15 @@ export type ContributionConfig = ContributionMeta & {
   load: (name: string, repoConfig: Repo) => Promise<Contribution>;
 };
 
-// passed options
-export type ContributionOptions = Partial<ContributionMeta> & {
-  load: (name: string, repoConfig: Repo) => Promise<ContributionLoaded>;
+export type ContributionSync = ContributionCommonOptions & ContributionLoaded;
+export type ContributionAsync = ContributionCommonOptions & {
+  load: () => Promise<
+    ContributionLoaded | { default: () => ContributionLoaded }
+  >;
 };
+
+// passed options
+export type ContributionOptions = ContributionAsync | ContributionSync;
 
 export type TailwindColor =
   | "slate"
