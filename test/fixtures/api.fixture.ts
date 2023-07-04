@@ -8,7 +8,7 @@ export { prPostfix };
 
 export const baseReq = {
   authorization: "anon",
-  repo: "TEST",
+  repo: "_E2E_test",
   contribution: "api",
   text: "test text",
 };
@@ -53,7 +53,7 @@ md: |
       ],
       createBranch: true,
       owner: "test-owner",
-      repo: "TEST",
+      repo: "_E2E_test",
       base: "main",
     },
     pr: {
@@ -64,7 +64,7 @@ md: |
 test text${prPostfix}`,
       head: "c11r/timestamp-add-contribution",
       owner: "test-owner",
-      repo: "TEST",
+      repo: "_E2E_test",
       title: "Add Contribution",
     },
   },

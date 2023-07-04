@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "news" });
+const test = formTest({ repo: "_E2E_test", contribution: "news" });
 
 test("news submits basic", async ({ f }) => {
   await f.cannotSubmit([
@@ -21,7 +21,7 @@ test("news submits basic", async ({ f }) => {
       authorization: "anon",
       contribution: "news",
       link: "https://example.com",
-      repo: "TEST",
+      repo: "_E2E_test",
       tags: ["development"],
       title: "My Test Article",
     },
@@ -56,7 +56,7 @@ test("news submits basic", async ({ f }) => {
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -73,7 +73,7 @@ https://example.com
 Development${f.FOOTER}`,
         head: "c11r/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add News Item: My Test Article",
       },
     },
@@ -107,7 +107,7 @@ test("news submits full", async ({ f }) => {
       contribution: "news",
       date: "2021-01-23",
       link: "https://example.com",
-      repo: "TEST",
+      repo: "_E2E_test",
       source: "New York Times",
       tags: ["development", "teams", "series"],
       title: "My Test Article",
@@ -147,7 +147,7 @@ test("news submits full", async ({ f }) => {
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -173,7 +173,7 @@ Development, Teams, Series
 2021-01-23${f.FOOTER}`,
         head: "c11r/timestamp-add-news-item-my-test-article",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add News Item: My Test Article",
       },
     },

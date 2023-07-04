@@ -1,5 +1,4 @@
 import contribution from "@/lib/contribution";
-import tweet from "@/lib/contribution/tweet";
 
 import type { UserConfig } from "@/types";
 
@@ -64,11 +63,7 @@ ${timestamp}: ${data.text}
             },
           }),
         }),
-
-        ...e2eConfig.repos?.TEST.contributions,
-        tweet: tweet({
-          description: "Submits a twitter-together compatible tweet PR",
-        }),
+        ...e2eConfig.repos?._E2E_test.contributions,
       },
     },
   },

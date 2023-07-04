@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "video" });
+const test = formTest({ repo: "_E2E_test", contribution: "video" });
 
 test("video submits basic", async ({ f }) => {
   await f.cannotSubmit(["Youtube Video ID is a required field"]);
@@ -16,7 +16,7 @@ test("video submits basic", async ({ f }) => {
     req: {
       authorization: "anon",
       contribution: "video",
-      repo: "TEST",
+      repo: "_E2E_test",
       youtube: "GCBv1VCN2tE",
     },
     res: {
@@ -48,7 +48,7 @@ test("video submits basic", async ({ f }) => {
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -56,7 +56,7 @@ test("video submits basic", async ({ f }) => {
         body: `This PR adds the video [E2E Test Video Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
         head: "c11r/timestamp-add-video-e2e-test-video-author-e2e-test-video",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add Video: E2E Test Video Author - E2E Test Video Title",
       },
     },
@@ -86,7 +86,7 @@ test("video submits full", async ({ f }) => {
       description: `Custom Multiline
 
 Description`,
-      repo: "TEST",
+      repo: "_E2E_test",
       tags: ["explainers", "tutorials", "trading"],
       title: "Custom Title",
       youtube: "GCBv1VCN2tE",
@@ -128,7 +128,7 @@ Description`,
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -136,7 +136,7 @@ Description`,
         body: `This PR adds the video [Custom Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
         head: "c11r/timestamp-add-video-e2e-test-video-author-custom-title",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add Video: E2E Test Video Author - Custom Title",
       },
     },

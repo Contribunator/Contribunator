@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "fields", contribution: "image" });
+const test = formTest({ repo: "_E2E_fields", contribution: "image" });
 
 test("image field", async ({ f }) => {
   // basic
@@ -202,33 +202,33 @@ imagesFull:
         body: `This PR adds a new Image:
 
 ## Basic Image
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-image.jpeg)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-basic-image.jpeg)
 
 ## Image with full options
-![My alt text](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-image-with-full-options-my-alt-text.jpeg)
+![My alt text](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-image-with-full-options-my-alt-text.jpeg)
 *My alt text*
 
 ## Basic Images [1]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-1.jpeg)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-1.jpeg)
 
 ## Basic Images [2]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-2.png)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-2.png)
 
 ## Basic Images [3]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-3.png)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-3.png)
 
 ## Basic Images [4]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-4.jpeg)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-basic-images-4.jpeg)
 
 ## Images with full options [1]
-![Some Dice](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-1-some-dice.png)
+![Some Dice](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-1-some-dice.png)
 *Some Dice*
 
 ## Images with full options [2]
-![](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-2.jpeg)
+![](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-2.jpeg)
 
 ## Images with full options [3]
-![kitten with alt](https://raw.githubusercontent.com/test-owner/fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-3-kitten-with-alt.jpeg)
+![kitten with alt](https://raw.githubusercontent.com/test-owner/_E2E_fields/REPLACED_SHA/media/TIMESTAMP-image-images-with-full-options-3-kitten-with-alt.jpeg)
 *kitten with alt*${f.FOOTER}`,
       },
     },

@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest, { FormFixture } from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "app" });
+const test = formTest({ repo: "_E2E_test", contribution: "app" });
 
 async function fillRequired(f: FormFixture) {
   await f.cannotSubmit([
@@ -32,7 +32,7 @@ test("app submits basic", async ({ f }) => {
       description: `Multline
 
 App Description`,
-      repo: "TEST",
+      repo: "_E2E_test",
       title: "My Test App",
       type: "games",
       url: "https://example.com",
@@ -79,7 +79,7 @@ App Description`,
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -104,7 +104,7 @@ App Description
 Joe Bloggs${f.FOOTER}`,
         head: "c11r/timestamp-add-app-my-test-app",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add App: My Test App",
       },
     },
@@ -163,7 +163,7 @@ App Description`,
           icon: "book",
         },
       ],
-      repo: "TEST",
+      repo: "_E2E_test",
       testSuite: "https://tests.link",
       title: "My Test App",
       type: "games",
@@ -225,7 +225,7 @@ App Description`,
         ],
         createBranch: true,
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         base: "main",
       },
       pr: {
@@ -247,7 +247,7 @@ Multline
 App Description
 
 ## App Icon
-![](https://raw.githubusercontent.com/test-owner/TEST/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
+![](https://raw.githubusercontent.com/test-owner/_E2E_test/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
 
 ## Author Name
 Joe Bloggs
@@ -283,7 +283,7 @@ https://link2.url
 book${f.FOOTER}`,
         head: "c11r/timestamp-add-app-my-test-app",
         owner: "test-owner",
-        repo: "TEST",
+        repo: "_E2E_test",
         title: "Add App: My Test App",
       },
     },

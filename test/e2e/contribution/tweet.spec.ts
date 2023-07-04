@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "tweets", contribution: "tweet" });
+const test = formTest({ repo: "_E2E_tweets", contribution: "tweet" });
 
 test("tweet submits basic", async ({ f }) => {
   await f.cannotSubmit(["Required unless retweeting or uploading images"]);
@@ -253,7 +253,7 @@ Tweet Reply Here`,
 });
 
 const retweetText = formTest({
-  repo: "tweets",
+  repo: "_E2E_tweets",
   contribution: "tweetTextRequired",
 });
 

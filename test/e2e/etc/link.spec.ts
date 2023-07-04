@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "link" });
+const test = formTest({ repo: "_E2E_test", contribution: "link" });
 
 test("link submits basic", async ({ f }) => {
   await f.cannotSubmit([

@@ -4,6 +4,8 @@ import type {
   UserConfig,
 } from "@/types";
 
+import userConfig from "@/../contribunator.config";
+
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
 import news from "@/lib/contribution/etc/news";
@@ -12,6 +14,7 @@ import app from "@/lib/contribution/etc/app";
 import video from "@/lib/contribution/etc/video";
 
 import fieldTests, { combined } from "./fields";
+import buildConfig from "@/lib/helpers/buildConfig";
 
 const testContributionLoaded: ContributionLoaded = {
   commit: async ({ data, fetched, files }) => ({
@@ -66,7 +69,8 @@ const testConfig: UserConfig = {
     "This is a test mode for end-to-end testing, using a Mock Github API",
   owner: "test-owner",
   repos: {
-    TEST: {
+    ...(userConfig?.repos && buildConfig(userConfig).repos),
+    _E2E_test: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
       addLabels: ["test-tag"],
@@ -103,75 +107,83 @@ const testConfig: UserConfig = {
         }),
         app: app({
           description: "My App Description",
-          relativeImagePath: "./images/",
-          absoluteImagePath: "content/services/apps/images/",
-          collectionPath: "test/etc/apps.yaml",
+          options: {
+            relativeImagePath: "./images/",
+            absoluteImagePath: "content/services/apps/images/",
+            collectionPath: "test/etc/apps.yaml",
+          },
         }),
         video: video({
-          collectionPath: "test/etc/videos.yaml",
+          options: {
+            collectionPath: "test/etc/videos.yaml",
+          },
         }),
         news: news({
-          collectionPath: "test/etc/news.yaml",
+          options: {
+            collectionPath: "test/etc/news.yaml",
+          },
         }),
         link: link({
-          keyMap: {
-            name: "__name",
-            link: "__link",
-            icon: "__icon",
-          },
-          categories: {
-            wallets: {
-              title: "Wallet",
-              sourcePath: "test/etc/wallets.yaml",
-              web: {
-                title: "Web Wallet",
-                sourceKey: "web",
-              },
-              browser: {
-                title: "Browser Integrated Wallet",
-                sourceKey: "browsers",
-              },
+          options: {
+            keyMap: {
+              name: "__name",
+              link: "__link",
+              icon: "__icon",
             },
-            social: {
-              showIcons: true,
-              title: "Social Channels",
-              sourcePath: "test/etc/channels.yaml",
-              chatRooms: {
-                title: "General Chat Room",
-                sourceKey: "Chat Rooms",
+            categories: {
+              wallets: {
+                title: "Wallet",
+                sourcePath: "test/etc/wallets.yaml",
+                web: {
+                  title: "Web Wallet",
+                  sourceKey: "web",
+                },
+                browser: {
+                  title: "Browser Integrated Wallet",
+                  sourceKey: "browsers",
+                },
               },
-              developmentChat: {
-                title: "Development Chat Room",
-                sourceKey: "Development Chat",
+              social: {
+                showIcons: true,
+                title: "Social Channels",
+                sourcePath: "test/etc/channels.yaml",
+                chatRooms: {
+                  title: "General Chat Room",
+                  sourceKey: "Chat Rooms",
+                },
+                developmentChat: {
+                  title: "Development Chat Room",
+                  sourceKey: "Development Chat",
+                },
+                telegramGroups: {
+                  title: "Telegram Group",
+                  sourceKey: "Telegram Groups",
+                },
               },
-              telegramGroups: {
-                title: "Telegram Group",
-                sourceKey: "Telegram Groups",
-              },
-            },
-            dev: {
-              title: "Mining & Development",
-              priceSource: {
-                title: "Price Source",
-                sourcePath: "test/etc/tooling.yaml",
-                sourceKey: "prices",
-              },
-              repo: {
-                showDescription: true,
-                title: "Git Repository",
-                sourcePath: "test/etc/tooling.yaml",
-                sourceKey: "repos",
+              dev: {
+                title: "Mining & Development",
+                priceSource: {
+                  title: "Price Source",
+                  sourcePath: "test/etc/tooling.yaml",
+                  sourceKey: "prices",
+                },
+                repo: {
+                  showDescription: true,
+                  title: "Git Repository",
+                  sourcePath: "test/etc/tooling.yaml",
+                  sourceKey: "repos",
+                },
               },
             },
           },
         }),
       },
     },
-    fields: {
+    _E2E_fields: {
       title: "Field Tests",
       contributions: fieldTests,
     },
-    overrides: {
+    _E2E_overrides: {
       title: "Title Override",
       description: "Description Override",
       owner: "owner-override",
@@ -185,28 +197,28 @@ const testConfig: UserConfig = {
         }),
       },
     },
-    github: {
+    _E2E_github: {
       authorization: ["github"],
       title: "Github Only",
       contributions: {
         test,
       },
     },
-    api: {
+    _E2E_api: {
       authorization: ["api"],
       title: "API Only",
       contributions: {
         test,
       },
     },
-    anon: {
+    _E2E_anon: {
       authorization: ["anon"],
       title: "Anon Only",
       contributions: {
         test,
       },
     },
-    tweets: {
+    _E2E_tweets: {
       title: "Tweet Configs",
       contributions: {
         tweet: tweet({

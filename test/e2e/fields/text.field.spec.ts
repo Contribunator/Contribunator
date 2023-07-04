@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "fields", contribution: "text" });
+const test = formTest({ repo: "_E2E_fields", contribution: "text" });
 
 // TODO add test for Info field and Yup schema
 

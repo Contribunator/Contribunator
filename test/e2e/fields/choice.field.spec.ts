@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "fields", contribution: "choice" });
+const test = formTest({ repo: "_E2E_fields", contribution: "choice" });
 
 test("choice fields", async ({ f }) => {
   // TODO move this into fixture

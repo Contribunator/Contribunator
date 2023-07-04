@@ -4,7 +4,7 @@ import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 import { baseReq, baseRes } from "test/fixtures/api.fixture";
 
-const test = formTest({ repo: "TEST", contribution: "api" });
+const test = formTest({ repo: "_E2E_test", contribution: "api" });
 
 const baseExpected = { req: baseReq, res: baseRes.test };
 
@@ -12,7 +12,7 @@ test("basic submit", async ({ f }) => {
   await f.hasText("Contribution");
   await f.hasText("A Generic Contribution");
   await f.hasText(
-    "Submits a Pull Request to https://github.com/test-owner/TEST."
+    "Submits a Pull Request to https://github.com/test-owner/_E2E_test."
   );
   await f.cannotSubmit(["Text is a required field"]);
   await f.setText("Text", baseExpected.req.text);
@@ -48,7 +48,10 @@ test("custom message and title", async ({ page, f }) => {
   });
 });
 
-const overridesTest = formTest({ repo: "overrides", contribution: "test" });
+const overridesTest = formTest({
+  repo: "_E2E_overrides",
+  contribution: "test",
+});
 
 overridesTest("test repo/contribution overrides", async ({ f, page }) => {
   await f.hasText("Override Contribution Title");
@@ -60,13 +63,13 @@ overridesTest("test repo/contribution overrides", async ({ f, page }) => {
       commit: {
         branch: "prefix-override/timestamp-add-override-contribution-title",
         owner: "owner-override",
-        repo: "overrides",
+        repo: "_E2E_overrides",
       },
       pr: {
         base: "base-override",
         head: "prefix-override/timestamp-add-override-contribution-title",
         owner: "owner-override",
-        repo: "overrides",
+        repo: "_E2E_overrides",
       },
     },
   });
@@ -74,7 +77,7 @@ overridesTest("test repo/contribution overrides", async ({ f, page }) => {
 
 /* TEST CREDENTIALS UI */
 
-const githubTest = formTest({ repo: "github", contribution: "test" });
+const githubTest = formTest({ repo: "_E2E_github", contribution: "test" });
 
 githubTest("github login required", async ({ f, page }) => {
   await f.cannotSubmit();
@@ -98,14 +101,14 @@ githubTest("github login required", async ({ f, page }) => {
   });
 });
 
-const apiOnlyTest = formTest({ repo: "api", contribution: "test" });
+const apiOnlyTest = formTest({ repo: "_E2E_api", contribution: "test" });
 
 apiOnlyTest("api only", async ({ f }) => {
   await f.cannotSubmit();
   await f.hasText("This contribution is only available via an API");
 });
 
-const anonTest = formTest({ repo: "anon", contribution: "test" });
+const anonTest = formTest({ repo: "_E2E_anon", contribution: "test" });
 
 anonTest("anon-only form ignores github creds", async ({ f, page }) => {
   await page.goto("/");
@@ -116,14 +119,14 @@ anonTest("anon-only form ignores github creds", async ({ f, page }) => {
   expect(await f.submit()).toMatchObject({
     req: {
       authorization: "anon",
-      repo: "anon",
+      repo: "_E2E_anon",
     },
     res: {
       commit: {
-        repo: "anon",
+        repo: "_E2E_anon",
       },
       pr: {
-        repo: "anon",
+        repo: "_E2E_anon",
       },
     },
   });

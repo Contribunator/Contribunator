@@ -179,7 +179,7 @@ test("rejects API key usage when disabled", async ({ request }) => {
   const data = {
     ...baseReq,
     authorization: "api",
-    repo: "anon",
+    repo: "_E2E_anon",
     contribution: "test",
   };
   const headers = { "x-api-key": "def456" };
