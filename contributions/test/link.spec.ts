@@ -1,7 +1,12 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "_E2E_test", contribution: "link" });
+const test = formTest({
+  repo: "ethereumclassic.github.io",
+  contribution: "link",
+  footer:
+    "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
+});
 
 test("link submits basic", async ({ f }) => {
   await f.cannotSubmit([
@@ -26,11 +31,11 @@ test("link submits basic", async ({ f }) => {
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-link-my-test-link",
+        branch: "c11r/timestamp-add-service-link-my-test-link",
         changes: [
           {
             files: {
-              "test/etc/wallets.yaml": `items:
+              "content/services/wallets/index.yaml": `items:
   web:
     items:
       Existing Test:
@@ -46,12 +51,12 @@ test("link submits basic", async ({ f }) => {
         __link: https://example.com
 `,
             },
-            message: "Add Link: My Test Link",
+            message: "Add Service Link: My Test Link",
           },
         ],
       },
       pr: {
-        body: `This PR adds a new Link:
+        body: `This PR adds a new Service Link:
 
 ## Category
 Web Wallet
@@ -61,8 +66,8 @@ My Test Link
 
 ## URL
 https://example.link${f.FOOTER}`,
-        head: "c11r/timestamp-add-link-my-test-link",
-        title: "Add Link: My Test Link",
+        head: "c11r/timestamp-add-service-link-my-test-link",
+        title: "Add Service Link: My Test Link",
       },
     },
   });
@@ -87,7 +92,7 @@ test("link is ordered, has icons", async ({ f }) => {
       changes: [
         {
           files: {
-            "test/etc/channels.yaml": `items:
+            "content/community/channels/index.yaml": `items:
   Chat Rooms:
     items:
       Existing Test:
@@ -135,12 +140,7 @@ test("link contains description", async ({ f }) => {
       changes: [
         {
           files: {
-            "test/etc/tooling.yaml": `items:
-  prices:
-    items:
-      Existing Test:
-        __name: Existing Test
-        __link: https://example.com
+            "content/development/repositories/index.yaml": `items:
   repos:
     items:
       Another Test:

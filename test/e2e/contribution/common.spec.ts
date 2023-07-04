@@ -79,7 +79,7 @@ overridesTest("test repo/contribution overrides", async ({ f, page }) => {
 
 const githubTest = formTest({ repo: "_E2E_github", contribution: "test" });
 
-githubTest("github login required", async ({ f, page }) => {
+githubTest("github login required", async ({ f }) => {
   await f.cannotSubmit();
   await f.hasText("You must sign in to submit this type of contribution");
   await f.signIn();

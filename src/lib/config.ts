@@ -10,15 +10,19 @@ import buildConfig from "@/lib/helpers/buildConfig";
 
 async function resolveConfig() {
   if (e2e) {
-    return (await import("@/../test/configs/test.config")).default;
+    return await import("@/../test/configs/core.test.config");
   } else if (demo) {
-    return (await import("@/../test/configs/demo.config")).default;
+    return await import("@/../test/configs/demo.config");
   }
-  return (await import("@/../contribunator.config")).default;
+  return await import("@/../contribunator.config");
 }
 
 const getUserConfig = memoize(async function () {
-  const userConfig = await resolveConfig();
+  const userConfigModule = await resolveConfig();
+  const userConfig =
+    typeof userConfigModule.default === "function"
+      ? await userConfigModule.default()
+      : userConfigModule.default;
   const config = buildConfig(userConfig);
   if (isServer) {
     (await import("@/lib/env.server")).validateEnv(config);

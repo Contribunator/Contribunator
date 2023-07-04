@@ -35,7 +35,7 @@ const config: UserConfig = {
       requestReviewers: { teams: ["website"] },
       description: "Submit updates to the EthereumClassic.org website.",
       contributions: {
-        dapp: contribution({
+        app: contribution({
           title: "Application",
           icon: HiCursorClick,
           color: "purple",
@@ -45,7 +45,7 @@ const config: UserConfig = {
             description:
               "Complete this form to add your dapp or protocol to EthereumClassic.org. Your submission will be reviwed and, if approved, added to the Apps and Procotols section.",
           },
-          load: async () => import("./contributions/dapp"),
+          load: async () => import("./contributions/app"),
         }),
         video: contribution({
           title: "Video",
@@ -73,7 +73,7 @@ const config: UserConfig = {
           },
           load: async () => import("./contributions/news"),
         }),
-        links: contribution({
+        link: contribution({
           title: "Service Link",
           icon: HiLink,
           color: "yellow",

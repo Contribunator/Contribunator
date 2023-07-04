@@ -1,7 +1,12 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "_E2E_test", contribution: "video" });
+const test = formTest({
+  repo: "ethereumclassic.github.io",
+  contribution: "video",
+  footer:
+    "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
+});
 
 test("video submits basic", async ({ f }) => {
   await f.cannotSubmit(["Youtube Video ID is a required field"]);
@@ -16,7 +21,7 @@ test("video submits basic", async ({ f }) => {
     req: {
       authorization: "anon",
       contribution: "video",
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       youtube: "GCBv1VCN2tE",
     },
     res: {
@@ -25,7 +30,7 @@ test("video submits basic", async ({ f }) => {
         changes: [
           {
             files: {
-              "test/etc/videos.yaml": `- title: E2E Test Video Title
+              "content/videos/videos.collection.en.yaml": `- title: E2E Test Video Title
   date: TIMESTAMP
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
@@ -47,16 +52,16 @@ test("video submits basic", async ({ f }) => {
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
         body: `This PR adds the video [E2E Test Video Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
         head: "c11r/timestamp-add-video-e2e-test-video-author-e2e-test-video",
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         title: "Add Video: E2E Test Video Author - E2E Test Video Title",
       },
     },
@@ -86,7 +91,7 @@ test("video submits full", async ({ f }) => {
       description: `Custom Multiline
 
 Description`,
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       tags: ["explainers", "tutorials", "trading"],
       title: "Custom Title",
       youtube: "GCBv1VCN2tE",
@@ -97,7 +102,7 @@ Description`,
         changes: [
           {
             files: {
-              "test/etc/videos.yaml": `- title: Custom Title
+              "content/videos/videos.collection.en.yaml": `- title: Custom Title
   date: TIMESTAMP
   uploaded: PUBLISHED
   youtube: GCBv1VCN2tE
@@ -127,16 +132,16 @@ Description`,
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
         body: `This PR adds the video [Custom Title](https://www.youtube.com/watch?v=GCBv1VCN2tE) by [E2E Test Video Author](https://www.youtube.com/channel/CHANNEL_ID).${f.FOOTER}`,
         head: "c11r/timestamp-add-video-e2e-test-video-author-custom-title",
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         title: "Add Video: E2E Test Video Author - Custom Title",
       },
     },

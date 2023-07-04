@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
   timeout: 10 * 1000, // waitFor timeout
   expect: { timeout: 3000 },
   // Test directory
-  testDir: path.join(__dirname, "test/e2e"),
+  // testDir: path.join(__dirname, "test/e2e"),
   // snapshots
   snapshotDir: path.join(__dirname, "screenshots"),
   snapshotPathTemplate: "{snapshotDir}/{testName}-{arg}{ext}",

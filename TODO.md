@@ -16,6 +16,7 @@ Below are the upcoming features and improvements.
 - Better typing in decorated form data
 - Cleanup, replace all `any` types
 - Refactor tests
+- Check TODOs
 - Convert the has/hasNo back to regex now we don't need to serialize?
 - Separate serer and client side code? (commit, `fetchOnServer`, etc.)
 - Modularize field types

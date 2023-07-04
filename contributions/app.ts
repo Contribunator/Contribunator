@@ -12,7 +12,7 @@ import type { ContributionLoaded } from "@/types";
 
 import { getDateStamp } from "@/lib/helpers/timestamp";
 
-// TODO: make relativeImagePath a global contribution option
+// TODO: make relativeImagePath a global contribution option, so we can refactor
 const relativeImagePath = "./images/";
 
 export default function dappContribution(): ContributionLoaded {

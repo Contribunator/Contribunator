@@ -1,7 +1,12 @@
 import { expect } from "@playwright/test";
 import formTest from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "_E2E_test", contribution: "news" });
+const test = formTest({
+  repo: "ethereumclassic.github.io",
+  contribution: "news",
+  footer:
+    "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
+});
 
 test("news submits basic", async ({ f }) => {
   await f.cannotSubmit([
@@ -21,17 +26,17 @@ test("news submits basic", async ({ f }) => {
       authorization: "anon",
       contribution: "news",
       link: "https://example.com",
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       tags: ["development"],
       title: "My Test Article",
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-news-item-my-test-article",
+        branch: "c11r/timestamp-add-news-article-my-test-article",
         changes: [
           {
             files: {
-              "test/etc/news.yaml": `- date: TIMESTAMP
+              "content/news/links.collection.en.yaml": `- date: TIMESTAMP
   title: My Test Article
   link: https://example.com
   tags:
@@ -51,17 +56,17 @@ test("news submits basic", async ({ f }) => {
     - information
 `,
             },
-            message: "Add News Item: My Test Article",
+            message: "Add News Article: My Test Article",
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
-        body: `This PR adds a new News Item:
+        body: `This PR adds a new News Article:
 
 ## Article Title
 My Test Article
@@ -71,10 +76,10 @@ https://example.com
 
 ## Tags
 Development${f.FOOTER}`,
-        head: "c11r/timestamp-add-news-item-my-test-article",
-        owner: "test-owner",
-        repo: "_E2E_test",
-        title: "Add News Item: My Test Article",
+        head: "c11r/timestamp-add-news-article-my-test-article",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
+        title: "Add News Article: My Test Article",
       },
     },
   });
@@ -96,7 +101,6 @@ test("news submits full", async ({ f }) => {
   await f.clickButton("Tags", "Teams");
   await f.clickButton("Tags", "Series");
 
-  // TODO set the date
   await f.setText("Published Date", "2021-01-23");
 
   // return;
@@ -107,18 +111,18 @@ test("news submits full", async ({ f }) => {
       contribution: "news",
       date: "2021-01-23",
       link: "https://example.com",
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       source: "New York Times",
       tags: ["development", "teams", "series"],
       title: "My Test Article",
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-news-item-my-test-article",
+        branch: "c11r/timestamp-add-news-article-my-test-article",
         changes: [
           {
             files: {
-              "test/etc/news.yaml": `- date: 2021-01-23
+              "content/news/links.collection.en.yaml": `- date: 2021-01-23
   title: My Test Article
   link: https://example.com
   author: Bobby Tables
@@ -142,17 +146,17 @@ test("news submits full", async ({ f }) => {
     - information
 `,
             },
-            message: "Add News Item: My Test Article",
+            message: "Add News Article: My Test Article",
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
-        body: `This PR adds a new News Item:
+        body: `This PR adds a new News Article:
 
 ## Article Title
 My Test Article
@@ -171,10 +175,10 @@ Development, Teams, Series
 
 ## Published Date
 2021-01-23${f.FOOTER}`,
-        head: "c11r/timestamp-add-news-item-my-test-article",
-        owner: "test-owner",
-        repo: "_E2E_test",
-        title: "Add News Item: My Test Article",
+        head: "c11r/timestamp-add-news-article-my-test-article",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
+        title: "Add News Article: My Test Article",
       },
     },
   });

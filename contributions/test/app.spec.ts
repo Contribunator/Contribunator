@@ -1,7 +1,12 @@
 import { expect } from "@playwright/test";
 import formTest, { FormFixture } from "@/../test/fixtures/form.fixture";
 
-const test = formTest({ repo: "_E2E_test", contribution: "app" });
+const test = formTest({
+  repo: "ethereumclassic.github.io",
+  contribution: "app",
+  footer:
+    "\n\n---\n*Created using the [ETC Contribunator Bot](https://github.com/ethereumclassic/Contribunator)*",
+});
 
 async function fillRequired(f: FormFixture) {
   await f.cannotSubmit([
@@ -32,18 +37,18 @@ test("app submits basic", async ({ f }) => {
       description: `Multline
 
 App Description`,
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       title: "My Test App",
       type: "games",
       url: "https://example.com",
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-app-my-test-app",
+        branch: "c11r/timestamp-add-application-my-test-app",
         changes: [
           {
             files: {
-              "test/etc/apps.yaml": `- date: TIMESTAMP
+              "content/services/apps/apps.collection.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline
@@ -74,17 +79,17 @@ App Description`,
       icon: discord
 `,
             },
-            message: "Add App: My Test App",
+            message: "Add Application: My Test App",
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
-        body: `This PR adds a new App:
+        body: `This PR adds a new Application:
 
 ## App Category
 Games
@@ -102,10 +107,10 @@ App Description
 
 ## Author Name
 Joe Bloggs${f.FOOTER}`,
-        head: "c11r/timestamp-add-app-my-test-app",
-        owner: "test-owner",
-        repo: "_E2E_test",
-        title: "Add App: My Test App",
+        head: "c11r/timestamp-add-application-my-test-app",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
+        title: "Add Application: My Test App",
       },
     },
   });
@@ -163,7 +168,7 @@ App Description`,
           icon: "book",
         },
       ],
-      repo: "_E2E_test",
+      repo: "ethereumclassic.github.io",
       testSuite: "https://tests.link",
       title: "My Test App",
       type: "games",
@@ -172,13 +177,13 @@ App Description`,
     },
     res: {
       commit: {
-        branch: "c11r/timestamp-add-app-my-test-app",
+        branch: "c11r/timestamp-add-application-my-test-app",
         changes: [
           {
             files: {
               "content/services/apps/images/TIMESTAMP-my-test-app.png":
                 "[converted:png:iVBORw]",
-              "test/etc/apps.yaml": `- date: TIMESTAMP
+              "content/services/apps/apps.collection.yaml": `- date: TIMESTAMP
   title: My Test App
   description: |-
     Multline
@@ -220,17 +225,17 @@ App Description`,
       icon: discord
 `,
             },
-            message: "Add App: My Test App",
+            message: "Add Application: My Test App",
           },
         ],
         createBranch: true,
-        owner: "test-owner",
-        repo: "_E2E_test",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
         base: "main",
       },
       pr: {
         base: "main",
-        body: `This PR adds a new App:
+        body: `This PR adds a new Application:
 
 ## App Category
 Games
@@ -247,7 +252,7 @@ Multline
 App Description
 
 ## App Icon
-![](https://raw.githubusercontent.com/test-owner/_E2E_test/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
+![](https://raw.githubusercontent.com/ethereumclassic/ethereumclassic.github.io/REPLACED_SHA/content/services/apps/images/TIMESTAMP-my-test-app.png)
 
 ## Author Name
 Joe Bloggs
@@ -281,10 +286,10 @@ https://link2.url
 
 ### Other Links [2] Link Icon
 book${f.FOOTER}`,
-        head: "c11r/timestamp-add-app-my-test-app",
-        owner: "test-owner",
-        repo: "_E2E_test",
-        title: "Add App: My Test App",
+        head: "c11r/timestamp-add-application-my-test-app",
+        owner: "ethereumclassic",
+        repo: "ethereumclassic.github.io",
+        title: "Add Application: My Test App",
       },
     },
   });

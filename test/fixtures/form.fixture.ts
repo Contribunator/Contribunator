@@ -9,14 +9,17 @@ type FormFixtureProps = {
   repo: string;
   contribution: string;
   page: Page;
+  footer?: string;
 };
 
 export default function formTest({
   repo,
   contribution,
+  footer,
 }: {
   repo: string;
   contribution: string;
+  footer?: string;
 }) {
   return test.extend<{ f: FormFixture }>({
     f: async ({ page, baseURL }, use) => {
@@ -24,6 +27,7 @@ export default function formTest({
         page,
         baseURL,
         repo,
+        footer,
         contribution,
       });
       await t.init();
@@ -35,15 +39,16 @@ export default function formTest({
 export class FormFixture {
   readonly page: Page;
   readonly path: string;
-  readonly FOOTER = DEFAULTS.prPostfix;
+  readonly FOOTER: string;
   private readonly submitUrl: string;
   private readonly submitButton: Locator;
 
-  constructor({ repo, contribution, page, baseURL }: FormFixtureProps) {
+  constructor({ repo, footer, contribution, page, baseURL }: FormFixtureProps) {
     this.page = page;
     this.path = `/contribute/${repo}/${contribution}`;
     this.submitUrl = `${baseURL}/api/contribute`;
     this.submitButton = page.locator('button[type="submit"]');
+    this.FOOTER = footer || DEFAULTS.prPostfix;
   }
 
   async init() {
@@ -71,7 +76,7 @@ export class FormFixture {
       const json = await response.json();
 
       if (!json.test) {
-        throw new Error("Text environment is not set up!");
+        throw new Error("Test environment is not set up correctly!");
       }
 
       res = json.test;

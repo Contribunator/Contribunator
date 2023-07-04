@@ -6,6 +6,11 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
+  env: {
+    userTestConfig: require("fs").existsSync(
+      "contributions/test/configs/test.config.ts"
+    ),
+  },
 };
 
 function getConfig() {
