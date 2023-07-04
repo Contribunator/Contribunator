@@ -2,18 +2,11 @@ import type { ContributionLoaded } from "@/types";
 
 import { demo, e2e } from "@/lib/env";
 import { getDateStamp } from "@/lib/helpers/timestamp";
-import { VideoOptions } from ".";
 
-export default function videoLoader({
-  options: { collectionPath },
-}: VideoOptions): ContributionLoaded {
-  if (!collectionPath) {
-    throw new Error("Videos config requires a collectionPath");
-  }
-
+export default function videoContribution(): ContributionLoaded {
   return {
     useFilesOnServer: {
-      videos: collectionPath,
+      videos: "content/videos/videos.collection.en.yaml",
     },
     useDataOnServer: async ({ data: { youtube } }) => {
       if (e2e || demo) {

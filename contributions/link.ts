@@ -15,7 +15,21 @@ import {
 } from "react-icons/fa";
 
 import type { ContributionLoaded, VisibleProps } from "@/types";
-import { CatMap, LinkOptions } from ".";
+import { categories } from "./link.categories";
+
+type CatItem = {
+  title?: string;
+  sourcePath?: string;
+  showIcons?: boolean;
+  showDescription?: boolean;
+  sourceKey?: string;
+  keyMap?: { [key: string]: string };
+  [key: string]: CatItem | string | boolean | undefined;
+};
+
+export type CatMap = {
+  [key: string]: CatItem;
+};
 
 // recursively transform categories into formOptions
 function getFormOptions(obj: any): any {
@@ -42,15 +56,15 @@ function getCatProp(keyToMatch: string, cat: string, categories: CatMap) {
   return typeof prop !== "object" && prop;
 }
 
+const keyMap: any = {
+  name: "__name",
+  link: "__link",
+  icon: "__icon",
+};
+
 // TODO make this more configurable, default name, cat-specific keymap
 
-export default function linkLoader({
-  options: { categories, keyMap = {} },
-}: LinkOptions): ContributionLoaded {
-  if (!categories) {
-    throw new Error("Link config requires categories");
-  }
-
+export default function linkLoader(): ContributionLoaded {
   return {
     useFilesOnServer({ data: { category } }) {
       const links = getCatProp("sourcePath", category, categories);

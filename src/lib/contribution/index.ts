@@ -44,7 +44,8 @@ export default function contribution(
         ...baseConfig,
         ...(await (async () => {
           if ("load" in options) {
-            return await (options as ContributionAsync).load();
+            const loaded = await (options as ContributionAsync).load();
+            return "default" in loaded ? await loaded.default() : loaded;
           }
           return options as ContributionSync;
         })()),

@@ -11,27 +11,17 @@ import {
 import type { ContributionLoaded } from "@/types";
 
 import { getDateStamp } from "@/lib/helpers/timestamp";
-import type { AppOptions } from ".";
 
-export default function appLoader({
-  options: { collectionPath, relativeImagePath, absoluteImagePath },
-}: AppOptions): ContributionLoaded {
-  if (!collectionPath) {
-    throw new Error("App config requires a collectionPath");
-  }
-  if (!relativeImagePath) {
-    throw new Error("App config requires a relativeImagePath");
-  }
-  if (!absoluteImagePath) {
-    throw new Error("App config requires an absoluteImagePath");
-  }
+// TODO: make relativeImagePath a global contribution option
+const relativeImagePath = "./images/";
 
-  // todo pass in other fields
+export default function dappContribution(): ContributionLoaded {
+  // todo pass in other fields?
   return {
-    imagePath: absoluteImagePath,
+    imagePath: "content/services/apps/images/",
     imageName: ({ data: { title } }) => title,
     useFilesOnServer: {
-      apps: collectionPath,
+      apps: "content/services/apps/apps.collection.yaml",
     },
     commit: async ({
       files,

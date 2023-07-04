@@ -1,19 +1,11 @@
 import { getDateStamp } from "@/lib/helpers/timestamp";
 
-import { ContributionLoaded } from "@/types";
+import type { ContributionLoaded } from "@/types";
 
-import { NewsOptions } from ".";
-
-export default function newsLoader({
-  options: { collectionPath },
-}: NewsOptions): ContributionLoaded {
-  if (!collectionPath) {
-    throw new Error("News config requires a collectionPath");
-  }
-
+export default function newsLoader(): ContributionLoaded {
   return {
     useFilesOnServer: {
-      news: collectionPath,
+      news: "content/news/links.collection.en.yaml",
     },
     commit: async ({ files, data: { date, ...data } }) => {
       return {

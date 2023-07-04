@@ -1,22 +1,11 @@
-import type {
-  ContributionLoaded,
-  ContributionOptions,
-  UserConfig,
-} from "@/types";
-
-import userConfig from "@/../contribunator.config";
+import type { ContributionLoaded, UserConfig } from "@/types";
 
 import contribution from "@/lib/contribution";
 import tweet from "@/lib/contribution/tweet";
-import news from "@/lib/contribution/etc/news";
-import link from "@/lib/contribution/etc/link";
-import app from "@/lib/contribution/etc/app";
-import video from "@/lib/contribution/etc/video";
 
 import fieldTests, { combined } from "./fields";
-import buildConfig from "@/lib/helpers/buildConfig";
 
-const testContributionLoaded: ContributionLoaded = {
+const testContribution: ContributionLoaded = {
   commit: async ({ data, fetched, files }) => ({
     files: {
       "test.md": JSON.stringify(data),
@@ -56,9 +45,6 @@ const testContributionLoaded: ContributionLoaded = {
     },
   },
 };
-const testContribution: ContributionOptions = {
-  load: async () => testContributionLoaded,
-};
 
 const test = contribution(testContribution);
 
@@ -69,7 +55,8 @@ const testConfig: UserConfig = {
     "This is a test mode for end-to-end testing, using a Mock Github API",
   owner: "test-owner",
   repos: {
-    ...(userConfig?.repos && buildConfig(userConfig).repos),
+    // TODO way do user tests
+    // ...(userConfig?.repos && buildConfig(userConfig).repos),
     _E2E_test: {
       title: "TEST REPO TITLE",
       description: "TEST REPO DESCRIPTION",
@@ -79,99 +66,22 @@ const testConfig: UserConfig = {
         teams: ["test-team"],
       },
       contributions: {
+        combined,
         api: contribution({
           hidden: true,
-          load: async () => ({
-            ...testContributionLoaded,
-            form: {
-              fields: {
-                ...testContributionLoaded.form.fields,
-                collection: {
-                  type: "collection",
-                  title: "Test Collection",
-                  addButton: true,
-                  fields: {
-                    text: {
-                      type: "text",
-                      title: "Sub Text",
-                    },
+          ...testContribution,
+          form: {
+            fields: {
+              ...testContribution.form.fields,
+              collection: {
+                type: "collection",
+                title: "Test Collection",
+                addButton: true,
+                fields: {
+                  text: {
+                    type: "text",
+                    title: "Sub Text",
                   },
-                },
-              },
-            },
-          }),
-        }),
-        combined,
-        tweet: tweet({
-          description: "Here's my custom description",
-        }),
-        app: app({
-          description: "My App Description",
-          options: {
-            relativeImagePath: "./images/",
-            absoluteImagePath: "content/services/apps/images/",
-            collectionPath: "test/etc/apps.yaml",
-          },
-        }),
-        video: video({
-          options: {
-            collectionPath: "test/etc/videos.yaml",
-          },
-        }),
-        news: news({
-          options: {
-            collectionPath: "test/etc/news.yaml",
-          },
-        }),
-        link: link({
-          options: {
-            keyMap: {
-              name: "__name",
-              link: "__link",
-              icon: "__icon",
-            },
-            categories: {
-              wallets: {
-                title: "Wallet",
-                sourcePath: "test/etc/wallets.yaml",
-                web: {
-                  title: "Web Wallet",
-                  sourceKey: "web",
-                },
-                browser: {
-                  title: "Browser Integrated Wallet",
-                  sourceKey: "browsers",
-                },
-              },
-              social: {
-                showIcons: true,
-                title: "Social Channels",
-                sourcePath: "test/etc/channels.yaml",
-                chatRooms: {
-                  title: "General Chat Room",
-                  sourceKey: "Chat Rooms",
-                },
-                developmentChat: {
-                  title: "Development Chat Room",
-                  sourceKey: "Development Chat",
-                },
-                telegramGroups: {
-                  title: "Telegram Group",
-                  sourceKey: "Telegram Groups",
-                },
-              },
-              dev: {
-                title: "Mining & Development",
-                priceSource: {
-                  title: "Price Source",
-                  sourcePath: "test/etc/tooling.yaml",
-                  sourceKey: "prices",
-                },
-                repo: {
-                  showDescription: true,
-                  title: "Git Repository",
-                  sourcePath: "test/etc/tooling.yaml",
-                  sourceKey: "repos",
                 },
               },
             },

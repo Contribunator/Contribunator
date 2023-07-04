@@ -63,7 +63,9 @@ export type ContributionConfig = ContributionMeta & {
 
 export type ContributionSync = ContributionCommonOptions & ContributionLoaded;
 export type ContributionAsync = ContributionCommonOptions & {
-  load: () => Promise<ContributionLoaded>;
+  load: () => Promise<
+    ContributionLoaded | { default: () => ContributionLoaded }
+  >;
 };
 
 // passed options
