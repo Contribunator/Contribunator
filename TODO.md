@@ -2,13 +2,11 @@
 
 Below are the upcoming features and improvements.
 
-### ETC Cleanup
+### Tweets
 
-- i18n support (ETC)
-- Merge form config like twitter for all contributions, standardize contributions
-- Add contributor name to prs
-- Move ETC-only contributions/tests elsewhere?
-- ETC-config specific tests, Test video with no tags
+- Disable Quote, Meida, etc.
+- Poll Tweets
+- Thread Tweets
 
 ### Code Quality / Polish
 
@@ -18,7 +16,6 @@ Below are the upcoming features and improvements.
 - Refactor tests
 - Check TODOs
 - Convert the has/hasNo back to regex now we don't need to serialize?
-- Separate serer and client side code? (commit, `fetchOnServer`, etc.)
 - Modularize field types
 - Collapse dropdown if sub-item not selected
 
@@ -30,16 +27,10 @@ Below are the upcoming features and improvements.
 - update need to "Request user authorization (OAuth) during installation" (we dont)
 - don't need to opt-out of refresh user access token
 
-### Tweets
-
-- Disable Quote, Meida, etc.
-- Poll Tweets
-- Thread Tweets
-
 ### General Features
 
-- nicer logtail output (make sure it logs everything) pending cfworker
-- Addition of generic uploads; media, animation, GIFs, video via LFS
+- Refactor to use deepObjectMap elsewhere
+- (Pending vercel blob) Addition of generic uploads; media, animation, GIFs, video via LFS?
 - merge trigger actions (delete the merged branch)
 - Option to disable customTitle/message
 - Contribution-specific labels
@@ -52,7 +43,6 @@ Below are the upcoming features and improvements.
 ## Contribunator v1
 
 - OG Image
-- button for github repos to generate a form screenshot
 - Dynamic loading of configs from github via yaml
 - Themes picker, daisy-ui compatible, and rounded etc.
 - handle repo owner/repo/name conflicts, "slug" attribute?
@@ -60,7 +50,13 @@ Below are the upcoming features and improvements.
 - Contribution-specific authorization
 - Allow multiple repos, set up a public contribunator instance, with config updates
 - Single repo layout
+
+## Icebucket
+
 - Form builder
+- button for github repos to generate a form screenshot
+- Add contributor name to prs (etc)
+- Separate serer and client side code? (commit, `fetchOnServer`, etc.)
 
 ## Judgement Day
 
