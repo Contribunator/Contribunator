@@ -30,8 +30,9 @@ export function decorateFormData({
 
   const images: ExtractedImagesFlat = {};
   const formData: FormData = {};
-  const niceData: Data = {};
+  const decorated: Data = {};
 
+  // TODO don't use any
   const decorateDeep = (val: any, path: Path = []) => {
     // make sure populate formData to match the order of the form field
     const orderedIterate = (field = contribution.form.fields) => {
@@ -115,10 +116,10 @@ export function decorateFormData({
     }
 
     set(formData, path, item);
-    set(niceData, path, val);
+    set(decorated, path, val);
   };
 
   decorateDeep(data);
 
-  return { images, formData, data: niceData };
+  return { images, formData, data: decorated };
 }

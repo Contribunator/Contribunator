@@ -81,7 +81,7 @@ const textFieldTest: Fields = {
     info: "Info here",
     infoLink: "https://example.com",
     placeholder: "Placeholder",
-    iframe: ({ field }) => field.value,
+    iframe: ({ field }) => field.value as string,
     suggestions: [
       {
         hasNo: "https://",

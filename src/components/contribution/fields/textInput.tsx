@@ -6,8 +6,8 @@ import Iframe from "../common/iframe";
 
 // TODO move these types in to a config
 export type IframeProps = {
-  field: FieldInputProps<any>;
-  meta: FieldMetaProps<any>;
+  field: FieldInputProps<string>;
+  meta: FieldMetaProps<unknown>;
 };
 
 export type Suggestion = {

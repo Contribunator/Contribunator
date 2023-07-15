@@ -5,7 +5,7 @@ import { DEFAULTS } from "@/lib/constants";
 
 export default function buildConfig(userConfig: UserConfig): Config {
   const { repos = {}, ...mainConfig } = userConfig;
-  const config: any = {
+  const config: Config = {
     ...DEFAULTS,
     ...mainConfig,
     repos: {},

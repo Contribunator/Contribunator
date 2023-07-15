@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { BiGitPullRequest } from "react-icons/bi";
 import { HiExclamationCircle, HiInformationCircle } from "react-icons/hi";
 import { ImSpinner2 } from "react-icons/im";
 
-import type { BaseFormProps, SubmitState } from "../formClient";
+import type { BaseFormProps, SubmitState } from "@/types";
 
 function BigButton({
   children,

@@ -9,6 +9,9 @@ import type {
   ConfigWithContribution,
   TransformedPR,
   Authorized,
+  E2ETestResponse,
+  GithubCreateCommit,
+  GithubCreatePR,
 } from "@/types";
 
 import { e2e, githubApp } from "@/lib/env.server";
@@ -43,7 +46,7 @@ export default async function submitPullRequest({
   transformed: { files, title, branch, message },
 }: CreatePullRequestInputs): Promise<{
   pr: CreatePullRequestOutputs;
-  test: any; // for testing
+  test?: E2ETestResponse;
 }> {
   const githubUser = authorized.type === "github" ? authorized.token : null;
   // prevent branch name creation conflicts
@@ -59,7 +62,7 @@ export default async function submitPullRequest({
       })
     ).data.default_branch;
 
-  const commit = {
+  const commit: GithubCreateCommit = {
     base,
     repo: repo.name,
     owner: repo.owner,
@@ -87,7 +90,7 @@ export default async function submitPullRequest({
   // so that images can be displayed
   const prMessage = message.split(COMMIT_REPLACE_SHA).join(commits[0].sha);
 
-  const pr = {
+  const pr: GithubCreatePR = {
     base,
     title,
     repo: repo.name,

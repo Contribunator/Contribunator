@@ -33,12 +33,10 @@ function withFilter(logger: any) {
     );
   };
   return {
-    trace: (...args: unknown[]) => logger.trace(...filter(args)),
     debug: (...args: unknown[]) => logger.debug(...filter(args)),
     info: (...args: unknown[]) => logger.info(...filter(args)),
     warn: (...args: unknown[]) => logger.warn(...filter(args)),
     error: (...args: unknown[]) => logger.error(...filter(args)),
-    fatal: (...args: unknown[]) => logger.fatal(...filter(args)),
   };
 }
 

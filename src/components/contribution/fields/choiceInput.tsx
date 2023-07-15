@@ -10,7 +10,7 @@ import React from "react";
 
 type ChoiceOption = {
   title?: string;
-  icon?: React.FC<any>;
+  icon?: React.FC;
   options?: NestedChoiceOptions;
 };
 

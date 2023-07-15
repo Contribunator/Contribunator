@@ -8,8 +8,16 @@ type Image = {
   type: string;
 };
 
+type Data = {
+  media?: Image[];
+  quoteType?: string;
+  quoteUrl?: string;
+  text?: string;
+};
+
 const tweetCommit: Commit = async (props) => {
-  const { data, timestamp } = props;
+  const { timestamp } = props;
+  const data = props.data as Data;
   const { title } = prMetadata(props);
   const media: { [key: string]: string } = {};
   const hasQuote = data.quoteType && data.quoteUrl;
@@ -21,7 +29,7 @@ const tweetCommit: Commit = async (props) => {
     if (hasQuote) {
       transformed += `${data.quoteType}: ${data.quoteUrl}\n`;
     }
-    if (hasMedia) {
+    if (data.media && hasMedia) {
       transformed += `media:
 ${data.media
   .map(({ data, alt = "", type }: Image, i: number) => {

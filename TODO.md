@@ -2,22 +2,16 @@
 
 Below are the upcoming features and improvements.
 
-### Tweets
-
-- Disable Quote, Meida, etc.
-- Poll Tweets
-- Thread Tweets
-
 ### Code Quality / Polish
 
-- test it works with `field`, `fields` fields and other fuckery
+- add explorers and endpoints to list
+- fix whitespace bug tags
+- multiple links option.
+
 - Better typing in decorated form data
+- test it works with `field`, `fields` fields and other fuckery
 - Cleanup, replace all `any` types
-- Refactor tests
-- Check TODOs
-- Convert the has/hasNo back to regex now we don't need to serialize?
-- Modularize field types
-- Collapse dropdown if sub-item not selected
+- Allow users to handle 404s
 
 ### Update Docs
 
@@ -26,10 +20,13 @@ Below are the upcoming features and improvements.
 - Add a note about enabled delete branches
 - update need to "Request user authorization (OAuth) during installation" (we dont)
 - don't need to opt-out of refresh user access token
+- Check TODOs, Convert TODOs into issues in repo
 
-### General Features
+### Next Features
 
-- Refactor to use deepObjectMap elsewhere
+- Poll Tweets
+- Thread Tweets
+- Disable Quote, Meida, tweet.
 - (Pending vercel blob) Addition of generic uploads; media, animation, GIFs, video via LFS?
 - merge trigger actions (delete the merged branch)
 - Option to disable customTitle/message
@@ -42,6 +39,8 @@ Below are the upcoming features and improvements.
 
 ## Contribunator v1
 
+- Modularize field types
+- Refactor tests to have individual sub-tests
 - OG Image
 - Dynamic loading of configs from github via yaml
 - Themes picker, daisy-ui compatible, and rounded etc.
@@ -50,6 +49,10 @@ Below are the upcoming features and improvements.
 - Contribution-specific authorization
 - Allow multiple repos, set up a public contribunator instance, with config updates
 - Single repo layout
+
+## Low Priority
+
+- Nicer dropdown for long lists Collapse dropdown if sub-item not selected
 
 ## Icebucket
 

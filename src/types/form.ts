@@ -1,5 +1,13 @@
-import type { FormikContextType } from "formik";
 import type { Schema } from "yup";
+import type { FormikProps } from "formik";
+
+import type { ConfigWithContribution } from "./config";
+import type {
+  FetchedFiles,
+  Authorized,
+  E2ETestResponse,
+  Body,
+} from "./pullRequest";
 
 import type { Props as ChoiceInput } from "@/components/contribution/fields/choiceInput";
 import type { Props as CollectionInput } from "@/components/contribution/fields/collectionInput";
@@ -36,12 +44,12 @@ export type ValidationTypes = {
   matches?: RegexValidation;
   min?: number;
   max?: number;
-  yup?: Schema<any>;
+  yup?: Schema<unknown>;
 };
 
 // TODO move to collection?
 export type VisibleProps = {
-  formik: FormikContextType<any>;
+  formik: FormikContext;
   field: Field & { name: string };
 };
 
@@ -58,4 +66,32 @@ export type Form = {
   title?: string;
   description?: string;
   fields: Fields;
+};
+
+export type FormikContext = FormikProps<Body>;
+
+export type BaseFormProps = {
+  formik: FormikContext;
+  config: ConfigWithContribution;
+};
+
+export type FormProps = BaseFormProps & {
+  files?: FetchedFiles;
+  user?: Authorized;
+};
+
+export type PrMetaResponse = {
+  title: string;
+  number: number;
+  url: string;
+};
+
+export type SubmitState = {
+  pr?: PrMetaResponse;
+  error?: string;
+  submitting?: boolean;
+  confirming?: boolean;
+  body?: Body;
+  test?: E2ETestResponse;
+  mounting?: boolean;
 };

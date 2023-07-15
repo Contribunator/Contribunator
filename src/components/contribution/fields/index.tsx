@@ -1,5 +1,7 @@
-import type { Field as BaseField, Fields } from "@/types";
+import type { ReactElement } from "react";
 import { useFormikContext } from "formik";
+
+import type { Field as FieldBase, Fields, FormikContext } from "@/types";
 
 // this causes weird page loading issues
 // instead, load heavy libraries within the component (e.g. image)
@@ -29,15 +31,16 @@ const components = {
   collection: CollectionInput,
 };
 
-type Field = BaseField & { name: string };
+type Field = FieldBase & { name: string };
+
 type VisibilityProps = {
   field: Field;
-  children: any;
+  children: ReactElement | null;
 };
 
 // fetch values for visible method
 function RenderWhenVisible({ field, children }: VisibilityProps) {
-  const formik = useFormikContext();
+  const formik = useFormikContext() as FormikContext;
   const visible = field.visible && field.visible({ formik, field });
   if (!visible) return null;
   return children;

@@ -37,16 +37,15 @@ function Button({
   className,
   hasChildren,
 }: {
-  onClick: any;
+  onClick: () => void;
   title?: string;
   name: string;
-  Icon?: React.FC<any>;
+  Icon?: React.FC;
   value: string | string[] | undefined;
   className?: string;
   hasChildren?: boolean;
 }) {
   const isSelected = (Array.isArray(value) ? value : [value]).includes(name);
-  // const classes = []
   const color = isSelected
     ? hasChildren
       ? "bg-base-300"

@@ -1,10 +1,19 @@
 import slugify from "@/lib/helpers/slugify";
 
-import type { PrMetadata } from "@/types";
+import type { Image, PrMetadata } from "@/types";
 
-const tweetPrMetadata: PrMetadata = ({ data }) => {
+const tweetPrMetadata: PrMetadata = ({
+  data,
+}: {
+  data: {
+    media?: Image[];
+    quoteType?: string;
+    quoteUrl?: string;
+    text?: string;
+  };
+}) => {
   // todo poll, etc.
-  const mediaCount = data.media && data.media.filter((m: string) => m).length;
+  const mediaCount = data.media?.length;
 
   let title = data.quoteType || "tweet";
 

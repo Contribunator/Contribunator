@@ -1,19 +1,50 @@
 import { AuthType, ConfigWithContribution } from "./config";
 import { Field } from "./form";
+import { GithubProfile } from "next-auth/providers/github";
 
-export type Authorized = {
-  type: AuthType;
-  [key: string]: any;
+export type AuthorizedGithub = {
+  type: "github";
+  token: GithubProfile;
 };
 
-// todo
-export type Data = any;
-export type Body = any;
-// a merged version of the data and the form
+export type AuthorizedCaptcha = {
+  type: "captcha";
+};
+
+export type AuthorizedApi = {
+  type: "api";
+  user: string;
+};
+
+export type AuthorizedAnon = {
+  type: "anon";
+};
+
+export type Authorized =
+  | AuthorizedGithub
+  | AuthorizedCaptcha
+  | AuthorizedApi
+  | AuthorizedAnon;
+
+export type Meta = {
+  authorization: AuthType;
+  repo: string;
+  contribution: string;
+  customTitle?: string;
+  customMessage?: string;
+  captcha?: string;
+};
+
+export type DataItem = Data | Data[] | string | string[] | number | number[];
+export type Data = {
+  [key: string]: DataItem;
+};
+
+export type Body = Meta & Data;
 
 export type FormDataItem =
   | {
-      data?: any;
+      data?: Data;
       field?: Field;
       name?: string;
       path?: string;
@@ -26,15 +57,6 @@ export type FormDataItem =
 
 export type FormData = {
   [key: string]: FormDataItem;
-};
-
-export type Meta = {
-  authorization: AuthType[];
-  customTitle?: string;
-  customMessage?: string;
-  captcha?: string;
-  repo: string;
-  contribution: string;
 };
 
 export type FetchData = {
@@ -58,10 +80,10 @@ export type FetchedFile = {
   type?: string;
   exists: boolean;
   content?: string;
-  parsed?: any;
+  parsed?: unknown;
 };
 export type FetchedFiles = { [name: string]: FetchedFile };
-export type FetchedData = any;
+export type FetchedData = { [name: string]: unknown };
 
 export type ExtractedImagesFlat = {
   [key: string]: string;
@@ -120,9 +142,43 @@ export type CommitOutputs = {
     [key: string]: string;
   };
   json?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   yaml?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
+};
+
+export type GithubCreateCommit = {
+  base: string;
+  repo: string;
+  owner: string;
+  branch: string;
+  createBranch: boolean;
+  author?: {
+    name: string;
+    email: string;
+  };
+  changes: [
+    {
+      message: string;
+      files: {
+        [key: string]: string;
+      };
+    }
+  ];
+};
+
+export type GithubCreatePR = {
+  base: string;
+  title: string;
+  repo: string;
+  head: string;
+  owner: string;
+  body: string;
+};
+
+export type E2ETestResponse = {
+  pr: GithubCreatePR;
+  commit: GithubCreateCommit;
 };

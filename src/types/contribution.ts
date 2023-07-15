@@ -2,6 +2,7 @@ import type { IconType } from "react-icons";
 
 import {
   Commit,
+  Data,
   FetchData,
   FetchFiles,
   FetchedData,
@@ -39,7 +40,7 @@ export type ContributionLoaded = {
   form: Form;
   commit: Commit;
   imagePath?: string;
-  imageName?: (props: { data: any }) => string;
+  imageName?: (props: { data: Data }) => string;
   prMetadata?: PrMetadata;
   useFiles?: UseFiles; // server and client
   useFilesOnClient?: UseFiles; // client only

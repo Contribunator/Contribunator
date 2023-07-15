@@ -1,6 +1,6 @@
 import { HiExclamation } from "react-icons/hi";
 
-import type { BaseFormProps } from "../formClient";
+import type { BaseFormProps } from "@/types";
 import Captcha from "./captcha";
 
 export default function AuthWidgets({ formik, config }: BaseFormProps) {

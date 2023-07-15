@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { GithubProfile } from "next-auth/providers/github";
 
-import { Authorized, ConfigWithContribution } from "@/types";
+import { Authorized, Body, ConfigWithContribution } from "@/types";
 import { auth } from "@/lib/env.server";
 import log from "@/lib/log";
 
@@ -11,8 +11,8 @@ type AuthFunction = ({
   body,
 }: {
   req: NextRequest;
-  body: any;
-}) => Promise<any>;
+  body: Body;
+}) => Promise<Authorized | undefined>;
 
 const authMethods: Record<string, AuthFunction> = {
   github: async function ({ req }) {
@@ -64,7 +64,7 @@ const authMethods: Record<string, AuthFunction> = {
 
 type AuthProps = {
   req: NextRequest;
-  body: any;
+  body: Body;
   config: ConfigWithContribution;
 };
 

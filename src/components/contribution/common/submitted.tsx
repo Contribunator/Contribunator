@@ -3,14 +3,17 @@ import { Route } from "next";
 import { HiExternalLink } from "react-icons/hi";
 import { BsEmojiSunglasses } from "react-icons/bs";
 
-import type { SubmitState } from "../formClient";
+import type { PrMetaResponse, E2ETestResponse } from "@/types";
 
 import SubmittedTestData from "./submittedTestData";
 
 export default function Submitted({
   pr,
   test,
-}: Pick<Required<SubmitState>, "pr" | "test">) {
+}: {
+  pr: PrMetaResponse;
+  test?: E2ETestResponse;
+}) {
   return (
     <div className="flex flex-col py-6 space-y-6">
       <div className="flex justify-center">

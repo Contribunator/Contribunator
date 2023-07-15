@@ -4,6 +4,7 @@ import Octokit from "./octokit";
 
 import { FetchFiles, FetchedFile, FetchedFiles } from "@/types";
 import log from "@/lib/log";
+import type { RequestError } from "@octokit/types";
 
 const octokit = new Octokit();
 
@@ -77,12 +78,10 @@ export default async function fetchFiles(
           } else {
             throw new Error(`Unknown file type ${data.type}`);
           }
-        } catch (e: any) {
-          // TODO we need to detect if there's a 404 error
-          // or a rate limit error or something else
+        } catch (e) {
           // TODO handle API rate lmiting and other errors
           log.warn(e);
-          if (e.status === 404) {
+          if ((e as RequestError).status === 404) {
             return { ...file, exists: false };
           }
           throw e;

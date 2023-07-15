@@ -20,7 +20,7 @@ export default function slugify(
     .trim()
     .toLowerCase()
     .replace(/https?:\/\/([^\/\s]+)(\/\S*)?/g, "$1") // strip long urls
-    .replace(/[^a-z0-9 -]/g, "") // remove any non-alphanumeric characters
+    .replace(/[^a-z0-9 -]/g, "") // remove non-alphanumeric characters
     .replace(/(\r\n|\n|\r)/gm, "-") // replace line breaks with hyphens
     .replace(/\s+/g, "-") // replace spaces with hyphens
     .replace(/-+/g, "-") // remove consecutive hyphens

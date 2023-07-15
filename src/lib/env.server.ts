@@ -72,8 +72,7 @@ const authSchema = {
 
 export function validateEnv(config: Config) {
   if (!isServer) return;
-  const validated: any = {};
-  // always requried
+  const validated: { [key: string]: boolean } = {};
   githubAppSchema.validateSync(githubApp);
   // check each repo and only test required auths
   Object.values(config.repos).forEach((repo: Repo) => {

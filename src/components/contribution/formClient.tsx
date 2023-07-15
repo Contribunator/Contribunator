@@ -1,9 +1,16 @@
 "use client";
 
-import { Formik, FormikProps } from "formik";
+import { Formik } from "formik";
 import { useEffect, useState } from "react";
 
-import type { ConfigWithContribution } from "@/types";
+import type {
+  Authorized,
+  ConfigWithContribution,
+  FetchedFiles,
+  AuthType,
+  SubmitState,
+  FormikContext,
+} from "@/types";
 
 import getConfig from "@/lib/config";
 
@@ -16,44 +23,21 @@ import ConfirmationModal from "./common/confirmationModal";
 import Loading from "../common/spinner";
 import { HiExclamationCircle } from "react-icons/hi";
 
-type PassedProps = {
-  user?: any;
-  files?: any;
-  repo: string;
-  contribution: string;
-};
-
-export type BaseFormProps = {
-  formik: FormikProps<any>;
-  config: ConfigWithContribution;
-};
-
-export type FormProps = BaseFormProps & {
-  files?: any; // TODO
-  user?: any;
-};
-
-export type SubmitState = {
-  pr?: {
-    title: string;
-    number: number;
-    url: string;
-  };
-  error?: string;
-  submitting?: boolean;
-  confirming?: boolean;
-  data?: any;
-  test?: any;
-  mounting?: boolean;
-};
-
 declare global {
   interface Window {
-    confirmation_modal: any;
+    confirmation_modal: {
+      showModal: () => void;
+    };
   }
 }
 
-function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
+function Form({
+  config,
+  user,
+}: {
+  config: ConfigWithContribution;
+  user?: Authorized;
+}) {
   // todo global mounted state
   const [state, setState] = useState<SubmitState>({ mounting: true });
 
@@ -68,7 +52,7 @@ function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
   }
 
   // determine the auth UI based on use login status and config
-  let authorization = "anon";
+  let authorization: AuthType = "anon";
   if (user && config.repo.authorization.includes("github")) {
     authorization = "github";
   } else if (config.repo.authorization.includes("captcha")) {
@@ -86,12 +70,12 @@ function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
           repo: config.repo.name,
           contribution: config.contribution.name,
         }}
-        onSubmit={async (data: any) => {
-          setState({ data, confirming: true });
+        onSubmit={async (body) => {
+          setState({ body, confirming: true });
           window.confirmation_modal.showModal();
         }}
       >
-        {(formik) => (
+        {(formik: FormikContext) => (
           <form
             onSubmit={formik.handleSubmit}
             className={`text-center space-y-8 bg-base-200 p-4 rounded-lg relative`}
@@ -120,12 +104,19 @@ function Form({ config, user }: { config: ConfigWithContribution; user: any }) {
   );
 }
 
+type Props = {
+  user?: Authorized;
+  files?: FetchedFiles;
+  repo: string;
+  contribution: string;
+};
+
 export default async function FormClient({
   repo,
   contribution,
   user,
   files,
-}: PassedProps) {
+}: Props) {
   // now we're client side, get the full config
   const config = await getConfig(repo, contribution);
   // encapsulate form state in it's own component
