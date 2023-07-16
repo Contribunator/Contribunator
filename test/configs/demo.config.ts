@@ -4,6 +4,7 @@ import type { UserConfig } from "@/types";
 
 import { HiPhotograph } from "react-icons/hi";
 import { combined } from "./fields";
+import tweet from "@/lib/contribution/tweet";
 
 const demoConfig: UserConfig = {
   authorization: ["github", "captcha"],
@@ -59,6 +60,7 @@ ${timestamp}: ${data.text}
             },
           },
         }),
+        tweet: tweet(),
         combined,
         // ...e2eConfig.repos?._E2E_test.contributions,
       },
