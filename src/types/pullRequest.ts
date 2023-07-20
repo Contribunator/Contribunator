@@ -35,10 +35,9 @@ export type Meta = {
   captcha?: string;
 };
 
-export type DataItem = Data | Data[] | string | string[] | number | number[];
-export type Data = {
-  [key: string]: DataItem;
-};
+// TODO figure out how to do this without any
+// export type DataItem = Data | Data[] | string | string[] | number | number[];
+export type Data = any; // { [key: string]: DataItem; };
 
 export type Body = Meta & Data;
 
@@ -80,10 +79,10 @@ export type FetchedFile = {
   type?: string;
   exists: boolean;
   content?: string;
-  parsed?: unknown;
+  parsed?: any;
 };
 export type FetchedFiles = { [name: string]: FetchedFile };
-export type FetchedData = { [name: string]: unknown };
+export type FetchedData = { [name: string]: any };
 
 export type ExtractedImagesFlat = {
   [key: string]: string;
