@@ -96,10 +96,10 @@ export default function generateSchema(
             if (!data) {
               return true;
             }
+            // if it's a jpeg or png
             if (
-              data.match(
-                /^data:image\/(?:png|jpeg);base64,([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
-              )
+              data.startsWith("data:image/jpeg") ||
+              data.startsWith("data:image/png")
             ) {
               return true;
             }
@@ -129,6 +129,7 @@ export default function generateSchema(
           alt: string().max(999),
           editing: string().test({
             test(data = "", ctx) {
+              console.log({ data });
               if (data) {
                 return ctx.createError({
                   message: "Please complete crop selection",
