@@ -20,7 +20,6 @@ function ConfirmationModalInner({
   body: Body;
   config: ConfigWithContribution;
 }) {
-  console.log("rendering");
   const destructured = destructureMeta(body);
   const { formData } = decorateFormData({ ...destructured, config });
   return <Report formData={formData} />;

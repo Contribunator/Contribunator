@@ -129,7 +129,6 @@ export default function generateSchema(
           alt: string().max(999),
           editing: string().test({
             test(data = "", ctx) {
-              console.log({ data });
               if (data) {
                 return ctx.createError({
                   message: "Please complete crop selection",
